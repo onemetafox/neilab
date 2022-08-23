@@ -11,6 +11,9 @@ return[
     "wrong_email_and_password"      =>  "Incorrect Email or Password",
     "admindashboard"                =>  "Admin Dashbaord",
     "clientdashboard"               =>  "Client Dashboard",
+
+    "adminexchangelist"             =>  "Admin Exchange List",
+    "admin_create_new_exchange_list"=>  "Create New Exchange",
     "exchange_list"                 =>  "Exchange List",
     "exchange_list_id"              =>  "Exchange ID",
     "exchange_list_name"            =>  "Exchange Name",
@@ -21,6 +24,11 @@ return[
     "exchange_list_action"          =>  "Action",
     "adminuserlist"                 =>  "Admin User List",
     "adminwalletlist"               =>  "Admin Wallet List",
+
+
+    
+
+
 
     // user list part
     "user_id"                   =>  "User ID",

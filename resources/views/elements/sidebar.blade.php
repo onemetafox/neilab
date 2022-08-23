@@ -27,6 +27,11 @@
 			@if(Auth::user()->user_type=="admin")
 			<li class="nav-label first">Admin Menu</li>
 			<li>
+				<a href="{!! url('/admin/exchangelist'); !!}" aria-expanded="false">
+					<i class="flaticon-153-user"></i>{{__('locale.adminexchangelist')}}
+				</a>
+			</li>
+			<li>
 				<a href="{!! url('/admin/userlist'); !!}" aria-expanded="false">
 					<i class="flaticon-153-user"></i>{{__('locale.adminuserlist')}}
 				</a>

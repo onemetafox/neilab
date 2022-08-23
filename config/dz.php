@@ -48,6 +48,11 @@ return [
 					'vendor/owl-carousel/owl.carousel.css',
 					'vendor/datatables/css/jquery.dataTables.min.css',
 				],
+				'ZenixadminController_exchangelist' => [
+					'vendor/chartist/css/chartist.min.css',
+					'vendor/owl-carousel/owl.carousel.css',
+					'vendor/datatables/css/jquery.dataTables.min.css',
+				],
 				'ZenixadminController_userlist' => [
 					'vendor/chartist/css/chartist.min.css',
 					'vendor/owl-carousel/owl.carousel.css',
@@ -245,6 +250,15 @@ return [
 			],
 			'js' => [
 				'ZenixadminController_dashboard_1' => [
+							'vendor/chart.js/Chart.bundle.min.js',
+							'vendor/peity/jquery.peity.min.js',
+							'vendor/apexchart/apexchart.js',
+							'vendor/owl-carousel/owl.carousel.js',
+							'js/dashboard/dashboard-1.js',
+							'vendor/datatables/js/jquery.dataTables.min.js',
+							'js/plugins-init/datatables.init.js',
+				],
+				'ZenixadminController_exchangelist' => [
 							'vendor/chart.js/Chart.bundle.min.js',
 							'vendor/peity/jquery.peity.min.js',
 							'vendor/apexchart/apexchart.js',

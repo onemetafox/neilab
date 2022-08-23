@@ -5,6 +5,7 @@ use App\Http\Controllers\ZenixadminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminExchangeListController;
 use App\Http\Controllers\Admin\AdminUserlistController;
 use App\Http\Controllers\Admin\AdminWalletController;
 use App\Http\Controllers\Admin\AdminGlobalUserController;
@@ -36,12 +37,23 @@ use App\Http\Controllers\Trade\InternalTradesController;
     Route::post('/register_new_user',   [RegisterController::class, 'customRegisterUser']);
 
     // Admin Routing
+    Route::group(['middleware' => ['auth']], function(){
+        Route::get('/', function(){
+            return redirect('/admin/dashboard');
+        });
+        Route::get('/admin/exchangelist',   [AdminExchangeListController::class, "index"]);
+        Route::get('/admin/new_exchange_list/{id?}', [AdminExchangeListcontroller::class, "editExchange"]);
+        Route::get('/admin/delete_exchange_list/{id?}', [AdminExchangeListcontroller::class, "deleteExchange"]);
+        
+        Route::post('/update_exchange_list', [AdminExchangeListController::class, 'updateExchangeList']);
+        Route::get('/admin/dashboard',      [AdminDashboardController::class,'index']);
 
-    Route::get('/admin/dashboard',      [AdminDashboardController::class,'index']);
-    Route::get('/admin/userlist',       [AdminUserlistController::class,'index']);
-    Route::get('/admin/walletlist',     [AdminWalletController::class,'index']);
-    Route::get('/admin/globaluserlist', [AdminGlobalUserController::class,'index']);
+        // Admin User list routing
+        Route::get('/admin/userlist',       [AdminUserlistController::class,'index']);
 
+        Route::get('/admin/walletlist',     [AdminWalletController::class,'index']);
+        Route::get('/admin/globaluserlist', [AdminGlobalUserController::class,'index']);
+    });
     
 
     // Client Routing

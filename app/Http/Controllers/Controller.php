@@ -24,13 +24,16 @@ class Controller extends BaseController
         ));
         // $exchange = new $exchange_id(array(
         //     'enableRateLimit' => true,
-        //     'apiKey' => 'cfa26610450d9e422319ed255b92b192b64292ea8d9bfafcb7918963d8718019',
-        //     'secret' => '4fad0a5112f5b5eab2b75d74a5de10e01634c0d17b42da44097386be99a534e9',
+        //     'apiKey' => 'WuwQjNckG59iMabbJDuZb1nhHwcUIlwERJnKoxaI8JbBGE7YMUuFVlG6TskjcEOv',
+        //     'secret' => 'lalUvZN7JwGCTLLkR8A23XzbLXh0nMK0I4aukKYFMz1zA3QQmbjDuLAyzLKXELjL',
         //     'options' => array(
         //         'defaultType' => 'future',
         //     ),
         // ));
         // $exchange->set_sandbox_mode(True);
         return $exchange;
+    }
+    function getBalance($address) {
+        return file_get_contents('https://blockchain.info/q/addressbalance/'. $address);
     }
 }

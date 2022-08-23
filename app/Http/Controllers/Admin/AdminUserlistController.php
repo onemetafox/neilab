@@ -18,8 +18,6 @@ class AdminUserlistController extends Controller
         
         foreach ($result as $key => $value) {
             # code...
-            $result[$key]['f_name'] = "joe";
-            $result[$key]['l_name'] = "doe";
             $result[$key]['kyc_status'] = "passed";
         }
         return view('zenix.admin.userlist', compact('page_title', 'page_description', 'action', 'result'));
