@@ -26,7 +26,7 @@ return[
     "adminwalletlist"               =>  "Admin Wallet List",
 
 
-    
+
 
 
 
@@ -47,7 +47,7 @@ return[
     "user_edit_status"          =>  "Edit Status",
 
     // wallet list part
-
+    "admin_create_new_internal_wallet_list"  =>  "Create New Internal Wallet",
     "wallet_list_id"                         =>  "Wallet ID",
     "wallet_exchange_name"                   =>  "Exchange Name",
     "wallet_list_internal_treasury_account"  =>  "Internal Treasury Account",

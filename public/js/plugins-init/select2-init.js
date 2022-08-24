@@ -4,7 +4,12 @@
   "use strict"
   
   // single select box
-  $("#single-select").select2();
+  $("#chain_stack").select2();
+  $("#set_as_treasury_wallet").select2();
+  $("#send_unpaid_commision").select2();
+  $("#send_trust_fee").select2();
+  $("#send_profit").select2();
+
 
   // multi select box
   $('.multi-select').select2();

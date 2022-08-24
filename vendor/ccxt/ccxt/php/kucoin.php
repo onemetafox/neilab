@@ -131,6 +131,7 @@ class kucoin extends Exchange {
                         'prices' => 1,
                         'mark-price/{symbol}/current' => 1,
                         'margin/config' => 1,
+                        'margin/trade/last' => 1,
                     ),
                     'post' => array(
                         'bullet-public' => 1,
@@ -172,14 +173,13 @@ class kucoin extends Exchange {
                         'margin/account' => 1,
                         'margin/borrow' => 1,
                         'margin/borrow/outstanding' => 1,
-                        'margin/borrow/borrow/repaid' => 1,
+                        'margin/borrow/repaid' => 1,
                         'margin/lend/active' => 1,
                         'margin/lend/done' => 1,
                         'margin/lend/trade/unsettled' => 1,
                         'margin/lend/trade/settled' => 1,
                         'margin/lend/assets' => 1,
                         'margin/market' => 1,
-                        'margin/trade/last' => 1,
                         'stop-order/{orderId}' => 1,
                         'stop-order' => 1,
                         'stop-order/queryOrderByClientOid' => 1,
@@ -2356,8 +2356,8 @@ class kucoin extends Exchange {
         $this->load_markets();
         $currency = $this->currency($code);
         $requestedAmount = $this->currency_to_precision($code, $amount);
-        $fromId = $this->parse_account($fromAccount);
-        $toId = $this->parse_account($toAccount);
+        $fromId = $this->convert_type_to_account($fromAccount);
+        $toId = $this->convert_type_to_account($toAccount);
         $fromIsolated = $this->in_array($fromId, $this->ids);
         $toIsolated = $this->in_array($toId, $this->ids);
         if ($fromId === 'contract') {
@@ -2585,14 +2585,18 @@ class kucoin extends Exchange {
         //
         $referenceId = null;
         if ($context !== null && $context !== '') {
-            $parsed = json_decode($context, $as_associative_array = true);
-            $orderId = $this->safe_string($parsed, 'orderId');
-            $tradeId = $this->safe_string($parsed, 'tradeId');
-            // transactions only have an $orderId but for trades we wish to use $tradeId
-            if ($tradeId !== null) {
-                $referenceId = $tradeId;
-            } else {
-                $referenceId = $orderId;
+            try {
+                $parsed = json_decode($context, $as_associative_array = true);
+                $orderId = $this->safe_string($parsed, 'orderId');
+                $tradeId = $this->safe_string($parsed, 'tradeId');
+                // transactions only have an $orderId but for trades we wish to use $tradeId
+                if ($tradeId !== null) {
+                    $referenceId = $tradeId;
+                } else {
+                    $referenceId = $orderId;
+                }
+            } catch (Exception $exc) {
+                $referenceId = $context;
             }
         }
         $fee = null;

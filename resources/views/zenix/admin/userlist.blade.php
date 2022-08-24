@@ -24,6 +24,13 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">{{__('locale.adminuserlist')}}</h4>
+					@if(session()->has('error'))
+					<div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>
+					@endif
+
+					@if(session()->has('success'))
+					<div class="alert alert-success"><div class="alert-body">{{ session()->get('success') }}</div></div>
+					@endif
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -77,8 +84,8 @@
                                     <td>{{$value['first_name']}}</td>
                                     <td>{{$value['last_name']}}</td>
                                     <td><a href="/admin/kyc_edit/{{$value['id']}}">{{$value['kyc_status']}}</a></td>
-                                    <td><a type="button" data-bs-toggle="modal" data-bs-target="#changeEmailModal">{{$value['email']}}</a></td>
-                                    <td><a href="/admin/change_password/{{$value['id']}}">Change</a></td>
+                                    <td><a href="javascript:fireEmailChangeModal({{$value['id']}})">{{$value['email']}}</a></td>
+                                    <td><a href="javascript:firePasswordChangeModal({{$value['id']}})">Format</a></td>
                                     <td><a data-bs-toggle="modal" data-bs-target="#basicModal">{{$value['email']}}</a></td>
                                     <td><a href="/admin/view_upline/{{$value['id']}}">{{$value['email']}}</a></td>
                                     <td><a href="/admin/view_downline/{{$value['id']}}">{{$value['email']}}</a></td>
@@ -110,16 +117,49 @@
 <div class="modal fade" id="changeEmailModal" aria-hidden="true" style="display: none;">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Modal title</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal">
-				</button>
-			</div>
-			<div class="modal-body">Modal body text goes here.</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
-			</div>
+			<form method="post" action="/admin/changeUserEmail">
+				@csrf
+				<div class="modal-header">
+					<h5 class="modal-title">Change User Email</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal">
+					</button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="user_id" name="user_id"/>
+					<div class="col-xl-12">
+						<div class="form-group">
+							<label class="mb-1"><strong>Email to be changed</strong></label>
+							<input type="text" class="form-control" name="target_email" id="target_email">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="changePasswordModal" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form method="post" action="/admin/changeUserPassword">
+				@csrf
+				<div class="modal-header">
+					<h5 class="modal-title">Change User Password</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal">
+					</button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="user_password_id" name="user_password_id"/>
+					Password will be formated to number "12345".
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger light" data-bs-dismiss="modal">No</button>
+					<button type="submit" class="btn btn-primary">Yes</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -135,5 +175,36 @@
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
 		});
+
+
+		function fireEmailChangeModal(id){
+			$.ajax({
+				type: "post",
+				url : '/admin/getUserByID',
+				data: {
+					"_token": "{{ csrf_token() }}",
+					"id": id
+				},
+				success: function(data){
+					$("#target_email").val(data['data'][0]['email']);
+					$("#user_id").val(data['data'][0]['id']);
+				},
+			});
+			$('#changeEmailModal').modal('show')
+		}
+		function firePasswordChangeModal(id){
+			$.ajax({
+				type: "post",
+				url : '/admin/getUserByID',
+				data: {
+					"_token": "{{ csrf_token() }}",
+					"id": id
+				},
+				success: function(data){
+					$("#user_password_id").val(data['data'][0]['id']);
+				},
+			});
+			$('#changePasswordModal').modal('show')
+		}
 	</script>
 @endsection	
