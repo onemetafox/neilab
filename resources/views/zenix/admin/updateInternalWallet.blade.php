@@ -77,6 +77,18 @@
 										<input type="text" class="form-control" id="private_key" name="private_key">
 									</div>
 								</div>
+							</div>	
+							<div class="row">
+								<div class="col-xl-6">
+									<div class="form-group">
+										<label class="mb-1"><strong>Cold Storage Wallets</strong></label>
+										<select id="cold_wallet" name="cold_storage_wallet_id">
+											@foreach($cold_wallet as $key => $value)
+											<option value="{{$value['id']}}">{{$value['cold_address']}}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
 							</div>
 							<div class="row">
 								<div class="col-xl-6">

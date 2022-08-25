@@ -18,6 +18,7 @@ class InternalWallet extends Model
         "set_as_treasury_wallet",
         "send_unpaid_commision",
         "send_trust_fee",
-        "send_profit"
+        "send_profit",
+        "cold_storage_wallet_id"
     ];
 }

@@ -47,14 +47,22 @@
                                 <tr>
                                     <td>{{$value['id']}}</td>
 									<td></td>
-									<td>{{$value['chain_stack']}}</td>
-									<td>{{$value['chain_stack']}}</td>
-									<td>{{$value['wallet_address']}}</td>
-									<td><a href="/admin/internal_wallet/setup_cold_storage_address/{{$value['id']}}">cold storage</a></td>
+                                    @if($value['chain_stack'] == 1)
+									<td>Bitcoin core</td>
+                                    @elseif($value['chain_stack'] == 2)
+									<td>Metamask</td>
+                                    @endif
+                                    @if($value['chain_stack'] == 1)
+									<td>Bitcoin</td>
+                                    @elseif($value['chain_stack'] == 2)
+									<td>Ethereum</td>
+                                    @endif
+									<td id="address_{{$key}}" class="copy_address" data-clipboard-target="#address_{{$key}}">{{$value['wallet_address']}}</td>
+									<td><a href="javascript:fireColdWalletChangeModal({{$value['id']}})">{{$value['cold_storage_address']}}</a></td>
 									<td>25775</td>
-									<td><a href="/admin/internal_wallet/withdraw/{{$value['id']}}">Withdraw</a></td>
+									<td><a href="javascript:fireWithdrawModal({{$value['id']}})">Withdraw</a></td>
 									<td>25</td>
-									<td>balance</td>
+									<td>{{$value['cold_storage_balance']}}</td>
 									<td><a href="/admin/internal_wallet/history/{{$value['id']}}">History</a></td>
                                 </tr>
                                 @endforeach
@@ -66,7 +74,79 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="coldStorageModal" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form method="post" action="/admin/editColdStorage">
+				@csrf
+				<div class="modal-header">
+					<h5 class="modal-title">Select Cold Storage Wallet</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal">
+					</button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="user_id" name="user_id"/>
+					<div class="col-xl-12">
+						<div class="form-group">
+                            <label class="mb-1"><strong>Cold Storage Wallets</strong></label>
+                            <select id="cold_wallet_select" name="cold_storage_wallet_id">
+                                @foreach($cold_wallet as $key => $value)
+                                <option value="{{++$key}}">{{$value['cold_address']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Save changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="withdrawModal" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Withdraw live to cold storage BTC</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="wallet_id" name="wallet_id"/>
+                <div class="col-xl-12">
+                    <div class="form-group">
+                        <label class="mb-1"><strong>Wallet Balance</strong></label>
+                        <input type="text" class="form-control" id="wallet_balance" name="wallet_balance" disabled>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="form-group">
+                        <label class="mb-1"><strong>Cold Storage</strong></label>
+                        <input type="text" class="form-control" id="cold_storage" name="cold_storage" disabled>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="form-group">
+                        <label class="mb-1"><strong>Amount to Withdraw</strong></label>
+                        <input type="number" class="form-control" id="amount" name="amount" step="any">
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="form-group">
+                        <label class="mb-1"><strong>Description</strong></label>
+                        <textarea class="form-control" id="description" name="description" maxlength="100"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+                <button onclick="withhdraw()" class="btn btn-primary">Withdraw</button>
+            </div>
+		</div>
+	</div>
+</div>
 @endsection	
 
 {{-- Scripts --}}
@@ -78,6 +158,64 @@
 				dezSettingsOptions.version = 'dark';
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
+            new ClipboardJS('.copy_address');
 		});
+
+        function fireColdWalletChangeModal(id){
+            $("#user_id").val(id);
+			$('#coldStorageModal').modal('show')
+		}
+        function withhdraw(){
+            var wallet_id = $('#wallet_id').val();
+            var amount = $('#amount').val();
+            var description = $('#description').val();
+            $.ajax({
+					type: "post",
+					url : '/admin/withdrawToColdStorage',
+					data: {
+						"_token": "{{ csrf_token() }}",
+						"wallet_id": wallet_id,
+                        "amount" : amount,
+                        "description" : description
+					},
+					success: function(data){
+						if(data.success){
+                            swal({
+								title: "Success",
+								text: data.message,
+								timer: 2e3,
+								showConfirmButton: !1
+							})
+						}else{
+                            sweetAlert("Oops...", data.message, "error")
+						}
+					},
+				});
+        }
+        function fireWithdrawModal(id){
+			$.ajax({
+					type: "post",
+					url : '/admin/getWalletInfoByID',
+					data: {
+						"_token": "{{ csrf_token() }}",
+						"id": id,
+					},
+					success: function(data){
+						if(data.success){
+                            $('#wallet_id').val(id);
+							$('#wallet_balance').val(data.wallet_balance);
+							$('#cold_storage').val(data.cold_storage);
+						}else{
+							swal({
+								title: "Error",
+								text: data.message,
+								timer: 2e3,
+								showConfirmButton: !1
+							})
+						}
+					},
+				});
+				$('#withdrawModal').modal('show');
+		}
 	</script>
 @endsection	

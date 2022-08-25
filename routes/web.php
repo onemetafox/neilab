@@ -60,8 +60,19 @@ use App\Http\Controllers\Trade\InternalTradesController;
         Route::get('/admin/newWalletlist/{id?}',  [AdminWalletController::class,'viewNewWalletlist']);
         Route::post('/admin/getNewWalletAddress',  [AdminWalletController::class,'generateNewWalletAddress']);
         Route::post('/admin/update_wallet_list',  [AdminWalletController::class,'updateWalletList']);
+        Route::post('/admin/editColdStorage',  [AdminWalletController::class,'editColdStorage']);
+        Route::post('/admin/getWalletInfoByID',  [AdminWalletController::class,'getWalletInfoByID']);
+        Route::post('/admin/withdrawToColdStorage',  [AdminWalletController::class,'withdrawToColdStorage']);
+
         
         Route::get('/admin/globaluserlist', [AdminGlobalUserController::class,'index']);
+        Route::post('/admin/changeBuyWeightByID', [AdminGlobalUserController::class,'changeBuyWeightByID']);
+        Route::post('/admin/changeSellWeightByID', [AdminGlobalUserController::class,'changeSellWeightByID']);
+        Route::post('/admin/changeStatusByID', [AdminGlobalUserController::class,'changeStatusByID']);
+
+        
+        
+        
     });
     
 

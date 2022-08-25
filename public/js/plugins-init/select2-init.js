@@ -9,6 +9,10 @@
   $("#send_unpaid_commision").select2();
   $("#send_trust_fee").select2();
   $("#send_profit").select2();
+  $("#cold_wallet").select2();
+  $("#cold_wallet_select").select2();
+
+  
 
 
   // multi select box

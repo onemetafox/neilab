@@ -50,20 +50,43 @@
                             <tbody>
                                 @foreach ($result as $key => $value)
 								<tr>
-									<td>{{$value['id']}}</td>
-									<td>{{$value['email']}}</td>
-									<td>{{$value['f_name']}}</td>
-									<td>{{$value['l_name']}}</td>
-									<td>{{$value['user_type']}}</td>
-									<td>{{$value['buy_weight']}}</td>
+									<td>{{$value['user_id']}}</td>
+									<td>{{$value['user_email']}}</td>
+									<td>{{$value['user_first_name']}}</td>
+									<td>{{$value['user_last_name']}}</td>
+									@if($value['user_type'] == 1)
+									<td>Human</td>
+									@else
+									<td>Robot</td>
+									@endif
+									<td>
+										<select id="buy_weight" name="buy_weight" onchange="handleChangeBuyWeight(this)">
+											<?php echo $value['buy_weight'] == 1? "<option value='{$value['id']}-1' selected>1</option>":"<option value='{$value['id']}-1'>1</option>" ?>
+											<?php echo $value['buy_weight'] == 2? "<option value='{$value['id']}-2' selected>2</option>":"<option value='{$value['id']}-2'>2</option>" ?>
+											<?php echo $value['buy_weight'] == 3? "<option value='{$value['id']}-3' selected>3</option>":"<option value='{$value['id']}-3'>3</option>" ?>
+											<?php echo $value['buy_weight'] == 4? "<option value='{$value['id']}-4' selected>4</option>":"<option value='{$value['id']}-4'>4</option>" ?>
+										</select>
+									</td>
 									<td>{{$value['amount_allow_to_buy']}}</td>
-									<td>{{$value['sell_weight']}}</td>
+									<td>
+										<select id="sell_weight" name="buy_weight" onchange="handleChangeSellWeight(this)">
+											<?php echo $value['sell_weight'] == 1? "<option value='{$value['id']}-1' selected>1</option>":"<option value='{$value['id']}-1'>1</option>" ?>
+											<?php echo $value['sell_weight'] == 2? "<option value='{$value['id']}-2' selected>2</option>":"<option value='{$value['id']}-2'>2</option>" ?>
+											<?php echo $value['sell_weight'] == 3? "<option value='{$value['id']}-3' selected>3</option>":"<option value='{$value['id']}-3'>3</option>" ?>
+											<?php echo $value['sell_weight'] == 4? "<option value='{$value['id']}-4' selected>4</option>":"<option value='{$value['id']}-4'>4</option>" ?>
+										</select>
+									</td>
 									<td>{{$value['amount_allow_to_sell']}}</td>
 									<td>{{$value['cold_storage_address']}}</td>
 									<td>{{$value['wallet_address']}}</td>
-									<td>{{$value['set_for_all_trading_pairs']}}</td>
-									<td>{{$value['selected_exchange_tehy_can_trade_on']}}</td>
-									<td>{{$value['status']}}</td>
+									<td>{{$value['set_for_trading_pairs_left']}}/{{$value['set_for_trading_pairs_right']}}</td>
+									<td>{{$value['echange_name']}}</td>
+									<td>
+										<select id="global_user_state" name="global_user_state" onchange="handleChangeStatus(this)">
+											<?php echo $value['status'] == 1? "<option value='{$value['id']}-1' selected>active</option>":"<option value='{$value['id']}-1'>active</option>" ?>
+											<?php echo $value['status'] == 2? "<option value='{$value['id']}-2' selected>not active</option>":"<option value='{$value['id']}-2'>not active</option>" ?>
+										</select>
+									</td>
 									<td>List</td>
 								</tr>
 								@endforeach
@@ -88,5 +111,113 @@
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
 		});
+		function handleChangeBuyWeight(val){
+			var value = getID(val.value);
+			var global_user_id = value[0];
+			var selected_value = value[1];
+			$.ajax({
+					type: "post",
+					url : '/admin/changeBuyWeightByID',
+					data: {
+						"_token": "{{ csrf_token() }}",
+						"id" : global_user_id,
+						"value" : selected_value
+					},
+					success: function(data){
+						if(data.success){
+							alertSuccess();
+						}else{
+							alertError();
+						}
+					},
+				});
+		}
+		function handleChangeSellWeight(val){
+			var value = getID(val.value);
+			var global_user_id = value[0];
+			var selected_value = value[1];
+			$.ajax({
+					type: "post",
+					url : '/admin/changeSellWeightByID',
+					data: {
+						"_token": "{{ csrf_token() }}",
+						"id" : global_user_id,
+						"value" : selected_value
+					},
+					success: function(data){
+						if(data.success){
+							alertSuccess();
+						}else{
+							alertError();
+						}
+					},
+				});
+		}
+		function handleChangeStatus(val){
+			var value = getID(val.value);
+			var global_user_id = value[0];
+			var selected_value = value[1];
+			$.ajax({
+					type: "post",
+					url : '/admin/changeStatusByID',
+					data: {
+						"_token": "{{ csrf_token() }}",
+						"id" : global_user_id,
+						"value" : selected_value
+					},
+					success: function(data){
+						if(data.success){
+							alertSuccess();
+						}else{
+							alertError();
+						}
+					},
+				});
+		}
+		
+		function getID(value){
+			var myArray = value.split("-");
+			return myArray;
+		}
+		function alertSuccess(){
+			toastr.info("Updated Successfully", "Success", {
+                    positionClass: "toast-top-right",
+                    timeOut: 5e3,
+                    closeButton: !0,
+                    debug: !1,
+                    newestOnTop: !0,
+                    progressBar: !0,
+                    preventDuplicates: !0,
+                    onclick: null,
+                    showDuration: "300",
+                    hideDuration: "1000",
+                    extendedTimeOut: "1000",
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    tapToDismiss: !1
+                })
+		}
+		function alertError(){
+			toastr.error("Database error", "Error", {
+                    positionClass: "toast-top-right",
+                    timeOut: 5e3,
+                    closeButton: !0,
+                    debug: !1,
+                    newestOnTop: !0,
+                    progressBar: !0,
+                    preventDuplicates: !0,
+                    onclick: null,
+                    showDuration: "300",
+                    hideDuration: "1000",
+                    extendedTimeOut: "1000",
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    tapToDismiss: !1
+                })
+		}
 	</script>
 @endsection	

@@ -75,6 +75,8 @@ return [
 					'vendor/chartist/css/chartist.min.css',
 					'vendor/owl-carousel/owl.carousel.css',
 					'vendor/datatables/css/jquery.dataTables.min.css',
+					'vendor/toastr/css/toastr.min.css',
+
 				],
 				'ZenixadminController_dashboard_2' => [
 					'vendor/chartist/css/chartist.min.css',
@@ -260,6 +262,8 @@ return [
 							'js/dashboard/dashboard-1.js',
 							'vendor/datatables/js/jquery.dataTables.min.js',
 							'js/plugins-init/datatables.init.js',
+							'js/plugins-init/clipboard.js',
+							'js/plugins-init/clipboard.min.js',
 				],
 				'ZenixadminController_exchangelist' => [
 							'vendor/chart.js/Chart.bundle.min.js',
@@ -269,6 +273,8 @@ return [
 							'js/dashboard/dashboard-1.js',
 							'vendor/datatables/js/jquery.dataTables.min.js',
 							'js/plugins-init/datatables.init.js',
+							'js/plugins-init/clipboard.js',
+							'js/plugins-init/clipboard.min.js',
 				],
 				'ZenixadminController_userlist' => [
 					'vendor/chart.js/Chart.bundle.min.js',
@@ -278,6 +284,9 @@ return [
 					'js/dashboard/dashboard-1.js',
 					'vendor/datatables/js/jquery.dataTables.min.js',
 					'js/plugins-init/datatables.init.js',
+					
+					'js/plugins-init/clipboard.js',
+					'js/plugins-init/clipboard.min.js',
 				],
 				'ZenixadminController_walletlist' => [
 					'vendor/chart.js/Chart.bundle.min.js',
@@ -293,6 +302,8 @@ return [
 					
 					'vendor/sweetalert2/dist/sweetalert2.min.js',
 					'js/plugins-init/sweetalert.init.js',
+					'js/plugins-init/clipboard.js',
+					'js/plugins-init/clipboard.min.js',
 				],
 				'ZenixadminController_internal_trade' => [
 					'vendor/chart.js/Chart.bundle.min.js',
@@ -311,6 +322,8 @@ return [
 					'js/dashboard/dashboard-1.js',
 					'vendor/datatables/js/jquery.dataTables.min.js',
 					'js/plugins-init/datatables.init.js',
+					'vendor/toastr/js/toastr.min.js',
+					'js/plugins-init/toastr-init.js',
 				],
 				'ZenixadminController_dashboard_2' => [
 							'vendor/chart.js/Chart.bundle.min.js',
