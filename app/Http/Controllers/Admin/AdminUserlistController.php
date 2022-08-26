@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\MarketingCampain;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,6 +20,8 @@ class AdminUserlistController extends Controller
         
         foreach ($result as $key => $value) {
             # code...
+            $marketing_campains = MarketingCampain::where('id', $value['marketing_campain_id'])->get()->toArray();
+            $result[$key]['marketing_campain_name'] = $marketing_campains[0]['campain_name'];
             $result[$key]['kyc_status'] = "passed";
         }
         return view('zenix.admin.userlist', compact('page_title', 'page_description', 'action', 'result'));

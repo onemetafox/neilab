@@ -9,7 +9,9 @@ use App\Http\Controllers\Admin\AdminExchangeListController;
 use App\Http\Controllers\Admin\AdminUserlistController;
 use App\Http\Controllers\Admin\AdminWalletController;
 use App\Http\Controllers\Admin\AdminGlobalUserController;
+use App\Http\Controllers\Admin\AdminMarketingCampainController;
 use App\Http\Controllers\Trade\InternalTradesController;
+
 
 
 
@@ -70,8 +72,9 @@ use App\Http\Controllers\Trade\InternalTradesController;
         Route::post('/admin/changeSellWeightByID', [AdminGlobalUserController::class,'changeSellWeightByID']);
         Route::post('/admin/changeStatusByID', [AdminGlobalUserController::class,'changeStatusByID']);
 
-        
-        
+        Route::get('/admin/marketingcampain', [AdminMarketingCampainController::class,'index']);
+        Route::post('/admin/changeMarketingCampainStatusByID', [AdminMarketingCampainController::class,'changeMarketingCampainStatusByID']);
+        Route::get('/admin/marketingcampainview/{id}', [AdminMarketingCampainController::class,'viewCamapinByID']);
         
     });
     

@@ -31,6 +31,7 @@ return array(
     'App\\Models\\ExchangeInfo' => $baseDir . '/app/Models/ExchangeInfo.php',
     'App\\Models\\GlobalUserList' => $baseDir . '/app/Models/GlobalUserList.php',
     'App\\Models\\InternalWallet' => $baseDir . '/app/Models/InternalWallet.php',
+    'App\\Models\\MarketingCampain' => $baseDir . '/app/Models/MarketingCampain.php',
     'App\\Models\\TradingPair' => $baseDir . '/app/Models/TradingPair.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',

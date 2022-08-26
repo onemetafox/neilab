@@ -28,7 +28,7 @@
 			<li class="nav-label first">Admin Menu</li>
 			<li>
 				<a href="{!! url('/admin/exchangelist'); !!}" aria-expanded="false">
-					<i class="flaticon-153-user"></i>{{__('locale.adminexchangelist')}}
+					<i class="flaticon-088-tools"></i>{{__('locale.adminexchangelist')}}
 				</a>
 			</li>
 			<li>
@@ -38,12 +38,17 @@
 			</li>
 			<li>
 				<a href="{!! url('/admin/walletlist'); !!}" aria-expanded="false">
-					<i class="flaticon-089-piggy-bank"></i>{{__('locale.adminwalletlist')}}
+					<i class="flaticon-092-money"></i>{{__('locale.adminwalletlist')}}
 				</a>
 			</li>
 			<li>
 				<a href="{!! url('/admin/globaluserlist'); !!}" aria-expanded="false">
 					<i class="flaticon-028-user-1"></i>{{__('locale.global_user_list')}}
+				</a>
+			</li>
+			<li>
+				<a href="{!! url('/admin/marketingcampain'); !!}" aria-expanded="false">
+					<i class="flaticon-081-up-arrow-2"></i>{{__('locale.marketing_campain')}}
 				</a>
 			</li>
 			@endif

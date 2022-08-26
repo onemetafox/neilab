@@ -80,7 +80,7 @@
                                         </span>
 										@endif
 									</td>
-                                    <td><a href="/admin/marketing_campain/{{$value['id']}}">Link</a></td>
+                                    <td><a href="/admin/marketingcampainview/{{$value['marketing_campain_id']}}">{{$value['marketing_campain_name']}}</a></td>
                                     <td>{{$value['first_name']}}</td>
                                     <td>{{$value['last_name']}}</td>
                                     <td><a href="/admin/kyc_edit/{{$value['id']}}">{{$value['kyc_status']}}</a></td>

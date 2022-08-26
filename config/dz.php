@@ -76,7 +76,12 @@ return [
 					'vendor/owl-carousel/owl.carousel.css',
 					'vendor/datatables/css/jquery.dataTables.min.css',
 					'vendor/toastr/css/toastr.min.css',
-
+				],
+				'ZenixadminController_marketing_campain' => [
+					'vendor/chartist/css/chartist.min.css',
+					'vendor/owl-carousel/owl.carousel.css',
+					'vendor/datatables/css/jquery.dataTables.min.css',
+					'vendor/toastr/css/toastr.min.css',
 				],
 				'ZenixadminController_dashboard_2' => [
 					'vendor/chartist/css/chartist.min.css',
@@ -315,6 +320,17 @@ return [
 					'js/plugins-init/datatables.init.js',
 				],
 				'ZenixadminController_global_user_list' => [
+					'vendor/chart.js/Chart.bundle.min.js',
+					'vendor/peity/jquery.peity.min.js',
+					'vendor/apexchart/apexchart.js',
+					'vendor/owl-carousel/owl.carousel.js',
+					'js/dashboard/dashboard-1.js',
+					'vendor/datatables/js/jquery.dataTables.min.js',
+					'js/plugins-init/datatables.init.js',
+					'vendor/toastr/js/toastr.min.js',
+					'js/plugins-init/toastr-init.js',
+				],
+				'ZenixadminController_marketing_campain' => [
 					'vendor/chart.js/Chart.bundle.min.js',
 					'vendor/peity/jquery.peity.min.js',
 					'vendor/apexchart/apexchart.js',

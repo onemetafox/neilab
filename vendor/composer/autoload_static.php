@@ -596,6 +596,7 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         'App\\Models\\ExchangeInfo' => __DIR__ . '/../..' . '/app/Models/ExchangeInfo.php',
         'App\\Models\\GlobalUserList' => __DIR__ . '/../..' . '/app/Models/GlobalUserList.php',
         'App\\Models\\InternalWallet' => __DIR__ . '/../..' . '/app/Models/InternalWallet.php',
+        'App\\Models\\MarketingCampain' => __DIR__ . '/../..' . '/app/Models/MarketingCampain.php',
         'App\\Models\\TradingPair' => __DIR__ . '/../..' . '/app/Models/TradingPair.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
