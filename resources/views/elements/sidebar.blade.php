@@ -20,7 +20,7 @@
 				@elseif(Auth::user()->user_type=="client")
             	<a href="{!! url('/client/dashabord'); !!}" aria-expanded="false">
 					<i class="flaticon-096-dashboard"></i>
-					<span class="nav-text">{{__('locale.clientdashbaord')}}</span>
+					<span class="nav-text">{{__('locale.clientdashboard')}}</span>
 				</a>
 				@endif
             </li>
