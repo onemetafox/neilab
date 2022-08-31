@@ -52,6 +52,33 @@
 				</a>
 			</li>
 			@endif
+
+			<li class="nav-label">Digital Assets Desk</li>
+			<li>
+				<a href="{!! url('/buy_wizard'); !!}" aria-expanded="false">
+					<i class="flaticon-065-right-arrow-1"></i>{{__('locale.buy_wizard')}}
+				</a>
+			</li>
+			<li>
+				<a href="{!! url('/sell_wizard'); !!}" aria-expanded="false">
+					<i class="flaticon-075-left-arrow-2"></i>{{__('locale.sell_wizard')}}
+				</a>
+			</li>
+			<li>
+				<a href="{!! url('/buy_report'); !!}" aria-expanded="false">
+					<i class="flaticon-039-shuffle"></i>{{__('locale.buy_report')}}
+				</a>
+			</li>
+			<li>
+				<a href="{!! url('/sell_report'); !!}" aria-expanded="false">
+					<i class="flaticon-039-shuffle"></i>{{__('locale.sell_report')}}
+				</a>
+			</li>
+			<li>
+				<a href="{!! url('/commisions'); !!}" aria-expanded="false">
+					<i class="flaticon-039-shuffle"></i>{{__('locale.commisions')}}
+				</a>
+			</li>
 			<li class="nav-label">Trading Menu</li>
 			<li>
 				<a href="{!! url('/internal_trade'); !!}" aria-expanded="false">

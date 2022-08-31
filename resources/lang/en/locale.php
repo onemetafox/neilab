@@ -124,5 +124,11 @@ return[
     "number_of_signups"         => "Number of signups",
     "preview"                   => "Preview",
     "status"                    => "Status",
+
+    'buy_wizard'    => "Buy Wizard",
+    'sell_wizard'   => "Sell Wizard",
+    'buy_report'    => "Buy Report",
+    'sell_report'   => "Sell Report",
+    'commisions'    => "Comssions",
 ]
 ?>

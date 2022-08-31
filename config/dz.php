@@ -83,6 +83,12 @@ return [
 					'vendor/datatables/css/jquery.dataTables.min.css',
 					'vendor/toastr/css/toastr.min.css',
 				],
+
+				
+				'ZenixadminController_wizard' => [
+					'vendor/select2/css/select2.min.css',
+					'vendor/jquery-smartwizard/dist/css/smart_wizard.min.css',
+				],
 				'ZenixadminController_dashboard_2' => [
 					'vendor/chartist/css/chartist.min.css',
 					'vendor/owl-carousel/owl.carousel.css',
@@ -350,6 +356,17 @@ return [
 							'vendor/owl-carousel/owl.carousel.js',
 							'vendor/datatables/js/jquery.dataTables.min.js',
 							'js/plugins-init/datatables.init.js',
+				],
+
+				
+				'ZenixadminController_wizard' => [
+					'vendor/jquery-steps/build/jquery.steps.min.js',
+					'vendor/jquery-validation/jquery.validate.min.js',
+					'js/plugins-init/jquery.validate-init.js',
+					'vendor/jquery-smartwizard/dist/js/jquery.smartWizard.js',
+					
+					'vendor/select2/js/select2.full.min.js',
+					'js/plugins-init/select2-init.js',
 				],
 				 'ZenixadminController_coin_details' => [
 							'vendor/chart.js/Chart.bundle.min.js',

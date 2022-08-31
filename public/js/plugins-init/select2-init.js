@@ -11,6 +11,8 @@
   $("#send_profit").select2();
   $("#cold_wallet").select2();
   $("#cold_wallet_select").select2();
+  $("#cold_wallet_select").select2();
+  $("#pay_method").select2();
 
   
 

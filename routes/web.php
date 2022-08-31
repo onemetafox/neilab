@@ -12,6 +12,11 @@ use App\Http\Controllers\Admin\AdminGlobalUserController;
 use App\Http\Controllers\Admin\AdminMarketingCampainController;
 use App\Http\Controllers\Trade\InternalTradesController;
 
+use App\Http\Controllers\Client\BuyController;
+use App\Http\Controllers\Client\SellController;
+
+
+
 
 
 
@@ -39,7 +44,7 @@ use App\Http\Controllers\Trade\InternalTradesController;
     Route::post('/register_new_user',   [RegisterController::class, 'customRegisterUser']);
 
     // Admin Routing
-    Route::group(['middleware' => ['auth']], function(){
+    Route::group(['middleware' => ['auth', 'isAdmin']], function(){
         Route::get('/', function(){
             return redirect('/admin/dashboard');
         });
@@ -78,7 +83,19 @@ use App\Http\Controllers\Trade\InternalTradesController;
         
     });
     
+    // Client Routing
+    Route::group(['middleware' => ['auth', 'isClient']], function(){
+        Route::get('/', function(){
+            return redirect('/client/dashboard');
+        });
+        Route::get('/client/dashboard',     [AdminDashboardController::class,'index']);
 
+        Route::get('/buy_wizard',           [BuyController::class, 'index']);
+        Route::get('/sell_wizard',          [SellController::class, 'index']);
+        Route::get('/buy_report',           [BuyController::class, 'report']);
+        Route::get('/sell_report',          [SellController::class, 'report']);
+
+    });
     // Client Routing
     Route::get('/internal_trade',           [InternalTradesController::class,'index']);
 
