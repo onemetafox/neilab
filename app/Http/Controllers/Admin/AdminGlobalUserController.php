@@ -8,7 +8,7 @@ use App\Models\GlobalUserList;
 use App\Models\ExchangeInfo;
 use App\Models\TradingPair;
 use App\Models\ColdWallet;
-
+use Illuminate\Support\Arr;
 
 use App\Http\Controllers\Controller;
 
@@ -50,7 +50,46 @@ class AdminGlobalUserController extends Controller
         }
         return view('zenix.admin.global_user_list', compact('page_title', 'page_description', 'action','result'));
     }
+    public function editGlobalUser($id = null){
+        $page_description = 'Some description for the page';
+        $action = 'global_user_list';
+        if($id){
+            $page_title = __('locale.edit_global_user_list');
+            $result = GlobalUserList::where("id", $id)->get()->toArray();
+            return view('zenix.admin.editGlobalUser', compact('page_title', 'page_description', 'action', 'result'));
+        }else{
 
+            $page_title = __('locale.add_global_user_list');
+            return view('zenix.admin.editGlobalUser', compact('page_title', 'page_description', 'action'));
+        }
+    }
+
+    public function updateGlobalUserList(Request $request){
+        
+        $payLoad = Arr::except($request->all(),['_token', 'email']);
+        $user_result = User::where('email', $request['email'])->get()->toArray();
+        if(count($user_result) > 0){
+            $is_exit_global = GlobalUserList::where('user_id', $user_result[0]['id'])->get()->toArray();
+            if(count($is_exit_global) > 0){
+                return redirect('/admin/editGlobalUser')->with('error', __('error.error_already_exit_on_global'));
+            }else{
+                $payLoad['user_id'] = $user_result[0]['id'];
+                $payLoad['cold_storage_id'] = 1;
+                $payLoad['set_for_trading_pairs'] = 1;
+                $payLoad['selected_exchange'] = 1;
+                $payLoad['selected_exchange'] = 1;
+                $payLoad['wallet_address'] = "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh";
+                $result = GlobalUserList::create($payLoad);
+                if(isset($result) && $result->id > 0){
+                    return redirect('/admin/globaluserlist')->with('success', 'Successfully created');
+                }else{
+                    return redirect('/admin/editGlobalUser')->with('error', __('error.error_on_database'));
+                }
+            }
+        }else{
+            return redirect('/admin/editGlobalUser')->with('error', __('error.error_already_exit_on_global'));
+        }
+    }
     public function changeBuyWeightByID(Request $request){
         $id = $request['id'];
         $value = $request['value'];

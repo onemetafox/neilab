@@ -9,21 +9,20 @@
 <div class="container-fluid">
 	<div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
 		<h2 class="font-w600 title mb-2 me-auto ">{{__('locale.global_user_list')}}</h2>
-		<div class="weather-btn mb-2">
-			<span class="me-3 font-w600 text-black"><i class="fa fa-cloud me-2"></i>21</span>
-			<select class="form-control style-1 default-select  me-3 ">
-				<option>Medan, IDN</option>
-				<option>Jakarta, IDN</option>
-				<option>Surabaya, IDN</option>
-			</select>
-		</div>
-		<a href="javascript:void(0);" class="btn btn-secondary mb-2"><i class="las la-calendar scale5 me-3"></i>Filter Periode</a>
+		<a href="/admin/editGlobalUser" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.add_global_user_list')}}</a>
 	</div>
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">{{__('locale.global_user_list')}}</h4>
+					@if(session()->has('error'))
+					<div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>
+					@endif
+
+					@if(session()->has('success'))
+					<div class="alert alert-success"><div class="alert-body">{{ session()->get('success') }}</div></div>
+					@endif
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

@@ -23,7 +23,7 @@ return[
     "exchange_list_certified"       =>  "Certified By Developer",
     "exchange_list_action"          =>  "Action",
     "adminuserlist"                 =>  "Admin User List",
-    "adminwalletlist"               =>  "Admin Wallet List",
+    "adminwalletlist"               =>  "Internal Wallet List",
 
 
 
@@ -87,7 +87,9 @@ return[
     "internal_exchange_address"                  =>  "address",
     
     // Global User List part
-    "global_user_list" => "Global User List",
+    "global_user_list"      => "Global User List",
+    "add_global_user_list"  => "Add Global User",
+    "edit_global_user_list" => "Edit Global User",
 
     "global_user_id"                                    => "User ID",
     "global_user_email"                                 => "User Email",

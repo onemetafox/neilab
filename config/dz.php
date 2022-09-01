@@ -76,6 +76,8 @@ return [
 					'vendor/owl-carousel/owl.carousel.css',
 					'vendor/datatables/css/jquery.dataTables.min.css',
 					'vendor/toastr/css/toastr.min.css',
+					'vendor/select2/css/select2.min.css',
+					'vendor/sweetalert2/dist/sweetalert2.min.css',
 				],
 				'ZenixadminController_marketing_campain' => [
 					'vendor/chartist/css/chartist.min.css',
@@ -335,6 +337,14 @@ return [
 					'js/plugins-init/datatables.init.js',
 					'vendor/toastr/js/toastr.min.js',
 					'js/plugins-init/toastr-init.js',
+					
+					'vendor/select2/js/select2.full.min.js',
+					'js/plugins-init/select2-init.js',
+					
+					'vendor/sweetalert2/dist/sweetalert2.min.js',
+					'js/plugins-init/sweetalert.init.js',
+					'js/plugins-init/clipboard.js',
+					'js/plugins-init/clipboard.min.js',
 				],
 				'ZenixadminController_marketing_campain' => [
 					'vendor/chart.js/Chart.bundle.min.js',

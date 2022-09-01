@@ -45,8 +45,9 @@
                         <h4 class="card-title">{{__('locale.buy_wizard')}}</h4>
                     </div>
                     <div class="card-body">
-						<form method="post" action="/buy_crypto/id">
+						<form method="post" action="/buy_crypto">
 							@csrf
+							<input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}"/>
 						<div id="smartwizard" class="form-wizard order-create">
 							<ul class="nav nav-wizard">
 								<li><a class="nav-link" href="#wizard_Service"> 

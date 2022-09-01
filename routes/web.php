@@ -73,6 +73,8 @@ use App\Http\Controllers\Client\SellController;
 
         
         Route::get('/admin/globaluserlist', [AdminGlobalUserController::class,'index']);
+        Route::get('/admin/editGlobalUser/{id?}', [AdminGlobalUserController::class,'editGlobalUser']);
+        Route::post('/admin/updateGlobalUserList', [AdminGlobalUserController::class,'updateGlobalUserList']);
         Route::post('/admin/changeBuyWeightByID', [AdminGlobalUserController::class,'changeBuyWeightByID']);
         Route::post('/admin/changeSellWeightByID', [AdminGlobalUserController::class,'changeSellWeightByID']);
         Route::post('/admin/changeStatusByID', [AdminGlobalUserController::class,'changeStatusByID']);
@@ -90,12 +92,14 @@ use App\Http\Controllers\Client\SellController;
         });
         Route::get('/client/dashboard',     [AdminDashboardController::class,'index']);
 
-        Route::get('/buy_wizard',           [BuyController::class, 'index']);
-        Route::get('/sell_wizard',          [SellController::class, 'index']);
-        Route::get('/buy_report',           [BuyController::class, 'report']);
-        Route::get('/sell_report',          [SellController::class, 'report']);
-
     });
+
+
+    Route::get('/buy_wizard',           [BuyController::class, 'index']);
+    Route::post('/buy_crypto',          [BuyController::class, 'buyCrypto']);
+    Route::get('/sell_wizard',          [SellController::class, 'index']);
+    Route::get('/buy_report',           [BuyController::class, 'report']);
+    Route::get('/sell_report',          [SellController::class, 'report']);
     // Client Routing
     Route::get('/internal_trade',           [InternalTradesController::class,'index']);
 

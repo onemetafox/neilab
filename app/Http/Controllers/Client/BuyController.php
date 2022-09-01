@@ -15,4 +15,7 @@ class BuyController extends Controller
         $action = 'wizard';
         return view('zenix.client.buywizard', compact('page_title', 'page_description', 'action'));
     }
+    public function buyCrypto(Request $request){
+        
+    }
 }

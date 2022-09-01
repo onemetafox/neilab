@@ -13,6 +13,10 @@
   $("#cold_wallet_select").select2();
   $("#cold_wallet_select").select2();
   $("#pay_method").select2();
+  $("#status").select2();
+  $("#user_type").select2();
+
+
 
   
 
