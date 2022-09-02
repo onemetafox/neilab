@@ -61,30 +61,28 @@ return[
     "wallet_list_cold_storage_balance"       =>  "Cold Storage Balance",
     "wallet_list_history"                    =>  "History",
 
-    // Internal Wallet Part
-    "internal_trade"                             =>  "Internal Trade",
  
-    "internal_exchange_id"                       =>  "Exchange ID",
-    "internal_exchange_useremail"                =>  "User Email",
-    "internal_exchange_user_id"                  =>  "User ID",
-    "internal_exchange_cronjob_list"             =>  "Cronjob List",
-    "internal_exchange_user_type"                =>  "User Type",
-    "internal_exchange_asset_class_purchased"    =>  "Asset class phurcased",
-    "internal_exchange_buy_amount_in_coin"       =>  "Buy amount in coins",
-    "internal_exchange_buy_address_to_coin"      =>  "Buy address to send the coins",
-    "internal_exchange_pay_with"                 =>  "pay with",
-    "internal_exchange_chain_stack"              =>  "chainstack/bank network",
-    "internal_exchange_trasaction_description"   =>  "transaction description",
-    "internal_exchange_trust_fee"                =>  "Trust fee",
-    "internal_exchange_campain_type"             =>  "Campain type",
-    "internal_exchange_profit"                   =>  "profit",
-    "internal_exchange_commissions"              =>  "commision",
-    "internal_exchange_free_from_exchanges"      =>  "free from exchanges",
-    "internal_exchange_bank_changes"             =>  "bank changes",
-    "internal_exchange_left_over_profit"         =>  "Left over profit",
-    "internal_exchange_total_amount_left_to_buy" =>  "Total amount left to buy",
-    "internal_exchange_master_load"              =>  "master load",
-    "internal_exchange_address"                  =>  "address",
+    "internal_trade_buy_id"                       =>  "Exchange ID",
+    "internal_trade_buy_useremail"                =>  "User Email",
+    "internal_trade_buy_user_id"                  =>  "User ID",
+    "internal_trade_buy_cronjob_list"             =>  "Cronjob List",
+    "internal_trade_buy_user_type"                =>  "User Type",
+    "internal_trade_buy_asset_class_purchased"    =>  "Asset class phurcased",
+    "internal_trade_buy_buy_amount_in_coin"       =>  "Buy amount in coins",
+    "internal_trade_buy_buy_address_to_coin"      =>  "Buy address to send the coins",
+    "internal_trade_buy_pay_with"                 =>  "pay with",
+    "internal_trade_buy_chain_stack"              =>  "chainstack/bank network",
+    "internal_trade_buy_trasaction_description"   =>  "transaction description",
+    "internal_trade_buy_trust_fee"                =>  "Trust fee",
+    "internal_trade_buy_campain_type"             =>  "Campain type",
+    "internal_trade_buy_profit"                   =>  "profit",
+    "internal_trade_buy_commissions"              =>  "commision",
+    "internal_trade_buy_free_from_exchanges"      =>  "free from exchanges",
+    "internal_trade_buy_bank_changes"             =>  "bank changes",
+    "internal_trade_buy_left_over_profit"         =>  "Left over profit",
+    "internal_trade_buy_total_amount_left_to_buy" =>  "Total amount left to buy",
+    "internal_trade_buy_master_load"              =>  "master load",
+    "internal_trade_buy_address"                  =>  "address",
     
     // Global User List part
     "global_user_list"      => "Global User List",
@@ -111,12 +109,13 @@ return[
 
     "marketing_campain" => "Marketing Campain",
     "marketing_campain_view"    => "Marketing Campin View",
+    "add_new_marketing_campain" => "Add New Marketing Campain",
     "campain_id"                => "Campain ID",
     "campain_name"              => "Campain Name",
     "total_fee_to_client"       => "Total fee to client",
     "internal_sales_fee"        => "Internal Sales fee",
     "uni_level_fee"             => "Uni Level fee",
-    "external_sales_manager"    => "External Sales Manager",
+    "external_sales_fee"        => "External Sales Fee",
     "trust_fee"                 => "Trust fee",
     "profit_fee"                => "Profit fee",
     "kyc_required"              => "KYC Required",
@@ -132,5 +131,12 @@ return[
     'buy_report'    => "Buy Report",
     'sell_report'   => "Sell Report",
     'commisions'    => "Comssions",
+
+    // Internal Trade Buy
+
+    "internal_trade_buy" => "Internal Trade Buy",
+    // Internal Trade Sell
+    "internal_trade_sell" => "Internal Trade Sell",
+
 ]
 ?>

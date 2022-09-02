@@ -15,17 +15,15 @@ class CreateMarketingCampainsTable extends Migration
     {
         Schema::create('marketing_campains', function (Blueprint $table) {
             $table->id();
-            $table->string('campain_name');
+            $table->string      ('campain_name');
             $table->smallInteger('total_fee');
             $table->smallInteger('internal_sales_fee');
             $table->smallInteger('uni_level_fee');
-            $table->smallInteger('external_sales_manager');
+            $table->smallInteger('external_sales_fee');
             $table->smallInteger('trust_fee');
             $table->smallInteger('profit_fee');
             $table->smallInteger('kyc_required');
-            $table->string('domain_url');
-            $table->string('marketing_campain');
-            $table->string('number_of_signups');
+            $table->smallInteger('domain_id');
             $table->smallInteger('status');
             $table->timestamps();
         });

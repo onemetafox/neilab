@@ -80,6 +80,7 @@ class RegisterController extends Controller
                     'first_name' => $request->firstname,
                     'last_name' => $request->lastname,
                     'username'  => $request->username,
+                    'marketing_campain_id'  => 1,
                     'email'     => $request->email,
                     'password'   => Hash::make($request->password),
                     'user_type' => 'none',

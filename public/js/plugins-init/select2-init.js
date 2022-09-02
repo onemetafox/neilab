@@ -15,6 +15,9 @@
   $("#pay_method").select2();
   $("#status").select2();
   $("#user_type").select2();
+  $("#domain_id").select2();
+  $("#kyc_required").select2();
+
 
 
 

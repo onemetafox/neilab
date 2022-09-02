@@ -43,6 +43,13 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">{{__('locale.buy_wizard')}}</h4>
+						@if(session()->has('error'))
+						<div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>
+						@endif
+
+						@if(session()->has('success'))
+						<div class="alert alert-success"><div class="alert-body">{{ session()->get('success') }}</div></div>
+						@endif
                     </div>
                     <div class="card-body">
 						<form method="post" action="/buy_crypto">

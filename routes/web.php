@@ -10,7 +10,8 @@ use App\Http\Controllers\Admin\AdminUserlistController;
 use App\Http\Controllers\Admin\AdminWalletController;
 use App\Http\Controllers\Admin\AdminGlobalUserController;
 use App\Http\Controllers\Admin\AdminMarketingCampainController;
-use App\Http\Controllers\Trade\InternalTradesController;
+use App\Http\Controllers\Admin\AdminInternalTradeBuyController;
+
 
 use App\Http\Controllers\Client\BuyController;
 use App\Http\Controllers\Client\SellController;
@@ -80,9 +81,12 @@ use App\Http\Controllers\Client\SellController;
         Route::post('/admin/changeStatusByID', [AdminGlobalUserController::class,'changeStatusByID']);
 
         Route::get('/admin/marketingcampain', [AdminMarketingCampainController::class,'index']);
+        Route::get('/admin/editMarketingCampain/{id?}', [AdminMarketingCampainController::class,'editMarketingCampain']);
         Route::post('/admin/changeMarketingCampainStatusByID', [AdminMarketingCampainController::class,'changeMarketingCampainStatusByID']);
         Route::get('/admin/marketingcampainview/{id}', [AdminMarketingCampainController::class,'viewCamapinByID']);
-        
+        Route::post('/admin/updateMarketing/{id?}', [AdminMarketingCampainController::class,'updateMarketing']);
+
+        Route::get('/admin/internalTradeBuy', [AdminInternalTradeBuyController::class,'index']);
     });
     
     // Client Routing
@@ -101,7 +105,6 @@ use App\Http\Controllers\Client\SellController;
     Route::get('/buy_report',           [BuyController::class, 'report']);
     Route::get('/sell_report',          [SellController::class, 'report']);
     // Client Routing
-    Route::get('/internal_trade',           [InternalTradesController::class,'index']);
 
 
     Route::get('/index',                    [ZenixadminController::class,'dashboard_1']);

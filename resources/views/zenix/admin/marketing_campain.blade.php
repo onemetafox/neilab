@@ -9,21 +9,20 @@
 <div class="container-fluid">
 	<div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
 		<h2 class="font-w600 title mb-2 me-auto ">{{__('locale.marketing_campain')}}</h2>
-		<div class="weather-btn mb-2">
-			<span class="me-3 font-w600 text-black"><i class="fa fa-cloud me-2"></i>21</span>
-			<select class="form-control style-1 default-select  me-3 ">
-				<option>Medan, IDN</option>
-				<option>Jakarta, IDN</option>
-				<option>Surabaya, IDN</option>
-			</select>
-		</div>
-		<a href="javascript:void(0);" class="btn btn-secondary mb-2"><i class="las la-calendar scale5 me-3"></i>Filter Periode</a>
+		<a href="/admin/editMarketingCampain" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.add_new_marketing_campain')}}</a>
 	</div>
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">{{__('locale.marketing_campain')}}</h4>
+					@if(session()->has('error'))
+					<div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>
+					@endif
+
+					@if(session()->has('success'))
+					<div class="alert alert-success"><div class="alert-body">{{ session()->get('success') }}</div></div>
+					@endif
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -35,7 +34,7 @@
                                     <th>{{__('locale.total_fee_to_client')}}</th>
                                     <th>{{__('locale.internal_sales_fee')}}</th>
                                     <th>{{__('locale.uni_level_fee')}}</th>
-                                    <th>{{__('locale.external_sales_manager')}}</th>
+                                    <th>{{__('locale.external_sales_fee')}}</th>
                                     <th>{{__('locale.trust_fee')}}</th>
                                     <th>{{__('locale.profit_fee')}}</th>
                                     <th>{{__('locale.kyc_required')}}</th>
@@ -55,13 +54,13 @@
 									<td>{{$value['total_fee']}}</td>
 									<td>{{$value['internal_sales_fee']}}</td>
 									<td>{{$value['uni_level_fee']}}</td>
-									<td>{{$value['external_sales_manager']}}</td>
+									<td>{{$value['external_sales_fee']}}</td>
 									<td>{{$value['trust_fee']}}</td>
 									<td>{{$value['profit_fee']}}</td>
 									<td>{{$value['kyc_required']}}</td>
 									<td>{{$value['domain_url']}}</td>
-									<td>{{$value['marketing_campain']}}</td>
-									<td>{{$value['marketing_campain']}}</td>
+									<td>{{$value['domain_url']}}</td>
+									<td>{{$value['domain_url']}}</td>
 									<td>{{$value['number_of_signups']}}</td>
 									<td><a href="/admin/marketingcampainview/{{$value['id']}}">{{$value['campain_name']}}</td>
 									<td>
