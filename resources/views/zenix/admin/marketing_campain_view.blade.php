@@ -83,7 +83,7 @@
 			var selected_value = value[1];
 			$.ajax({
 					type: "post",
-					url : '/admin/changeMarketingCampainStatusByID',
+					url : '{!! url('/admin/changeMarketingCampainStatusByID'); !!}',
 					data: {
 						"_token": "{{ csrf_token() }}",
 						"id" : global_user_id,

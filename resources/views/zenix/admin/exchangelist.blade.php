@@ -9,7 +9,8 @@
 <div class="container-fluid">
 	<div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
 		<h2 class="font-w600 title mb-2 me-auto ">{{__('locale.adminexchangelist')}}</h2>
-		<a href="/admin/new_exchange_list" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.admin_create_new_exchange_list')}}</a>
+        
+		<a href="{!! url('/admin/new_exchange_list'); !!}" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.admin_create_new_exchange_list')}}</a>
 	</div>
     <div class="row">
         <div class="col-12">
@@ -65,8 +66,9 @@
                                                 <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg>
                                             </div>
                                             <div class="dropdown-menu dropdown-menu-end">
-												<a class="dropdown-item" href="/admin/new_exchange_list/{{$value['id']}}">Edit</a>
-												<a class="dropdown-item" href="/admin/delete_exchange_list/{{$value['id']}}">Delete</a>
+                                            
+												<a class="dropdown-item" href="{!! url('/admin/new_exchange_list/'.$value['id']); !!}">Edit</a>
+												<a class="dropdown-item" href="{!! url('/admin/delete_exchange_list/'.$value['id']); !!}">Delete</a>
                                             </div>
                                         </div>
                                     </td>	

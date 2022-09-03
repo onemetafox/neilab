@@ -80,27 +80,31 @@
                                         </span>
 										@endif
 									</td>
-                                    <td><a href="/admin/marketingcampainview/{{$value['marketing_campain_id']}}">{{$value['marketing_campain_name']}}</a></td>
+					
+
+                                    <td><a href="{!! url('/admin/marketingcampainview/'.$value['marketing_campain_id']); !!}">{{$value['marketing_campain_name']}}</a></td>
                                     <td>{{$value['first_name']}}</td>
                                     <td>{{$value['last_name']}}</td>
-                                    <td><a href="/admin/kyc_edit/{{$value['id']}}">{{$value['kyc_status']}}</a></td>
+                                    <td><a href="{!! url('/admin/kyc_edit/'.$value['id']); !!}">{{$value['kyc_status']}}</a></td>
                                     <td><a href="javascript:fireEmailChangeModal({{$value['id']}})">{{$value['email']}}</a></td>
                                     <td><a href="javascript:firePasswordChangeModal({{$value['id']}})">Format</a></td>
                                     <td><a data-bs-toggle="modal" data-bs-target="#basicModal">{{$value['email']}}</a></td>
-                                    <td><a href="/admin/view_upline/{{$value['id']}}">{{$value['email']}}</a></td>
-                                    <td><a href="/admin/view_downline/{{$value['id']}}">{{$value['email']}}</a></td>
-                                    <td><a href="/admin/user_product/{{$value['id']}}">Link</a></td>
-                                    <td><a href="/admin/mlm_tree/{{$value['id']}}">Link</a></td>
+                                    <td><a href="{!! url('/admin/view_upline/'.$value['id']); !!}">{{$value['email']}}</a></td>
+                                    <td><a href="{!! url('/admin/view_downline/'.$value['id']); !!}">{{$value['email']}}</a></td>
+                                    <td><a href="{!! url('/admin/user_product/'.$value['id']); !!}">Link</a></td>
+                                    <td><a href="{!! url('/admin/mlm_tree/'.$value['id']); !!}">Link</a></td>
                                     <td>
                                         <div class="dropdown ms-auto text-right">
                                             <div class="btn-link" data-bs-toggle="dropdown">
                                                 <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg>
                                             </div>
                                             <div class="dropdown-menu dropdown-menu-end">
-												<a class="dropdown-item" href="/admin/change_userstate/{{$value['id']}}/0">Pending</a>
-                                                <a class="dropdown-item" href="/admin/change_userstate/{{$value['id']}}/1">Approved</a>
-                                                <a class="dropdown-item" href="/admin/change_userstate/{{$value['id']}}/2">Suspended</a>
-                                                <a class="dropdown-item" href="/admin/change_userstate/{{$value['id']}}/3">Decline</a>
+									
+
+												<a class="dropdown-item" href="{!! url('/admin/change_userstate/'.$value['id'].'/0'); !!}">Pending</a>
+                                                <a class="dropdown-item" href="{!! url('/admin/change_userstate/'.$value['id'].'/1'); !!}">Approved</a>
+                                                <a class="dropdown-item" href="{!! url('/admin/change_userstate/'.$value['id'].'/2'); !!}">Suspended</a>
+                                                <a class="dropdown-item" href="{!! url('/admin/change_userstate/'.$value['id'].'/3'); !!}">Decline</a>
                                             </div>
                                         </div>
                                     </td>	
@@ -117,7 +121,7 @@
 <div class="modal fade" id="changeEmailModal" aria-hidden="true" style="display: none;">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<form method="post" action="/admin/changeUserEmail">
+			<form method="post" action="{!! url('/admin/changeUserEmail'); !!}">
 				@csrf
 				<div class="modal-header">
 					<h5 class="modal-title">Change User Email</h5>
@@ -144,7 +148,8 @@
 <div class="modal fade" id="changePasswordModal" aria-hidden="true" style="display: none;">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<form method="post" action="/admin/changeUserPassword">
+		
+			<form method="post" action="{!! url('/admin/changeUserPassword'); !!}">
 				@csrf
 				<div class="modal-header">
 					<h5 class="modal-title">Change User Password</h5>
@@ -180,7 +185,8 @@
 		function fireEmailChangeModal(id){
 			$.ajax({
 				type: "post",
-				url : '/admin/getUserByID',
+				
+				url : '{!! url('/admin/getUserByID'); !!}',
 				data: {
 					"_token": "{{ csrf_token() }}",
 					"id": id
@@ -195,7 +201,7 @@
 		function firePasswordChangeModal(id){
 			$.ajax({
 				type: "post",
-				url : '/admin/getUserByID',
+				url : '{!! url('/admin/getUserByID'); !!}',
 				data: {
 					"_token": "{{ csrf_token() }}",
 					"id": id

@@ -52,7 +52,8 @@
 						@endif
                     </div>
                     <div class="card-body">
-						<form method="post" action="/buy_crypto">
+					
+						<form method="post" action="{!! url('/buy_crypto'); !!}">
 							@csrf
 							<input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}"/>
 						<div id="smartwizard" class="form-wizard order-create">

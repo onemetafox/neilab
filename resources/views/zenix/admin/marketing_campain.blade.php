@@ -9,7 +9,8 @@
 <div class="container-fluid">
 	<div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
 		<h2 class="font-w600 title mb-2 me-auto ">{{__('locale.marketing_campain')}}</h2>
-		<a href="/admin/editMarketingCampain" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.add_new_marketing_campain')}}</a>
+		
+		<a href="{!! url('/admin/editMarketingCampain'); !!}" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.add_new_marketing_campain')}}</a>
 	</div>
     <div class="row">
         <div class="col-12">
@@ -62,7 +63,7 @@
 									<td>{{$value['domain_url']}}</td>
 									<td>{{$value['domain_url']}}</td>
 									<td>{{$value['number_of_signups']}}</td>
-									<td><a href="/admin/marketingcampainview/{{$value['id']}}">{{$value['campain_name']}}</td>
+									<td><a href="{!! url('/admin/marketingcampainview/'.$value['id']); !!}">{{$value['campain_name']}}</td>
 									<td>
 										<select id="marketing_campain_state" name="marketing_campain_state" onchange="handleChangeStatus(this)">
 											<?php echo $value['status'] == 1? "<option value='{$value['id']}-1' selected>active</option>":"<option value='{$value['id']}-1'>active</option>" ?>
@@ -98,7 +99,7 @@
 			var selected_value = value[1];
 			$.ajax({
 					type: "post",
-					url : '/admin/changeMarketingCampainStatusByID',
+					url : '{!! url('/admin/changeMarketingCampainStatusByID'); !!}',
 					data: {
 						"_token": "{{ csrf_token() }}",
 						"id" : global_user_id,

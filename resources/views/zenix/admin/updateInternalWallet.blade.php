@@ -159,7 +159,7 @@
 			var ipaddress = $('#ipaddress').val();
 			$.ajax({
 					type: "post",
-					url : '/admin/getNewWalletAddress',
+					url : '{!! url('/admin/getNewWalletAddress'); !!}',
 					data: {
 						"_token": "{{ csrf_token() }}",
 						"chain_stack": chain_stack,

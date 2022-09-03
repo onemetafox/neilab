@@ -45,7 +45,7 @@
                         <h4 class="card-title">{{__('locale.sell_wizard')}}</h4>
                     </div>
                     <div class="card-body">
-						<form method="post" action="/sell_crypto/id">
+						<form method="post" action="{!! url('/sell_crypto/id'); !!}">
 							@csrf
 						<div id="smartwizard" class="form-wizard order-create">
 							<ul class="nav nav-wizard">

@@ -9,7 +9,7 @@
 <div class="container-fluid">
 	<div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
 		<h2 class="font-w600 title mb-2 me-auto ">{{__('locale.adminwalletlist')}}</h2>
-		<a href="/admin/newWalletlist" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.admin_create_new_internal_wallet_list')}}</a>
+		<a href="{!! url('/admin/newWalletlist'); !!}" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.admin_create_new_internal_wallet_list')}}</a>
 	</div>
     <div class="row">
         <div class="col-12">
@@ -63,7 +63,7 @@
 									<td><a href="javascript:fireWithdrawModal({{$value['id']}})">Withdraw</a></td>
 									<td>25</td>
 									<td>{{$value['cold_storage_balance']}}</td>
-									<td><a href="/admin/internal_wallet/history/{{$value['id']}}">History</a></td>
+									<td><a href="{!! url('/admin/internal_wallet/history/'.$value['id']); !!}">History</a></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -77,7 +77,8 @@
 <div class="modal fade" id="coldStorageModal" aria-hidden="true" style="display: none;">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<form method="post" action="/admin/editColdStorage">
+        
+			<form method="post" action="{!! url('/admin/editColdStorage'); !!}">
 				@csrf
 				<div class="modal-header">
 					<h5 class="modal-title">Select Cold Storage Wallet</h5>
@@ -171,7 +172,7 @@
             var description = $('#description').val();
             $.ajax({
 					type: "post",
-					url : '/admin/withdrawToColdStorage',
+					url : '{!! url('/admin/withdrawToColdStorage'); !!}',
 					data: {
 						"_token": "{{ csrf_token() }}",
 						"wallet_id": wallet_id,
@@ -195,7 +196,7 @@
         function fireWithdrawModal(id){
 			$.ajax({
 					type: "post",
-					url : '/admin/getWalletInfoByID',
+					url : '{!! url('/admin/getWalletInfoByID'); !!}',
 					data: {
 						"_token": "{{ csrf_token() }}",
 						"id": id,

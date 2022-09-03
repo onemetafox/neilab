@@ -9,7 +9,7 @@
 <div class="container-fluid">
 	<div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
 		<h2 class="font-w600 title mb-2 me-auto ">{{__('locale.global_user_list')}}</h2>
-		<a href="/admin/editGlobalUser" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.add_global_user_list')}}</a>
+		<a href="{!! url('/admin/editGlobalUser'); !!}" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.add_global_user_list')}}</a>
 	</div>
     <div class="row">
         <div class="col-12">
@@ -116,7 +116,8 @@
 			var selected_value = value[1];
 			$.ajax({
 					type: "post",
-					url : '/admin/changeBuyWeightByID',
+					
+					url : '{!! url('/admin/changeBuyWeightByID'); !!}',
 					data: {
 						"_token": "{{ csrf_token() }}",
 						"id" : global_user_id,
@@ -137,7 +138,7 @@
 			var selected_value = value[1];
 			$.ajax({
 					type: "post",
-					url : '/admin/changeSellWeightByID',
+					url : '{!! url('/admin/changeSellWeightByID'); !!}',
 					data: {
 						"_token": "{{ csrf_token() }}",
 						"id" : global_user_id,
@@ -158,7 +159,7 @@
 			var selected_value = value[1];
 			$.ajax({
 					type: "post",
-					url : '/admin/changeStatusByID',
+					url : '{!! url('/admin/changeStatusByID'); !!}',
 					data: {
 						"_token": "{{ csrf_token() }}",
 						"id" : global_user_id,
