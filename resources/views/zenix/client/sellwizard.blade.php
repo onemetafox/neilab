@@ -45,8 +45,9 @@
                         <h4 class="card-title">{{__('locale.sell_wizard')}}</h4>
                     </div>
                     <div class="card-body">
-						<form method="post" action="{!! url('/sell_crypto/id'); !!}">
+						<form method="post" action="{!! url('/sell_crypto'); !!}">
 							@csrf
+							<input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}"/>
 						<div id="smartwizard" class="form-wizard order-create">
 							<ul class="nav nav-wizard">
 								<li><a class="nav-link" href="#wizard_Service"> 
@@ -80,7 +81,7 @@
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
 												<label class="text-label">Copy this address and send coins to this address</label>
-												<input type="text" class="form-control" id="deliveredAddress" name="deliveredAddress" disabled>
+												<input type="text" class="form-control" id="deliveredAddress" data-clipboard-target="#deliveredAddress" name="deliveredAddress" value="{{$target_address}}">
 											</div>
 										</div>
 									</div>
@@ -124,6 +125,10 @@
 @endsection
 
 <script>
+		jQuery(document).ready(function(){
+            new ClipboardJS('#deliveredAddress');
+		});
+
 	function handleChangeStatus(val){
 		if(val.value == 1){
 			$('#pay_step').html("<label class='text-label'Receive Payment InCrypto</label>"+

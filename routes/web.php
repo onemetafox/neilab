@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\AdminWalletController;
 use App\Http\Controllers\Admin\AdminGlobalUserController;
 use App\Http\Controllers\Admin\AdminMarketingCampainController;
 use App\Http\Controllers\Admin\AdminInternalTradeBuyController;
+use App\Http\Controllers\Admin\AdminInternalTradeSellController;
+
 
 
 use App\Http\Controllers\Client\BuyController;
@@ -87,6 +89,8 @@ use App\Http\Controllers\Client\SellController;
         Route::post('/admin/updateMarketing/{id?}', [AdminMarketingCampainController::class,'updateMarketing']);
 
         Route::get('/admin/internalTradeBuy', [AdminInternalTradeBuyController::class,'index']);
+        Route::get('/admin/internalTradeSell', [AdminInternalTradeSellController::class,'index']);
+
     });
     
     // Client Routing
@@ -102,6 +106,7 @@ use App\Http\Controllers\Client\SellController;
     Route::get('/buy_wizard',           [BuyController::class, 'index']);
     Route::post('/buy_crypto',          [BuyController::class, 'buyCrypto']);
     Route::get('/sell_wizard',          [SellController::class, 'index']);
+    Route::post('/sell_crypto',         [SellController::class, 'sellCrypto']);
     Route::get('/buy_report',           [BuyController::class, 'report']);
     Route::get('/sell_report',          [SellController::class, 'report']);
     // Client Routing
