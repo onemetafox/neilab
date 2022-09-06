@@ -18,9 +18,9 @@ class CreateInternalTradeSellListsTable extends Migration
             $table->smallInteger('global_user_id');
             $table->smallInteger('cronjob_list');
             $table->smallInteger('asset_sold');
-            $table->smallInteger('sell_amount');
+            $table->float       ('sell_amount');
             $table->string      ('receive_address');
-            $table->string      ('pay_with');
+            $table->float       ('pay_with');
             $table->smallInteger('chain_stack');
             $table->string      ('transaction_description');
             $table->smallInteger('trust_fee');

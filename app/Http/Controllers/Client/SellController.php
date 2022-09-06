@@ -16,7 +16,8 @@ class SellController extends Controller
         $page_description = 'Some description for the page';
         $action = 'wizard';
         $target_address = "bc1qnw59phah4mzrpulys435pglhym92h5e7exnqez";
-        return view('zenix.client.sellwizard', compact('page_title', 'page_description', 'action', 'target_address'));
+        $chainstacks = ChainStack::orderBy('id', 'asc')->get()->toArray();
+        return view('zenix.client.sellwizard', compact('page_title', 'page_description', 'action', 'target_address', 'chainstacks'));
     }
     public function sellCrypto(Request $request){
         

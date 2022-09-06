@@ -74,9 +74,17 @@
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
 												<label class="mb-1"><strong>Select Degital Asset</strong></label>
+												<select id="digital_asset" name="digital_asset" onchange="handleChange(this)">
+													<option value="1">BTC</option>
+													<option value="2">USDT</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-lg-6 mb-2">
+											<div class="form-group">
+												<label class="mb-1"><strong>Chain Stack</strong></label>
 												<select id="chain_stack" name="chain_stack">
-													<option value="1">Bitcore</option>
-													<option value="2">Metamask</option>
+													<option value="1">BTC</option>
 												</select>
 											</div>
 										</div>
@@ -136,9 +144,22 @@
 	function handleChangeStatus(val){
 		if(val.value == 1){
 			$('#pay_step').html("<label class='text-label'>Pay With Crypto</label>"+
-				"<input type='number' name='buy_amount' id='buy_amount' class='form-control' min='0' step='any' required>");
+				"<input type='number' name='pay_amount' id='pay_amount' class='form-control' min='0' step='any' required>");
 		}else{
 			$('#pay_step').html("<label class='text-label'>Bank Pay</label>");
+		}
+	}
+	function handleChange(val){
+		if(val.value == 2){
+			$('#chain_stack').html(
+				"@foreach ($chainstacks as $key => $value)"+
+					"<option value='{{$value['id']}}'>{{$value['stackname']}}</option>"+
+				"@endforeach"
+			);
+		}else{
+			$('#chain_stack').html(
+				"<option value='1'>BTC</option>"
+			);
 		}
 	}
 </script>

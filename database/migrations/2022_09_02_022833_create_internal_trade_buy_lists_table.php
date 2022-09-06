@@ -18,16 +18,12 @@ class CreateInternalTradeBuyListsTable extends Migration
             $table->smallInteger('global_user_id');
             $table->smallInteger('cronjob_list');
             $table->smallInteger('asset_purchased');
-            $table->smallInteger('buy_amount');
+            $table->float       ('buy_amount');
             $table->string      ('buy_address');
-            $table->string      ('pay_with');
+            $table->float       ('pay_with');
             $table->smallInteger('chain_stack');
             $table->string      ('transaction_description');
-            $table->smallInteger('trust_fee');
-            $table->smallInteger('campain_type');
-            $table->smallInteger('profit');
             $table->smallInteger('commision_id');
-            $table->smallInteger('fee_from_exchange');
             $table->smallInteger('bank_changes');
             $table->smallInteger('left_over_profit');
             $table->smallInteger('total_amount_left');
@@ -35,7 +31,6 @@ class CreateInternalTradeBuyListsTable extends Migration
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
