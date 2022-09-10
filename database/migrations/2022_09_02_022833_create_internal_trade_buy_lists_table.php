@@ -20,6 +20,7 @@ class CreateInternalTradeBuyListsTable extends Migration
             $table->smallInteger('asset_purchased');
             $table->float       ('buy_amount');
             $table->string      ('buy_address');
+            $table->string      ('sending_address');
             $table->float       ('pay_with');
             $table->smallInteger('chain_stack');
             $table->string      ('transaction_description');
@@ -27,7 +28,7 @@ class CreateInternalTradeBuyListsTable extends Migration
             $table->smallInteger('bank_changes');
             $table->smallInteger('left_over_profit');
             $table->smallInteger('total_amount_left');
-            $table->smallInteger('master_load');
+            $table->smallInteger('state');
             $table->timestamps();
         });
     }

@@ -104,7 +104,7 @@
 								</div>
 								<div id="wizard_Time" class="tab-pane" role="tabpanel">
 									<div class="row">
-										<div class="col-lg-12 mb-2">
+										<div class="col-lg-6 mb-2">
 											<div class="form-group">
 												<label class="mb-1"><strong>How To You Want to Pay?</strong></label>
 												<select id="pay_method" name="pay_method" onchange="handleChangeStatus(this)">
@@ -112,9 +112,16 @@
 													<option value="2">Bank Account</option>
 												</select>
 											</div>
+										<div class="col-lg-6 mb-2">
+											<div class="form-group">
+												<label class="text-label">Paste your wallet address whree you are going to send</label>
+												<input type="text" class="form-control" id="sendingAddress" name="sendingAddress" required>
+											</div>
+										</div>
 										</div>
 									</div>
 								</div>
+								
 								<div id="wizard_Details" class="tab-pane" role="tabpanel">
 									<div class="row">
 										<div class="col-lg-6 mb-2">
