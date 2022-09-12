@@ -34,6 +34,7 @@ class mexc3(Exchange):
                 'future': None,
                 'option': None,
                 'addMargin': True,
+                'borrowMargin': True,
                 'cancelAllOrders': True,
                 'cancelOrder': True,
                 'cancelOrders': None,
@@ -104,6 +105,7 @@ class mexc3(Exchange):
                 'privateAPI': True,
                 'publicAPI': True,
                 'reduceMargin': True,
+                'repayMargin': True,
                 'setLeverage': True,
                 'setMarginMode': None,
                 'setPositionMode': True,
@@ -170,6 +172,7 @@ class mexc3(Exchange):
                             'capital/withdraw/history': 1,
                             'capital/deposit/address': 1,
                             'capital/transfer': 1,
+                            'capital/sub-account/universalTransfer': 1,
                             'margin/loan': 1,
                             'margin/allOrders': 1,
                             'margin/myTrades': 1,
@@ -190,9 +193,12 @@ class mexc3(Exchange):
                             'order/test': 1,
                             'sub-account/virtualSubAccount': 1,
                             'sub-account/apiKey': 1,
+                            'sub-account/futures': 1,
+                            'sub-account/margin': 1,
                             'batchOrders': 1,
                             'capital/withdraw/apply': 1,
                             'capital/transfer': 1,
+                            'capital/sub-account/universalTransfer': 1,
                             'margin/tradeMode': 1,
                             'margin/order': 1,
                             'margin/loan': 1,
@@ -417,10 +423,12 @@ class mexc3(Exchange):
                 'FLUX1': 'FLUX',  # switched places
                 'FLUX': 'FLUX1',  # switched places
                 'FREE': 'FreeRossDAO',  # conflict with FREE Coin
+                'GMT': 'GMT Token',
                 'HERO': 'Step Hero',  # conflict with Metahero
                 'MIMO': 'Mimosa',
                 'PROS': 'Pros.Finance',  # conflict with Prosper
                 'SIN': 'Sin City Token',
+                'STEPN': 'GMT',
             },
             'exceptions': {
                 'exact': {
@@ -428,15 +436,19 @@ class mexc3(Exchange):
                     '-1128': BadRequest,
                     '-2011': BadRequest,
                     '-1121': BadSymbol,
+                    '10101': InsufficientFunds,  # {"msg":"资金不足","code":10101}
                     '2009': InvalidOrder,  # {"success":false,"code":2009,"message":"Position is not exists or closed."}
                     '2011': BadRequest,
                     '30004': InsufficientFunds,
+                    '33333': 'BadRequest',  # {"msg":"Not support transfer","code":33333}
                     '1002': InvalidOrder,
                     '30019': BadRequest,
                     '30005': InvalidOrder,
                     '2003': InvalidOrder,
                     '2005': InsufficientFunds,
                     '600': BadRequest,
+                    '88004': InsufficientFunds,  # {"msg":"超出最大可借，最大可借币为:18.09833211","code":88004}
+                    '88009': ExchangeError,  # v3 {"msg":"Loan record does not exist","code":88009}
                 },
                 'broad': {
                     'Order quantity error, please try to modify.': BadRequest,  # code:2011
@@ -1091,7 +1103,7 @@ class mexc3(Exchange):
                 amountString = self.safe_string(trade, 'vol')
                 side = self.parse_order_side(self.safe_string(trade, 'side'))
                 fee = {
-                    'cost': self.safe_number(trade, 'fee'),
+                    'cost': self.safe_string(trade, 'fee'),
                     'currency': self.safe_currency_code(self.safe_string(trade, 'feeCurrency')),
                 }
                 takerOrMaker = 'taker' if self.safe_value(trade, 'taker') else 'maker'
@@ -1112,7 +1124,7 @@ class mexc3(Exchange):
                 feeAsset = self.safe_string(trade, 'commissionAsset')
                 if feeAsset is not None:
                     fee = {
-                        'cost': self.safe_number(trade, 'commission'),
+                        'cost': self.safe_string(trade, 'commission'),
                         'currency': self.safe_currency_code(feeAsset),
                     }
         if id is None:
@@ -1683,6 +1695,7 @@ class mexc3(Exchange):
         fetches information on an order made by the user
         :param str symbol: unified symbol of the market the order was made in
         :param dict params: extra parameters specific to the mexc3 api endpoint
+        :param str|None params['marginMode']: only 'isolated' is supported, for spot-margin trading
         :returns dict: An `order structure <https://docs.ccxt.com/en/latest/manual.html#order-structure>`
         """
         if symbol is None:
@@ -1700,7 +1713,13 @@ class mexc3(Exchange):
                 request['origClientOrderId'] = clientOrderId
             else:
                 request['orderId'] = id
-            data = self.spotPrivateGetOrder(self.extend(request, params))
+            marginMode, query = self.handle_margin_mode_and_params('fetchOrder', params)
+            method = 'spotPrivateGetOrder'
+            if marginMode is not None:
+                method = 'spotPrivateGetMarginOrder'
+            data = getattr(self, method)(self.extend(request, query))
+            #
+            # spot
             #
             #     {
             #         "symbol": "BTCUSDT",
@@ -1721,6 +1740,26 @@ class mexc3(Exchange):
             #         "updateTime": "1647708567000",
             #         "isWorking": True,
             #         "origQuoteOrderQty": "6"
+            #     }
+            #
+            # margin
+            #
+            #     {
+            #         "symbol": "BTCUSDT",
+            #         "orderId": "763307297891028992",
+            #         "orderListId": "-1",
+            #         "clientOrderId": null,
+            #         "price": "18000",
+            #         "origQty": "0.0014",
+            #         "executedQty": "0",
+            #         "cummulativeQuoteQty": "0",
+            #         "status": "NEW",
+            #         "type": "LIMIT",
+            #         "side": "BUY",
+            #         "isIsolated": True,
+            #         "isWorking": True,
+            #         "time": 1662153107000,
+            #         "updateTime": 1662153107000
             #     }
             #
         elif market['swap']:
@@ -2188,6 +2227,7 @@ class mexc3(Exchange):
         #     }
         #
         # spot: fetchOrder, fetchOpenOrders, fetchOrders
+        #
         #     {
         #         "symbol": "BTCUSDT",
         #         "orderId": "133734823834147272",
@@ -2207,6 +2247,26 @@ class mexc3(Exchange):
         #         "updateTime": "1647708567000",
         #         "isWorking": True,
         #         "origQuoteOrderQty": "6"
+        #     }
+        #
+        # margin: fetchOrder
+        #
+        #     {
+        #         "symbol": "BTCUSDT",
+        #         "orderId": "763307297891028992",
+        #         "orderListId": "-1",
+        #         "clientOrderId": null,
+        #         "price": "18000",
+        #         "origQty": "0.0014",
+        #         "executedQty": "0",
+        #         "cummulativeQuoteQty": "0",
+        #         "status": "NEW",
+        #         "type": "LIMIT",
+        #         "side": "BUY",
+        #         "isIsolated": True,
+        #         "isWorking": True,
+        #         "time": 1662153107000,
+        #         "updateTime": 1662153107000
         #     }
         #
         # swap: createOrder
@@ -3737,6 +3797,110 @@ class mexc3(Exchange):
             'info': response,
             'hedged': (positionMode == 1),
         }
+
+    def borrow_margin(self, code, amount, symbol=None, params={}):
+        """
+        create a loan to borrow margin
+        see https://mxcdevelop.github.io/apidocs/spot_v3_en/#loan
+        :param str code: unified currency code of the currency to borrow
+        :param float amount: the amount to borrow
+        :param str symbol: unified market symbol
+        :param dict params: extra parameters specific to the mexc3 api endpoint
+        :returns dict: a `margin loan structure <https://docs.ccxt.com/en/latest/manual.html#margin-loan-structure>`
+        """
+        self.load_markets()
+        if symbol is None:
+            raise ArgumentsRequired(self.id + ' borrowMargin() requires a symbol argument for isolated margin')
+        market = self.market(symbol)
+        currency = self.currency(code)
+        request = {
+            'asset': currency['id'],
+            'amount': self.currency_to_precision(code, amount),
+            'symbol': market['id'],
+        }
+        response = self.spotPrivatePostMarginLoan(self.extend(request, params))
+        #
+        #     {
+        #         "tranId": "762407666453712896"
+        #     }
+        #
+        transaction = self.parse_margin_loan(response, currency)
+        return self.extend(transaction, {
+            'amount': amount,
+            'symbol': symbol,
+        })
+
+    def repay_margin(self, code, amount, symbol=None, params={}):
+        """
+        repay borrowed margin and interest
+        see https://mxcdevelop.github.io/apidocs/spot_v3_en/#repayment
+        :param str code: unified currency code of the currency to repay
+        :param float amount: the amount to repay
+        :param str symbol: unified market symbol
+        :param dict params: extra parameters specific to the mexc3 api endpoint
+        :param str params['borrowId']: transaction id '762407666453712896'
+        :returns dict: a `margin loan structure <https://docs.ccxt.com/en/latest/manual.html#margin-loan-structure>`
+        """
+        self.load_markets()
+        if symbol is None:
+            raise ArgumentsRequired(self.id + ' repayMargin() requires a symbol argument for isolated margin')
+        id = self.safe_string_2(params, 'id', 'borrowId')
+        if id is None:
+            raise ArgumentsRequired(self.id + ' repayMargin() requires a borrowId argument in the params')
+        market = self.market(symbol)
+        currency = self.currency(code)
+        request = {
+            'asset': currency['id'],
+            'amount': self.currency_to_precision(code, amount),
+            'borrowId': id,
+            'symbol': market['id'],
+        }
+        response = self.spotPrivatePostMarginRepay(self.extend(request, params))
+        #
+        #     {
+        #         "tranId": "762407666453712896"
+        #     }
+        #
+        transaction = self.parse_margin_loan(response, currency)
+        return self.extend(transaction, {
+            'amount': amount,
+            'symbol': symbol,
+        })
+
+    def parse_margin_loan(self, info, currency=None):
+        #
+        #     {
+        #         "tranId": "762407666453712896"
+        #     }
+        #
+        return {
+            'id': self.safe_string(info, 'tranId'),
+            'currency': self.safe_currency_code(None, currency),
+            'amount': None,
+            'symbol': None,
+            'timestamp': None,
+            'datetime': None,
+            'info': info,
+        }
+
+    def handle_margin_mode_and_params(self, methodName, params={}):
+        """
+         * @ignore
+        marginMode specified by params["marginMode"], self.options["marginMode"], self.options["defaultMarginMode"], params["margin"] = True or self.options["defaultType"] = 'margin'
+        :param dict params: extra parameters specific to the exchange api endpoint
+        :returns [str|None, dict]: the marginMode in lowercase
+        """
+        defaultType = self.safe_string(self.options, 'defaultType')
+        isMargin = self.safe_value(params, 'margin', False)
+        marginMode = None
+        marginMode, params = super(mexc3, self).handle_margin_mode_and_params(methodName, params)
+        if marginMode is not None:
+            if marginMode != 'isolated':
+                raise NotSupported(self.id + ' only isolated margin is supported')
+        else:
+            if (defaultType == 'margin') or (isMargin is True):
+                marginMode = 'isolated'
+        return [marginMode, params]
 
     def sign(self, path, api='public', method='GET', params={}, headers=None, body=None):
         section, access = api

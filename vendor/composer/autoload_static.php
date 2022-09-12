@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita31df1a16318e01f90c16d1edb900431
+class ComposerStaticInit1b804de8e8ebed35ace3f268ab061b18
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -204,8 +204,8 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'kornrunner\\Ethereum\\' => 
         array (
@@ -373,8 +373,8 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -523,8 +523,8 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         ),
         'Denpa\\Bitcoin\\' => 
         array (
-            0 => __DIR__ . '/..' . '/denpa/laravel-bitcoinrpc/src',
-            1 => __DIR__ . '/..' . '/denpa/php-bitcoinrpc/src',
+            0 => __DIR__ . '/..' . '/denpa/php-bitcoinrpc/src',
+            1 => __DIR__ . '/..' . '/denpa/laravel-bitcoinrpc/src',
         ),
         'DeepCopy\\' => 
         array (
@@ -4771,6 +4771,7 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         'SebastianBergmann\\Type\\RuntimeException' => __DIR__ . '/..' . '/sebastian/type/src/exception/RuntimeException.php',
         'SebastianBergmann\\Type\\SimpleType' => __DIR__ . '/..' . '/sebastian/type/src/type/SimpleType.php',
         'SebastianBergmann\\Type\\StaticType' => __DIR__ . '/..' . '/sebastian/type/src/type/StaticType.php',
+        'SebastianBergmann\\Type\\TrueType' => __DIR__ . '/..' . '/sebastian/type/src/type/TrueType.php',
         'SebastianBergmann\\Type\\Type' => __DIR__ . '/..' . '/sebastian/type/src/type/Type.php',
         'SebastianBergmann\\Type\\TypeName' => __DIR__ . '/..' . '/sebastian/type/src/TypeName.php',
         'SebastianBergmann\\Type\\UnionType' => __DIR__ . '/..' . '/sebastian/type/src/type/UnionType.php',
@@ -5680,10 +5681,12 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         'ccxt\\RateLimitExceeded' => __DIR__ . '/..' . '/ccxt/ccxt/php/RateLimitExceeded.php',
         'ccxt\\RequestTimeout' => __DIR__ . '/..' . '/ccxt/ccxt/php/RequestTimeout.php',
         'ccxt\\aax' => __DIR__ . '/..' . '/ccxt/ccxt/php/aax.php',
+        'ccxt\\alpaca' => __DIR__ . '/..' . '/ccxt/ccxt/php/alpaca.php',
         'ccxt\\ascendex' => __DIR__ . '/..' . '/ccxt/ccxt/php/ascendex.php',
         'ccxt\\async\\Exchange' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/Exchange.php',
         'ccxt\\async\\Throttle' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/Throttle.php',
         'ccxt\\async\\aax' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/aax.php',
+        'ccxt\\async\\alpaca' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/alpaca.php',
         'ccxt\\async\\ascendex' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/ascendex.php',
         'ccxt\\async\\bequant' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/bequant.php',
         'ccxt\\async\\bibox' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/bibox.php',
@@ -5726,7 +5729,6 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         'ccxt\\async\\bw' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/bw.php',
         'ccxt\\async\\bybit' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/bybit.php',
         'ccxt\\async\\bytetrade' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/bytetrade.php',
-        'ccxt\\async\\cdax' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/cdax.php',
         'ccxt\\async\\cex' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/cex.php',
         'ccxt\\async\\coinbase' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/coinbase.php',
         'ccxt\\async\\coinbaseprime' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/coinbaseprime.php',
@@ -5799,7 +5801,6 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         'ccxt\\async\\wazirx' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/wazirx.php',
         'ccxt\\async\\whitebit' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/whitebit.php',
         'ccxt\\async\\woo' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/woo.php',
-        'ccxt\\async\\xena' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/xena.php',
         'ccxt\\async\\yobit' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/yobit.php',
         'ccxt\\async\\zaif' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/zaif.php',
         'ccxt\\async\\zb' => __DIR__ . '/..' . '/ccxt/ccxt/php/async/zb.php',
@@ -5846,7 +5847,6 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         'ccxt\\bw' => __DIR__ . '/..' . '/ccxt/ccxt/php/bw.php',
         'ccxt\\bybit' => __DIR__ . '/..' . '/ccxt/ccxt/php/bybit.php',
         'ccxt\\bytetrade' => __DIR__ . '/..' . '/ccxt/ccxt/php/bytetrade.php',
-        'ccxt\\cdax' => __DIR__ . '/..' . '/ccxt/ccxt/php/cdax.php',
         'ccxt\\cex' => __DIR__ . '/..' . '/ccxt/ccxt/php/cex.php',
         'ccxt\\coinbase' => __DIR__ . '/..' . '/ccxt/ccxt/php/coinbase.php',
         'ccxt\\coinbaseprime' => __DIR__ . '/..' . '/ccxt/ccxt/php/coinbaseprime.php',
@@ -5919,7 +5919,6 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         'ccxt\\wazirx' => __DIR__ . '/..' . '/ccxt/ccxt/php/wazirx.php',
         'ccxt\\whitebit' => __DIR__ . '/..' . '/ccxt/ccxt/php/whitebit.php',
         'ccxt\\woo' => __DIR__ . '/..' . '/ccxt/ccxt/php/woo.php',
-        'ccxt\\xena' => __DIR__ . '/..' . '/ccxt/ccxt/php/xena.php',
         'ccxt\\yobit' => __DIR__ . '/..' . '/ccxt/ccxt/php/yobit.php',
         'ccxt\\zaif' => __DIR__ . '/..' . '/ccxt/ccxt/php/zaif.php',
         'ccxt\\zb' => __DIR__ . '/..' . '/ccxt/ccxt/php/zb.php',
@@ -6029,10 +6028,10 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita31df1a16318e01f90c16d1edb900431::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita31df1a16318e01f90c16d1edb900431::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInita31df1a16318e01f90c16d1edb900431::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInita31df1a16318e01f90c16d1edb900431::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1b804de8e8ebed35ace3f268ab061b18::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1b804de8e8ebed35ace3f268ab061b18::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit1b804de8e8ebed35ace3f268ab061b18::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit1b804de8e8ebed35ace3f268ab061b18::$classMap;
 
         }, null, ClassLoader::class);
     }

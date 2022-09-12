@@ -18,10 +18,12 @@ class CreateUsersTable extends Migration
             $table->smallInteger('marketing_campain_id');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('username');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('whatsapp');
+            $table->string('boomboomchat');
+            $table->string('telegram');
             $table->string('user_type')->nullable();
             $table->smallInteger('state');
             $table->rememberToken();

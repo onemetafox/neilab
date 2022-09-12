@@ -307,6 +307,10 @@ class bitstamp(Exchange):
                         'mpl_address/': 1,
                         'euroc_withdrawal/': 1,
                         'euroc_address/': 1,
+                        'sol_withdrawal/': 1,
+                        'sol_address/': 1,
+                        'dot_withdrawal/': 1,
+                        'dot_address/': 1,
                     },
                 },
             },
@@ -400,6 +404,7 @@ class bitstamp(Exchange):
                     'Minimum order size is': InvalidOrder,  # Minimum order size is 5.0 EUR.
                     'Check your account balance for details.': InsufficientFunds,  # You have only 0.00100000 BTC available. Check your account balance for details.
                     'Ensure self value has at least': InvalidAddress,  # Ensure self value has at least 25 characters(it has 4).
+                    'Ensure that there are no more than': InvalidOrder,  # {"status": "error", "reason": {"amount": ["Ensure that there are no more than 0 decimal places."], "__all__": [""]}}
                 },
             },
         })

@@ -1342,8 +1342,8 @@ class phemex(Exchange):
                         settlementCurrencyId = self.safe_string(info, 'settlementCurrency')
                         feeCurrencyCode = self.safe_currency_code(settlementCurrencyId)
                 fee = {
-                    'cost': self.parse_number(feeCostString),
-                    'rate': self.parse_number(feeRateString),
+                    'cost': feeCostString,
+                    'rate': feeRateString,
                     'currency': feeCurrencyCode,
                 }
         return self.safe_trade({
@@ -1880,7 +1880,7 @@ class phemex(Exchange):
             # common
             'symbol': market['id'],
             'side': side,  # Sell, Buy
-            'ordType': type,  # Market, Limit, Stop, StopLimit, MarketIfTouched, LimitIfTouched or Pegged for swap orders
+            'ordType': type,  # Market, Limit, Stop, StopLimit, MarketIfTouched, LimitIfTouched(additionally for contract-markets: MarketAsLimit, StopAsLimit, MarketIfTouchedAsLimit)
             # 'stopPxEp': self.to_ep(stopPx, market),  # for conditional orders
             # 'priceEp': self.to_ep(price, market),  # required for limit orders
             # 'timeInForce': 'GoodTillCancel',  # GoodTillCancel, PostOnly, ImmediateOrCancel, FillOrKill

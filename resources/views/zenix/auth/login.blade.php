@@ -11,8 +11,9 @@
                 <div class="col-xl-12">
                     <div class="auth-form">
     					<div class="text-center mb-3">
-                        
-    						<img src="{{ asset('images/logo-full-black.png') }}" alt="">
+                            <a href="/">
+                                <img src="{{ asset('images/logo-full-black.png') }}" alt="">
+                            </a>
     					</div>
                         @if(session()->has('error'))
                         <div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>

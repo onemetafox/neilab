@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ZenixadminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -22,7 +23,6 @@ use App\Http\Controllers\Client\SellController;
 
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,7 +39,7 @@ use App\Http\Controllers\Client\SellController;
 // });
 
 
-    Route::get('/',                     [ZenixadminController::class,'page_login']);
+    Route::get('/',                [HomeController::class,'index']);
     Route::get('/login',                [ZenixadminController::class,'page_login']);
     Route::get('/logout',               [LoginController::class, 'logout']);
     Route::post('/login_user',          [LoginController::class, 'login']);
@@ -48,9 +48,9 @@ use App\Http\Controllers\Client\SellController;
 
     // Admin Routing
     Route::group(['middleware' => ['auth', 'isAdmin']], function(){
-        Route::get('/', function(){
-            return redirect('/admin/dashboard');
-        });
+        // Route::get('/', function(){
+        //     return redirect('/admin/dashboard');
+        // });
         Route::get('/admin/exchangelist',               [AdminExchangeListController::class, "index"]);
         Route::get('/admin/new_exchange_list/{id?}',    [AdminExchangeListcontroller::class, "editExchange"]);
         Route::get('/admin/delete_exchange_list/{id?}', [AdminExchangeListcontroller::class, "deleteExchange"]);
@@ -95,9 +95,9 @@ use App\Http\Controllers\Client\SellController;
     
     // Client Routing
     Route::group(['middleware' => ['auth', 'isClient']], function(){
-        Route::get('/', function(){
-            return redirect('/client/dashboard');
-        });
+        // Route::get('/', function(){
+        //     return redirect('/client/dashboard');
+        // });
         Route::get('/client/dashboard',     [AdminDashboardController::class,'index']);
 
     });
