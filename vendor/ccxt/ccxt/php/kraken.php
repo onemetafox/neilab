@@ -20,7 +20,7 @@ use \ccxt\InvalidNonce;
 class kraken extends Exchange {
 
     public function describe() {
-        return $this->deep_extend(parent::describe (), array(
+        return $this->deep_extend(parent::describe(), array(
             'id' => 'kraken',
             'name' => 'Kraken',
             'countries' => array( 'US' ),
@@ -787,7 +787,7 @@ class kraken extends Exchange {
         $result = array();
         for ($i = 0; $i < count($ids); $i++) {
             $id = $ids[$i];
-            $market = $this->markets_by_id[$id];
+            $market = $this->safe_market($id);
             $symbol = $market['symbol'];
             $ticker = $tickers[$id];
             $result[$symbol] = $this->parse_ticker($ticker, $market);
@@ -912,7 +912,7 @@ class kraken extends Exchange {
         $type = $this->parse_ledger_entry_type($this->safe_string($item, 'type'));
         $code = $this->safe_currency_code($this->safe_string($item, 'asset'), $currency);
         $amount = $this->safe_string($item, 'amount');
-        if ($amount < 0) {
+        if (Precise::string_lt($amount, '0')) {
             $direction = 'out';
             $amount = Precise::string_abs($amount);
         } else {
@@ -1309,10 +1309,9 @@ class kraken extends Exchange {
     public function find_market_by_altname_or_id($id) {
         if (is_array($this->marketsByAltname) && array_key_exists($id, $this->marketsByAltname)) {
             return $this->marketsByAltname[$id];
-        } elseif (is_array($this->markets_by_id) && array_key_exists($id, $this->markets_by_id)) {
-            return $this->markets_by_id[$id];
+        } else {
+            return $this->safe_market($id);
         }
-        return null;
     }
 
     public function get_delisted_market_by_id($id) {

@@ -15,7 +15,7 @@ use \ccxt\Precise;
 class bitstamp extends Exchange {
 
     public function describe() {
-        return $this->deep_extend(parent::describe (), array(
+        return $this->deep_extend(parent::describe(), array(
             'id' => 'bitstamp',
             'name' => 'Bitstamp',
             'countries' => array( 'GB' ),
@@ -298,6 +298,10 @@ class bitstamp extends Exchange {
                         'mpl_address/' => 1,
                         'euroc_withdrawal/' => 1,
                         'euroc_address/' => 1,
+                        'sol_withdrawal/' => 1,
+                        'sol_address/' => 1,
+                        'dot_withdrawal/' => 1,
+                        'dot_address/' => 1,
                     ),
                 ),
             ),
@@ -391,6 +395,7 @@ class bitstamp extends Exchange {
                     'Minimum order size is' => '\\ccxt\\InvalidOrder', // Minimum order size is 5.0 EUR.
                     'Check your account balance for details.' => '\\ccxt\\InsufficientFunds', // You have only 0.00100000 BTC available. Check your account balance for details.
                     'Ensure this value has at least' => '\\ccxt\\InvalidAddress', // Ensure this value has at least 25 characters (it has 4).
+                    'Ensure that there are no more than' => '\\ccxt\\InvalidOrder', // array("status" => "error", "reason" => array("amount" => ["Ensure that there are no more than 0 decimal places."], "__all__" => [""]))
                 ),
             ),
         ));

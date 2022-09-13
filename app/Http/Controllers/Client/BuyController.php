@@ -38,8 +38,8 @@ class BuyController extends Controller
             $internalTradeBuyInfo['chain_stack'] = $request['chain_stack'];
             $internalTradeBuyInfo['buy_amount'] = $request['buy_amount'];
             $internalTradeBuyInfo['buy_address'] = $request['deliveredAddress'];
-            $internalTradeBuyInfo['sending_address'] = $request['sendingAddress'];
-            $internalTradeBuyInfo['pay_with'] = $request['pay_amount'];
+            $internalTradeBuyInfo['sender_address'] = $request['senderAddress'];
+            $internalTradeBuyInfo['pay_with'] = $request['buy_amount'];
             $internalTradeBuyInfo['transaction_description'] = "This is the buy transaction";
             $internalTradeBuyInfo['commision_id'] = 1;
             $internalTradeBuyInfo['bank_changes'] = 1;
@@ -49,7 +49,6 @@ class BuyController extends Controller
 
             $result = InternalTradeBuyList::create($internalTradeBuyInfo);
             if(isset($result) && $result->id > 0){
-
                 return redirect('/buy_wizard')->with('success', 'Successfully registered');
             }else{
                 return redirect('/buy_wizard')->with('error', __('error.error_on_database'));
@@ -87,7 +86,8 @@ class BuyController extends Controller
                     $insert_super_tbl_result = Superload::create($superload_tbl_data);
                     if($insert_super_tbl_result > 0){
                         InteralTradeBuList::where('id', $master_load_info['trade_id'])->update('state', 2);
-                        $this->createMarketBuyOrder($amount);
+                        $symbol = "USD/BTC";
+                        $this->createMarketBuyOrder($symbol, $amount);
                     }
                 }
                 

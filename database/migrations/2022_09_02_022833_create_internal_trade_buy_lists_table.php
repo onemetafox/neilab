@@ -20,7 +20,7 @@ class CreateInternalTradeBuyListsTable extends Migration
             $table->smallInteger('asset_purchased');
             $table->float       ('buy_amount');
             $table->string      ('buy_address');
-            $table->string      ('sending_address');
+            $table->string      ('sender_address');
             $table->float       ('pay_with');
             $table->smallInteger('chain_stack');
             $table->string      ('transaction_description');
