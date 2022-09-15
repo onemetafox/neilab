@@ -27,28 +27,36 @@
                             <div class="row">
                             <div class="col-xl-6">
                                 <div class="form-group">
-                                    <label class="mb-1"><strong>First Name</strong></label>
+                                    <label class="mb-1"><strong>First Name</strong> <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="firstname" placeholder="{{ __('locale.firstname_paceholder') }}">
                                 </div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="form-group">
-                                    <label class="mb-1"><strong>Last Name</strong></label>
+                                    <label class="mb-1"><strong>Last Name</strong> <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="lastname" placeholder="{{ __('locale.lastname_paceholder') }}">
                                 </div>
                             </div>
                             </div>
                             <div class="form-group">
-                                <label class="mb-1"><strong>Username</strong></label>
-                                <input type="text" class="form-control" name="username" placeholder="{{ __('locale.username_paceholder') }}">
-                            </div>
-                            <div class="form-group">
-                                <label class="mb-1"><strong>Email</strong></label>
+                                <label class="mb-1"><strong>Email</strong> <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" name="email" placeholder="{{__('locale.email_paceholder')}}">
                             </div>
                             <div class="form-group">
-                                <label class="mb-1"><strong>Password</strong></label>
+                                <label class="mb-1"><strong>Password</strong> <span class="text-danger">*</span></label>
                                 <input type="password" class="form-control" name="password" placeholder="{{__('locale.password_paceholder')}}" value="">
+                            </div>
+                            <div class="form-group">
+                                <label class="mb-1"><strong>WhatsApp</strong></label>
+                                <input type="text" class="form-control" name="whatsapp" placeholder="{{__('locale.whatsapp_paceholder')}}">
+                            </div>
+                            <div class="form-group">
+                                <label class="mb-1"><strong>BoomBoomChat</strong></label>
+                                <input type="text" class="form-control" name="boomboomchat" placeholder="{{__('locale.boomboomchat_paceholder')}}">
+                            </div>
+                            <div class="form-group">
+                                <label class="mb-1"><strong>Telegram</strong></label>
+                                <input type="text" class="form-control" name="telegram" placeholder="{{__('locale.telegram_paceholder')}}">
                             </div>
                             <div class="text-center mt-4">
                                 <button type="submit" class="btn btn-primary btn-block">Sign me up</button>

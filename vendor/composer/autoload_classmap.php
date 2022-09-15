@@ -22,6 +22,7 @@ return array(
     'App\\Http\\Controllers\\Client\\BuyController' => $baseDir . '/app/Http/Controllers/Client/BuyController.php',
     'App\\Http\\Controllers\\Client\\SellController' => $baseDir . '/app/Http/Controllers/Client/SellController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\Trade\\InternalTradesController' => $baseDir . '/app/Http/Controllers/Trade/InternalTradesController.php',
     'App\\Http\\Controllers\\ZenixadminController' => $baseDir . '/app/Http/Controllers/ZenixadminController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',

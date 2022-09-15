@@ -18,19 +18,31 @@ class AdminUserlistController extends Controller
         $action = 'userlist';
         $result = User::orderBy('id', 'asc')->get()->toArray();
         
-        foreach ($result as $key => $value) {
-            # code...
-            $marketing_campains = MarketingCampain::where('id', $value['marketing_campain_id'])->get()->toArray();
-            $result[$key]['marketing_campain_name'] = $marketing_campains[0]['campain_name'];
-            $result[$key]['kyc_status'] = "passed";
-        }
-        return view('zenix.admin.userlist', compact('page_title', 'page_description', 'action', 'result'));
+        $campaigns = MarketingCampain::where('status', 1)->get();
+        return view('zenix.admin.userlist', compact('page_title', 'page_description', 'action', 'result', 'campaigns'));
     }
     public function getUserByID(Request $request){
         $id = $request['id'];
         $result = User::where('id', $id)->get()->toArray();
         $success = true;
         return response()->json(['success'=>$success, 'data'=>$result]);
+    }
+
+    public function assignCampaignId(Request $request) {
+        $user_id = $request->user_id;
+        $campaign_id = $request->campaign_id;
+        if(empty($campaign_id)){
+            $redirect = '';
+        }else{
+            $campaign = MarketingCampain::find($campaign_id);
+            $kyc = $campaign->kyc_required;
+            $redirect = $kyc==2?'agreement':'kyc';
+        }
+        $user = User::find($user_id);
+        $user->marketing_campain_id = $campaign_id;
+        $user->redirect = $redirect;
+        if($user->save()) return 'success';
+        else return 'error';
     }
 
     public function changeUserEmail(Request $request){

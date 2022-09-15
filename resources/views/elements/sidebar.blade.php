@@ -4,11 +4,7 @@
 <div class="deznav">
     <div class="deznav-scroll">
 		<div class="main-profile">
-			<div class="image-bx">
-				<img src="{{ asset('images/profile/pic1.jpg') }}" alt="">
-				<a href="javascript:void(0);"><i class="fa fa-cog" aria-hidden="true"></i></a>
-			</div>
-			<h5 class="name"><span class="font-w400">Hello,</span> {{Auth::user()->name}}</h5>
+			<h5 class="name"><span class="font-w400">Hello,</span> {{Auth::user()->first_name.' '.Auth::user()->last_name}} </h5>
 			<p class="email">{{Auth::user()->email}}</p>
 		</div>
 		<ul class="metismenu" id="menu">
@@ -18,7 +14,7 @@
 					<i class="flaticon-096-dashboard"></i>{{__('locale.admindashboard')}}
 				</a>
 				@elseif(Auth::user()->user_type=="client")
-            	<a href="{!! url('/client/dashabord'); !!}" aria-expanded="false">
+            	<a href="{!! url('/client/dashboard'); !!}" aria-expanded="false">
 					<i class="flaticon-096-dashboard"></i>
 					<span class="nav-text">{{__('locale.clientdashboard')}}</span>
 				</a>
@@ -89,7 +85,7 @@
 				</a>
 			</li>
 
-			<li class="nav-label">Apps</li>
+			<!-- <li class="nav-label">Apps</li>
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
 				<i class="flaticon-077-menu-1"></i>
 					<span class="nav-text">Apps</span>
@@ -235,11 +231,11 @@
                     </li>
                     <li><a href="{!! url('/page-lock-screen'); !!}">Lock Screen</a></li>
                 </ul>
-            </li>
+            </li> -->
         </ul>
 		<div class="copyright">
-			<p><strong>Zenix Crypto Admin Dashboard</strong> © 2021 All Rights Reserved</p>
-			<p class="fs-12">Made with <span class="heart"></span> by DexignZone</p>
+			<strong>NeilLab Dashboard</strong>
+			<p> © 2022 All Rights Reserved</p>
 		</div>
 	</div>
 </div>

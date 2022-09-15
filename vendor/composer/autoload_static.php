@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita31df1a16318e01f90c16d1edb900431
+class ComposerStaticInit8e51de571186a53ed2ad3d6cde65ccd0
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -215,8 +215,8 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'kornrunner\\Ethereum\\' => 
         array (
@@ -224,9 +224,9 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         ),
         'kornrunner\\' => 
         array (
-            0 => __DIR__ . '/..' . '/kornrunner/ethereum-offline-raw-tx/src',
-            1 => __DIR__ . '/..' . '/kornrunner/keccak/src',
-            2 => __DIR__ . '/..' . '/kornrunner/secp256k1/src',
+            0 => __DIR__ . '/..' . '/kornrunner/keccak/src',
+            1 => __DIR__ . '/..' . '/kornrunner/secp256k1/src',
+            2 => __DIR__ . '/..' . '/kornrunner/ethereum-offline-raw-tx/src',
         ),
         'ccxt_async\\' => 
         array (
@@ -394,8 +394,8 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -548,8 +548,8 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         ),
         'Denpa\\Bitcoin\\' => 
         array (
-            0 => __DIR__ . '/..' . '/denpa/laravel-bitcoinrpc/src',
-            1 => __DIR__ . '/..' . '/denpa/php-bitcoinrpc/src',
+            0 => __DIR__ . '/..' . '/denpa/php-bitcoinrpc/src',
+            1 => __DIR__ . '/..' . '/denpa/laravel-bitcoinrpc/src',
         ),
         'DeepCopy\\' => 
         array (
@@ -620,6 +620,7 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
         'App\\Http\\Controllers\\Client\\BuyController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/BuyController.php',
         'App\\Http\\Controllers\\Client\\SellController' => __DIR__ . '/../..' . '/app/Http/Controllers/Client/SellController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\Trade\\InternalTradesController' => __DIR__ . '/../..' . '/app/Http/Controllers/Trade/InternalTradesController.php',
         'App\\Http\\Controllers\\ZenixadminController' => __DIR__ . '/../..' . '/app/Http/Controllers/ZenixadminController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
@@ -6126,10 +6127,10 @@ class ComposerStaticInita31df1a16318e01f90c16d1edb900431
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita31df1a16318e01f90c16d1edb900431::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita31df1a16318e01f90c16d1edb900431::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInita31df1a16318e01f90c16d1edb900431::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInita31df1a16318e01f90c16d1edb900431::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8e51de571186a53ed2ad3d6cde65ccd0::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8e51de571186a53ed2ad3d6cde65ccd0::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit8e51de571186a53ed2ad3d6cde65ccd0::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit8e51de571186a53ed2ad3d6cde65ccd0::$classMap;
 
         }, null, ClassLoader::class);
     }

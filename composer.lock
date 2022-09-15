@@ -1272,6 +1272,10 @@
                     "bin-links": true,
                     "forward-command": false
                 },
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": false
+                },
                 "branch-alias": {
                     "dev-master": "7.5-dev"
                 }
@@ -1475,6 +1479,10 @@
             },
             "type": "library",
             "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": false
+                },
                 "bamarni-bin": {
                     "bin-links": true,
                     "forward-command": false
@@ -4834,9 +4842,12 @@
                 "predis/predis": "~1.0",
                 "symfony/cache": "^4.4|^5.0|^6.0",
                 "symfony/dependency-injection": "^5.4|^6.0",
+                "symfony/dependency-injection": "^5.4|^6.0",
                 "symfony/expression-language": "^4.4|^5.0|^6.0",
                 "symfony/http-kernel": "^5.4.12|^6.0.12|^6.1.4",
+                "symfony/http-kernel": "^5.4.12|^6.0.12|^6.1.4",
                 "symfony/mime": "^4.4|^5.0|^6.0",
+                "symfony/rate-limiter": "^5.2|^6.0",
                 "symfony/rate-limiter": "^5.2|^6.0"
             },
             "suggest": {
