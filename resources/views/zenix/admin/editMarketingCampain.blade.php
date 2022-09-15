@@ -7,47 +7,63 @@
 @section('content')
 
 <div class="container-fluid">
-	<div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
-		<h2 class="font-w600 title mb-2 me-auto ">{{__('locale.add_new_marketing_campain')}}</h2>
-		<a href="javascript:void(0);" class="btn btn-secondary mb-2"><i class="las la-calendar scale5 me-3"></i>Filter Periode</a>
-	</div>
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex">
                     <h4 class="card-title">{{__('locale.add_new_marketing_campain')}}</h4>
-					@if(session()->has('error'))
-					<div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>
+					<a href="/admin/marketingcampain" class="btn btn-secondary mb-2">Back</a>
+                </div>
+                <div class="card-body">
+					@if ($errors->any())
+					<div class="alert alert-danger">
+						<div class="alert-body">
+							<ul>
+								@foreach ($errors->all() as $error)
+									<li>{{ $error }}</li>
+								@endforeach
+							</ul>
+						</div>
+					</div>
 					@endif
-
+	
 					@if(session()->has('success'))
 					<div class="alert alert-success"><div class="alert-body">{{ session()->get('success') }}</div></div>
 					@endif
-                </div>
-                <div class="card-body">
 					<div class="row no-gutters">
-						<form method="post" action="{!! url('/admin/updateMarketing/'); !!}">
+						<form method="post" action="{!! url('/admin/updateMarketing/'); !!}" enctype="multipart/form-data">
+							<button type=submit onclick="return false;" style="display:none;"></button>
 							@csrf
-							<input type="hidden" name="old_id" value="{{isset($result)?$result[0]['id']:''}}"/>
+							<input type="hidden" name="old_id" value="{{$id?$id:''}}"/>
+							<h4 class="my-3">General Settings</h4>
 							<div class="row">
 								<div class="col-xl-6">
 									<div class="form-group">
 										<label class="mb-1"><strong>Campain Name</strong></label>
-										<input type="text" class="form-control" name="campain_name" value="{{isset($result)?$result[0]['campain_name']:''}}">
+										<input type="text" class="form-control" name="campain_name" value="{{isset($data->campain_name)?$data->campain_name:old('campain_name')}}">
 									</div>
 								</div>
+								<div class="col-xl-6">
+									<div class="form-group">
+										<label class="mb-1"><strong>Require KYC</strong></label>
+										<select id="kyc_required" name="kyc_required">
+											<option value="1">yes</option>
+											<option value="2" {{isset($data->kyc_required) && $data->kyc_required==2?'selected':''}}>no</option>
+										</select></div>
+								</div>
 							</div>
+							<h4 class="my-3">Fee Settings</h4>
 							<div class="row">
 								<div class="col-xl-6">
 									<div class="form-group">
 										<label class="mb-1"><strong>Total Fee To Client</strong></label>
-										<input type="number" step="any" min="0" class="form-control" name="total_fee"  value="{{isset($result)?$result[0]['ex_password']:''}}">
+										<input type="number" step="any" class="form-control" name="total_fee" id="total_fee" value="{{isset($data->internal_sales_fee)?$data->internal_sales_fee+$data->uni_level_fee+$data->external_sales_fee+$data->trust_fee+$data->profit_fee:old('total_fee')}}" readonly>
 									</div>
 								</div>
 								<div class="col-xl-6">
 									<div class="form-group">
 										<label class="mb-1"><strong>Internal Sales Manager Fee</strong></label>
-										<input type="number" step="any" min="0" class="form-control" name="internal_sales_fee"  value="{{isset($result)?$result[0]['ex_sms_phone_number']:''}}">
+										<input type="number" step="any" min="0" max="100" class="form-control" name="internal_sales_fee" id="internal_sales_fee"  value="{{isset($data->internal_sales_fee)?$data->internal_sales_fee:old('internal_sales_fee')}}">
 									</div>
 								</div>
 							</div>
@@ -55,13 +71,13 @@
 								<div class="col-xl-6">
 									<div class="form-group">
 										<label class="mb-1"><strong>Uni-Level Fee</strong></label>
-										<input type="number" step="any" min="0" class="form-control" name="uni_level_fee"  value="{{isset($result)?$result[0]['api_login']:''}}">
+										<input type="number" step="any" min="0" max="100" class="form-control" name="uni_level_fee" id="uni_level_fee"  value="{{isset($data->uni_level_fee)?$data->uni_level_fee:old('uni_level_fee')}}">
 									</div>
 								</div>
 								<div class="col-xl-6">
 									<div class="form-group">
 										<label class="mb-1"><strong>External Sales Manager</strong></label>
-										<input type="number" step="any" min="0" class="form-control" name="external_sales_fee"  value="{{isset($result)?$result[0]['api_password']:''}}">
+										<input type="number" step="any" min="0" max="100" class="form-control" name="external_sales_fee" id="external_sales_fee"  value="{{isset($data->external_sales_fee)?$data->external_sales_fee:old('external_sales_fee')}}">
 									</div>
 								</div>
 							</div>	
@@ -69,45 +85,70 @@
 								<div class="col-xl-6">
 									<div class="form-group">
 										<label class="mb-1"><strong>Trust Fee</strong></label>
-										<input type="number" step="any" min="0" class="form-control" name="trust_fee"  value="{{isset($result)?$result[0]['api_login']:''}}">
+										<input type="number" step="any" min="0" max="100" class="form-control" name="trust_fee" id="trust_fee"  value="{{isset($data->trust_fee)?$data->trust_fee:old('trust_fee')}}">
 									</div>
 								</div>
 								<div class="col-xl-6">
 									<div class="form-group">
 										<label class="mb-1"><strong>Profit Fee</strong></label>
-										<input type="number" step="any" min="0" class="form-control" name="profit_fee"  value="{{isset($result)?$result[0]['api_password']:''}}">
+										<input type="number" step="any" min="0" max="100" class="form-control" name="profit_fee" id="profit_fee" value="{{isset($data->profit_fee)?$data->profit_fee:old('profit_fee')}}">
 									</div>
 								</div>
 							</div>	
+							<h4 class="my-3">Sign Up Page Settings</h4>
 							<div class="row">
 								<div class="col-xl-6">
 									<div class="form-group">
-										<label class="mb-1"><strong>Require KYC</strong></label>
-										<select id="kyc_required" name="kyc_required">
-											<option value="1">yes</option>
-											<option value="2">no</option>
-										</select></div>
+										<label class="mb-1"><strong>Trainee Video</strong> (*.mp4)</label>
+										@if (isset($data->logo_image))
+											<a href="javascript:" id="trainee-video-link" class="text-danger">{{$data->trainee_video}}</a>
+										@endif
+										<div class="form-file">
+											<input type="file" name="trainee_video" class="form-control" >
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group">
+									<label class="mb-1"><strong>Terms and Conditions</strong></label>
+									<textarea class='form-control' name='terms' rows="5" style="height: auto">{!! isset($data->terms)?$data->terms:old('terms') !!}</textarea>
+								</div>
+							</div>
+							<h4 class="my-3">Landing Page Settings</h4>
+							<div class="row">
+								<div class="col-xl-6">
+									<div class="form-group">
+										<label class="mb-1"><strong>Logo Image</strong>
+										@if (isset($data->logo_image))
+											<a href="javascript:" id="logo-img-link" class="text-danger">{{$data->logo_image}}</a>
+										@endif
+										</label>
+										<div class="form-file">
+											<input type="file" name="logo_image" class="form-control" >
+										</div>
+									</div>
 								</div>
 								<div class="col-xl-6">
 									<div class="form-group">
-										<label class="mb-1"><strong>Select Domain From Drop Down</strong></label>
-										<select id="domain_id" name="domain_id">
-											@foreach ($domains as $key => $domain)
-												<option value="{{++$key}}">{{$domain['domain_name']}}</option>
-											@endforeach
-										</select>
+										<label class="mb-1"><strong>Website Title</strong></label>
+										<input type="text" class="form-control" name="website_name"  value="{{isset($data->website_name)?$data->website_name:old('website_name')}}">
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-xl-6">
-									<div class="form-check custom-checkbox mb-3 checkbox-info">
-										<input type="checkbox" class="form-check-input" id="active_add_new" name="active_add_new" onclick="showAddNewDomainForm()">
-										<label class="form-check-label" for="customCheckBox2">Add New Domain Website</label>
+									<div class="form-group">
+										<label class="mb-1"><strong>Banner Title</strong></label>
+										<input type="text" class="form-control" name="banner_title"  value="{{isset($data->banner_title)?$data->banner_title:old('banner_title')}}">
 									</div>
 								</div>
-							</div>
-							<div  id="newDomainWebsiteForm">
+								<div class="col-xl-6">
+									<div class="form-group">
+										<label class="mb-1"><strong>Banner Content</strong></label>
+										<input type="text" class="form-control" name="banner_content"  value="{{isset($data->banner_content)?$data->banner_content:old('banner_content')}}">
+									</div>
+								</div>
 							</div>
 							<input type="submit" class="btn btn-secondary mb-2" value="Save"></input>
 						</form>
@@ -116,6 +157,21 @@
             </div>
         </div>
     </div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Preview</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal">
+				</button>
+			</div>
+			<div class="modal-body"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 @endsection	
@@ -129,42 +185,26 @@
 				dezSettingsOptions.version = 'dark';
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
+
+			$("#logo-img-link").click(function(e){
+				$(".modal-body").html('<img class="img-fluid" src="/storage/logo_images/'+e.target.innerText+'" >');
+				$(".bd-example-modal-lg").modal('show');
+			})
+			$("#trainee-video-link").click(function(e){
+				$(".modal-body").html('<video controls autoplay style="width: 100%; height: auto;"><source src="/storage/trainee_videos/'+e.target.innerText+'" type="video/mp4"></video>');
+				$(".bd-example-modal-lg").modal('show');
+			})
+
+			$("input[type=number]").change(function(e){
+				var sum = parseFloat($("#internal_sales_fee").val()==""?0:$("#internal_sales_fee").val())
+				 + parseFloat($("#uni_level_fee").val()==""?0:$("#uni_level_fee").val())
+				 + parseFloat($("#external_sales_fee").val()==""?0:$("#external_sales_fee").val())
+				 + parseFloat($("#trust_fee").val()==""?0:$("#trust_fee").val())
+				 + parseFloat($("#profit_fee").val()==""?0:$("#profit_fee").val());
+				var total_fee = Math.round(sum * 100000000) / 100000000;
+				$("#total_fee").val(total_fee);
+			})
 		});
 
-		function showAddNewDomainForm(){
-			var active = document.getElementById('active_add_new');
-			if(active.checked){
-				$('#newDomainWebsiteForm').html(
-							"<div class='row'>"+
-								"<div class='col-xl-6'>"+
-									"<div class='form-group'>"+
-										"<label class='mb-1'><strong>Enter New Domain</strong></label>"+
-										"<input type='text' class='form-control' name='domain_name'>"+
-									"</div>"+
-								"</div>"+
-							"</div>"+
-							"<div class='col-xl-12'>"+
-								"<div class='form-group'>"+
-									"<label class='mb-1'><strong>First Signup Page</strong></label>"+
-									"<textarea class='form-control' id='signup_page' name='signup_page' maxlength='1000'></textarea>"+
-								"</div>"+
-							"</div>"+
-							"<div class='col-xl-12'>"+
-								"<div class='form-group'>"+
-									"<label class='mb-1'><strong>Agreement Page</strong></label>"+
-									"<textarea class='form-control' id='agreement_page' name='agreement_page' maxlength='1000'></textarea>"+
-								"</div>"+
-							"</div>"+
-							"<div class='col-xl-12'>"+
-								"<div class='form-group'>"+
-									"<label class='mb-1'><strong>Last Page</strong></label>"+
-									"<textarea class='form-control' id='last_page' name='last_page' maxlength='1000'></textarea>"+
-								"</div>"+
-							"</div>"
-							);
-			}else{
-				$('#newDomainWebsiteForm').html("");
-			}
-		}
 	</script>
 @endsection	

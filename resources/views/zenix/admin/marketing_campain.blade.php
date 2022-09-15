@@ -7,44 +7,36 @@
 @section('content')
 
 <div class="container-fluid">
-	<div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
-		<h2 class="font-w600 title mb-2 me-auto ">{{__('locale.marketing_campain')}}</h2>
-		
-		<a href="{!! url('/admin/editMarketingCampain'); !!}" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.add_new_marketing_campain')}}</a>
-	</div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">{{__('locale.marketing_campain')}}</h4>
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-header d-flex">
+						<h4 class="card-title">{{__('locale.marketing_campain')}}</h4>
+						<a href="{!! url('/admin/editMarketingCampain'); !!}" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.add_new_marketing_campain')}}</a>
+                </div>
+                <div class="card-body">
 					@if(session()->has('error'))
 					<div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>
 					@endif
-
+	
 					@if(session()->has('success'))
 					<div class="alert alert-success"><div class="alert-body">{{ session()->get('success') }}</div></div>
 					@endif
-                </div>
-                <div class="card-body">
                     <div class="table-responsive">
                         <table id="example7" class="display" style="min-width: 845px">
                             <thead>
                                 <tr>
-                                    <th>{{__('locale.campain_id')}}</th>
-                                    <th>{{__('locale.campain_name')}}</th>
-                                    <th>{{__('locale.total_fee_to_client')}}</th>
-                                    <th>{{__('locale.internal_sales_fee')}}</th>
-                                    <th>{{__('locale.uni_level_fee')}}</th>
-                                    <th>{{__('locale.external_sales_fee')}}</th>
-                                    <th>{{__('locale.trust_fee')}}</th>
-                                    <th>{{__('locale.profit_fee')}}</th>
-                                    <th>{{__('locale.kyc_required')}}</th>
-                                    <th>{{__('locale.domain_url')}}</th>
-                                    <th>{{__('locale.marketing_campain')}}</th>
-                                    <th>{{__('locale.copy_link')}}</th>
-                                    <th>{{__('locale.number_of_signups')}}</th>
-                                    <th>{{__('locale.preview')}}</th>
-                                    <th>{{__('locale.status')}}</th>
+                                    <th>Campaign ID</th>
+                                    <th>Campaign Name</th>
+                                    <th>Total Fee To Client</th>
+                                    <th>Internal Sales Fee</th>
+                                    <th>Uni Level Fee</th>
+                                    <th>External Sales Fee</th>
+                                    <th>Trust Fee</th>
+                                    <th>Profit Fee</th>
+                                    <th>KYC Reqired</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,16 +51,15 @@
 									<td>{{$value['trust_fee']}}</td>
 									<td>{{$value['profit_fee']}}</td>
 									<td>{{$value['kyc_required']}}</td>
-									<td>{{$value['domain_url']}}</td>
-									<td>{{$value['domain_url']}}</td>
-									<td>{{$value['domain_url']}}</td>
-									<td>{{$value['number_of_signups']}}</td>
-									<td><a href="{!! url('/admin/marketingcampainview/'.$value['id']); !!}">{{$value['campain_name']}}</td>
 									<td>
 										<select id="marketing_campain_state" name="marketing_campain_state" onchange="handleChangeStatus(this)">
-											<?php echo $value['status'] == 1? "<option value='{$value['id']}-1' selected>active</option>":"<option value='{$value['id']}-1'>active</option>" ?>
-											<?php echo $value['status'] == 2? "<option value='{$value['id']}-2' selected>not active</option>":"<option value='{$value['id']}-2'>not active</option>" ?>
+											<?php echo $value['status'] == 1? "<option value='{$value['id']}-1' selected>active</option>":"<option value='{$value['id']}-1'>Active</option>" ?>
+											<?php echo $value['status'] == 2? "<option value='{$value['id']}-2' selected>not active</option>":"<option value='{$value['id']}-2'>Inactive</option>" ?>
 										</select>
+									</td>
+									<td>
+										<a href="{!! url('/admin/editMarketingCampain/'.$value['id']); !!}" title="Edit"><i class="fa fa-edit"></i></a> 
+										<a href="{!! url('/admin/previewMarketingCampain/'.$value['id']); !!}" target="_blank" title="Preview"><i class="fa fa-eye"></i></a>
 									</td>
 
 								@endforeach

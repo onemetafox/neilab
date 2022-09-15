@@ -21,17 +21,14 @@
 	</div>
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">{{__('locale.adminuserlist')}}</h4>
-					@if(session()->has('error'))
-					<div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>
-					@endif
+			@if(session()->has('error'))
+			<div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>
+			@endif
 
-					@if(session()->has('success'))
-					<div class="alert alert-success"><div class="alert-body">{{ session()->get('success') }}</div></div>
-					@endif
-                </div>
+			@if(session()->has('success'))
+			<div class="alert alert-success"><div class="alert-body">{{ session()->get('success') }}</div></div>
+			@endif
+            <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="example7" class="display" style="min-width: 845px">
@@ -82,10 +79,15 @@
 									</td>
 					
 
-                                    <td><a href="{!! url('/admin/marketingcampainview/'.$value['marketing_campain_id']); !!}">{{$value['marketing_campain_name']}}</a></td>
+                                    <td><select class="campaign_select" data-id="{{$value['id']}}">
+										<option value="">Not assigned</option>
+										@foreach ($campaigns as $campaign)
+										<option value="{{$campaign->id}}" {{$campaign->id == $value['marketing_campain_id']?'selected':''}}>{{$campaign->campain_name}}</option>
+										@endforeach
+									</select></td>
                                     <td>{{$value['first_name']}}</td>
                                     <td>{{$value['last_name']}}</td>
-                                    <td><a href="{!! url('/admin/kyc_edit/'.$value['id']); !!}">{{$value['kyc_status']}}</a></td>
+                                    <td><a href="{!! url('/admin/kyc_edit/'.$value['id']); !!}">passed</a></td>
                                     <td><a href="javascript:fireEmailChangeModal({{$value['id']}})">{{$value['email']}}</a></td>
                                     <td><a href="javascript:firePasswordChangeModal({{$value['id']}})">Format</a></td>
                                     <td><a data-bs-toggle="modal" data-bs-target="#basicModal">{{$value['email']}}</a></td>
@@ -179,6 +181,26 @@
 				dezSettingsOptions.version = 'dark';
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
+
+			$(".campaign_select").on('change', function(e){
+				var userId = $(e.target).data('id');
+				var campaignid = $(e.target).val();
+				$.ajax({
+					type: "post",
+					url : '{!! url('/admin/assignCampaignId'); !!}',
+					data: {
+						"_token": "{{ csrf_token() }}",
+						"user_id": userId,
+						"campaign_id": campaignid,
+					},
+					success: function(data){
+						if(data=='success')
+							alertSuccess();
+						else
+							alertError();
+					},
+				});
+			})
 		});
 
 
@@ -211,6 +233,47 @@
 				},
 			});
 			$('#changePasswordModal').modal('show')
+		}
+
+		function alertSuccess(){
+			toastr.info("Updated Successfully", "Success", {
+                    positionClass: "toast-top-right",
+                    timeOut: 5e3,
+                    closeButton: !0,
+                    debug: !1,
+                    newestOnTop: !0,
+                    progressBar: !0,
+                    preventDuplicates: !0,
+                    onclick: null,
+                    showDuration: "300",
+                    hideDuration: "1000",
+                    extendedTimeOut: "1000",
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    tapToDismiss: !1
+                })
+		}
+		function alertError(){
+			toastr.error("Database error", "Error", {
+                    positionClass: "toast-top-right",
+                    timeOut: 5e3,
+                    closeButton: !0,
+                    debug: !1,
+                    newestOnTop: !0,
+                    progressBar: !0,
+                    preventDuplicates: !0,
+                    onclick: null,
+                    showDuration: "300",
+                    hideDuration: "1000",
+                    extendedTimeOut: "1000",
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    tapToDismiss: !1
+                })
 		}
 	</script>
 @endsection	

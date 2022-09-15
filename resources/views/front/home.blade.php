@@ -27,8 +27,7 @@
                         <!-- Logo @s -->
                         <div class="header-logo logo animated" data-animate="fadeInDown" data-delay=".6">
                             <a href="/" class="logo-link">
-                                <img class="logo-dark" src="/front/images/logo-s2-white.png" srcset="/front/images/logo-s2-white2x.png 2x" alt="logo">
-                                <img class="logo-light" src="/front/images/logo-s2-white.png" srcset="/front/images/logo-s2-white2x.png 2x" alt="logo">
+                                <img class="logo-light" src="{{$logo_path}}" alt="logo">
                             </a>
                         </div>
                         <!-- Menu Toogle @s -->
@@ -59,9 +58,15 @@
                                         </ul>
                                     </li>
                                 </ul>
+                                @if(auth()->check())
+                                <ul class="menu-btns">
+                                    <li><a href="/logout" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change"><span>Logout</span></a></li>
+                                </ul>
+                                @else
                                 <ul class="menu-btns">
                                     <li><a href="/login" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change"><span>Login</span></a></li>
                                 </ul>
+                                @endif
                             </nav>
                         </div><!-- .header-navbar @e -->
                     </div>
@@ -71,22 +76,23 @@
                 <div class="nk-block nk-block-header nk-block-sm my-auto">
                     <div class="container pt-5">
                         <div class="banner-caption text-center">
-                            <h1 class="title title-xl-2 ttu animated" data-animate="fadeInUp" data-delay="0.7">World First Decentralized Marketplace with blockchain infrastructure</h1>
+                            <h1 class="title title-xl-2 ttu animated" data-animate="fadeInUp" data-delay="0.7">{{$banner_title}}</h1>
                             <div class="row justify-content-center pb-3">
                                 <div class="col-sm-11 col-xl-11 col-xxl-8">
-                                    <p class="lead animated" data-animate="fadeInUp" data-delay="0.8">The first decentralized Marketplace which makes simplifies and standarizes data with blockchain technology. We provides user-friendly, efficient and secure crypto solutions and utilizing blockchain technology. </p>
+                                    <p class="lead animated" data-animate="fadeInUp" data-delay="0.8">{{$banner_content}} </p>
                                 </div>
                             </div>
+                            @if(auth()->check() && auth()->user()->marketing_campain_id>0)
                             <div class="cpn-action">
                                 <ul class="btn-grp mx-auto">
-                                    <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="#" class="btn btn-primary btn-round">PRIVATE SALE</a></li>
-                                    <li class="animated" data-animate="fadeInUp" data-delay="1"><a href="#tokensale" class="menu-link btn btn-round btn-outline btn-primary">TOKEN SALE</a></li>
+                                    <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="/{{auth()->user()->redirect}}" class="btn btn-primary btn-round">Get Started</a></li>
                                 </ul>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div class="nk-block nk-block-status">
+                <!-- <div class="nk-block nk-block-status">
                     <div class="container container-xxl">
                         <div class="row gutter-vr-40px justify-content-between">
                             <div class="col-xxl-6 col-xl-5 col-lg-5">
@@ -122,7 +128,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="nk-block nk-block-actions">
                     <div class="container container-xxl">
                         <div class="row gutter-vr-40px align-items-center">

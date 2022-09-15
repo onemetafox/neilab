@@ -16,8 +16,13 @@ class MarketingCampain extends Model
         'external_sales_fee',
         'trust_fee',
         'profit_fee',
+        'terms',
+        'website_name',
+        'banner_title',
+        'banner_content',
+        'trainee_video',
+        'logo_image',
         'kyc_required',
-        'domain_id',
         'status',
     ];
 }
