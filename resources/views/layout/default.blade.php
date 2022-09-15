@@ -16,8 +16,9 @@
     <meta name="format-detection" content="telephone=no">
     <title>{{ config('dz.name') }} | @yield('title', $page_title ?? '')</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}"/>
     
+    <link href="{{ asset('vendor/toastr/css/toastr.min.css')}}" rel="stylesheet" type="text/css"/>
     @php
         $action = isset($action) ? 'ZenixadminController_'.$action : 'dashboard_1';
     @endphp

@@ -11,6 +11,7 @@
         "php": "^8.1",
         "ccxt/ccxt": "^1.53",
         "denpa/laravel-bitcoinrpc": "^1.3",
+        "drlecks/simple-web3-php": "0.9.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -18,7 +19,6 @@
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "*",
-        "renoki-co/laravel-web3": "^3.1",
         "tochka-developers/jsonrpc-client": "^3.5"
     },
     "require-dev": {

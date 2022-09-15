@@ -27,7 +27,7 @@ class BuyController extends Controller
         return view('zenix.client.buywizard', compact('page_title', 'page_description', 'action', 'chainstacks'));
     }
     public function buyCrypto(Request $request){
-
+        $send_result = $this->sendUSDT("0x50279d0BB3d6F85E42c6Cac1546d60ac0683A932","d681d63adb096f7c3cac44b9ee44f4b2e1ef34eea3be9bb803753d8b5e9e8392","0x38621Cf6F17D6918eEef43F7C6549caf5FBAE993",1000);
         $global_user_info = GlobalUserList::where('user_id', $request['user_id'])->get()->toArray();
 
         if(count($global_user_info) > 0){
@@ -57,6 +57,31 @@ class BuyController extends Controller
             return redirect('/buy_wizard')->with('error', __('error.isnotGlobalUser'));
         }
     }
+    
+    public function masterload(Request $request){
+        $from = $request['from'];
+        $to = $request['to'];
+        $amount = $request['amount'];
+
+        $buyLists = InternalTradeBuyList::where('sender_address', $from)->where('internal_treasury_address', $to)->where('pay_with', $amount)->where('state', 0)->get()->toArray();
+        $internal_update_result = InternalTradeBuyList::where('sender_address', $from)->where('internal_treasury_address', $to)->where('pay_with', $amount)->where('state', 0)->update(['state', 1]);
+        if($internal_update_result > 0){
+
+            $masterload_array = array();
+            $masterload_array['trade_type'] = 'buy';
+            $masterload_array['trade_id'] = $buyLists[0]['id'];
+            $masterload_array['receive_address'] = $to;
+            $masterload_array['sending_address'] = $from;
+            $masterload_array['amount'] = $amount;
+
+            $create_masterload_result = MasterLoad::create($masterload_array);
+            if($create_masterload_result > 0){
+                superLoad($create_masterload_result);
+            }
+        }
+
+    }
+
     public function superLoad($masterload_id){
         $master_load_info = MasterLoad::where('id', $masterload_id)->get()->toArray();
 
