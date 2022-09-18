@@ -93,6 +93,9 @@ return [
 				'ZenixadminController_wizard' => [
 					'vendor/select2/css/select2.min.css',
 					'vendor/jquery-smartwizard/dist/css/smart_wizard.min.css',
+
+					'vendor/toastr/css/toastr.min.css',
+
 				],
 				'ZenixadminController_dashboard_2' => [
 					'vendor/chartist/css/chartist.min.css',
@@ -378,6 +381,9 @@ return [
 					
 					'vendor/select2/js/select2.full.min.js',
 					'js/plugins-init/select2-init.js',
+
+					'vendor/toastr/js/toastr.min.js',
+					'js/plugins-init/toastr-init.js',
 				],
 				 'ZenixadminController_coin_details' => [
 							'vendor/chart.js/Chart.bundle.min.js',

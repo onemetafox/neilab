@@ -14,24 +14,20 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function exchange($param){
+    public function exchange($param=null){
         $n_id = $param['ex_name'];
         $exchange_id = '\\ccxt\\' . $n_id;
         $exchange = new $exchange_id(array(
             'enableRateLimit' => true,
             'apiKey' => $param['api_key'],
             'secret' => $param['api_secret'],
-            'options' => array(
-                'defaultType' => 'future',
-            ),
         ));
+        // $exchange_id = '\\ccxt\\Binance';
+
         // $exchange = new $exchange_id(array(
         //     'enableRateLimit' => true,
         //     'apiKey' => 'WuwQjNckG59iMabbJDuZb1nhHwcUIlwERJnKoxaI8JbBGE7YMUuFVlG6TskjcEOv',
         //     'secret' => 'lalUvZN7JwGCTLLkR8A23XzbLXh0nMK0I4aukKYFMz1zA3QQmbjDuLAyzLKXELjL',
-        //     'options' => array(
-        //         'defaultType' => 'future',
-        //     ),
         // ));
         // $exchange->set_sandbox_mode(True);
         return $exchange;
@@ -41,15 +37,9 @@ class Controller extends BaseController
     }
 
     public function sendUSDT($from, $from_pk, $to, $amount){
-        // $wallet_info = InternalWallet::where('wallet_address', $from)->get()->toArray();
-        // if($wallet_info > 0){
-            // $private_key = $wallet_info[0]['private_key'];
-            // echo('node Admin/USDTSendServer/sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount);
-
-            exec('node C:\NeilLab\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount, $output);
-            print_r($output);
-            exit;
-        // }
+            $amount_big = $amount*1000000;
+            exec('node C:\NeilLab\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount_big, $output);
+            return $output;
     }
     // public function sendUSDT($from, $to, $amount){
 
@@ -81,9 +71,26 @@ class Controller extends BaseController
     //     }
     // }
 
-    public function createMarketBuyOrder($symbol, $amount){
-        echo $symbol;
-        echo $amount;
-        exit;
+    public function createMarketBuyOrder($symbol, $amount, $exchange){
+        $type = 'market';
+        $side = 'buy';
+        $order = $exchange->createOrder($symbol, $type, $side, $amount);
+        return $order;
+    }
+    public function getBTCMarketPrice($amount){
+
+        $url='https://bitpay.com/api/rates';
+        $json=json_decode( file_get_contents( $url ) );
+        $dollar=$btc=0;
+        
+        foreach( $json as $obj ){
+            if( $obj->code=='USD' )$btc=$obj->rate;
+        }
+        $dollar=1 / $btc;
+        $result = round( $dollar * $amount,8 );
+        // echo "1 bitcoin=\$" . $btc . "USD<br />";
+        // echo "10 dollars = " . round( $dollar * $amount,8 )."BTC";
+        return $result;
+
     }
 }

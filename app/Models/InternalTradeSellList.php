@@ -11,21 +11,19 @@ class InternalTradeSellList extends Model
     protected $fillable = [
         'global_user_id',
         'cronjob_list',
-        'asset_sold',
+        'asset_purchased',
         'sell_amount',
-        'receive_address',
+        'delivered_address',
+        'sender_address',
+        'internal_treasury_wallet_id',
         'pay_with',
         'chain_stack',
         'transaction_description',
-        'trust_fee',
-        'campain_type',
-        'profit',
         'commision_id',
-        'fee_from_exchange',
         'bank_changes',
         'left_over_profit',
         'total_amount_left',
-        'master_load',
+        'state',
     ];
 
 

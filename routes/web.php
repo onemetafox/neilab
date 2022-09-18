@@ -115,7 +115,9 @@ use App\Http\Controllers\Client\SellController;
 
     Route::get('/buy_wizard',           [BuyController::class, 'index']);
     Route::post('/buy_crypto',          [BuyController::class, 'buyCrypto']);
-    Route::post('/masterload',          [BuyController::class, 'masterload']);
+    Route::post('/master_load',          [BuyController::class, 'masterload']);
+    Route::post('/super_load',          [BuyController::class, 'superload']);
+
     Route::get('/sell_wizard',          [SellController::class, 'index']);
     Route::post('/sell_crypto',         [SellController::class, 'sellCrypto']);
     Route::get('/buy_report',           [BuyController::class, 'report']);

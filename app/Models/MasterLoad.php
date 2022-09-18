@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class MasterLoad extends Model
 {
     use HasFactory;
-    protected $filable = [
+    protected $fillable = [
         'trade_type',
         'trade_id',
-        'receive_address',
+        'internal_treasury_wallet_id',
         'sending_address',
         'amount',
     ];

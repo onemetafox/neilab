@@ -17,11 +17,12 @@ class CreateSuperLoadsTable extends Migration
             $table->id();
             $table->smallInteger('trade_type');
             $table->smallInteger('trade_id');
-            $table->smallInteger('master_load_id');
+            $table->smallInteger('masterload_id');
             $table->smallInteger('exchange_id');
             $table->string      ('receive_address');
             $table->string      ('sending_address');
-            $table->float       ('amount');
+            $table->smallInteger('internal_treasury_wallet_id');
+            $table->float       ('amount',10,6);
             $table->timestamps();
         });
     }

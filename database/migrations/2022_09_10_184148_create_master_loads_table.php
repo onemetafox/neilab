@@ -17,9 +17,9 @@ class CreateMasterLoadsTable extends Migration
             $table->id();
             $table->smallInteger('trade_type');
             $table->smallInteger('trade_id');
-            $table->string      ('receive_address');
+            $table->smallInteger('internal_treasury_wallet_id');
             $table->string      ('sending_address');
-            $table->float       ('amount');
+            $table->float       ('amount',10,6);
             $table->timestamps();
         });
     }

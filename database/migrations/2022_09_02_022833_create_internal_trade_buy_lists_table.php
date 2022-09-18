@@ -18,10 +18,11 @@ class CreateInternalTradeBuyListsTable extends Migration
             $table->smallInteger('global_user_id');
             $table->smallInteger('cronjob_list');
             $table->smallInteger('asset_purchased');
-            $table->float       ('buy_amount');
-            $table->string      ('buy_address');
+            $table->float       ('buy_amount',10,6);
+            $table->string      ('delivered_address');
             $table->string      ('sender_address');
-            $table->float       ('pay_with');
+            $table->string      ('internal_treasury_wallet_id');
+            $table->float       ('pay_with',10,6);
             $table->smallInteger('chain_stack');
             $table->string      ('transaction_description');
             $table->smallInteger('commision_id');
