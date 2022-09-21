@@ -13,6 +13,7 @@ const sender_address_pk = args[1];
 const receiver_address = args[2];
 const amount = args[3];
 
+
 const sendERC20Transaction = async (sender_address, sender_address_pk, receiver_address, amount) => {
     var Tx     = require('ethereumjs-tx')
     const Web3 = require('web3')
@@ -22,11 +23,11 @@ const sendERC20Transaction = async (sender_address, sender_address_pk, receiver_
     var tokenAddress = '0xdac17f958d2ee523a2206206994597c13d831ec7';
     var fromAddress = sender_address;
     var tokenInst = new web3.eth.Contract(contractAbi,tokenAddress);
+    
     tokenInst.methods.transfer(receiver_address, amount).send({from: fromAddress, gas: 100000},function (error, result){ //get callback from function which is your transaction key
         if(!error){
             console.log(result);
             process.exit();
-
             // handleSuccessTrue();
         } else{
             console.log(error);

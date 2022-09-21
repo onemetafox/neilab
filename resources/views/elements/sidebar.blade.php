@@ -85,6 +85,12 @@
 				</a>
 			</li>
 
+			<li>
+				<a href="{!! url('/invite_friends'); !!}" aria-expanded="false">
+					<i class="flaticon-039-shuffle"></i> Invite Friends
+				</a>
+			</li>
+
 			<!-- <li class="nav-label">Apps</li>
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
 				<i class="flaticon-077-menu-1"></i>

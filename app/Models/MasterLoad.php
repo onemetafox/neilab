@@ -13,6 +13,7 @@ class MasterLoad extends Model
         'trade_id',
         'internal_treasury_wallet_id',
         'sending_address',
+        'tx_id',
         'amount',
     ];
 }

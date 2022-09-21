@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\AdminInternalTradeSellController;
 
 
 use App\Http\Controllers\Client\BuyController;
+use App\Http\Controllers\Client\BuyReportController;
 use App\Http\Controllers\Client\SellController;
 
 
@@ -115,13 +116,31 @@ use App\Http\Controllers\Client\SellController;
 
     Route::get('/buy_wizard',           [BuyController::class, 'index']);
     Route::post('/buy_crypto',          [BuyController::class, 'buyCrypto']);
-    Route::post('/master_load',          [BuyController::class, 'masterload']);
-    Route::post('/super_load',          [BuyController::class, 'superload']);
+    Route::post('/master_load',         [BuyController::class, 'masterload']);
+    Route::post('/super_load',          [BuyController::class, 'superload_v']);
 
     Route::get('/sell_wizard',          [SellController::class, 'index']);
     Route::post('/sell_crypto',         [SellController::class, 'sellCrypto']);
-    Route::get('/buy_report',           [BuyController::class, 'report']);
+    Route::get('/send_btc',             [SellController::class, 'sendBTC']);
+    Route::post('/sell_master_load',    [SellController::class, 'masterload']);
+    Route::post('/sell_super_load',     [SellController::class, 'superload_v']);
+    
+    Route::get('/get_new_btc_wallet_addr',  [SellController::class, 'get_new_btc_wallet_address']);
+    Route::get('/get_receiving_btc_address',  [SellController::class, 'get_receiving_btc_address']);
+    Route::post('/confirm_btc_payment',  [SellController::class, 'confirm_btc_payment']);
+
+    Route::get('/get_balance',  [SellController::class, 'get_balance']);
+    Route::get('/send_BTC',  [SellController::class, 'send_BTC']);
+
+
+    Route::get('/buy_report',           [BuyReportController::class, 'index']);
+    Route::post('/get_buy_report_infos',[BuyReportController::class, 'get_buy_info']);
+
     Route::get('/sell_report',          [SellController::class, 'report']);
+
+    Route::get('/invite_friends', [BuyController::class, 'report']);
+
+
     // Client Routing
 
 

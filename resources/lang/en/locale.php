@@ -162,5 +162,19 @@ return[
     // Internal Trade Sell
     "internal_trade_sell" => "Internal Trade Sell",
 
+    // Buy Report
+
+    "num" => "No",
+    "time_stamp" => "Time Stamp",
+    "asset_class_purchase" => "Asset Class Purchase",
+    "buy_amount_in_coins" => "Buy in amount in coins",
+    "buy_address_to_send_coin_to" => "Buy address to send the coin to",
+    "pay_with" => "pay with",
+    "address_to_pay_to" => "Address to pay to",
+    "chain_stack" => "Chain Stack/Bank Network",
+    "transaction_description" => "Transaction Description",
+    "view_master_loads" => "View Master Loads",
+    "status" => "Status",
+
 ]
 ?>

@@ -15,6 +15,9 @@ use Illuminate\Support\Arr;
 
 class AdminWalletController extends Controller
 {
+    private $RPCusername = 'lam';
+    private $RPCpassword = 'Masterskills113';
+
     public function index(){
         $page_title = __('locale.adminwalletlist');
         $page_description = 'Some description for the page';
@@ -38,6 +41,7 @@ class AdminWalletController extends Controller
         $cold_wallet = ColdWallet::orderBy('id', 'asc')->get();
         return view('zenix.admin.walletlist', compact('page_title', 'page_description', 'action', 'internal_wallet','cold_wallet'));
     }
+    
     public function viewNewWalletlist($id = null){
         $page_title = __('locale.admin_create_new_internal_wallet_list');
         $page_description = 'Some description for the page';
@@ -51,6 +55,37 @@ class AdminWalletController extends Controller
         }
     }
 
+    public function get_new_btc_wallet_address () {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "http://localhost:7890",
+            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+            CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_POSTFIELDS => '{"id":"curltext","method":"createnewaddress","params":[]}',
+            CURLOPT_POST => 1,
+        ]);
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            return null;
+        } else {
+            $result = json_decode($response);
+            return $result->result;
+            // if(isset($result->result)){
+            //     $address = $result->result;
+            //     return ['status'=>'success', 'address'=>$address];
+            // }else{
+            //     return ['status'=>'error', 'message'=>'Could not get new address'];
+            // }
+        }
+    }
+
     public function generateNewWalletAddress(Request $request){
         $chain_stack = $request['chain_stack'];
         $ipaddress = $request['ipaddress'];
@@ -60,8 +95,9 @@ class AdminWalletController extends Controller
         $error = false;
         if($chain_stack == 1){
             try {
-                $bitcoind = new BitcoinClient('http://'.$login.':'.$password.'@'.$ipaddress.':8332');
-                $address = $bitcoind->wallet('internal_wallet')->getnewaddress()->result();
+                // $bitcoind = new BitcoinClient('http://'.$login.':'.$password.'@'.$ipaddress.':8332');
+                // $address = $bitcoind->wallet('internal_wallet')->getnewaddress()->result();
+                $address = $this->get_new_btc_wallet_address();
                 return response()->json(["success" => $success, "address" => $address]);
             } catch (\Throwable $th) {
                 return response()->json(["success" => $error, "message" => "Invalid Information!"]);

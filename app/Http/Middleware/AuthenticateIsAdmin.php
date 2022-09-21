@@ -19,7 +19,7 @@ class AuthenticateIsAdmin
     {
         if (Auth::user() &&  Auth::user()->user_type == 'admin') {
             return $next($request);
-     }
+        }
     return redirect('/');
     }
 }

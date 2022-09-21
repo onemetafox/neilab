@@ -14,8 +14,10 @@ class SuperLoad extends Model
         'masterload_id',
         'receive_address',
         'sending_address',
+        'tx_id',
         'internal_treasury_wallet_id',
         'amount',
         'exchange_id',
+        'status',
     ];
 }

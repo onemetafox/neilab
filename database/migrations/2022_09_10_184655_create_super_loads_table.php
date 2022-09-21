@@ -21,8 +21,10 @@ class CreateSuperLoadsTable extends Migration
             $table->smallInteger('exchange_id');
             $table->string      ('receive_address');
             $table->string      ('sending_address');
+            $table->string      ('tx_id');
             $table->smallInteger('internal_treasury_wallet_id');
             $table->float       ('amount',10,6);
+            $table->smallInteger('status');
             $table->timestamps();
         });
     }

@@ -135,6 +135,13 @@
 												<input type='number' name='pay_with' id='pay_with' class='form-control' min='0' step='any' required>
 											</div>
 										</div>
+										<div class="col-lg-6 mb-2">
+											<div class="form-group">
+												<label class="text-label">Past your transaction ID</label>
+												<input type="text" class="form-control" id="tx_id" name="tx_id" required>
+											</div>
+									</div>
+									<div class="row">
 										<div class="col-lg-6 mb-2 mt-4">
 											<div class="form-group">
 												<input type="button" class="btn btn-secondary mb-2" onclick="handleSubmit()" value="Submit"></input>
@@ -155,8 +162,8 @@
 <script>
 	
 	// const web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/5be6fa190df6478c910c7f6431285bed'));
-	const web3 = new Web3('wss://mainnet.infura.io/ws/v3/5be6fa190df6478c910c7f6431285bed');
-	let interval = null;
+	// const web3 = new Web3('wss://mainnet.infura.io/ws/v3/5be6fa190df6478c910c7f6431285bed');
+	// let interval = null;
 
 	function handleSubmit(){
 		var user_id 			= $('#user_id').val();
@@ -169,6 +176,8 @@
 		var senderAddress 		= $('#senderAddress').val();
 		var buy_amount 			= $('#buy_amount').val();
 		var pay_with		 	= $('#pay_with').val();
+		var tx_id		 		= $('#tx_id').val();
+
 		
 		$.ajax({
 				type: "post",
@@ -184,11 +193,13 @@
 					"receive_address" : receive_address,
 					"sender_address" : senderAddress,
 					"pay_with" : pay_with,
+					"tx_id" : tx_id
 				},
 				success: function(data){
 					if(data.success){
 						alertRegisteredSuccess();
-						getTransactionsByAccount(senderAddress, receive_address, buy_amount);
+						superload(data.master_load_id);
+						// getTransactionsByAccount(senderAddress, receive_address, buy_amount);
 					}else{
 						alertError();
 					}

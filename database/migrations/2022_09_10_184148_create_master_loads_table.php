@@ -20,6 +20,7 @@ class CreateMasterLoadsTable extends Migration
             $table->smallInteger('internal_treasury_wallet_id');
             $table->string      ('sending_address');
             $table->float       ('amount',10,6);
+            $table->string      ('tx_id');
             $table->timestamps();
         });
     }

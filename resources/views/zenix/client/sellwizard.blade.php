@@ -127,9 +127,17 @@
 												<input type='number' name='pay_with' id='pay_with' class='form-control' min='0' step='any' required>
 											</div>
 										</div>
+										<div class="col-lg-6 mb-2">
+											<div class="form-group">
+												<label class="text-label">Past the transaction ID which money sent to</label>
+												<input type="text" class="form-control" id="tx_id" name="tx_id" required>
+											</div>
+										</div>
+									</div>
+									<div class="row">
 										<div class="col-lg-6 mb-2 mt-4">
 											<div class="form-group">
-											<input type="button" class="btn btn-secondary mb-2" onclick="handleSubmit()" value="Submit"></input>
+												<input type="button" class="btn btn-secondary mb-2" onclick="handleSubmit()" value="Submit"></input>
 											</div>
 										</div>
 									</div>
@@ -145,7 +153,21 @@
 @endsection
 <script src="https://cdn.jsdelivr.net/npm/btcl-bcoin@1.0.0-beta.14b/lib/bcoin.js" integrity="sha256-X6zYD1A5XVau2MsOXN691kJVy2279xV2AuyNb0UXOAI=" crossorigin="anonymous"></script>
 <script>
-	
+	function sendBTC(){
+		
+		$.ajax({
+				type: "get",
+				url : '{!! url('/send_btc'); !!}',
+				success: function(data){
+					if(data.success){
+					}else{
+						alertError();
+					}
+				},
+			});
+	}
+
+	var interval  = null;
 	function handleSubmit(){
 		var user_id 			= $('#user_id').val();
 		var digital_asset 		= $('#digital_asset').val();
@@ -157,6 +179,7 @@
 		var senderAddress 		= $('#senderAddress').val();
 		var buy_amount 			= $('#buy_amount').val();
 		var pay_with		 	= $('#pay_with').val();
+		var tx_id 				= $('#tx_id').val();
 		
 		$.ajax({
 				type: "post",
@@ -171,18 +194,56 @@
 					"pay_method" : pay_method,
 					"receive_address" : receive_address,
 					"sender_address" : senderAddress,
+					"tx_id" : tx_id,
 					"pay_with" : pay_with,
 				},
 				success: function(data){
 					if(data.success){
 						alertRegisteredSuccess();
-						getTransactionsByAccount(senderAddress, receive_address, pay_with);
 					}else{
 						alertError();
 					}
 				},
 			});
+
 	}
+
+	function checkTransferBTCConfirmed(tx_id, pay_with, senderAddress,receive_address){
+		$.ajax({
+				type: "post",
+				url : '{!! url('/confirm_btc_payment'); !!}',
+				data: {
+					"_token": "{{ csrf_token() }}",
+					"amount": pay_with,
+					"txid" : tx_id,
+				},
+				success: function(data){
+					if(data.status=="success" && data.result=="true"){
+						$.ajax({
+							type: "post",
+							url : '{!! url('/sell_master_load'); !!}',
+							data: {
+								"_token": "{{ csrf_token() }}",
+								"sender_address" : senderAddress,
+								"toAddress" : receive_address,
+								"amount": pay_with,
+								"tx_id" : tx_id,
+							},
+							success: function(data){
+								if(data.success){
+									alertPaidSuccess();
+									clearInterval(interval);
+									superload(data.master_load_id);
+								}else{
+									alertError();
+								}
+							},
+						});
+					}
+				},
+			});
+	}
+
 	function handleChangeStatus(val){
 		if(val.value == 1){
 			$('#pay_step').html("<label class='text-label'>Pay With Crypto</label>"+
@@ -269,7 +330,42 @@
 			})
 	}
 
-	function getTransactionsByAccount(senderAddress, receive_address, pay_with){
+	// function getTransactionsByAccount(senderAddress, receive_address, pay_with){
+	// 	$.ajax({
+	// 		type: "post",
+	// 		url : '{!! url('/sell_master_load'); !!}',
+	// 		data: {
+	// 			"_token": "{{ csrf_token() }}",
+	// 			"sender_address" : fromAddress,
+	// 			"toAddress"		 : toAddress,
+	// 			"amount" 	     : web3.utils.fromWei(amount, unit)
+	// 		},
+	// 		success: function(data){
+	// 			if(data.success){
+	// 				alertPaidSuccess(web3.utils.fromWei(amount, unit), contractData.symbol);
+	// 				superload(data.master_load_id);
+	// 			}else{
+	// 				alertError();
+	// 			}
+	// 		},
+	// 	});
+	// }
 
+	function superload(masterload_id){
+		$.ajax({
+			type: "post",
+			url : '{!! url('/sell_super_load'); !!}',
+			data: {
+				"_token": "{{ csrf_token() }}",
+				"masterload_id" : masterload_id,
+			},
+			success: function(data){
+				if(data.success){
+					alertSuperLoadSuccess();
+				}else{
+					alertError();
+				}
+			},
+		});
 	}
 </script>
