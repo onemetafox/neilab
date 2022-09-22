@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use Auth;
 use App\Models\User;
 use App\Models\MarketingCampain;
+use App\Models\Referral;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
@@ -74,21 +76,47 @@ class RegisterController extends Controller
                 ->back()
                 ->withErrors($validate);
             }
+            $marketing_campaign = 0;
+            $invitor = null;
+            $redirect = '';
+            if(isset($request->referral_code)) {
+                $invitor = User::where('referral_code', $request->referral_code)->first();
+                if($invitor) {
+                    $marketing_campaign = $invitor->marketing_campain_id;
+                    $campain = MarketingCampain::find($invitor->marketing_campain_id);
+                    if($campain->kyc_required == 2) $redirect = 'agreement';
+                    else if($campain->kyc_required == 1) $redirect = 'kyc';
+                }
+            }
+
             $result = User::where("email", $request->email)->get()->count();
             if($result == 0){
                 $user_create = User::create([
                     'first_name' => $request->firstname,
                     'last_name' => $request->lastname,
-                    'marketing_campain_id'  => 0,
+                    'marketing_campain_id'  => $marketing_campaign,
                     'email'     => $request->email,
                     'password'   => Hash::make($request->password),
                     'whatsapp' => $request->whatsapp,
                     'boomboomchat' => $request->boomboomchat,
                     'telegram' => $request->telegram,
-                    'redirect' => '',
-                    'user_type' => 'none',
+                    'redirect' => $redirect,
+                    'referral_code' => '',
+                    'user_type' => $marketing_campaign>0?'client':'none',
                     'state' => 1,
                 ]);
+                $new_user = User::find($user_create->id);
+                $referral_code = substr(md5($user_create->id), 0, 8);
+                $new_user->referral_code = $referral_code;
+                $new_user->save();
+
+                if($invitor) {
+                    $refer = new Referral();
+                    $refer->user_id = $invitor->id;
+                    $refer->reffered_id = $user_create->id;
+                    $refer->save();
+                }
+
             }else{
                 return redirect('/register')->with('error', 'This email is already existed.');
             }
@@ -114,7 +142,8 @@ class RegisterController extends Controller
         $action = __FUNCTION__;
         $campaign = MarketingCampain::find(auth()->user()->marketing_campain_id);
         $terms = $campaign->terms;
-        return view('zenix.auth.agreement', compact('page_title', 'page_description', 'action', 'terms'));
+        $logo_path = '/storage/logo_images/'.$campaign->logo_image;
+        return view('zenix.auth.agreement', compact('page_title', 'page_description', 'action',  'logo_path', 'terms'));
     }
 
     public function agree_terms_conditions (Request $request) {
@@ -131,13 +160,14 @@ class RegisterController extends Controller
         $action = __FUNCTION__;
         $campaign = MarketingCampain::find(auth()->user()->marketing_campain_id);
         $video = $campaign->trainee_video;
-        return view('zenix.auth.trainee_video', compact('page_title', 'page_description', 'action', 'video'));
+        $logo_path = '/storage/logo_images/'.$campaign->logo_image;
+
+        return view('zenix.auth.trainee_video', compact('page_title', 'page_description', 'action', 'logo_path', 'video'));
     }
 
     public function understood_video (Request $request) {
         $me = User::find(auth()->user()->id);
         $me->redirect = (auth()->user()->user_type=='admin'?'admin':'client').'/dashboard';
-        if(auth()->user()->user_type=='none') $me->user_type = 'client';
         $me->save();
 
         // $request->session()->regenerate();

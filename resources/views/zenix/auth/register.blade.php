@@ -11,7 +11,7 @@
                 <div class="col-xl-12">
                     <div class="auth-form">
 						<div class="text-center mb-3">
-							<img src="{{ asset('images/logo-full-black.png') }}" alt="">
+							<img src="{{ $logo_path }}" alt="">
 						</div>
                         @if(session()->has('error'))
                         <div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>
@@ -24,6 +24,9 @@
                         <h4 class="text-center mb-4">{{__('locale.signup_page_title')}}</h4>
                         <form method="POST" action="{!! url('/register_new_user'); !!}">
                             @csrf
+                            @if($referral_code)
+                                <input type="hidden" name="referral_code" value="{{$referral_code}}" />
+                            @endif
                             <div class="row">
                             <div class="col-xl-6">
                                 <div class="form-group">
@@ -62,9 +65,11 @@
                                 <button type="submit" class="btn btn-primary btn-block">Sign me up</button>
                             </div>
                         </form>
+                        @if(is_null($referral_code))
                         <div class="new-account mt-3">
                             <p>Already have an account? <a class="text-primary" href="{!! url('/login'); !!}">Sign in</a></p>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>

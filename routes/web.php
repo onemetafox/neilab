@@ -48,6 +48,10 @@ use App\Http\Controllers\Client\SellReportController;
     Route::get('/register',             [ZenixadminController::class,'page_register']);
     Route::post('/register_new_user',   [RegisterController::class, 'customRegisterUser']);
 
+    //Referral
+    Route::get('/home/{refferal_code}',                     [HomeController::class,'referral_index']);
+    Route::get('/register/{refferal_code}',                     [ZenixadminController::class,'page_register']);
+    
     Route::group(['middleware' => ['auth']], function(){
         Route::get('/kyc',                  [RegisterController::class, 'page_kyc']);
         Route::get('/agreement',            [RegisterController::class, 'page_agreement']);
@@ -131,7 +135,7 @@ use App\Http\Controllers\Client\SellReportController;
     Route::post('/confirm_btc_payment',  [SellController::class, 'confirm_btc_payment']);
 
     Route::get('/get_balance',  [SellController::class, 'get_balance']);
-    // Route::get('/send_BTC',  [SellController::class, 'send_BTC']);
+    Route::get('/send_BTC',  [SellController::class, 'send_BTC']);
 
 
     Route::get('/buy_report',           [BuyReportController::class, 'index']);

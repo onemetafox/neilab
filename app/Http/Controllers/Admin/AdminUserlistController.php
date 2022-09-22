@@ -41,6 +41,7 @@ class AdminUserlistController extends Controller
         $user = User::find($user_id);
         $user->marketing_campain_id = $campaign_id;
         $user->redirect = $redirect;
+        $user->user_type = 'client';
         if($user->save()) return 'success';
         else return 'error';
     }

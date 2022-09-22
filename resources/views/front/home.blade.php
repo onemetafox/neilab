@@ -44,9 +44,6 @@
                                 <ul class="menu">
                                     <li class="menu-item"><a class="menu-link nav-link" href="#header">Home</a></li>
                                     <li class="menu-item"><a class="menu-link nav-link" href="#about">About</a></li>
-                                    <li class="menu-item"><a class="menu-link nav-link" href="#platform">Platform</a></li>
-                                    <li class="menu-item"><a class="menu-link nav-link" href="#mvp">MVP</a></li>
-                                    <li class="menu-item"><a class="menu-link nav-link" href="#tokensale">Tokens</a></li>
                                     <li class="menu-item"><a class="menu-link nav-link" href="#roadmap">Roadmap</a></li>
                                     <li class="menu-item"><a class="menu-link nav-link" href="#contact">Contact</a></li>
                                     <li class="menu-item has-sub">
@@ -64,7 +61,10 @@
                                 </ul>
                                 @else
                                 <ul class="menu-btns">
-                                    <li><a href="/login" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change"><span>Login</span></a></li>
+                                    @if(!isset($referral_code))
+                                        <li><a href="/login" class="btn btn-md btn-round btn-thin btn-primary btn-auto no-change"><span>Login</span></a></li>
+                                    @endif
+                                    <li><a href="/register{{isset($referral_code)?'/'.$referral_code:''}}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change"><span>SignUp</span></a></li>
                                 </ul>
                                 @endif
                             </nav>
@@ -86,6 +86,13 @@
                             <div class="cpn-action">
                                 <ul class="btn-grp mx-auto">
                                     <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="/{{auth()->user()->redirect}}" class="btn btn-primary btn-round">Get Started</a></li>
+                                </ul>
+                            </div>
+                            @endif
+                            @if(isset($referral_code))
+                            <div class="cpn-action">
+                                <ul class="btn-grp mx-auto">
+                                    <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="/register/{{$referral_code}}" class="btn btn-primary btn-round">Get Started</a></li>
                                 </ul>
                             </div>
                             @endif
@@ -1627,11 +1634,100 @@
     </div><!-- .modal @e -->
     <!-- preloader -->
     <div class="preloader preloader-alt no-split"><span class="spinner spinner-alt"><img class="spinner-brand" src="/front/images/logo-s2-white.png" alt=""></span></div>
+
+    @if($profit)
+    <div class="modal fade" id="modal-medium">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <a href="#" class="modal-close" data-bs-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
+                <div class="modal-body p-md-4 p-lg-5">
+                    <h3 class="title title-md tc-danger text-center"> 👋 Congratulations! </h3>
+                    <p class="tt-n">You got <span class="tc-danger">🎁{{ $profit->amount.' '.$profit->token }} </span> as revenue from your friend <span class="tc-info">{{$profit->from->first_name.' '.$profit->from->last_name}}</span></p>
+                    <form id="get-profit-form">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="field-item">
+                                    <label class="field-label">Please Input Your {{$profit->network.' '.$profit->stack->stackname}} Wallet Address</label>
+                                    <div class="field-wrap">
+                                        <input name="wallet_addr" type="text" class="input-bordered" id="wallet_addr" required="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 mb-3">
+                                <div class="field-wrap">
+                                    <input class="input-checkbox" id="sure_cb" type="checkbox" required="">
+                                    <label for="sure_cb">I am sure this address is correct</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 mb-3" id="message-div">
+                                
+                            </div>
+                            <div class="col-lg-12 text-center">
+                                <button type="submit" class="btn btn-grad" id="submit-btn" disabled>Submit</button>
+                                <div id="loading_div" style="display:none">
+                                    <img src="/front/images/Spin-1s-200px.svg" style="width: 60px; height: auto;" />
+                                    <p class="text-center tc-danger">Just a moment...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
     <!-- JavaScript -->
     <script src="/front/assets/js/jquery.bundle.js?ver=200"></script>
     <script src="/front/assets/js/scripts.js?ver=200"></script>
     <script src="/front/assets/js/charts.js?ver=200"></script>
     <script src="/front/assets/js/charts.js?ver=200"></script>
+
+    <script>
+        $(document).ready(function(){
+            @if($profit)
+                $("#modal-medium").modal('show');
+
+                $("#sure_cb").on('click', function(e) {
+                    if ( $(e.target).prop('checked') ) $("#submit-btn").prop('disabled', false);
+                    else $("#submit-btn").prop('disabled', true);
+                })
+
+                $("#get-profit-form").on('submit', function(e) {
+                    e.preventDefault();
+                    $("#submit-btn").hide();
+                    $("#loading_div").show();
+
+                    $.ajax({
+                        type: "post",
+                        url : '{{ url('/get_profit'); }}',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "id": {{$profit->id}},
+                            "wallet" : $("#wallet_addr").val(),
+                        },
+                        success: function(data){
+                            $("#loading_div").hide();
+                            if(data.status=='success'){
+                                $("#message-div").append(`<div class="alert alert-success alert-dismissible fade show"> You have been received {{$profit->amount}} {{$profit->token}} successfully! Transaction id is <code>`+data.payload+`</code>
+                                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>`);
+                            }else{
+                                $("#message-div").append(`<div class="alert alert-danger alert-dismissible fade show"> `+data.payload+`
+                                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>`);
+                                $("#submit-btn").show();
+                            }
+                        },
+                    });
+                })
+
+            @endif
+        })
+    </script>
 </body>
 
 </html>

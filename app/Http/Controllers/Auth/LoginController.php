@@ -9,6 +9,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
+use App\Models\ReferralProfit;
+
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -42,18 +44,24 @@ class LoginController extends Controller
                 ->withErrors($validate);
             }
             if(auth()->attempt(array('email' => $inputVal['email'], 'password' => $inputVal['password']))){
-                if (auth()->user()->user_type == "admin")
-                    return redirect('/admin/dashboard');
-                else if (auth()->user()->user_type == "client" && auth()->user()->state == 1 ) 
-                    return redirect('/client/dashboard');
-                else if (auth()->user()->user_type == "none" && auth()->user()->state == 1 ) 
-                    return redirect('/'.auth()->user()->redirect);
-                else if (auth()->user()->user_type == "reception" && auth()->user()->state == 1 ) 
-                    return redirect()->route('reception.home');
-                else if (auth()->user()->state == 0 ){
-                    Auth::logout();
-                    return redirect('/login')
-                    ->with('error','Account Still suspensed.');
+                $profit = ReferralProfit::where('user_id', auth()->user()->id)->where('status', 0)->exists();
+
+                if($profit) {
+                    return redirect('/');
+                }else{
+                    if (auth()->user()->user_type == "admin")
+                        return redirect('/admin/dashboard');
+                    else if (auth()->user()->user_type == "client" && auth()->user()->state == 1 ) 
+                        return redirect('/client/dashboard');
+                    else if (auth()->user()->user_type == "none" && auth()->user()->state == 1 ) 
+                        return redirect('/'.auth()->user()->redirect);
+                    else if (auth()->user()->user_type == "reception" && auth()->user()->state == 1 ) 
+                        return redirect()->route('reception.home');
+                    else if (auth()->user()->state == 0 ){
+                        Auth::logout();
+                        return redirect('/login')
+                        ->with('error','Account Still suspensed.');
+                    }
                 }
             }else{
                 return redirect('/login')->with('error', __('locale.wrong_email_and_password'));
