@@ -27,7 +27,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        
         $schedule->call('App\Http\Controllers\Controller@cronHandleFunction')->everyMinute();
+        $schedule->call('App\Http\Controllers\Controller@cronWithdrawHandleFunction')->everyMinute();
         $schedule->call('App\Http\Controllers\Client\SellController@cronHandleFunction')->everyMinute();
     }
 

@@ -18,6 +18,7 @@ class InternalTradeBuyList extends Model
         'internal_treasury_wallet_id',
         'pay_with',
         'chain_stack',
+        'pay_method',
         'transaction_description',
         'commision_id',
         'bank_changes',

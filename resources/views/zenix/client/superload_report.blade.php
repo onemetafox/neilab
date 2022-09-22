@@ -8,7 +8,7 @@
 
 <div class="container-fluid">
 	<div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
-		<h2 class="font-w600 title mb-2 me-auto ">{{__('locale.buy_report')}}</h2>
+		<h2 class="font-w600 title mb-2 me-auto ">{{__('locale.super_load_report')}}</h2>
 		<div class="weather-btn mb-2">
 			<span class="me-3 font-w600 text-black"><i class="fa fa-cloud me-2"></i>21</span>
 			<select class="form-control style-1 default-select  me-3 ">
@@ -23,7 +23,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">{{__('locale.buy_report')}}</h4>
+                    <h4 class="card-title">{{__('locale.super_load_report')}}</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -31,46 +31,49 @@
                             <thead>
                                 <tr>
                                     <th>{{__('locale.time_stamp')}}</th>
-                                    <th>{{__('locale.asset_class_purchase')}}</th>
-                                    <th>{{__('locale.buy_amount_in_coins')}}</th>
-                                    <th>{{__('locale.buy_address_to_send_coin_to')}}</th>
-                                    <th>{{__('locale.pay_with')}}</th>
-                                    <th>{{__('locale.address_to_pay_to')}}</th>
-                                    <th>{{__('locale.chain_stack')}}</th>
-                                    <th>{{__('locale.transaction_description')}}</th>
-                                    <th>{{__('locale.view_master_loads')}}</th>
+                                    <th>{{__('locale.trade_type')}}</th>
+                                    <th>{{__('locale.sender_address')}}</th>
+                                    <th>{{__('locale.deposit_address')}}</th>
+                                    <th>{{__('locale.amount')}}</th>
+                                    <th>{{__('locale.transaction_detail')}}</th>
                                     <th>{{__('locale.status')}}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($result as $value)
+                                @foreach ($result as $key => $value)
 								<tr>
-									<td>{{$value->updated_at}}</td>
+									<td>{{$value['updated_at']}}</td>
                                     <td>
-                                        <?php echo $value->asset_purchased == 1? "BTC":"USDT" ?>
+                                        <?php echo $value['trade_type'] == 1? "Buy":"Sell" ?>
                                     </td>
-                                    <td>{{$value->buy_amount}}</td>
-                                    <td>{{$value->delivered_address}}</td>
-                                    <td>{{$value->pay_with}}</td>
-                                    <td>{{$value->wallet_address}}</td>
-                                    <td><?php echo $value->pay_method == 1? "USDT":"Bank" ?></td>
-                                    <td>{{$value->transaction_description}}</td>
+                                    <td>{{$value['sending_address']}}</td>
+                                    <td>{{$value['receive_address']}}</td>
+                                    <td>{{$value['amount']}}</td>
                                     <td>
-										<a href="{!! url('/masterload_report_buy/'.$value->masterload_id); !!}">View Masterload</a> 
+                                        <?php
+                                            if($value['trade_type'] == 1){ ?>
+                                        <a href="https://etherscan.io/tx/{{$value['tx_id']}}" target="_blank">{{$value['tx_id']}}</a>
+                                        <?php }else{ ?>
+                                        <a href="https://www.blockchain.com/btc/tx/{{$value['tx_id']}}" target="_blank">{{$value['tx_id']}}</a>
+                                        <?php } ?>
                                     </td>
                                     <td>
-										@switch($value->state)
+										@switch($value['status'])
                                             @case (0)
-                                                <span class="badge light badge-info">Ordered</span>
+                                                <span class="badge light badge-info">Deposit Pending</span>
                                                 @break
                                             @case (1)
-                                                <span class="badge light badge-secondary">Master Load</span>
+                                                <span class="badge light badge-secondary">Deposit Complete</span>
                                                 @break
                                             @case (2)
-                                                <span class="badge light badge-primary">Super Load</span>
+                                                @if($value['trade_type'] == 1)
+                                                <span class="badge light badge-success">Marketing Buy Complete</span>
+                                                @else
+                                                <span class="badge light badge-success">Marketing Sell Complete</span>
+                                                @endif
                                                 @break
                                             @case (3)
-                                                <span class="badge light badge-success">Complete</span>
+                                                <span class="badge light badge-secondary">Withdraw Complete</span>
                                                 @break
                                         @endswitch
                                     </td>

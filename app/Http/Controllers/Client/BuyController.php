@@ -56,6 +56,7 @@ class BuyController extends Controller
                 $internalTradeBuyInfo['sender_address']                 = $request['sender_address'];
                 $internalTradeBuyInfo['internal_treasury_wallet_id']    = $internal_treasury_wallet_info[0]['id'];
                 $internalTradeBuyInfo['pay_with']                       = $request['pay_with'];
+                $internalTradeBuyInfo['pay_method']                     = $request['pay_method'];
                 $internalTradeBuyInfo['transaction_description']        = "This is the buy transaction";
                 $internalTradeBuyInfo['commision_id']                   = 1;
                 $internalTradeBuyInfo['bank_changes']                   = 1;

@@ -24,6 +24,7 @@ class CreateInternalTradeBuyListsTable extends Migration
             $table->string      ('internal_treasury_wallet_id');
             $table->float       ('pay_with',10,6);
             $table->smallInteger('chain_stack');
+            $table->smallInteger('pay_method');
             $table->string      ('transaction_description');
             $table->smallInteger('commision_id');
             $table->smallInteger('bank_changes');

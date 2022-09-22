@@ -176,5 +176,18 @@ return[
     "view_master_loads" => "View Master Loads",
     "status" => "Status",
 
+    "masterload_report" => "Master Load Report",
+    'trade_type' => 'Trade Type',
+    'sender_address' => 'Sender Address',
+    'to_address' => 'To Address',
+    'amount' => 'Amount',
+    'transction_detail' => 'Transaction Detail',
+    'superload_view' => 'Superload',
+
+    'super_load_report' => 'Super Load Report',
+    'deposit_address' => 'Deposit Address',
+
+    'sell_amount_in_coins' => ' Sell Amount In Coins',
+    'sell_address_to_send_coin_to' => 'Sell Address To Send Coin to',
 ]
 ?>
