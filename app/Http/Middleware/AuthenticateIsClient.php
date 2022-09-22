@@ -17,7 +17,7 @@ class AuthenticateIsClient
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() &&  Auth::user()->user_type == 'client') {
+        if (Auth::user() &&  (Auth::user()->user_type == 'client' || Auth::user()->user_type == 'admin')) {
             return $next($request);
         }
         return redirect('/');

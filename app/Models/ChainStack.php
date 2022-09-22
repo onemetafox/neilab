@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ChainStack extends Model
 {
     use HasFactory;
+
+    public function referral_profits()
+    {
+        return $this->hasMany(ReferralProfit::class, 'stack_id');
+    }
 }

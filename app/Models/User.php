@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'marketing_campain_id', 'first_name','last_name', 'email', 'password', 'whatsapp', 'boomboomchat', 'telegram', 'redirect', 'user_type', 'state'
+        'marketing_campain_id', 'first_name','last_name', 'email', 'password', 'whatsapp', 'boomboomchat', 'telegram', 'redirect', 'referral_code', 'user_type', 'state'
     ];
 
     /**
@@ -37,4 +37,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function referers()
+    {
+        return $this->hasMany(Referral::class);
+    }
+
+    public function invited_users()
+    {
+        return $this->hasMany(Referral::class, 'referred_id');
+    }
+
+    public function profiters()
+    {
+        return $this->hasMany(ReferralProfit::class);
+    }
+
+    public function from_users()
+    {
+        return $this->hasMany(ReferralProfit::class, 'from_id');
+    }
+
 }

@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('boomboomchat');
             $table->string('telegram');
             $table->string('redirect');
+            $table->string('referral_code');
             $table->string('user_type')->nullable();
             $table->smallInteger('state');
             $table->rememberToken();

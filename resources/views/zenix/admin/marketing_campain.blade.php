@@ -50,7 +50,7 @@
 									<td>{{$value['external_sales_fee']}}</td>
 									<td>{{$value['trust_fee']}}</td>
 									<td>{{$value['profit_fee']}}</td>
-									<td>{{$value['kyc_required']}}</td>
+									<td>{{$value['kyc_required']==2?'No':'Yes'}}</td>
 									<td>
 										<select id="marketing_campain_state" name="marketing_campain_state" onchange="handleChangeStatus(this)">
 											<?php echo $value['status'] == 1? "<option value='{$value['id']}-1' selected>active</option>":"<option value='{$value['id']}-1'>Active</option>" ?>

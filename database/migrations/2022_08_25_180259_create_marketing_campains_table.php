@@ -16,13 +16,13 @@ class CreateMarketingCampainsTable extends Migration
         Schema::create('marketing_campains', function (Blueprint $table) {
             $table->id();
             $table->string('campain_name');
-            $table->float('total_fee');
-            $table->float('internal_sales_fee');
-            $table->float('uni_level_fee');
-            $table->float('external_sales_fee');
-            $table->float('trust_fee');
-            $table->float('profit_fee');
-            $table->text('terms');
+            $table->double('total_fee');
+            $table->double('internal_sales_fee');
+            $table->double('uni_level_fee');
+            $table->double('external_sales_fee');
+            $table->double('trust_fee');
+            $table->double('profit_fee');
+            $table->mediumText('terms');
             $table->string('website_name');
             $table->string('banner_title');
             $table->text('banner_content');

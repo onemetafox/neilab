@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\MarketingCampain;
+use App\Models\User;
 
 class ZenixadminController extends Controller
 {
@@ -681,12 +683,20 @@ class ZenixadminController extends Controller
     }
     
     // Page Register
-    public function page_register()
+    public function page_register($referral_code = null)
     {
         $page_title = 'Page Register';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
-        return view('zenix.auth.register', compact('page_title', 'page_description', 'action'));
+        $logo_path = '/front/images/logo-s2-white.png';
+        if($referral_code) {
+            $referer = User::where('referral_code', $referral_code)->first();
+            if($referer) {
+                $campaign = MarketingCampain::find($referer->marketing_campain_id);
+                $logo_path = '/storage/logo_images/'.$campaign->logo_image;
+            }
+        }
+        return view('zenix.auth.register', compact('page_title', 'page_description', 'action', 'logo_path', 'referral_code'));
     }
     
 
