@@ -135,7 +135,7 @@ use App\Http\Controllers\Client\SellReportController;
     Route::post('/confirm_btc_payment',  [SellController::class, 'confirm_btc_payment']);
 
     Route::get('/get_balance',  [SellController::class, 'get_balance']);
-    Route::get('/send_BTC',  [SellController::class, 'send_BTC']);
+    // Route::get('/send_BTC',  [SellController::class, 'send_BTC']);
 
 
     Route::get('/buy_report',           [BuyReportController::class, 'index']);
@@ -149,7 +149,9 @@ use App\Http\Controllers\Client\SellReportController;
     Route::get('/superload_report_sell/{id?}', [SellReportController::class,'superload_report']);
 
     
-    Route::get('/invite_friends', [BuyController::class, 'report']);
+    Route::get('/invite_friends', [HomeController::class, 'invite_friends']);
+    Route::post('/get_profit', [HomeController::class, 'get_profit']);
+
     Route::get('/withdraw', [Controller::class, 'withdraw_old']);
     Route::get('/createMarketTestBuyOrder', [Controller::class, 'createMarketTestBuyOrder']);
 

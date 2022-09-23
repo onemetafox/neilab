@@ -122,12 +122,12 @@ class SellController extends Controller
         $internal_treasury_wallet_info = InternalWallet::where('id', $master_load_info[0]['internal_treasury_wallet_id'])->get()->toArray();
         
         $binance_account_result = ExchangeInfo::where('ex_name', 'Binance')->get()->toArray();
-        $total_amount_for_binance = $master_load_info[0]['amount'] * 0.5;
+        $total_amount_for_binance = $master_load_info[0]['amount'] * 0.9;
         $deposit_amount_for_binance = $total_amount_for_binance / count($binance_account_result);
 
         $ftx_account_result = ExchangeInfo::where('ex_name', 'FTX')->get()->toArray();
-        $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.5;
-        $deposit_amount_for_ftx = $total_amount_for_binance / count($ftx_account_result);
+        $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.1;
+        $deposit_amount_for_ftx = $total_amount_for_ftx / count($ftx_account_result);
 
         $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
         
@@ -144,8 +144,6 @@ class SellController extends Controller
                 }else{
                     $amount = $deposit_amount_for_ftx;
                 }
-
-                echo $deposit_wallet_address;
 
                 $send_result = $this->sendBTC($deposit_wallet_address, $amount);
 
@@ -299,7 +297,7 @@ class SellController extends Controller
             if(isset($result->result)){
                 $transactions = $result->result->transactions;
                 foreach($transactions as $tx) {
-                    if(floatval($tx->bc_value) === floatval($amount) && $tx->txid === $txid && $tx->confirmations >= 6) {
+                    if(floatval($tx->bc_value) === floatval($amount) && $tx->txid === $txid && $tx->confirmations >= 3) {
                         return ['status'=>'success', 'result'=>'true'];
                     }
                 }
@@ -427,6 +425,7 @@ class SellController extends Controller
                 $tx_id  = $value['tx_id'];
 
                 $confirm_result = $this->confirm_btc_payment($amount, $tx_id);
+                \Log::info($confirm_result);
                 if($confirm_result['status'] == 'success' && $confirm_result['result'] == 'true'){
                     $internal_trade_update_result = InternalTradeSellList::where('id', $value['id'])->update(['state' => 1]);
                     $internal_treasury_wallet = InternalWallet::where('id', $value['internal_treasury_wallet_id'])->get()->toArray();

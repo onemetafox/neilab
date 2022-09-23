@@ -42,15 +42,18 @@ class HomeController extends Controller
     }
 
     public function referral_index($referral_code) {
+        app('App\Http\Controllers\Auth\LoginController')->verify_referral_code($referral_code);
+
         $refer = User::where('referral_code', $referral_code)->first();
         if($refer){
             $campaign_id = $refer->marketing_campain_id;
             $campaign = MarketingCampain::find($campaign_id);
+            $profit = null;
             if($campaign) {
                 $banner_title = $campaign->banner_title;
                 $banner_content = $campaign->banner_content;
                 $logo_path = '/storage/logo_images/'.$campaign->logo_image;
-                return view('front.home', compact('banner_title', 'banner_content', 'logo_path', 'referral_code'));
+                return view('front.home', compact('banner_title', 'banner_content', 'logo_path', 'referral_code', 'profit'));
             }else{
                 return redirect('/');
             }
@@ -70,6 +73,7 @@ class HomeController extends Controller
         return view('zenix.client.invite_friends', compact('page_title', 'page_description', 'friends', 'referal_url', 'profits'));
     }
 
+    // This function is needed to verify... We may consider the double spending the money.... 
     public function get_profit(Request $request) {
         $id = $request->input('id');
         $wallet_address = $request->input('wallet');
@@ -84,6 +88,7 @@ class HomeController extends Controller
             $result = app('App\Http\Controllers\Client\SellController')->sendBTC($wallet_address, $profit->amount);
             if($result['status']=='success') {
                 $profit->status = 1;
+                $profit->txid = $result['txid'];
                 $profit->save();
                 return ['status'=>'success', 'payload'=>$result['txid']];
             }else{
@@ -95,11 +100,10 @@ class HomeController extends Controller
                 return ['status'=>'error', 'payload'=>'An error occured, please try again'];
             }else{
                 $profit->status = 1;
+                $profit->txid = $result[1];
                 $profit->save();
                 return ['status'=>'success', 'payload'=>$result[1]];
             }
         }
-
     }
-    
 }

@@ -20,6 +20,7 @@ class CreateReferralProfitsTable extends Migration
             $table->double('amount');
             $table->string('wallet_address');
             $table->string('token');
+            $table->string('txid');
             $table->unsignedBigInteger('stack_id');
             $table->unsignedTinyInteger('status')->default(0);
             $table->timestamps();

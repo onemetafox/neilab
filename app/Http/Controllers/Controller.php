@@ -12,6 +12,8 @@ use SWeb3\Sweb3_contract;
 
 use App\Models\SuperLoad;
 use App\Models\SubLoad;
+use App\Models\Withdraw;
+
 use App\Models\ExchangeInfo;
 use App\Models\InternalTradeBuyList;
 use App\Models\InternalTradeSellList;
@@ -109,7 +111,7 @@ class Controller extends BaseController
         $superload_id = 1;
         $amount = 0.0027;
 
-        $exchange = $this->exchange($result[2]);
+        $exchange = $this->exchange($result[0]);
         $order = array();
         $order['amount'] = 0.0027;
 
@@ -119,47 +121,38 @@ class Controller extends BaseController
     public function withdraw($exchange, $superload_id, $order){
 
         $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
-        $subload_info = array();
+        $withdraw_info = array();
 
-        // print_r($superload_info[0]['trade_type']);
-        // exit;
         if(isset($superload_info[0]['trade_type']) && $superload_info[0]['trade_type'] == 1){
-            // echo('-----------------------------------------');
-            // exit;
+
             $code = "BTC";
             $amount = $order['amount'];
             $address = 'bc1q8qd968ch8uth08m2uwyzwgvcrchepjr2qqdacw';
             $withdraw_detail = $exchange->withdraw($code, $amount, $address);
-            $subload_info['trade_type'] = 1;
-            $subload_info['amount'] = $amount;
+            $withdraw_info['trade_type'] = 1;
 
 
         }else if(isset($superload_info[0]['trade_type']) && $superload_info[0]['trade_type'] == 2){
             $code = "USDT";
             $amount = $order['amount'];
             $usdt_amount = $this->getUSDTPrice($amount);
+            \Log::info($usdt_amount);
             $address = '0xb72be9c6d9F9Ac2F6742f281d6Cb03aF013e09a7';
             $withdraw_detail = $exchange->withdraw($code, $usdt_amount, $address);
-            $subload_info['trade_type'] = 2;
-            $subload_info['amount'] = $usdt_amount;
+            $withdraw_info['trade_type'] = 2;
         }
-        $subload_info['trade_id'] = $superload_info[0]['trade_id'];
-        $subload_info['superload_id'] = $superload_id;
-        $subload_info['exchange_id'] = $superload_info[0]['exchange_id'];
-        $subload_info['receive_address'] = $withdraw_detail['addressTo'];
-        $subload_info['sending_address'] = $withdraw_detail['addressFrom'];
-        $subload_info['tx_id'] = $withdraw_detail['txid'];
-        $subload_info['withdraw_order_id'] = $withdraw_detail['id'];
-        $subload_info['status'] = 0;
-        print_r($withdraw_detail);
-        exit;
-        $result = SubLoad::create($superload_info);
+        $withdraw_info['trade_id'] = $superload_info[0]['trade_id'];
+        $withdraw_info['superload_id'] = $superload_id;
+        $withdraw_info['exchange_id'] = $superload_info[0]['exchange_id'];
+        $withdraw_info['withdraw_order_id'] = $withdraw_detail['id'];
+        $withdraw_info['status'] = 0;
+        $result = Withdraw::create($withdraw_info);
     }
 
     public function marketBuyOrder($exchange, $amount, $superload_id){
         $symbol = "BTC/USDT";
         $market_amount = $this->getBTCMarketPrice($amount);
-        \Log::info($market_amount.$superload_id);
+        // \Log::info($market_amount.$superload_id);
         $order = $this->createMarketBuyOrder($symbol, $market_amount, $exchange);
         $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
         $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
@@ -189,7 +182,7 @@ class Controller extends BaseController
             $exchange = $this->exchange($value);
 
             $usdt_deposit_history = $exchange->fetchDeposits("USDT");
-            \Log::info($usdt_deposit_history);
+            // \Log::info($usdt_deposit_history);
             foreach ($usdt_deposit_history as $key => $value) {
                 # code...
                 if($value['status'] == 'ok'){
@@ -203,7 +196,7 @@ class Controller extends BaseController
                 }
             }
             $btc_deposit_history = $exchange->fetchDeposits("BTC");
-            \Log::info($btc_deposit_history);
+            // \Log::info($btc_deposit_history);
             foreach ($btc_deposit_history as $key => $value) {
                 # code...
                 if($value['status'] == 'ok'){
@@ -220,40 +213,72 @@ class Controller extends BaseController
     }
     
     public function cronWithdrawHandleFunction(){
-        $subloads_info = SubLoad::where('status', 0)->get()->toArray();
-        foreach ($subloads_info as $key => $value) {
+        $withdraw_order_info = Withdraw::where('status', 0)->get()->toArray();
+        foreach ($withdraw_order_info as $key => $value) {
             # code...
-            $exchange_info = ExchangeInfo::where('id', $value['exchange_id'])->get()->toArray();
-
-            if($exchange_info[0]['ex_name'] == 'Binance'){
-                $exchange = $this->exchange($exchange_info[0]);
-
-                $withdraw_order_info = $exchange->fetchWithdrawal($value['withdraw_order_id']);
-                if($withdraw_order_info['status'] == 'ok'){
-                    if($value['trade_type' == 1]){
-                        
-                        $trade_infos = InternalTradeBuyList::where('id', $value['trade_id'])->get()->toArray();
-                        $confirm_result = $this->confirm_btc_payment($value['amount'], $value['tx_id']);
-
-                        if($confirm_result['status'] == 'success' && $confirm_result['result'] == 'true'){
-
-                            $subload_update_result = SubLoad::where('id', $value['id'])->update(['status' => 1]);
-                            $superload_update_result = SuperLoad::where('id', $value['superload_id'])->update(['status' => 3]);
-
-                            $send_result = $this->sendBTC($trade_infos[0]['delivered_address'], $value['amount']);
-                        }
-                    }else{
-                        
-                        $subload_update_result = SubLoad::where('id', $value['id'])->update(['status' => 1]);
-                        $superload_update_result = SuperLoad::where('id', $value['superload_id'])->update(['status' => 3]);
-                        
-                        $trade_infos = InternalTradeSellList::where('id', $value['trade_id'])->get()->toArray();
-                        $internal_wallet_info = InternalWallet::where('wallet_address', $value['receive_address'])->get()->toArray();
-                        $send_result = $this->sendUSDT($internal_wallet_info[0]['wallet_address'],$internal_wallet_info[0]['private_key'], $trade_infos[0]['delivered_address'], $value['amount']);
-                    }
+            if($value['trade_type'] == 1){
+                $asset = "BTC";
+                $confirm_result = $this->confirmWithdrawTransaction($asset, $value);
+                if($confirm_result['success']){
+                    \Log::info($confirm_result['withdraw_transaction']);
+                    $this->lastStep($asset, $value, $confirm_result['withdraw_transaction']);
                 }
+            }else{
+                $asset = "USDT";
+                $confirm_result = $this->confirmWithdrawTransaction($asset, $value);
+                if($confirm_result['success']){
+                    \Log::info($confirm_result['withdraw_transaction']);
+                    $this->lastStep($asset, $value, $confirm_result['withdraw_transaction']);
+                }
+
             }
         }
+    }
+
+    public function lastStep($asset, $withdraw_tbl, $withdraw_transaction){
+        $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
+        $subload_info = array();
+        
+        $subload_info['trade_type']         = $withdraw_tbl['trade_type'];
+        $subload_info['trade_id']           = $withdraw_tbl['trade_id'];
+        $subload_info['superload_id']       = $withdraw_tbl['superload_id'];
+        $subload_info['exchange_id']        = $withdraw_tbl['exchange_id'];
+        $subload_info['receive_address']    = $withdraw_transaction['addressTo'];
+        $subload_info['tx_id']              = $withdraw_transaction['txid'];
+        $subload_info['amount']             = $withdraw_transaction['amount'];
+        $subload_info['withdraw_order_id']  = $withdraw_transaction['id'];
+        $subload_info['status']             = 1;
+
+        $subload_create_result = SubLoad::create($subload_info);
+        $superload_update_resultt = SuperLoad::where('id', $withdraw_tbl['superload_id'])->update(['status' => 3]);
+
+        $trade_info = InternalTradeBuyList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
+
+        if($asset == 'BTC'){
+            $this->sendBTC($trade_info[0]['delivered_address'], $withdraw_transaction['amount']);
+        }else if($asset == 'USDT'){
+            $internal_wallet_info = InternalWallet::where('wallet_address', '0xb72be9c6d9F9Ac2F6742f281d6Cb03aF013e09a7')->get()->toArray();
+            $this->sendUSDT($internal_wallet_info[0]['wallet_address'], $internal_wallet_info[0]['private_key'], $trade_info[0]['delivered_address'], $withdraw_transaction['amount']);
+        }
+    }
+
+    public function confirmWithdrawTransaction($asset, $value){
+        $exchange_info = ExchangeInfo::where('id', $value['exchange_id'])->get()->toArray();
+        $exchange = $this->exchange($exchange_info[0]);
+        $withdraw_transaction_history = $exchange->fetchWithdrawals($asset);
+        // \Log::info($withdraw_transaction_history);
+        $return = false;
+        $transaction = array();
+
+        foreach ($withdraw_transaction_history as $key => $history_value) {
+            # code...
+            if($history_value['id'] == $value['withdraw_order_id'] && $history_value['status'] == 'ok'){
+                $return = true;
+                $transaction = $history_value;
+                break;
+            }
+        }
+        return ['success' => $return, 'withdraw_transaction' => $transaction];
     }
 
     public function confirm_btc_payment ($amount, $txid) {
