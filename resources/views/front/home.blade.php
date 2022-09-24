@@ -88,15 +88,15 @@
                             </div>
                             @if(auth()->check() && auth()->user()->marketing_campain_id>0)
                             <div class="cpn-action">
-                                <ul class="btn-grp mx-auto">
-                                    <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="/{{auth()->user()->redirect}}" class="btn btn-primary btn-round">Get Started</a></li>
+                                <ul class="btn-grp mx-auto">                                                
+                                    <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url(auth()->user()->redirect); !!}" class="btn btn-primary btn-round">Get Started</a></li>
                                 </ul>
                             </div>
                             @endif
                             @if(isset($referral_code))
                             <div class="cpn-action">
                                 <ul class="btn-grp mx-auto">
-                                    <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="/register/{{$referral_code}}" class="btn btn-primary btn-round">Get Started</a></li>
+                                    <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url('register/'.$referral_code); !!}" class="btn btn-primary btn-round">Get Started</a></li>
                                 </ul>
                             </div>
                             @endif
