@@ -64,8 +64,11 @@
                                     @if(!isset($referral_code))
                                         <li><a href="{!! url('/login'); !!}" class="btn btn-md btn-round btn-thin btn-primary btn-auto no-change"><span>Login</span></a></li>
                                     @endif
-                                    
-                                    <li><a href="{!! url('/register'.isset($referral_code)?'/'.$referral_code : ''); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change"><span>SignUp</span></a></li>
+                                    @if(isset($referral_code))
+                                    <li><a href="{!! url('/register/'.$referral_code); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change"><span>SignUp</span></a></li>
+                                    @else
+                                    <li><a href="{!! url('/register'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change"><span>SignUp</span></a></li>
+                                    @endif
                                 </ul>
                                 @endif
                             </nav>
