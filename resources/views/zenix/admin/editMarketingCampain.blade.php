@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-header d-flex">
                     <h4 class="card-title">{{__('locale.add_new_marketing_campain')}}</h4>
-					<a href="/admin/marketingcampain" class="btn btn-secondary mb-2">Back</a>
+					<a href="{!! url('/admin/marketingcampain'); !!}" class="btn btn-secondary mb-2">Back</a>
                 </div>
                 <div class="card-body">
 					@if ($errors->any())
