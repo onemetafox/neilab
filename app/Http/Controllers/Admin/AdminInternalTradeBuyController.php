@@ -11,12 +11,10 @@ class AdminInternalTradeBuyController extends Controller
 {
     //
     public function index(){
-        // $internal_trade_buy_list_info = InternalTradeBuyList::orderBy('id', 'asc')->get()->toArray();
 
         $result = DB::table('internal_trade_buy_lists')
-                                        ->join('global_user_lists', 'internal_trade_buy_lists.global_user_id', '=', 'global_user_lists.id')
-                                        ->join('users', 'global_user_lists.user_id', '=', 'users.id')
-                                        ->select('internal_trade_buy_lists.*', 'users.email','global_user_lists.user_id', 'global_user_lists.user_type')
+                                        ->join('users', 'internal_trade_buy_lists.global_user_id', '=', 'users.id')
+                                        ->select('internal_trade_buy_lists.*', 'users.email','users.id as user_id')
                                         ->get()->toArray();
 
         $page_title = __('locale.internal_trade_buy');

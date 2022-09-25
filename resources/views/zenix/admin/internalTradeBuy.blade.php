@@ -7,18 +7,6 @@
 @section('content')
 
 <div class="container-fluid">
-	<div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
-		<h2 class="font-w600 title mb-2 me-auto ">{{__('locale.internal_trade_buy')}}</h2>
-		<div class="weather-btn mb-2">
-			<span class="me-3 font-w600 text-black"><i class="fa fa-cloud me-2"></i>21</span>
-			<select class="form-control style-1 default-select  me-3 ">
-				<option>Medan, IDN</option>
-				<option>Jakarta, IDN</option>
-				<option>Surabaya, IDN</option>
-			</select>
-		</div>
-		<a href="javascript:void(0);" class="btn btn-secondary mb-2"><i class="las la-calendar scale5 me-3"></i>Filter Periode</a>
-	</div>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -67,7 +55,7 @@
 									<td>{{$value->email}}</td>
 									<td>{{$value->user_id}}</td>
 									<td>{{$value->cronjob_list}}</td>
-									<td>{{$value->user_type}}</td>
+									<td>human</td>
 									<td>{{$value->asset_purchased}}</td>
 									<td>{{$value->buy_amount}}</td>
 									<td>{{$value->buy_address}}</td>

@@ -15,7 +15,7 @@ class CreateInternalTradeBuyListsTable extends Migration
     {
         Schema::create('internal_trade_buy_lists', function (Blueprint $table) {
             $table->id();
-            $table->smallInteger('global_user_id');
+            $table->smallInteger('user_id');
             $table->smallInteger('cronjob_list');
             $table->smallInteger('asset_purchased');
             $table->float       ('buy_amount',10,6);

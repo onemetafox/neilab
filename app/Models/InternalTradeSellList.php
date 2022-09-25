@@ -9,7 +9,7 @@ class InternalTradeSellList extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'global_user_id',
+        'user_id',
         'cronjob_list',
         'asset_purchased',
         'sell_amount',

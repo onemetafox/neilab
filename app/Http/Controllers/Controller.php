@@ -367,4 +367,11 @@ class Controller extends BaseController
             }
         }
     }
+
+    public function coming_soon(){
+        $page_title = 'Coming Soon...';
+        $page_description = 'Some description for the page';
+        $action = __FUNCTION__;
+        return view('zenix.page.coming_soon', compact('page_title', 'page_description', 'action'));
+    }
 }
