@@ -124,6 +124,7 @@
         </div>
     </div>
 @endsection
+@section('scripts')
 
 <script>
 	function copyToClipboard(){
@@ -148,3 +149,4 @@
 	}
 
 </script>
+@endsection

@@ -164,7 +164,7 @@ class AdminWalletController extends Controller
         $cold_storage = ColdWallet::where('id', $wallet_info[0]['cold_storage_wallet_id'])->get()->toArray();
         $req['toAddress'] = $cold_storage[0]['cold_address'];
 
-        $result = $this->withDraw($req);
+        $result = $this->withDrawToColdWallet($req);
         if($result['status']){
             return response()->json(["success" => $success, "message" => $result['message']]);
         }else{
@@ -178,7 +178,7 @@ class AdminWalletController extends Controller
         $address = new Address();
         return $address;
     }
-    function withDraw($req){
+    function withDrawToColdWallet($req){
         try {
             //code...
             $bitcoind = new BitcoinClient('http://'.$req['login'].':'.$req['password'].'@'.$req['ipaddress'].':8332');

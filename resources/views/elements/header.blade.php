@@ -511,7 +511,7 @@
         <nav class="navbar navbar-expand">
             <div class="collapse navbar-collapse justify-content-between">
                 <div class="header-left">
-					<div class="input-group search-area right d-lg-inline-flex d-none">
+					<!-- <div class="input-group search-area right d-lg-inline-flex d-none">
 						<input type="text" class="form-control" placeholder="Find something here...">
 						<div class="input-group-append">
 							<span class="input-group-text">
@@ -520,7 +520,7 @@
 								</a>
 							</span>
 						</div>
-					</div>
+					</div> -->
                 </div>
                 <ul class="navbar-nav header-right main-notification">
 					<li class="nav-item dropdown notification_dropdown">

@@ -37,14 +37,6 @@ class AdminExchangeListController extends Controller
                 $result[$key]['connect_status'] = false;
             }
         }
-                
-        // foreach ($result as $key => $value) {
-        //     # code...
-        //     $result[$key]['wallet_address'] = 'bc1qud9u9v34kxrm88e2g3yqfh99m2pj40pjne2skg';
-        //     $result[$key]['wallet_balance'] = '1023';   
-        //     $result[$key]['connect_status'] = true;
-        // }
-
         return view('zenix.admin.exchangelist', compact('page_title', 'page_description', 'action', 'result'));
 
     }
