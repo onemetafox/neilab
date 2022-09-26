@@ -37,61 +37,56 @@ class BuyController extends Controller
     public function buyCrypto(Request $request){
         $success    = true;
         $error      = false;
-        $global_user_info = GlobalUserList::where('user_id', $request['user_id'])->get()->toArray();
 
         $internal_treasury_wallet_info = InternalWallet::where('wallet_address', $request['receive_address'])->get()->toArray();
 
-        if(count($global_user_info) > 0){
-
-            $transaction_status = $this->checkTransaction($request['sender_address'], $request['receive_address'], $request['pay_with'], $request['tx_id']);
-            
-            if(isset($transaction_status[0]) && $transaction_status[0] == true){
-                $internalTradeBuyInfo = array();
-                $internalTradeBuyInfo['global_user_id']                 = $global_user_info[0]['id'];
-                $internalTradeBuyInfo['cronjob_list']                   = 1;
-                $internalTradeBuyInfo['asset_purchased']                = $request['digital_asset'];
-                $internalTradeBuyInfo['chain_stack']                    = $request['chain_stack'];
-                $internalTradeBuyInfo['buy_amount']                     = $request['buy_amount'];
-                $internalTradeBuyInfo['delivered_address']              = $request['delivered_address'];
-                $internalTradeBuyInfo['sender_address']                 = $request['sender_address'];
-                $internalTradeBuyInfo['internal_treasury_wallet_id']    = $internal_treasury_wallet_info[0]['id'];
-                $internalTradeBuyInfo['pay_with']                       = $request['pay_with'];
-                $internalTradeBuyInfo['pay_method']                     = $request['pay_method'];
-                $internalTradeBuyInfo['transaction_description']        = "This is the buy transaction";
-                $internalTradeBuyInfo['commision_id']                   = 1;
-                $internalTradeBuyInfo['bank_changes']                   = 1;
-                $internalTradeBuyInfo['left_over_profit']               = 1;
-                $internalTradeBuyInfo['total_amount_left']              = $request['buy_amount'];
-                $internalTradeBuyInfo['state']                          = 0;
-
-                $result = InternalTradeBuyList::create($internalTradeBuyInfo);
-
-                if(isset($result) && $result->id > 0){
-
-                    $masterload_array = array();
-                    $masterload_array['trade_type'] = 1;
-                    $masterload_array['trade_id'] = $result->id;
-                    $masterload_array['internal_treasury_wallet_id'] = $internal_treasury_wallet_info[0]['id'];
-                    $masterload_array['sending_address'] = $request['sender_address'];
-                    $masterload_array['amount'] = $request['pay_with'];
-                    $masterload_array['tx_id'] = $request['tx_id'];
+        $transaction_status = $this->checkTransaction($request['sender_address'], $request['receive_address'], $request['pay_with'], $request['tx_id']);
         
-                    $create_masterload_result = MasterLoad::create($masterload_array);
-                    if(isset($create_masterload_result) && $create_masterload_result->id > 0){
-        
-                        return response()->json(["success" => $success, "master_load_id" => $create_masterload_result->id]);
-        
-                    }else{
-                        return response()->json(["success" => $error,]);
-                    }
+        if(isset($transaction_status[0]) && $transaction_status[0] == true){
+            $internalTradeBuyInfo = array();
+            $internalTradeBuyInfo['user_id']                        = $request['user_id'];
+            $internalTradeBuyInfo['cronjob_list']                   = 1;
+            $internalTradeBuyInfo['asset_purchased']                = $request['digital_asset'];
+            $internalTradeBuyInfo['chain_stack']                    = $request['chain_stack'];
+            $internalTradeBuyInfo['buy_amount']                     = $request['buy_amount'];
+            $internalTradeBuyInfo['delivered_address']              = $request['delivered_address'];
+            $internalTradeBuyInfo['sender_address']                 = $request['sender_address'];
+            $internalTradeBuyInfo['internal_treasury_wallet_id']    = $internal_treasury_wallet_info[0]['id'];
+            $internalTradeBuyInfo['pay_with']                       = $request['pay_with'];
+            $internalTradeBuyInfo['pay_method']                     = $request['pay_method'];
+            $internalTradeBuyInfo['transaction_description']        = "This is the buy transaction";
+            $internalTradeBuyInfo['commision_id']                   = 1;
+            $internalTradeBuyInfo['bank_changes']                   = 1;
+            $internalTradeBuyInfo['left_over_profit']               = 1;
+            $internalTradeBuyInfo['total_amount_left']              = $request['buy_amount'];
+            $internalTradeBuyInfo['state']                          = 0;
+
+            $result = InternalTradeBuyList::create($internalTradeBuyInfo);
+
+            if(isset($result) && $result->id > 0){
+
+                $masterload_array = array();
+                $masterload_array['trade_type'] = 1;
+                $masterload_array['trade_id'] = $result->id;
+                $masterload_array['internal_treasury_wallet_id'] = $internal_treasury_wallet_info[0]['id'];
+                $masterload_array['sending_address'] = $request['sender_address'];
+                $masterload_array['amount'] = $request['pay_with'];
+                $masterload_array['tx_id'] = $request['tx_id'];
+    
+                $create_masterload_result = MasterLoad::create($masterload_array);
+                if(isset($create_masterload_result) && $create_masterload_result->id > 0){
+    
+                    return response()->json(["success" => $success, "master_load_id" => $create_masterload_result->id]);
+    
                 }else{
-                    return response()->json(["success" => $error,]);
+                    return response()->json(["success" => $error,"msg" => "Masterload error"]);
                 }
+            }else{
+                return response()->json(["success" => $error,"msg" => "Order error"]);
             }
-
-        }else{
-            return response()->json(["success" => $error,]);
         }
+
+
     }
     
     public function masterload(Request $request){
@@ -139,12 +134,12 @@ class BuyController extends Controller
         $internal_treasury_wallet_info = InternalWallet::where('id', $master_load_info[0]['internal_treasury_wallet_id'])->get()->toArray();
         
         $binance_account_result = ExchangeInfo::where('ex_name', 'Binance')->get()->toArray();
-        $total_amount_for_binance = $master_load_info[0]['amount'] * 0.5;
+        $total_amount_for_binance = $master_load_info[0]['amount'] * 0.9;
         $deposit_amount_for_binance = $total_amount_for_binance / count($binance_account_result);
 
         $ftx_account_result = ExchangeInfo::where('ex_name', 'FTX')->get()->toArray();
-        $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.5;
-        $deposit_amount_for_ftx = $total_amount_for_binance / count($ftx_account_result);
+        $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.1;
+        $deposit_amount_for_ftx = $total_amount_for_ftx / count($ftx_account_result);
 
         $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
 

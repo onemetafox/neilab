@@ -28,11 +28,10 @@ class BuyReportController extends Controller
         $user_id = Auth::user()->id;
 
         $result = DB::table('internal_trade_buy_lists')
-                ->join('global_user_lists', 'internal_trade_buy_lists.global_user_id', '=', 'global_user_lists.id')
-                ->join('users', 'global_user_lists.user_id', '=', 'users.id')
+                ->join('users', 'internal_trade_buy_lists.user_id', '=', 'users.id')
                 ->join('master_loads as a', 'a.trade_id', '=', 'internal_trade_buy_lists.id')
                 ->join('internal_wallets as b', 'b.id', '=', 'internal_trade_buy_lists.internal_treasury_wallet_id')
-                ->select('internal_trade_buy_lists.*', 'users.email','global_user_lists.user_id', 'global_user_lists.user_type', 'a.id as masterload_id', 'b.wallet_address')
+                ->select('internal_trade_buy_lists.*', 'users.email','users.id as user_id', 'a.id as masterload_id', 'b.wallet_address')
                 ->where('users.id', $user_id)
                 ->where('a.trade_type', 1)
                 ->get()->toArray();

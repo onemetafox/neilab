@@ -160,6 +160,7 @@ class Controller extends BaseController
 
         $exchange_detail = ExchangeInfo::where('id', $superload_info[0]['exchange_id'])->get()->toArray();
         if(isset($exchange_detail[0]['ex_name']) && $exchange_detail[0]['ex_name'] == 'Binance'){
+            sleep(20);
             $this->withdraw($exchange, $superload_id, $order);
         }
     }
@@ -172,6 +173,7 @@ class Controller extends BaseController
 
         $exchange_detail = ExchangeInfo::where('id', $superload_info[0]['exchange_id'])->get()->toArray();
         if(isset($exchange_detail[0]['ex_name']) && $exchange_detail[0]['ex_name'] == 'Binance'){
+            sleep(20);
             $this->withdraw($exchange, $superload_id, $order);
         }
     }
@@ -203,6 +205,7 @@ class Controller extends BaseController
                     if(isset($value['txid'])){
                         $database_status_of_superload = SuperLoad::where('tx_id', $value['txid'])->get()->toArray();
                         if(count($database_status_of_superload) != 0 && $database_status_of_superload[0]['status'] == 0){
+                            \Log::info($database_status_of_superload[0]['tx_id']."------------peding complete");
                             $update_superload_result = SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['status' => 1]);
                             $this->marketSellOrder($exchange, $database_status_of_superload[0]['amount'], $database_status_of_superload[0]['id']);
                         }

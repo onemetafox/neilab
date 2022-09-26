@@ -111,7 +111,7 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2 mt-4">
 											<div class="form-group">
-												<input type="button" class="btn btn-secondary mb-2" onclick="handleSubmit()" value="Submit"></input>
+												<input type="button" class="btn btn-secondary mb-2" onclick="alertRegisteredSuccess()" value="Submit"></input>
 											</div>
 										</div>
 									</div>
@@ -138,39 +138,36 @@
 		var pay_method 			= $('#pay_method').val();
 		var receive_address 	= $('#receive_address').val();
 		var senderAddress 		= $('#senderAddress').val();
-		var buy_amount 			= $('#buy_amount').val();
 		var pay_with		 	= $('#pay_with').val();
 		var tx_id		 		= $('#tx_id').val();
 
-		
 		$.ajax({
-				type: "post",
-				url : '{!! url('/buy_crypto'); !!}',
-				data: {
-					"_token": "{{ csrf_token() }}",
-					"user_id": user_id,
-					"digital_asset" : digital_asset,
-					"chain_stack" : chain_stack,
-					"buy_amount" : buy_amount,
-					"delivered_address" : deliveredAddress,
-					"pay_method" : pay_method,
-					"receive_address" : receive_address,
-					"sender_address" : senderAddress,
-					"pay_with" : pay_with,
-					"tx_id" : tx_id
-				},
-				success: function(data){
-					if(data.success){
-						alertRegisteredSuccess();
-						superload(data.master_load_id);
-						// getTransactionsByAccount(senderAddress, receive_address, buy_amount);
-					}else{
-						alertError();
-					}
-				},
-			});
+			type: "post",
+			url : '{!! url('/buy_crypto'); !!}',
+			data: {
+				"_token": "{{ csrf_token() }}",
+				"user_id": user_id,
+				"digital_asset" : digital_asset,
+				"chain_stack" : chain_stack,
+				"buy_amount" : buy_amount,
+				"delivered_address" : deliveredAddress,
+				"pay_method" : pay_method,
+				"receive_address" : receive_address,
+				"sender_address" : senderAddress,
+				"pay_with" : pay_with,
+				"tx_id" : tx_id
+			},
+			success: function(data){
+				if(data.success){
+					alertRegisteredSuccess();
+					superload(data.master_load_id);
+					// getTransactionsByAccount(senderAddress, receive_address, buy_amount);
+				}else{
+					alertError("Database Error");
+				}
+			},
+		});
 	}
-
 	function handleChangeStatus(val){
 		if(val.value == 1){
 			$('#pay_step').html("<label class='text-label'>Pay With Crypto</label>"+
@@ -195,24 +192,10 @@
 	}
 	
 	function alertSuperLoadSuccess(amount, symbol){
-		toastr.info("Superload and market complete successfully", "Success", {
-			positionClass: "toast-top-right",
-			timeOut: 5e3,
-			closeButton: !0,
-			debug: !1,
-			newestOnTop: !0,
-			progressBar: !0,
-			preventDuplicates: !0,
-			onclick: null,
-			showDuration: "300",
-			hideDuration: "1000",
-			extendedTimeOut: "1000",
-			showEasing: "swing",
-			hideEasing: "linear",
-			showMethod: "fadeIn",
-			hideMethod: "fadeOut",
-			tapToDismiss: !1
-		})
+		swal("Thanks, Well Done !!", "Your "+amount+symbol+" has been deposite successfully !!", "success");
+	}
+	function alertDepositeError(message){
+		sweetAlert("Oops...", message, "error");
 	}
 	function alertPaidSuccess(amount, symbol){
 		toastr.info("Paid "+amount+symbol+" Successfully", "Success", {
@@ -233,30 +216,18 @@
 			hideMethod: "fadeOut",
 			tapToDismiss: !1
 		})
-	}
+	}	
+	
 	function alertRegisteredSuccess(){
-		toastr.info("Successfully Ordered", "Success", {
-			positionClass: "toast-top-right",
-			timeOut: 5e3,
-			closeButton: !0,
-			debug: !1,
-			newestOnTop: !0,
-			progressBar: !0,
-			preventDuplicates: !0,
-			onclick: null,
-			showDuration: "300",
-			hideDuration: "1000",
-			extendedTimeOut: "1000",
-			showEasing: "swing",
-			hideEasing: "linear",
-			showMethod: "fadeIn",
-			hideMethod: "fadeOut",
-			tapToDismiss: !1
-		})
+		swal({
+            title: "Your order registered successfully",
+            text: "Please don't leave this webpage till deposit successfully!!",
+            type: "info",
+            timer: 2000
+        })
 	}
-
-	function alertError(){
-		toastr.error("Database error", "Error", {
+	function alertError(msg){
+		toastr.error(msg, "Error", {
 				positionClass: "toast-top-right",
 				timeOut: 5e3,
 				closeButton: !0,
@@ -314,7 +285,7 @@
 								alertPaidSuccess(web3.utils.fromWei(amount, unit), contractData.symbol);
 								superload(data.master_load_id);
 							}else{
-								alertError();
+								alertError("Database Error");
 							}
 						},
 					});
@@ -325,6 +296,7 @@
 		})
 		.on('error', console.error);
 	}
+
 
 	function superload(masterload_id){
 		$.ajax({
@@ -338,7 +310,7 @@
 				if(data.success){
 					alertSuperLoadSuccess();
 				}else{
-					alertError();
+					alertDepositeError("Database Error");
 				}
 			},
 		});

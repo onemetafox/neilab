@@ -101,6 +101,8 @@ return [
 					'vendor/jquery-smartwizard/dist/css/smart_wizard.min.css',
 
 					'vendor/toastr/css/toastr.min.css',
+					'vendor/sweetalert2/dist/sweetalert2.min.css',
+
 
 				],
 				'ZenixadminController_dashboard_2' => [
@@ -404,6 +406,8 @@ return [
 
 					'vendor/toastr/js/toastr.min.js',
 					'js/plugins-init/toastr-init.js',
+					'vendor/sweetalert2/dist/sweetalert2.min.js',
+
 				],
 				 'ZenixadminController_coin_details' => [
 							'vendor/chart.js/Chart.bundle.min.js',
