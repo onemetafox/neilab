@@ -140,7 +140,6 @@ use App\Http\Controllers\Client\SellReportController;
         Route::post('/get_profit', [HomeController::class, 'get_profit']);
     
         Route::get('/withdraw', [Controller::class, 'withdraw_old']);
-        Route::get('/createMarketTestBuyOrder', [Controller::class, 'createMarketTestBuyOrder']);
     });
 
     Route::get('/required_marketing_campain', [Controller::class, 'requiredMarketingCampain']);

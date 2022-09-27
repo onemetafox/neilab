@@ -24,12 +24,24 @@ class Controller extends BaseController
 
     private $RPCusername = 'lam';
     private $RPCpassword = 'Masterskills113';
+
+    // Redirect to Required Marketing page and coming soon page
+
     public function requiredMarketingCampain(){
         $page_title = 'required marketing campaign';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
         return view('zenix.page.requiredMarketingCampain', compact('page_title', 'page_description', 'action'));
     }
+
+    public function coming_soon(){
+        $page_title = 'Coming Soon...';
+        $page_description = 'Some description for the page';
+        $action = __FUNCTION__;
+        return view('zenix.page.coming_soon', compact('page_title', 'page_description', 'action'));
+    }
+
+    
     public function exchange($param=null){
         $n_id = $param['ex_name'];
         $exchange_id = '\\ccxt\\' . $n_id;
@@ -40,47 +52,11 @@ class Controller extends BaseController
         ));
         return $exchange;
     }
+
     function getBalance($address) {
         return file_get_contents('https://blockchain.info/q/addressbalance/'. $address);
     }
 
-    public function sendUSDT($from, $from_pk, $to, $amount){
-            $amount_big = $amount*1000000;
-            exec('node C:\NeilLab\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount_big, $output);
-            return $output;
-    }
-
-
-    public function createMarketBuyOrder($symbol, $amount, $exchange){
-        $type = 'market';
-        $side = 'buy';
-        $order = $exchange->createOrder($symbol, $type, $side, $amount);
-        return $order;
-    }
-
-    public function createMarketSellOrder($symbol, $amount, $exchange){
-        $type = 'market';
-        $side = 'sell';
-        $order = $exchange->createOrder($symbol, $type, $side, $amount);
-        return $order;
-    }
-    public function createMarketTestBuyOrder(){
-        $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
-        $type = "market";
-        $side = "sell";
-        $symbol = "BTC/USDT";
-        $amount = 0.0014;
-        $market_amount = $this->getBTCMarketPrice($amount);
-        foreach ($result as $key => $value) {
-            if($value['ex_name'] == "FTX"){
-                $exchange = $this->exchange($value);
-                // $order = $exchange->createOrder($symbol, $type, $side, $amount);
-                // echo($order['amount']);
-                // print_r($order);
-            }
-        }
-        exit;
-    }
     public function getBTCMarketPrice($amount){
 
         $url='https://bitpay.com/api/rates';
@@ -94,6 +70,7 @@ class Controller extends BaseController
         $result = round( $dollar * $amount,8 );
         return $result;
     }
+
     public function getUSDTPrice($amount){
         $url='https://bitpay.com/api/rates';
         $json=json_decode( file_get_contents( $url ) );
@@ -105,11 +82,57 @@ class Controller extends BaseController
         $result = round( $btc * $amount,8 );
         return $result;
     }
+
+    public function createMarketBuyOrder($symbol, $amount, $exchange){
+        $type = 'market';
+        $side = 'buy';
+        $order = $exchange->createOrder($symbol, $type, $side, $amount);
+        \Log::info("Create Market Buy Order which amount is".$amount);
+        return $order;
+    }
+
+    public function createMarketSellOrder($symbol, $amount, $exchange){
+        $type = 'market';
+        $side = 'sell';
+        $order = $exchange->createOrder($symbol, $type, $side, $amount);
+        \Log::info("Create Market Sell Order which amount is".$amount);
+        return $order;
+    }
+
+    public function marketBuyOrder($exchange, $amount, $superload_id){
+        $symbol = "BTC/USDT";
+        $market_amount = $this->getBTCMarketPrice($amount);
+        $order = $this->createMarketBuyOrder($symbol, $market_amount, $exchange);
+        $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
+        $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
+        $update_result = InternalTradeBuyList::where('id', $superload_info[0]['trade_id'])->update(['state' => 3]);
+
+        $exchange_detail = ExchangeInfo::where('id', $superload_info[0]['exchange_id'])->get()->toArray();
+        if(isset($exchange_detail[0]['ex_name']) && $exchange_detail[0]['ex_name'] == 'Binance'){
+            sleep(20);
+            $this->withdraw($exchange, $superload_id, $order);
+        }
+    }
+
+    public function marketSellOrder($exchange, $amount, $superload_id){
+        $symbol = "BTC/USDT";
+        $order = $this->createMarketSellOrder($symbol, $amount, $exchange);
+        $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
+        $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
+        $update_result = InternalTradeSellList::where('id', $superload_info[0]['trade_id'])->update(['state' => 3]);
+
+        $exchange_detail = ExchangeInfo::where('id', $superload_info[0]['exchange_id'])->get()->toArray();
+        if(isset($exchange_detail[0]['ex_name']) && $exchange_detail[0]['ex_name'] == 'Binance'){
+            sleep(20);
+            $this->withdraw($exchange, $superload_id, $order);
+        }
+    }
+
     public function checkTransaction($from, $to, $amount, $tx_id){
-        
         exec('node C:\NeilLab\app\Http\Controllers\Admin\USDTSendServer\checkTransaction.js ' .$from.' '.$to. ' '.$amount.' '.$tx_id, $output);
         return $output;
     }
+
     public function withdraw_old(){
         $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
 
@@ -135,6 +158,7 @@ class Controller extends BaseController
             $amount = $order['amount'];
             $address = 'bc1q8qd968ch8uth08m2uwyzwgvcrchepjr2qqdacw';
             $withdraw_detail = $exchange->withdraw($code, $amount, $address);
+            \Log::info("Withdraw request has been ordered. amount = ".$amount." to ".$address);
             $withdraw_info['trade_type'] = 1;
 
 
@@ -142,9 +166,9 @@ class Controller extends BaseController
             $code = "USDT";
             $amount = $order['amount'];
             $usdt_amount = $this->getUSDTPrice($amount);
-            \Log::info($usdt_amount);
             $address = '0xb72be9c6d9F9Ac2F6742f281d6Cb03aF013e09a7';
             $withdraw_detail = $exchange->withdraw($code, $usdt_amount, $address);
+            \Log::info("Withdraw request has been ordered. amount = ".$amount." to ".$address);
             $withdraw_info['trade_type'] = 2;
         }
         $withdraw_info['trade_id'] = $superload_info[0]['trade_id'];
@@ -155,48 +179,20 @@ class Controller extends BaseController
         $result = Withdraw::create($withdraw_info);
     }
 
-    public function marketBuyOrder($exchange, $amount, $superload_id){
-        $symbol = "BTC/USDT";
-        $market_amount = $this->getBTCMarketPrice($amount);
-        // \Log::info($market_amount.$superload_id);
-        $order = $this->createMarketBuyOrder($symbol, $market_amount, $exchange);
-        $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
-        $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
-        $update_result = InternalTradeBuyList::where('id', $superload_info[0]['trade_id'])->update(['state' => 3]);
-
-        $exchange_detail = ExchangeInfo::where('id', $superload_info[0]['exchange_id'])->get()->toArray();
-        if(isset($exchange_detail[0]['ex_name']) && $exchange_detail[0]['ex_name'] == 'Binance'){
-            sleep(20);
-            $this->withdraw($exchange, $superload_id, $order);
-        }
-    }
-    public function marketSellOrder($exchange, $amount, $superload_id){
-        $symbol = "BTC/USDT";
-        $order = $this->createMarketSellOrder($symbol, $amount, $exchange);
-        $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
-        $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
-        $update_result = InternalTradeSellList::where('id', $superload_info[0]['trade_id'])->update(['state' => 3]);
-
-        $exchange_detail = ExchangeInfo::where('id', $superload_info[0]['exchange_id'])->get()->toArray();
-        if(isset($exchange_detail[0]['ex_name']) && $exchange_detail[0]['ex_name'] == 'Binance'){
-            sleep(20);
-            $this->withdraw($exchange, $superload_id, $order);
-        }
-    }
-
     public function cronHandleFunction(){
         $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
         foreach ($result as $key => $value) {
             $exchange = $this->exchange($value);
-
             $usdt_deposit_history = $exchange->fetchDeposits("USDT");
-            // \Log::info($usdt_deposit_history);
-            foreach ($usdt_deposit_history as $key => $value) {
+            foreach ($usdt_deposit_history as $key => $deposit_value) {
                 # code...
-                if($value['status'] == 'ok'){
-                    if(isset($value['txid'])){
-                        $database_status_of_superload = SuperLoad::where('tx_id', $value['txid'])->get()->toArray();
+                if($deposit_value['status'] == 'ok'){
+                    if(isset($deposit_value['txid'])){
+                        $database_status_of_superload = SuperLoad::where('tx_id', $deposit_value['txid'])->get()->toArray();
                         if(count($database_status_of_superload) != 0 && $database_status_of_superload[0]['status'] == 0){
+                            
+                            \Log::info("Deposit transaction of ".$deposit_value['txid']." has been confirmed from ".$value['ex_name']);
+
                             $update_superload_result = SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['status' => 1]);
                             $this->marketBuyOrder($exchange, $database_status_of_superload[0]['amount'], $database_status_of_superload[0]['id']);
                         }
@@ -204,14 +200,15 @@ class Controller extends BaseController
                 }
             }
             $btc_deposit_history = $exchange->fetchDeposits("BTC");
-            // \Log::info($btc_deposit_history);
-            foreach ($btc_deposit_history as $key => $value) {
+            foreach ($btc_deposit_history as $key => $deposit_value) {
                 # code...
-                if($value['status'] == 'ok'){
-                    if(isset($value['txid'])){
-                        $database_status_of_superload = SuperLoad::where('tx_id', $value['txid'])->get()->toArray();
+                if($deposit_value['status'] == 'ok'){
+                    if(isset($deposit_value['txid'])){
+                        $database_status_of_superload = SuperLoad::where('tx_id', $deposit_value['txid'])->get()->toArray();
                         if(count($database_status_of_superload) != 0 && $database_status_of_superload[0]['status'] == 0){
-                            \Log::info($database_status_of_superload[0]['tx_id']."------------peding complete");
+                            
+                            \Log::info("Deposit transaction of ".$deposit_value['txid']." has been confirmed from ".$value['ex_name']);
+
                             $update_superload_result = SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['status' => 1]);
                             $this->marketSellOrder($exchange, $database_status_of_superload[0]['amount'], $database_status_of_superload[0]['id']);
                         }
@@ -229,14 +226,12 @@ class Controller extends BaseController
                 $asset = "BTC";
                 $confirm_result = $this->confirmWithdrawTransaction($asset, $value);
                 if($confirm_result['success']){
-                    \Log::info($confirm_result['withdraw_transaction']);
                     $this->lastStep($asset, $value, $confirm_result['withdraw_transaction']);
                 }
             }else{
                 $asset = "USDT";
                 $confirm_result = $this->confirmWithdrawTransaction($asset, $value);
                 if($confirm_result['success']){
-                    \Log::info($confirm_result['withdraw_transaction']);
                     $this->lastStep($asset, $value, $confirm_result['withdraw_transaction']);
                 }
 
@@ -261,13 +256,15 @@ class Controller extends BaseController
         $subload_create_result = SubLoad::create($subload_info);
         $superload_update_resultt = SuperLoad::where('id', $withdraw_tbl['superload_id'])->update(['status' => 3]);
 
-        $trade_info = InternalTradeBuyList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
-
         if($asset == 'BTC'){
+            $trade_info = InternalTradeBuyList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
             $this->sendBTC($trade_info[0]['delivered_address'], $withdraw_transaction['amount']);
+            \Log::info("Complete one subload of buy transaction");
         }else if($asset == 'USDT'){
+            $trade_info = InternalTradeSellList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
             $internal_wallet_info = InternalWallet::where('wallet_address', '0xb72be9c6d9F9Ac2F6742f281d6Cb03aF013e09a7')->get()->toArray();
             $this->sendUSDT($internal_wallet_info[0]['wallet_address'], $internal_wallet_info[0]['private_key'], $trade_info[0]['delivered_address'], $withdraw_transaction['amount']);
+            \Log::info("Complete one subload of buy transaction");
         }
     }
 
@@ -275,13 +272,15 @@ class Controller extends BaseController
         $exchange_info = ExchangeInfo::where('id', $value['exchange_id'])->get()->toArray();
         $exchange = $this->exchange($exchange_info[0]);
         $withdraw_transaction_history = $exchange->fetchWithdrawals($asset);
-        // \Log::info($withdraw_transaction_history);
+
         $return = false;
         $transaction = array();
 
         foreach ($withdraw_transaction_history as $key => $history_value) {
             # code...
             if($history_value['id'] == $value['withdraw_order_id'] && $history_value['status'] == 'ok'){
+
+                \Log::info("Withdarw request has been confirmed from ".$exchange_info[0]['ex_name']."!");
                 $return = true;
                 $transaction = $history_value;
                 break;
@@ -377,10 +376,10 @@ class Controller extends BaseController
         }
     }
 
-    public function coming_soon(){
-        $page_title = 'Coming Soon...';
-        $page_description = 'Some description for the page';
-        $action = __FUNCTION__;
-        return view('zenix.page.coming_soon', compact('page_title', 'page_description', 'action'));
+    public function sendUSDT($from, $from_pk, $to, $amount){
+        $amount_big = $amount*1000000;
+        exec('node C:\NeilLab\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount_big, $output);
+        return $output;
     }
+
 }

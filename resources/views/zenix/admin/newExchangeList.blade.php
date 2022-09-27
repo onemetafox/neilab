@@ -7,10 +7,6 @@
 @section('content')
 
 <div class="container-fluid">
-	<div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
-		<h2 class="font-w600 title mb-2 me-auto ">{{__('locale.admin_create_new_exchange_list')}}</h2>
-		<a href="javascript:void(0);" class="btn btn-secondary mb-2"><i class="las la-calendar scale5 me-3"></i>Filter Periode</a>
-	</div>
     <div class="row">
         <div class="col-12">
             <div class="card">

@@ -132,21 +132,7 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/btcl-bcoin@1.0.0-beta.14b/lib/bcoin.js" integrity="sha256-X6zYD1A5XVau2MsOXN691kJVy2279xV2AuyNb0UXOAI=" crossorigin="anonymous"></script>
 <script>
-	function sendBTC(){
-		
-		$.ajax({
-				type: "get",
-				url : '{!! url('/send_btc'); !!}',
-				success: function(data){
-					if(data.success){
-					}else{
-						alertError();
-					}
-				},
-			});
-	}
 
-	var interval  = null;
 	function handleSubmit(){
 		var user_id 			= $('#user_id').val();
 		var digital_asset 		= $('#digital_asset').val();
@@ -187,42 +173,6 @@
 
 	}
 
-	function checkTransferBTCConfirmed(tx_id, pay_with, senderAddress,receive_address){
-		$.ajax({
-				type: "post",
-				url : '{!! url('/confirm_btc_payment'); !!}',
-				data: {
-					"_token": "{{ csrf_token() }}",
-					"amount": pay_with,
-					"txid" : tx_id,
-				},
-				success: function(data){
-					if(data.status=="success" && data.result=="true"){
-						$.ajax({
-							type: "post",
-							url : '{!! url('/sell_master_load'); !!}',
-							data: {
-								"_token": "{{ csrf_token() }}",
-								"sender_address" : senderAddress,
-								"toAddress" : receive_address,
-								"amount": pay_with,
-								"tx_id" : tx_id,
-							},
-							success: function(data){
-								if(data.success){
-									alertPaidSuccess();
-									clearInterval(interval);
-									superload(data.master_load_id);
-								}else{
-									alertError();
-								}
-							},
-						});
-					}
-				},
-			});
-	}
-
 	function handleChangeStatus(val){
 		if(val.value == 1){
 			$('#pay_step').html("<label class='text-label'>Pay With Crypto</label>"+
@@ -244,27 +194,6 @@
 				"<option value='1'>BTC</option>"
 			);
 		}
-	}
-
-	function alertPaidSuccess(amount, symbol){
-		toastr.info("Paid "+amount+symbol+" Successfully", "Success", {
-			positionClass: "toast-top-right",
-			timeOut: 5e3,
-			closeButton: !0,
-			debug: !1,
-			newestOnTop: !0,
-			progressBar: !0,
-			preventDuplicates: !0,
-			onclick: null,
-			showDuration: "300",
-			hideDuration: "1000",
-			extendedTimeOut: "1000",
-			showEasing: "swing",
-			hideEasing: "linear",
-			showMethod: "fadeIn",
-			hideMethod: "fadeOut",
-			tapToDismiss: !1
-		})
 	}
 	
 	function alertRegisteredSuccess(){
@@ -307,45 +236,6 @@
 				hideMethod: "fadeOut",
 				tapToDismiss: !1
 			})
-	}
-
-	// function getTransactionsByAccount(senderAddress, receive_address, pay_with){
-	// 	$.ajax({
-	// 		type: "post",
-	// 		url : '{!! url('/sell_master_load'); !!}',
-	// 		data: {
-	// 			"_token": "{{ csrf_token() }}",
-	// 			"sender_address" : fromAddress,
-	// 			"toAddress"		 : toAddress,
-	// 			"amount" 	     : web3.utils.fromWei(amount, unit)
-	// 		},
-	// 		success: function(data){
-	// 			if(data.success){
-	// 				alertPaidSuccess(web3.utils.fromWei(amount, unit), contractData.symbol);
-	// 				superload(data.master_load_id);
-	// 			}else{
-	// 				alertError();
-	// 			}
-	// 		},
-	// 	});
-	// }
-
-	function superload(masterload_id){
-		$.ajax({
-			type: "post",
-			url : '{!! url('/sell_super_load'); !!}',
-			data: {
-				"_token": "{{ csrf_token() }}",
-				"masterload_id" : masterload_id,
-			},
-			success: function(data){
-				if(data.success){
-					alertSuperLoadSuccess();
-				}else{
-					alertError();
-				}
-			},
-		});
 	}
 </script>
 @endsection

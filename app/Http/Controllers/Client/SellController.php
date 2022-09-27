@@ -19,8 +19,7 @@ class SellController extends Controller
     private $RPCusername = 'lam';
     private $RPCpassword = 'Masterskills113';
 
-    public function index()
-    {
+    public function index(){
         $page_title = __('locale.sell_wizard');
         $page_description = 'Some description for the page';
         $action = 'wizard';
@@ -61,6 +60,7 @@ class SellController extends Controller
         $result = InternalTradeSellList::create($internalTradeSellInfo);
 
         if(isset($result) && $result->id > 0){
+            \Log::info($request['sell_amount']."BTC has been sold by user ID".$request['user_id']);
             return response()->json(["success" => $success,]);
         }else{
             return response()->json(["success" => $error,]);
@@ -81,10 +81,6 @@ class SellController extends Controller
         $internal_treasury_wallet_id = $internal_treasury_wallet_info[0]['id'];
 
         $sellLists = InternalTradeSellList::where('sender_address', $from)->where('internal_treasury_wallet_id', $internal_treasury_wallet_id)->where('pay_with', $amount)->where('state', 1)->get()->toArray();
-        
-        // $internal_update_result = InternalTradeSellList::where('id', $sellLists[0]['id'])->update(['state' => 1]);
-
-        // if($internal_update_result > 0){
 
         $masterload_array = array();
         $masterload_array['trade_type'] = 2;
@@ -103,10 +99,7 @@ class SellController extends Controller
             return ["success" => $error,];
         }
 
-        // }
-
     }
-
     
     public function superload_v($master_load_id_param){
 
@@ -164,12 +157,10 @@ class SellController extends Controller
                     }
                 }
             } catch (\Throwable $th) {
-                //throw $th;
-                print_r($th->getMessage());
+                \Log::info("One superload has been failed. because ".$th->getMessage());
                 // return response()->json(["success" => $error, "message" => $th->getMessage()]);
             }
         }
-        // return response()->json(["success" => $success]);
     }
 
     public function get_new_btc_wallet_address () {
@@ -202,6 +193,7 @@ class SellController extends Controller
             // }
         }
     }
+
     public function get_balance(){
         
         $curl = curl_init();
@@ -411,21 +403,22 @@ class SellController extends Controller
     }
 
     public function cronHandleFunction(){
-        \Log::info("new cron ---------------------------------------------");
-        $btc_trade_lists = InternalTradeSellList::where('state', 0)->get()->toArray();
 
+        $btc_trade_lists = InternalTradeSellList::where('state', 0)->get()->toArray();
         if(count($btc_trade_lists) != 0){
             foreach ($btc_trade_lists as $key => $value) {
                 # code...
                 $amount = $value['pay_with'];
                 $tx_id  = $value['tx_id'];
 
+                //  Confirm the payment which sends from client to internal treasury wallet, if status = ok && confirm steo == 3
                 $confirm_result = $this->confirm_btc_payment($amount, $tx_id);
-                \Log::info($confirm_result);
+
                 if($confirm_result['status'] == 'success' && $confirm_result['result'] == 'true'){
                     $internal_trade_update_result = InternalTradeSellList::where('id', $value['id'])->update(['state' => 1]);
                     $internal_treasury_wallet = InternalWallet::where('id', $value['internal_treasury_wallet_id'])->get()->toArray();
-                    \Log::info("confirm payment ---------------------------------------------");
+
+                    \Log::info($tx_id." -------------- transaction Confirmed!");
                     
                     if($internal_trade_update_result > 0){
                         $request = array();
