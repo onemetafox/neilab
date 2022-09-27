@@ -95,9 +95,9 @@
 @section('scripts')
 	<script>
 		jQuery(document).ready(function(){
-			dezSettingsOptions.version = 'light';
+			dezSettingsOptions.version = 'dark';
 			setTimeout(function() {
-				dezSettingsOptions.version = 'light';
+				dezSettingsOptions.version = 'dark';
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
 		});
