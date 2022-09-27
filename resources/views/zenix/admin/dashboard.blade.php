@@ -30,7 +30,7 @@
                             <tbody>
                                 @foreach ($result as $key => $value)
                                 <tr>
-                                    <td>{{$value['id']}}</td>
+                                    <td>{{++$key}}</td>
                                     <td>{{$value['ex_name']}}</td>
                                     <td>{{$value['wallet_address']}}</td>
                                     <td>{{$value['wallet_balance']}}</td>
@@ -77,9 +77,9 @@
 @section('scripts')
 	<script>
 		jQuery(document).ready(function(){
-			dezSettingsOptions.version = 'dark';
+			dezSettingsOptions.version = 'light';
 			setTimeout(function() {
-				dezSettingsOptions.version = 'dark';
+				dezSettingsOptions.version = 'light';
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
 		});

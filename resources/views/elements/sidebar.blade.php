@@ -56,6 +56,11 @@
 					<li><a href="{!! url('/admin/internalTradeSell'); !!}">{{__('locale.internal_trade_sell')}}</a></li>
 				</ul>
 			</li> -->
+			<li>
+				<a href="{!! url('/commisions'); !!}" aria-expanded="false">
+					<i class="flaticon-039-shuffle"></i>{{__('locale.commisions')}}
+				</a>
+			</li>
 			@endif
 			@if(Auth::user()->user_type=="client")
 			<li class="nav-label">Digital Assets Desk</li>
@@ -79,17 +84,12 @@
 					<i class="flaticon-039-shuffle"></i>{{__('locale.sell_report')}}
 				</a>
 			</li>
-			@endif
 			<li>
 				<a href="{!! url('/invite_friends'); !!}" aria-expanded="false">
 					<i class="flaticon-039-shuffle"></i> Invite Friends
 				</a>
 			</li>
-			<li>
-				<a href="{!! url('/commisions'); !!}" aria-expanded="false">
-					<i class="flaticon-039-shuffle"></i>{{__('locale.commisions')}}
-				</a>
-			</li>
+			@endif
         </ul>
 		<div class="copyright">
 			<strong>NeilLab Dashboard</strong>

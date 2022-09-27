@@ -61,9 +61,9 @@ class AdminUserlistController extends Controller
 
     public function changeUserPassword(Request $request){
         $id = $request['user_password_id'];
-        $result = User::where("id", $id)->update(["password" => Hash::make(12345)]);
+        $result = User::where("id", $id)->update(["password" => Hash::make(12345678)]);
         if($result > 0){
-            return redirect('/admin/userlist')->with('success', 'Password has been formated to number "12345".');
+            return redirect('/admin/userlist')->with('success', 'Password has been formated to number "12345678".');
         }else{
             return redirect('/admin/userlist')->with('error', 'Try again. There is error in database');
         }

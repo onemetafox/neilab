@@ -62,7 +62,13 @@ use App\Http\Controllers\Client\SellReportController;
         Route::post('/admin/changeUserEmail',               [AdminUserlistController::class,'changeUserEmail']);
         Route::post('/admin/changeUserPassword',            [AdminUserlistController::class,'changeUserPassword']);
         Route::get('/admin/change_userstate/{id}/{state}',  [AdminUserlistController::class,'changeUserState']);
+        Route::get('/admin/kyc_edit/{id}',                  [Controller::class,'coming_soon']);
+        Route::get('/admin/view_upline/{id}',               [Controller::class,'coming_soon']);
+        Route::get('/admin/view_downline/{id}',             [Controller::class,'coming_soon']);
+        Route::get('/admin/user_product/{id}',              [Controller::class,'coming_soon']);
+        Route::get('/admin/mlm_tree/{id}',                  [Controller::class,'coming_soon']);
 
+        
         
         Route::get('/admin/walletlist',     [Controller::class,'coming_soon']);
         Route::get('/admin/newWalletlist/{id?}',  [AdminWalletController::class,'viewNewWalletlist']);
@@ -91,51 +97,51 @@ use App\Http\Controllers\Client\SellReportController;
     });
     
     // Client Routing
-    Route::group(['middleware' => ['isClient']], function(){
+    Route::group(['middleware' => ['hasMarketingCampain','isClient']], function(){
         // Route::get('/', function(){
         //     return redirect('/client/dashboard');
         // });
     
         Route::get('/client/dashboard',     [AdminDashboardController::class,'index']);
 
+        Route::get('/commisions',     [Controller::class,'coming_soon']);
+
+        Route::get('/buy_wizard',           [BuyController::class, 'index']);
+        Route::post('/buy_crypto',          [BuyController::class, 'buyCrypto']);
+        Route::post('/master_load',         [BuyController::class, 'masterload']);
+        Route::post('/super_load',          [BuyController::class, 'superload_v']);
+    
+        Route::get('/sell_wizard',          [SellController::class, 'index']);
+        Route::post('/sell_crypto',         [SellController::class, 'sellCrypto']);
+        Route::get('/send_btc',             [SellController::class, 'sendBTC']);
+        Route::post('/sell_master_load',    [SellController::class, 'masterload']);
+        Route::post('/sell_super_load',     [SellController::class, 'superload_v']);
+        
+        Route::get('/get_new_btc_wallet_addr',  [SellController::class, 'get_new_btc_wallet_address']);
+        Route::get('/get_receiving_btc_address',  [SellController::class, 'get_receiving_btc_address']);
+        Route::post('/confirm_btc_payment',  [SellController::class, 'confirm_btc_payment']);
+    
+        Route::get('/get_balance',  [SellController::class, 'get_balance']);
+        // Route::get('/send_BTC',  [SellController::class, 'send_BTC']);
+    
+    
+        Route::get('/buy_report',           [BuyReportController::class, 'index']);
+        Route::post('/get_buy_report_infos',[BuyReportController::class, 'get_buy_info']);
+    
+        Route::get('/sell_report',          [SellReportController::class, 'index']);
+    
+        Route::get('/masterload_report_buy/{id?}', [BuyReportController::class,'masterload_report']);
+        Route::get('/superload_report_buy/{id?}', [BuyReportController::class,'superload_report']);
+        Route::get('/masterload_report_sell/{id?}', [SellReportController::class,'masterload_report']);
+        Route::get('/superload_report_sell/{id?}', [SellReportController::class,'superload_report']);
+    
+        
+        Route::get('/invite_friends', [HomeController::class, 'invite_friends']);
+        Route::post('/get_profit', [HomeController::class, 'get_profit']);
+    
+        Route::get('/withdraw', [Controller::class, 'withdraw_old']);
+        Route::get('/createMarketTestBuyOrder', [Controller::class, 'createMarketTestBuyOrder']);
     });
 
-    Route::get('/commisions',     [Controller::class,'coming_soon']);
-
-    Route::get('/buy_wizard',           [BuyController::class, 'index']);
-    Route::post('/buy_crypto',          [BuyController::class, 'buyCrypto']);
-    Route::post('/master_load',         [BuyController::class, 'masterload']);
-    Route::post('/super_load',          [BuyController::class, 'superload_v']);
-
-    Route::get('/sell_wizard',          [SellController::class, 'index']);
-    Route::post('/sell_crypto',         [SellController::class, 'sellCrypto']);
-    Route::get('/send_btc',             [SellController::class, 'sendBTC']);
-    Route::post('/sell_master_load',    [SellController::class, 'masterload']);
-    Route::post('/sell_super_load',     [SellController::class, 'superload_v']);
-    
-    Route::get('/get_new_btc_wallet_addr',  [SellController::class, 'get_new_btc_wallet_address']);
-    Route::get('/get_receiving_btc_address',  [SellController::class, 'get_receiving_btc_address']);
-    Route::post('/confirm_btc_payment',  [SellController::class, 'confirm_btc_payment']);
-
-    Route::get('/get_balance',  [SellController::class, 'get_balance']);
-    // Route::get('/send_BTC',  [SellController::class, 'send_BTC']);
-
-
-    Route::get('/buy_report',           [BuyReportController::class, 'index']);
-    Route::post('/get_buy_report_infos',[BuyReportController::class, 'get_buy_info']);
-
-    Route::get('/sell_report',          [SellReportController::class, 'index']);
-
-    Route::get('/masterload_report_buy/{id?}', [BuyReportController::class,'masterload_report']);
-    Route::get('/superload_report_buy/{id?}', [BuyReportController::class,'superload_report']);
-    Route::get('/masterload_report_sell/{id?}', [SellReportController::class,'masterload_report']);
-    Route::get('/superload_report_sell/{id?}', [SellReportController::class,'superload_report']);
-
-    
-    Route::get('/invite_friends', [HomeController::class, 'invite_friends']);
-    Route::post('/get_profit', [HomeController::class, 'get_profit']);
-
-    Route::get('/withdraw', [Controller::class, 'withdraw_old']);
-    Route::get('/createMarketTestBuyOrder', [Controller::class, 'createMarketTestBuyOrder']);
-
+    Route::get('/required_marketing_campain', [Controller::class, 'requiredMarketingCampain']);
     

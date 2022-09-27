@@ -75,7 +75,7 @@
 									</select></td>
                                     <td>{{$value['first_name']}}</td>
                                     <td>{{$value['last_name']}}</td>
-                                    <td><a href="{!! url('/admin/kyc_edit/'.$value['id']); !!}">passed</a></td>
+                                    <td><a href="{!! url('/admin/kyc_edit/'.$value['id']); !!}">non passed</a></td>
                                     <td><a href="javascript:fireEmailChangeModal({{$value['id']}})">{{$value['email']}}</a></td>
                                     <td><a href="javascript:firePasswordChangeModal({{$value['id']}})">Format</a></td>
                                     <td><a data-bs-toggle="modal" data-bs-target="#basicModal">{{$value['email']}}</a></td>
@@ -89,8 +89,6 @@
                                                 <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg>
                                             </div>
                                             <div class="dropdown-menu dropdown-menu-end">
-									
-
 												<a class="dropdown-item" href="{!! url('/admin/change_userstate/'.$value['id'].'/0'); !!}">Pending</a>
                                                 <a class="dropdown-item" href="{!! url('/admin/change_userstate/'.$value['id'].'/1'); !!}">Approved</a>
                                                 <a class="dropdown-item" href="{!! url('/admin/change_userstate/'.$value['id'].'/2'); !!}">Suspended</a>
@@ -148,7 +146,7 @@
 				</div>
 				<div class="modal-body">
 					<input type="hidden" id="user_password_id" name="user_password_id"/>
-					Password will be formated to number "12345".
+					Password will be formated to number "12345678".
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-danger light" data-bs-dismiss="modal">No</button>

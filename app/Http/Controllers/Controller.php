@@ -24,6 +24,12 @@ class Controller extends BaseController
 
     private $RPCusername = 'lam';
     private $RPCpassword = 'Masterskills113';
+    public function requiredMarketingCampain(){
+        $page_title = 'required marketing campaign';
+        $page_description = 'Some description for the page';
+        $action = __FUNCTION__;
+        return view('zenix.page.requiredMarketingCampain', compact('page_title', 'page_description', 'action'));
+    }
     public function exchange($param=null){
         $n_id = $param['ex_name'];
         $exchange_id = '\\ccxt\\' . $n_id;

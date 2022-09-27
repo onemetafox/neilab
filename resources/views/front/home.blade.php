@@ -57,7 +57,7 @@
                                 </ul>
                                 @if(auth()->check())
                                 <ul class="menu-btns">
-                                    <li><a href="/logout" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change"><span>Logout</span></a></li>
+                                    <li><a href="{!! url('/logout'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change"><span>Logout</span></a></li>
                                 </ul>
                                 @else
                                 <ul class="menu-btns">
@@ -90,6 +90,12 @@
                             <div class="cpn-action">
                                 <ul class="btn-grp mx-auto">                                                
                                     <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url(auth()->user()->redirect); !!}" class="btn btn-primary btn-round">Get Started</a></li>
+                                </ul>
+                            </div>
+                            @elseif(auth()->check() && auth()->user()->marketing_campain_id == 0)
+                            <div class="cpn-action">
+                                <ul class="btn-grp mx-auto">                                                
+                                    <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url('/required_marketing_campain'); !!}" class="btn btn-primary btn-round">Get Started</a></li>
                                 </ul>
                             </div>
                             @endif

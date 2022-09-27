@@ -40,7 +40,7 @@
 												<label class="mb-1"><strong>Select Degital Asset</strong></label>
 												<select id="digital_asset" name="digital_asset" onchange="handleChange(this)">
 													<option value="1">BTC</option>
-													<option value="2">USDT</option>
+													<option value="2" disabled>USDT</option>
 												</select>
 											</div>
 										</div>
@@ -181,7 +181,7 @@
 		if(val.value == 2){
 			$('#chain_stack').html(
 				"@foreach ($chainstacks as $key => $value)"+
-					"<option value='{{$value['id']}}'>{{$value['stackname']}}</option>"+
+					"<option value='{{$value['id']}}' disabled'>{{$value['stackname']}}</option>"+
 				"@endforeach"
 			);
 		}else{
