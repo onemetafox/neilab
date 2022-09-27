@@ -154,9 +154,9 @@
 @section('scripts')
 	<script>
 		jQuery(document).ready(function(){
-			dezSettingsOptions.version = 'dark';
+			dezSettingsOptions.version = 'light';
 			setTimeout(function() {
-				dezSettingsOptions.version = 'dark';
+				dezSettingsOptions.version = 'light';
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
             new ClipboardJS('.copy_address');

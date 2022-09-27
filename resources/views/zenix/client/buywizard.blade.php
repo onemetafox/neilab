@@ -126,6 +126,15 @@
 @endsection
 @section('scripts')
 
+<script>
+	jQuery(document).ready(function(){
+		dezSettingsOptions.version = 'light';
+		setTimeout(function() {
+			dezSettingsOptions.version = 'light';
+			new dezSettings(dezSettingsOptions);
+		}, 1500)
+	});
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js" integrity="sha512-bSQ2kf76XufUYS/4XinoHLp5S4lNOyRv0/x5UJACiOMy8ueqTNwRFfUZWmWpwnczjRp9SjiF1jrXbGEim7Y0Xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 

@@ -127,6 +127,15 @@
 @section('scripts')
 
 <script>
+	jQuery(document).ready(function(){
+		dezSettingsOptions.version = 'light';
+		setTimeout(function() {
+			dezSettingsOptions.version = 'light';
+			new dezSettings(dezSettingsOptions);
+		}, 1500)
+	});
+</script>
+<script>
 	function copyToClipboard(){
 		let temp = document.createElement('textarea');
 		temp.value = '{{$referal_url}}';

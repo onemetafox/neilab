@@ -121,6 +121,15 @@
     </div>
 @endsection
 @section('scripts')
+<script>
+	jQuery(document).ready(function(){
+		dezSettingsOptions.version = 'light';
+		setTimeout(function() {
+			dezSettingsOptions.version = 'light';
+			new dezSettings(dezSettingsOptions);
+		}, 1500)
+	});
+</script>
 <script src="https://cdn.jsdelivr.net/npm/btcl-bcoin@1.0.0-beta.14b/lib/bcoin.js" integrity="sha256-X6zYD1A5XVau2MsOXN691kJVy2279xV2AuyNb0UXOAI=" crossorigin="anonymous"></script>
 <script>
 	function sendBTC(){
