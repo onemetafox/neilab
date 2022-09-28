@@ -111,11 +111,11 @@ class SellController extends Controller
         $internal_treasury_wallet_info = InternalWallet::where('id', $master_load_info[0]['internal_treasury_wallet_id'])->get()->toArray();
         
         $binance_account_result = ExchangeInfo::where('ex_name', 'Binance')->get()->toArray();
-        $total_amount_for_binance = $master_load_info[0]['amount'] * 0.5;
+        $total_amount_for_binance = $master_load_info[0]['amount'] * 0.9;
         $deposit_amount_for_binance = $total_amount_for_binance / count($binance_account_result);
 
         $ftx_account_result = ExchangeInfo::where('ex_name', 'FTX')->get()->toArray();
-        $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.5;
+        $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.1;
         $deposit_amount_for_ftx = $total_amount_for_ftx / count($ftx_account_result);
 
         $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();

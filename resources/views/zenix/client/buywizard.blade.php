@@ -141,9 +141,10 @@
 		var deliveredAddress 	= $('#deliveredAddress').val();
 		var pay_with		 	= $('#pay_with').val();
 		Swal.fire({
-		title: 'Please Confirm Your Request! \n You will get BTC of '+pay_with+'USDT to this address. \n '+deliveredAddress,
+		html: 'Please Confirm Your Request! \n You will get BTC of <strong style="color:blue">'+pay_with+'</strong> USDT to this address. \n <strong style="color:blue">'+deliveredAddress+'</strong>',
 		confirmButtonText: 'OK',
 		showCancelButton: true,
+		type:'info'
 		}).then((result) => {
 		if (result.value) {
 			handleSubmit();
@@ -213,8 +214,9 @@
 		}
 	}
 	
-	function alertSuperLoadSuccess(amount, symbol){
-		swal("Thanks, Well Done !!", "Your "+amount+symbol+" has been deposite successfully !!", "success");
+	function alertSuperLoadSuccess(){
+		var pay_with = $('#pay_with').val();
+		swal("Thanks, Well Done !!", "Your "+pay_with+"USDT has been deposite successfully !! <br/> You will get paid in a day.", "success");
 	}
 
 	function alertDepositeError(message){
@@ -243,10 +245,10 @@
 	
 	function alertRegisteredSuccess(){
 		swal({
-            title: "Your order registered successfully",
-            text: "Please don't leave this webpage until deposit successfully!!",
+            title: "Your order has been registered successfully",
+            html: "Please don't leave this webpage until deposit successfully!! It will be taken about 3 or 4 mins. <p style='color:red'>If you leave this page before getting confirmation alert, your money will be locked!</p>",
             type: "success",
-            timer: 10000
+            timer: 150000
         })
 	}
 	function alertError(msg){

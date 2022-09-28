@@ -59,16 +59,14 @@ class Controller extends BaseController
 
     public function getBTCMarketPrice($exchange_info, $amount){
         # code...
-        $exchange = $this->exchange($exchange_info);
-        $bitcoin_ticker = $exchange->fetch_ticker('BTC/USDT');
+        $bitcoin_ticker = $exchange_info->fetch_ticker('BTC/USDT');
         $btc_amount = $amount/$bitcoin_ticker['bid'];
         return $btc_amount;
     }
     
     public function getUSDTPrice($exchange_info, $amount){
         # code...
-        $exchange = $this->exchange($exchange_info);
-        $bitcoin_ticker = $exchange->fetch_ticker('BTC/USDT');
+        $bitcoin_ticker = $exchange_info->fetch_ticker('BTC/USDT');
         $usdt_amount = $amount*$bitcoin_ticker['bid'];
         return $usdt_amount;
     }
