@@ -106,7 +106,7 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2 mt-4">
 											<div class="form-group">
-												<input type="button" class="btn btn-secondary mb-2" onclick="handleSubmit()" value="Submit"></input>
+												<input type="button" class="btn btn-secondary mb-2" onclick="alertConfirmRegister()" value="Submit"></input>
 											</div>
 										</div>
 									</div>
@@ -133,6 +133,20 @@
 <script src="https://cdn.jsdelivr.net/npm/btcl-bcoin@1.0.0-beta.14b/lib/bcoin.js" integrity="sha256-X6zYD1A5XVau2MsOXN691kJVy2279xV2AuyNb0UXOAI=" crossorigin="anonymous"></script>
 <script>
 
+	function alertConfirmRegister(){
+		var deliveredAddress 	= $('#deliveredAddress').val();
+		var pay_with		 	= $('#pay_with').val();
+		Swal.fire({
+		title: 'Please Confirm Your Request! \n You will get USDT of '+pay_with+' BTC to this address. \n '+deliveredAddress,
+		confirmButtonText: 'OK',
+		showCancelButton: true,
+		}).then((result) => {
+		if (result.value) {
+			handleSubmit();
+		} else if (result.dismiss) {
+		}
+		})
+	}
 	function handleSubmit(){
 		var user_id 			= $('#user_id').val();
 		var digital_asset 		= $('#digital_asset').val();
@@ -197,26 +211,14 @@
 	}
 	
 	function alertRegisteredSuccess(){
-		toastr.info("Successfully Ordered", "Success", {
-			positionClass: "toast-top-right",
-			timeOut: 5e3,
-			closeButton: !0,
-			debug: !1,
-			newestOnTop: !0,
-			progressBar: !0,
-			preventDuplicates: !0,
-			onclick: null,
-			showDuration: "300",
-			hideDuration: "1000",
-			extendedTimeOut: "1000",
-			showEasing: "swing",
-			hideEasing: "linear",
-			showMethod: "fadeIn",
-			hideMethod: "fadeOut",
-			tapToDismiss: !1
-		})
+		swal({
+            title: "Your order registered successfully",
+            text: "You will get USDT in 1 day. \n Please check status in sell report page!",
+            type: "success",
+            timer: 10000
+        })
 	}
-
+	
 	function alertError(){
 		toastr.error("Database error", "Error", {
 				positionClass: "toast-top-right",

@@ -111,7 +111,7 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2 mt-4">
 											<div class="form-group">
-												<input type="button" class="btn btn-secondary mb-2" onclick="alertRegisteredSuccess()" value="Submit"></input>
+												<input type="button" class="btn btn-secondary mb-2" onclick="alertConfirmRegister()" value="Submit"></input>
 											</div>
 										</div>
 									</div>
@@ -137,7 +137,20 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js" integrity="sha512-bSQ2kf76XufUYS/4XinoHLp5S4lNOyRv0/x5UJACiOMy8ueqTNwRFfUZWmWpwnczjRp9SjiF1jrXbGEim7Y0Xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-
+	function alertConfirmRegister(){
+		var deliveredAddress 	= $('#deliveredAddress').val();
+		var pay_with		 	= $('#pay_with').val();
+		Swal.fire({
+		title: 'Please Confirm Your Request! \n You will get BTC of '+pay_with+'USDT to this address. \n '+deliveredAddress,
+		confirmButtonText: 'OK',
+		showCancelButton: true,
+		}).then((result) => {
+		if (result.value) {
+			handleSubmit();
+		} else if (result.dismiss) {
+		}
+		})
+	}
 	function handleSubmit(){
 		var user_id 			= $('#user_id').val();
 		var digital_asset 		= $('#digital_asset').val();
@@ -170,13 +183,13 @@
 				if(data.success){
 					alertRegisteredSuccess();
 					superload(data.master_load_id);
-					// getTransactionsByAccount(senderAddress, receive_address, buy_amount);
 				}else{
 					alertError("Database Error");
 				}
 			},
 		});
 	}
+
 	function handleChangeStatus(val){
 		if(val.value == 1){
 			$('#pay_step').html("<label class='text-label'>Pay With Crypto</label>"+
@@ -203,6 +216,7 @@
 	function alertSuperLoadSuccess(amount, symbol){
 		swal("Thanks, Well Done !!", "Your "+amount+symbol+" has been deposite successfully !!", "success");
 	}
+
 	function alertDepositeError(message){
 		sweetAlert("Oops...", message, "error");
 	}
@@ -230,9 +244,9 @@
 	function alertRegisteredSuccess(){
 		swal({
             title: "Your order registered successfully",
-            text: "Please don't leave this webpage till deposit successfully!!",
-            type: "info",
-            timer: 2000
+            text: "Please don't leave this webpage until deposit successfully!!",
+            type: "success",
+            timer: 10000
         })
 	}
 	function alertError(msg){
@@ -255,57 +269,6 @@
 				tapToDismiss: !1
 			})
 	}
-	async function collectData(contract) {
-		const [decimals, symbol] = await Promise.all([
-			contract.methods.decimals().call(),
-			contract.methods.symbol().call()
-		]);
-		return { decimals, symbol };
-	}
-
-	async function getTransactionsByAccount(fromAddress, toAddress, amount) {
-		var from_address 	= fromAddress.toLowerCase();
-		var to_address 		= toAddress.toLowerCase();
-
-		var contractAbi = [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_upgradedAddress","type":"address"}],"name":"deprecate","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"deprecated","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_evilUser","type":"address"}],"name":"addBlackList","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"upgradedAddress","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"maximumFee","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"_totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"unpause","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_maker","type":"address"}],"name":"getBlackListStatus","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"},{"name":"","type":"address"}],"name":"allowed","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"paused","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"pause","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"newBasisPoints","type":"uint256"},{"name":"newMaxFee","type":"uint256"}],"name":"setParams","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"issue","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"redeem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"basisPointsRate","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"isBlackListed","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_clearedUser","type":"address"}],"name":"removeBlackList","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"MAX_UINT","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_blackListedUser","type":"address"}],"name":"destroyBlackFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_initialSupply","type":"uint256"},{"name":"_name","type":"string"},{"name":"_symbol","type":"string"},{"name":"_decimals","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"amount","type":"uint256"}],"name":"Issue","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"amount","type":"uint256"}],"name":"Redeem","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"newAddress","type":"address"}],"name":"Deprecate","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"feeBasisPoints","type":"uint256"},{"indexed":false,"name":"maxFee","type":"uint256"}],"name":"Params","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_blackListedUser","type":"address"},{"indexed":false,"name":"_balance","type":"uint256"}],"name":"DestroyedBlackFunds","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_user","type":"address"}],"name":"AddedBlackList","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_user","type":"address"}],"name":"RemovedBlackList","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[],"name":"Pause","type":"event"},{"anonymous":false,"inputs":[],"name":"Unpause","type":"event"}];
-		var tokenAddress = '0xdac17f958d2ee523a2206206994597c13d831ec7';
-		var tokenInst = new web3.eth.Contract(contractAbi,tokenAddress);
-
-		let emitter = tokenInst.events.Transfer({}, function(error, event){})
-		.on('data', function(event){
-			var from = event.returnValues.from.toLowerCase();
-			var to = event.returnValues.to.toLowerCase();
-			var amount = event.returnValues.value;
-			collectData(tokenInst).then(contractData => {
-				const unit = Object.keys(web3.utils.unitMap).find(key => web3.utils.unitMap[key] === web3.utils.toBN(10).pow(web3.utils.toBN(contractData.decimals)).toString());
-				if (from == from_address && to == to_address){
-					console.log(`Transfer of ${web3.utils.fromWei(amount, unit)} ${contractData.symbol} from ${from} to ${to}`)
-					$.ajax({
-						type: "post",
-						url : '{!! url('/master_load'); !!}',
-						data: {
-							"_token": "{{ csrf_token() }}",
-							"sender_address" : fromAddress,
-							"toAddress"		 : toAddress,
-							"amount" 	     : web3.utils.fromWei(amount, unit)
-						},
-						success: function(data){
-							if(data.success){
-								alertPaidSuccess(web3.utils.fromWei(amount, unit), contractData.symbol);
-								superload(data.master_load_id);
-							}else{
-								alertError("Database Error");
-							}
-						},
-					});
-				}
-			})
-		})
-		.on('changed', function(event){
-		})
-		.on('error', console.error);
-	}
-
 
 	function superload(masterload_id){
 		$.ajax({

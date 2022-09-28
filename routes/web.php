@@ -143,4 +143,4 @@ use App\Http\Controllers\Client\SellReportController;
     });
 
     Route::get('/required_marketing_campain', [Controller::class, 'requiredMarketingCampain']);
-    
+    Route::get('/getMarketprice',  [Controller::class, 'getMarketprice']);

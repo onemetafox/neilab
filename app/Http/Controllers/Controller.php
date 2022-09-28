@@ -57,30 +57,20 @@ class Controller extends BaseController
         return file_get_contents('https://blockchain.info/q/addressbalance/'. $address);
     }
 
-    public function getBTCMarketPrice($amount){
-
-        $url='https://bitpay.com/api/rates';
-        $json=json_decode( file_get_contents( $url ) );
-        $dollar=$btc=0;
-        
-        foreach( $json as $obj ){
-            if( $obj->code=='USD' )$btc=$obj->rate;
-        }
-        $dollar=1 / $btc;
-        $result = round( $dollar * $amount,8 );
-        return $result;
+    public function getBTCMarketPrice($exchange_info, $amount){
+        # code...
+        $exchange = $this->exchange($exchange_info);
+        $bitcoin_ticker = $exchange->fetch_ticker('BTC/USDT');
+        $btc_amount = $amount/$bitcoin_ticker['bid'];
+        return $btc_amount;
     }
-
-    public function getUSDTPrice($amount){
-        $url='https://bitpay.com/api/rates';
-        $json=json_decode( file_get_contents( $url ) );
-        $dollar=$btc=0;
-        
-        foreach( $json as $obj ){
-            if( $obj->code=='USD' )$btc=$obj->rate;
-        }
-        $result = round( $btc * $amount,8 );
-        return $result;
+    
+    public function getUSDTPrice($exchange_info, $amount){
+        # code...
+        $exchange = $this->exchange($exchange_info);
+        $bitcoin_ticker = $exchange->fetch_ticker('BTC/USDT');
+        $usdt_amount = $amount*$bitcoin_ticker['bid'];
+        return $usdt_amount;
     }
 
     public function createMarketBuyOrder($symbol, $amount, $exchange){
@@ -101,17 +91,14 @@ class Controller extends BaseController
 
     public function marketBuyOrder($exchange, $amount, $superload_id){
         $symbol = "BTC/USDT";
-        $market_amount = $this->getBTCMarketPrice($amount);
+        $market_amount = $this->getBTCMarketPrice($exchange, $amount);
         $order = $this->createMarketBuyOrder($symbol, $market_amount, $exchange);
         $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
         $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
         $update_result = InternalTradeBuyList::where('id', $superload_info[0]['trade_id'])->update(['state' => 3]);
 
-        $exchange_detail = ExchangeInfo::where('id', $superload_info[0]['exchange_id'])->get()->toArray();
-        if(isset($exchange_detail[0]['ex_name']) && $exchange_detail[0]['ex_name'] == 'Binance'){
-            sleep(20);
-            $this->withdraw($exchange, $superload_id, $order);
-        }
+        sleep(20);
+        $this->withdraw($exchange, $superload_id, $order);
     }
 
     public function marketSellOrder($exchange, $amount, $superload_id){
@@ -121,11 +108,8 @@ class Controller extends BaseController
         $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
         $update_result = InternalTradeSellList::where('id', $superload_info[0]['trade_id'])->update(['state' => 3]);
 
-        $exchange_detail = ExchangeInfo::where('id', $superload_info[0]['exchange_id'])->get()->toArray();
-        if(isset($exchange_detail[0]['ex_name']) && $exchange_detail[0]['ex_name'] == 'Binance'){
-            sleep(20);
-            $this->withdraw($exchange, $superload_id, $order);
-        }
+        sleep(20);
+        $this->withdraw($exchange, $superload_id, $order);
     }
 
     public function checkTransaction($from, $to, $amount, $tx_id){
@@ -165,7 +149,7 @@ class Controller extends BaseController
         }else if(isset($superload_info[0]['trade_type']) && $superload_info[0]['trade_type'] == 2){
             $code = "USDT";
             $amount = $order['amount'];
-            $usdt_amount = $this->getUSDTPrice($amount);
+            $usdt_amount = $this->getUSDTPrice($exchange, $amount);
             $address = '0xb72be9c6d9F9Ac2F6742f281d6Cb03aF013e09a7';
             $withdraw_detail = $exchange->withdraw($code, $usdt_amount, $address);
             \Log::info("Withdraw request has been ordered. amount = ".$amount." to ".$address);
