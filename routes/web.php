@@ -130,17 +130,26 @@ use App\Http\Controllers\Client\SellReportController;
     
         Route::get('/sell_report',          [SellReportController::class, 'index']);
     
-        Route::get('/masterload_report_buy/{id?}', [BuyReportController::class,'masterload_report']);
-        Route::get('/superload_report_buy/{id?}', [BuyReportController::class,'superload_report']);
+        Route::get('/masterload_report_buy/{id?}',  [BuyReportController::class,'masterload_report']);
+        Route::get('/subload_report_buy/{id?}',   [BuyReportController::class,'superload_report']);
+        Route::get('/superload_report_buy/{id?}',     [BuyReportController::class,'subload_report']);
+
         Route::get('/masterload_report_sell/{id?}', [SellReportController::class,'masterload_report']);
-        Route::get('/superload_report_sell/{id?}', [SellReportController::class,'superload_report']);
+        Route::get('/subload_report_sell/{id?}',  [SellReportController::class,'superload_report']);
+        Route::get('/superload_report_sell/{id?}',    [SellReportController::class,'subload_report']);
+
     
         
         Route::get('/invite_friends', [HomeController::class, 'invite_friends']);
         Route::post('/get_profit', [HomeController::class, 'get_profit']);
     
         Route::get('/withdraw', [Controller::class, 'withdraw_old']);
+        Route::get('/profile', [Controller::class, 'coming_soon']);
+
+        
     });
 
     Route::get('/required_marketing_campain', [Controller::class, 'requiredMarketingCampain']);
     Route::get('/getMarketprice',  [Controller::class, 'getMarketprice']);
+
+    

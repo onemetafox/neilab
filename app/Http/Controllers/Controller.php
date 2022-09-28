@@ -210,12 +210,14 @@ class Controller extends BaseController
                 $asset = "BTC";
                 $confirm_result = $this->confirmWithdrawTransaction($asset, $value);
                 if($confirm_result['success']){
+                    sleep(20);
                     $this->lastStep($asset, $value, $confirm_result['withdraw_transaction']);
                 }
             }else{
                 $asset = "USDT";
                 $confirm_result = $this->confirmWithdrawTransaction($asset, $value);
                 if($confirm_result['success']){
+                    sleep(20);
                     $this->lastStep($asset, $value, $confirm_result['withdraw_transaction']);
                 }
 
@@ -227,29 +229,28 @@ class Controller extends BaseController
         $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
         $subload_info = array();
         
+        if($asset == 'BTC'){
+            $trade_info = InternalTradeBuyList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
+            $send_result = $this->sendBTC($trade_info[0]['delivered_address'], $withdraw_transaction['amount']);
+            $subload_info['tx_id'] = $send_result['txid'];
+            \Log::info("Complete one subload of buy transaction");
+
+        }else if($asset == 'USDT'){
+            $trade_info = InternalTradeSellList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
+            $internal_wallet_info = InternalWallet::where('wallet_address', '0xb72be9c6d9F9Ac2F6742f281d6Cb03aF013e09a7')->get()->toArray();
+            $send_usdt_result = $this->sendUSDT($internal_wallet_info[0]['wallet_address'], $internal_wallet_info[0]['private_key'], $trade_info[0]['delivered_address'], $withdraw_transaction['amount']);
+            $subload_info['tx_id'] = $send_usdt_result[1];
+            \Log::info("Complete one subload of buy transaction");
+        }
         $subload_info['trade_type']         = $withdraw_tbl['trade_type'];
         $subload_info['trade_id']           = $withdraw_tbl['trade_id'];
         $subload_info['superload_id']       = $withdraw_tbl['superload_id'];
         $subload_info['exchange_id']        = $withdraw_tbl['exchange_id'];
         $subload_info['receive_address']    = $withdraw_transaction['addressTo'];
-        $subload_info['tx_id']              = $withdraw_transaction['txid'];
         $subload_info['amount']             = $withdraw_transaction['amount'];
         $subload_info['withdraw_order_id']  = $withdraw_transaction['id'];
         $subload_info['status']             = 1;
-
         $subload_create_result = SubLoad::create($subload_info);
-        $superload_update_resultt = SuperLoad::where('id', $withdraw_tbl['superload_id'])->update(['status' => 3]);
-
-        if($asset == 'BTC'){
-            $trade_info = InternalTradeBuyList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
-            $this->sendBTC($trade_info[0]['delivered_address'], $withdraw_transaction['amount']);
-            \Log::info("Complete one subload of buy transaction");
-        }else if($asset == 'USDT'){
-            $trade_info = InternalTradeSellList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
-            $internal_wallet_info = InternalWallet::where('wallet_address', '0xb72be9c6d9F9Ac2F6742f281d6Cb03aF013e09a7')->get()->toArray();
-            $this->sendUSDT($internal_wallet_info[0]['wallet_address'], $internal_wallet_info[0]['private_key'], $trade_info[0]['delivered_address'], $withdraw_transaction['amount']);
-            \Log::info("Complete one subload of buy transaction");
-        }
     }
 
     public function confirmWithdrawTransaction($asset, $value){

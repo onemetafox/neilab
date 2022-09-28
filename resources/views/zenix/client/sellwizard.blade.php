@@ -67,7 +67,7 @@
 											<div class="form-group">
 												<label class="mb-1"><strong>HOW TO YOU WANT TO RECEIVE PAYMENT</strong></label>
 												<select id="pay_method" name="pay_method" onchange="handleChangeStatus(this)">
-													<option value="1" selected>BTC/BIC COIN</option>
+													<option value="1" selected>BTC</option>
 													<option value="2">Bank Account</option>
 												</select>
 											</div>

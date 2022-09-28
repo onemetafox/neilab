@@ -11,6 +11,7 @@ use App\Models\ChainStack;
 use Illuminate\Support\Arr;
 use App\Models\MasterLoad;
 use App\Models\SuperLoad;
+use App\Models\SubLoad;
 use App\Models\ExchangeInfo;
 use App\Models\InternalWallet;
 use Auth;
@@ -54,7 +55,20 @@ class BuyReportController extends Controller
         $page_description = 'Some description for the page';
         $action = 'report';
         $result = SuperLoad::where('masterload_id', $masterload_id)->where('trade_type', 1)->get()->toArray();
-        return view('zenix.client.superload_report', compact('page_title', 'page_description', 'action', 'result'));
+        $trade_type = 1;
+        return view('zenix.client.superload_report', compact('page_title', 'page_description', 'action', 'result', 'masterload_id', 'trade_type'));
+    }
+    
+    public function subload_report($masterload_id = null){
+        $page_title = __('locale.sub_load_report');
+        $page_description = 'Some description for the page';
+        $action = 'report';
+        $masterload_info = MasterLoad::find($masterload_id);
+        $result = SubLoad::where('trade_id', $masterload_info->trade_id)->where('trade_type', 1)->get()->toArray();
+        $internal_trade_sell_info = InternalTradeBuyList::find($masterload_info->trade_id);
+        $delivered_address = $internal_trade_sell_info->delivered_address;
+        $trade_type = 1;
+        return view('zenix.client.subload_report', compact('page_title', 'page_description', 'action', 'result', 'delivered_address', 'masterload_id', 'trade_type'));
     }
 }
 

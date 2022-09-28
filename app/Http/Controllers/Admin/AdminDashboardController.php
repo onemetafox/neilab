@@ -11,7 +11,11 @@ use kornrunner\Ethereum\Address;
 class AdminDashboardController extends Controller
 {
     public function index(){
-        $page_title = __('locale.admindashboard');
+        if(auth()->user()->user_type == "admin"){
+            $page_title = __('locale.admindashboard');
+        }else{
+            $page_title = __('locale.clientdashboard');
+        }
         $page_description = 'Some description for the page';
         $action = 'dashboard_2';
 

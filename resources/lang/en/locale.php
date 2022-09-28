@@ -35,7 +35,7 @@ return[
     // user list part
     "user_id"                   =>  "User ID",
     "user_status"               =>  "User Status",
-    "user_marketing_campain"    =>  "Marketing Campain",
+    "user_marketing_campain"    =>  "Marketing Campaign",
     "user_first_name"           =>  "First Name",
     "user_last_name"            =>  "Last Name",
     "user_kyc_status"           =>  "KYC Status",
@@ -43,7 +43,7 @@ return[
     "user_change_password"      =>  "Change Password",
     "user_change_upline"        =>  "Change Upline",
     "user_view_upline"          =>  "View Upline",
-    "user_view_downline"        =>  "View Donwline",
+    "user_view_downline"        =>  "View Downline",
     "user_product"              =>  "User Product",
     "user_MLM_tree"             =>  "MLM Tree",
     "user_edit_status"          =>  "Edit Status",
@@ -76,9 +76,9 @@ return[
     "internal_trade_buy_chain_stack"              =>  "chainstack/bank network",
     "internal_trade_buy_trasaction_description"   =>  "transaction description",
     "internal_trade_buy_trust_fee"                =>  "Trust fee",
-    "internal_trade_buy_campain_type"             =>  "Campain type",
+    "internal_trade_buy_campain_type"             =>  "Campaign type",
     "internal_trade_buy_profit"                   =>  "profit",
-    "internal_trade_buy_commissions"              =>  "commision",
+    "internal_trade_buy_commissions"              =>  "Commissions",
     "internal_trade_buy_free_from_exchanges"      =>  "free from exchanges",
     "internal_trade_buy_bank_changes"             =>  "bank changes",
     "internal_trade_buy_left_over_profit"         =>  "Left over profit",
@@ -98,9 +98,9 @@ return[
     "internal_trade_sell_chain_stack"              =>  "chainstack/bank network",
     "internal_trade_sell_trasaction_description"   =>  "transaction description",
     "internal_trade_sell_trust_fee"                =>  "Trust fee",
-    "internal_trade_sell_campain_type"             =>  "Campain type",
+    "internal_trade_sell_campain_type"             =>  "Campaign type",
     "internal_trade_sell_profit"                   =>  "profit",
-    "internal_trade_sell_commissions"              =>  "commision",
+    "internal_trade_sell_commissions"              =>  "Commissions",
     "internal_trade_sell_free_from_exchanges"      =>  "free from exchanges",
     "internal_trade_sell_bank_changes"             =>  "bank changes",
     "internal_trade_sell_left_over_profit"         =>  "Left over profit",
@@ -129,13 +129,13 @@ return[
     "global_user_status"                                => "User Status",
     "global_user_history"                               => "History",
 
-    // Marketing Campain
+    // Marketing Campaign
 
-    "marketing_campain" => "Marketing Campain",
-    "marketing_campain_view"    => "Marketing Campin View",
-    "add_new_marketing_campain" => "Add New Marketing Campain",
-    "campain_id"                => "Campain ID",
-    "campain_name"              => "Campain Name",
+    "marketing_campain" => "Marketing Campaign",
+    "marketing_campain_view"    => "Marketing Campign View",
+    "add_new_marketing_campain" => "Add New Marketing Campaign",
+    "campain_id"                => "Campaign ID",
+    "campain_name"              => "Campaign Name",
     "total_fee_to_client"       => "Total fee to client",
     "internal_sales_fee"        => "Internal Sales fee",
     "uni_level_fee"             => "Uni Level fee",
@@ -144,7 +144,7 @@ return[
     "profit_fee"                => "Profit fee",
     "kyc_required"              => "KYC Required",
     "domain_url"                => "Domain URL",
-    "marketing_campain"         => "Marketing Campain",
+    "marketing_campain"         => "Marketing Campaign",
     "copy_link"                 => "Copy Link",
     "number_of_signups"         => "Number of signups",
     "preview"                   => "Preview",
@@ -154,7 +154,7 @@ return[
     'sell_wizard'   => "Sell Wizard",
     'buy_report'    => "Buy Report",
     'sell_report'   => "Sell Report",
-    'commisions'    => "Comssions",
+    'commisions'    => "Commissions",
 
     // Internal Trade Buy
 
@@ -181,13 +181,19 @@ return[
     'sender_address' => 'Sender Address',
     'to_address' => 'To Address',
     'amount' => 'Amount',
-    'transction_detail' => 'Transaction Detail',
-    'superload_view' => 'Superload',
+    'transaction_detail' => 'Transaction Detail',
+    'subload_view' => 'Superload',
+    'superload_view' => 'Subload',
 
-    'super_load_report' => 'Super Load Report',
+    'super_load_report' => 'Sub Load Report',
+    'sub_load_report' => 'Super Load Report',
+
     'deposit_address' => 'Deposit Address',
 
     'sell_amount_in_coins' => ' Sell Amount In Coins',
     'sell_address_to_send_coin_to' => 'Sell Address To Send Coin to',
+
+    'from_address' => 'From Address',
+    'delivered_address' => 'Super Address',
 ]
 ?>

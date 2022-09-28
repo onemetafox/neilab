@@ -24,7 +24,9 @@
                                     <th>{{__('locale.exchange_list_wallet_balance')}}</th>
                                     <th>{{__('locale.exchange_list_test_status')}}</th>
                                     <th>{{__('locale.exchange_list_certified')}}</th>
+                                    @if(Auth::user()->user_type == 'admin')
                                     <th>{{__('locale.exchange_list_action')}}</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,6 +50,7 @@
                                         @endif
                                     </td>
                                     <td>Certified</td>
+                                    @if(Auth::user()->user_type == 'admin')
                                     <td>
                                         <div class="dropdown ms-auto text-right">
                                             <div class="btn-link" data-bs-toggle="dropdown">
@@ -60,6 +63,7 @@
                                             </div>
                                         </div>
                                     </td>	
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>
