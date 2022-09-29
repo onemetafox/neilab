@@ -53,7 +53,7 @@
                                                     <span class="badge light badge-secondary">Master Load</span>
                                                     @break
                                                 @case (2)
-                                                    <span class="badge light badge-primary">Super Load</span>
+                                                    <span class="badge light badge-primary">Sub Load</span>
                                                     @break
                                                 @case (3)
                                                     <span class="badge light badge-success">Complete</span>
