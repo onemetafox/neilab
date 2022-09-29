@@ -68,7 +68,7 @@
 					
 
                                     <td><select class="campaign_select" data-id="{{$value['id']}}">
-										<option value="">Not assigned</option>
+										<option value="0">Not assigned</option>
 										@foreach ($campaigns as $campaign)
 										<option value="{{$campaign->id}}" {{$campaign->id == $value['marketing_campain_id']?'selected':''}}>{{$campaign->campain_name}}</option>
 										@endforeach
