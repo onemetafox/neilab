@@ -97,7 +97,7 @@ use App\Http\Controllers\Client\SellReportController;
     });
     
     // Client Routing
-    Route::group(['middleware' => ['hasMarketingCampain','isClient']], function(){
+    Route::group(['middleware' => ['isClient', 'hasMarketingCampain']], function(){
         // Route::get('/', function(){
         //     return redirect('/client/dashboard');
         // });
