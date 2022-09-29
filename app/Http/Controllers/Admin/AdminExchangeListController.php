@@ -25,15 +25,12 @@ class AdminExchangeListController extends Controller
                 //code...
                 $btc_wallet = $exchange->fetchDepositAddress("BTC");
                 $btc_wallet_address = $btc_wallet['address'];
-                $btc_wallet_balance = $this->getBalance($btc_wallet_address);
 
                 $result[$key]['wallet_address'] = $btc_wallet_address;
-                $result[$key]['wallet_balance'] = $btc_wallet_balance;
                 $result[$key]['connect_status'] = true;
             } catch (\Throwable $th) {
                 //throw $th;
                 $result[$key]['wallet_address'] = 'Undifined';
-                $result[$key]['wallet_balance'] = 'Undifined';
                 $result[$key]['connect_status'] = false;
             }
         }

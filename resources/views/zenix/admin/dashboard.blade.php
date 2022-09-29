@@ -21,7 +21,6 @@
                                     <th>{{__('locale.exchange_list_id')}}</th>
                                     <th>{{__('locale.exchange_list_name')}}</th>
                                     <th>{{__('locale.exchange_list_wallet_address')}}</th>
-                                    <th>{{__('locale.exchange_list_wallet_balance')}}</th>
                                     <th>{{__('locale.exchange_list_test_status')}}</th>
                                     <th>{{__('locale.exchange_list_certified')}}</th>
                                     @if(Auth::user()->user_type == 'admin')
@@ -35,7 +34,6 @@
                                     <td>{{++$key}}</td>
                                     <td>{{$value['ex_name']}}</td>
                                     <td>{{$value['wallet_address']}}</td>
-                                    <td>{{$value['wallet_balance']}}</td>
                                     <td>
                                         @if ($value['connect_status'] == false)
                                         <span class="badge light badge-danger">
