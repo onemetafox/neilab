@@ -41,7 +41,7 @@
                             <tbody>
                                 @foreach ($result as $key => $value)
                                 <tr>
-                                    <td>{{$value['id']}}</td>
+                                    <td>{{++$key}}</td>
                                     <td>{{$value['ex_name']}}</td>
                                     <td>{{$value['wallet_address']}}</td>
                                     <td>

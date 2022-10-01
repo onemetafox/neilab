@@ -29,7 +29,10 @@
 								<div class="col-xl-6">
 									<div class="form-group">
 										<label class="mb-1"><strong>Exchange Name</strong></label>
-										<input type="text" class="form-control" name="ex_name" placeholder="Input exchange name" value="{{isset($result)?$result[0]['ex_name']:''}}">
+										<select id="ex_name" name="ex_name">
+											<?php echo (!empty($result[0]['ex_name']) && $result[0]['ex_name'] == "Binance")? "<option value='Binance' selected>Binance</option>":"<option value='Binance'>Binance</option>" ?>
+											<?php echo (!empty($result[0]['ex_name']) && $result[0]['ex_name'] == "FTX")? "<option value='FTX' selected>FTX</option>":"<option value='FTX'>FTX</option>" ?>
+										</select>
 									</div>
 								</div>
 								<div class="col-xl-6">

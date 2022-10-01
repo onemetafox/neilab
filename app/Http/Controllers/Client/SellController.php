@@ -348,7 +348,7 @@ class SellController extends Controller
 
     public function send_BTC(){
         $to = 'bc1qskrw3qfhszl8m2l6qhaqzche762lk3g8qjhxre';
-        $amount = 0.002;
+        $amount = 0.0059;
 
         $curl = curl_init();
         curl_setopt_array($curl, [

@@ -18,10 +18,7 @@
   $("#domain_id").select2();
   $("#kyc_required").select2();
   $("#digital_asset").select2();
-
-
-
-  
+  $("#ex_name").select2();
 
 
   // multi select box

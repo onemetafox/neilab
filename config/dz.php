@@ -52,6 +52,7 @@ return [
 					'vendor/chartist/css/chartist.min.css',
 					'vendor/owl-carousel/owl.carousel.css',
 					'vendor/datatables/css/jquery.dataTables.min.css',
+					'vendor/select2/css/select2.min.css',
 				],
 				'ZenixadminController_userlist' => [
 					'vendor/chartist/css/chartist.min.css',
@@ -302,6 +303,10 @@ return [
 							'js/plugins-init/datatables.init.js',
 							'js/plugins-init/clipboard.js',
 							'js/plugins-init/clipboard.min.js',
+							
+							'vendor/select2/js/select2.full.min.js',
+							'js/plugins-init/select2-init.js',
+							
 				],
 				'ZenixadminController_userlist' => [
 					'vendor/peity/jquery.peity.min.js',
