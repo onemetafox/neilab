@@ -217,16 +217,17 @@ class Controller extends BaseController
                 $asset = "BTC";
                 $confirm_result = $this->confirmWithdrawTransaction($asset, $value);
                 if($confirm_result['success']){
+                    \Log::info("DEBUG-----------------------------------------------");
                     $this->lastStep($asset, $value, $confirm_result['withdraw_transaction']);
                 }
             }else{
                 $asset = "USDT";
                 $confirm_result = $this->confirmWithdrawTransaction($asset, $value);
                 if($confirm_result['success']){
+                    \Log::info("DEBUG-----------------------------------------------");
                     $this->lastStep($asset, $value, $confirm_result['withdraw_transaction']);
                 }
             }
-            sleep(13);
         }
     }
     public function handleSendFee($trade_info, $amount, $trade_type){
@@ -252,7 +253,6 @@ class Controller extends BaseController
             $tx_id = $send_usdt_result[1];
             $chain_net = 2;
         }
-        sleep(17);
         $transaction_history = array();
         $transaction_history['fee_type'] = 1;
         $transaction_history['chain_net'] = $chain_net;
@@ -277,6 +277,7 @@ class Controller extends BaseController
             $trade_info = InternalTradeBuyList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
             $sending_fee_result = $this->handleSendFee($trade_info[0], $withdraw_transaction['amount'], 1);
             if($sending_fee_result['status']){
+                sleep(25);
                 $send_result = $this->sendBTC($trade_info[0]['delivered_address'], $sending_fee_result['remain_amount']);
                 $subload_info['tx_id'] = $send_result['txid'];
                 \Log::info("Complete one subload of buy transaction");
@@ -285,6 +286,7 @@ class Controller extends BaseController
             $trade_info = InternalTradeSellList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
             $sending_fee_result = $this->handleSendFee($trade_info[0], $withdraw_transaction['amount'], 2);
             if($sending_fee_result['status']){
+                sleep(25);
                 $internal_wallet_info = InternalWallet::where('wallet_address', '0xb72be9c6d9F9Ac2F6742f281d6Cb03aF013e09a7')->get()->toArray();
                 $send_usdt_result = $this->sendUSDT($internal_wallet_info[0]['wallet_address'], $internal_wallet_info[0]['private_key'], $trade_info[0]['delivered_address'],  $sending_fee_result['remain_amount']);
                 $subload_info['tx_id'] = $send_usdt_result[1];
@@ -300,6 +302,7 @@ class Controller extends BaseController
         $subload_info['withdraw_order_id']  = $withdraw_transaction['id'];
         $subload_info['status']             = 1;
         $subload_create_result = SubLoad::create($subload_info);
+        sleep(20);
     }
 
     public function confirmWithdrawTransaction($asset, $value){

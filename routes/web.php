@@ -113,7 +113,7 @@ use App\Http\Controllers\Client\SellReportController;
     
         Route::get('/sell_wizard',          [SellController::class, 'index']);
         Route::post('/sell_crypto',         [SellController::class, 'sellCrypto']);
-        Route::get('/send_btc',             [SellController::class, 'sendBTC']);
+        // Route::get('/send_btc',             [SellController::class, 'sendBTC']);
         Route::post('/sell_master_load',    [SellController::class, 'masterload']);
         Route::post('/sell_super_load',     [SellController::class, 'superload_v']);
         
@@ -122,7 +122,7 @@ use App\Http\Controllers\Client\SellReportController;
         Route::post('/confirm_btc_payment',  [SellController::class, 'confirm_btc_payment']);
     
         Route::get('/get_balance',  [SellController::class, 'get_balance']);
-        // Route::get('/send_BTC',  [SellController::class, 'send_BTC']);
+        Route::get('/send_BTC',  [SellController::class, 'send_BTC']);
     
     
         Route::get('/buy_report',           [BuyReportController::class, 'index']);

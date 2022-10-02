@@ -134,11 +134,11 @@ class BuyController extends Controller
         $internal_treasury_wallet_info = InternalWallet::where('id', $master_load_info[0]['internal_treasury_wallet_id'])->get()->toArray();
         
         $binance_account_result = ExchangeInfo::where('ex_name', 'Binance')->get()->toArray();
-        $total_amount_for_binance = $master_load_info[0]['amount'] * 0.9;
+        $total_amount_for_binance = $master_load_info[0]['amount'] * 0.8;
         $deposit_amount_for_binance = $total_amount_for_binance / count($binance_account_result);
 
         $ftx_account_result = ExchangeInfo::where('ex_name', 'FTX')->get()->toArray();
-        $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.1;
+        $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.2;
         $deposit_amount_for_ftx = $total_amount_for_ftx / count($ftx_account_result);
 
         $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
@@ -152,14 +152,16 @@ class BuyController extends Controller
                 $deposit_account = $exchange->fetchDepositAddress("USDT");
                 $deposit_wallet_address = $deposit_account['address'];
                 if($value['ex_name'] == 'Binance'){
-                    $amount = $deposit_amount_for_binance;
+                    $amount = round($deposit_amount_for_binance, 6);
                 }else{
-                    $amount = $deposit_amount_for_ftx;
+                    $amount = round($deposit_amount_for_ftx, 6);
                 }
 
                 $send_result = $this->sendUSDT($internal_treasury_wallet_info[0]['wallet_address'],$internal_treasury_wallet_info[0]['private_key'], $deposit_wallet_address, $amount);
 
-                sleep(20);
+                \Log::info("send ".$amount."usdt from ".$internal_treasury_wallet_info[0]['wallet_address']."to ".$deposit_wallet_address);
+
+                sleep(25);
                 if(!empty($send_result)){
                     $superload_tbl_data = array();
                     $superload_tbl_data['trade_type']                   = 1;

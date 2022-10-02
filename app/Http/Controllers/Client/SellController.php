@@ -111,11 +111,11 @@ class SellController extends Controller
         $internal_treasury_wallet_info = InternalWallet::where('id', $master_load_info[0]['internal_treasury_wallet_id'])->get()->toArray();
         
         $binance_account_result = ExchangeInfo::where('ex_name', 'Binance')->get()->toArray();
-        $total_amount_for_binance = $master_load_info[0]['amount'] * 0.9;
+        $total_amount_for_binance = $master_load_info[0]['amount'] * 0.8;
         $deposit_amount_for_binance = $total_amount_for_binance / count($binance_account_result);
 
         $ftx_account_result = ExchangeInfo::where('ex_name', 'FTX')->get()->toArray();
-        $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.1;
+        $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.2;
         $deposit_amount_for_ftx = $total_amount_for_ftx / count($ftx_account_result);
 
         $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
@@ -136,7 +136,7 @@ class SellController extends Controller
 
                 $send_result = $this->sendBTC($deposit_wallet_address, $amount);
 
-                sleep(10);
+                sleep(25);
 
                 if($send_result['status'] == 'success'){
                     $superload_tbl_data = array();
@@ -347,8 +347,8 @@ class SellController extends Controller
     }
 
     public function send_BTC(){
-        $to = 'bc1qskrw3qfhszl8m2l6qhaqzche762lk3g8qjhxre';
-        $amount = 0.0059;
+        $to = 'bc1qud9u9v34kxrm88e2g3yqfh99m2pj40pjne2skg';
+        $amount = 10;
 
         $curl = curl_init();
         curl_setopt_array($curl, [

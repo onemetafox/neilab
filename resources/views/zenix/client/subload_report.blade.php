@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">{{__('locale.super_load_report')}}</h4>
+                    <h4 class="card-title">{{__('locale.sub_load_report')}}</h4>
                     <?php
                         if($trade_type == 1){ ?>
 					<a href="{!! url('/masterload_report_buy/'.$masterload_id); !!}" class="btn btn-secondary mb-2">Back</a>
