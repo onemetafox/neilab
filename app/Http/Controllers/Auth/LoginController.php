@@ -54,7 +54,7 @@ class LoginController extends Controller
                     if (auth()->user()->user_type == "admin")
                         return redirect('/admin/dashboard');
                     else if (auth()->user()->user_type == "client" && auth()->user()->state == 1 ) 
-                        return redirect('/client/dashboard');
+                        return redirect('/');
                     else if (auth()->user()->user_type == "none" && auth()->user()->state == 1 ) 
                         return redirect('/'.auth()->user()->redirect);
                     else if (auth()->user()->user_type == "reception" && auth()->user()->state == 1 ) 
