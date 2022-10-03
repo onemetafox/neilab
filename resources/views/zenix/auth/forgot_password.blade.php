@@ -1,8 +1,6 @@
 {{-- Extends layout --}}
 @extends('layout.fullwidth')
 
-
-
 {{-- Content --}}
 @section('content')
     <div class="col-md-6">
@@ -14,13 +12,19 @@
 							<img src="images/logo-full.png" alt="">
 						</div>
                         <h4 class="text-center mb-4">Forgot Password</h4>
-                        <form action="{!! url('/index'); !!}">
+                        <form method="post" action="{!! url('/reset_password'); !!}">
+                            @csrf
                             <div class="form-group">
                                 <label><strong>Email</strong></label>
-                                <input type="email" class="form-control" value="hello@example.com">
+                                <input type="email" name="email" class="form-control" placeholder="please input your email">
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary btn-block">SUBMIT</button>
+                            </div>
+                            <div class="form-row d-flex justify-content-end mt-4 mb-2">
+                                <div class="form-group">
+                                    <a href="{!! url('/login'); !!}">Return Login</a>
+                                </div>
                             </div>
                         </form>
                     </div>
