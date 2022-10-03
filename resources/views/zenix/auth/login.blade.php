@@ -18,6 +18,9 @@
                         @if(session()->has('error'))
                         <div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>
                         @endif
+                        @if(session()->has('reset_password'))
+                        <div class="alert alert-success"><div class="alert-body">{{ session()->get('reset_password') }}</div></div>
+                        @endif
                         <h4 class="text-center mb-4">{{__('locale.login_page_title')}}</h4>
                         <form method="post" action="{!! url('/login_user'); !!}">
                             @csrf
@@ -37,7 +40,7 @@
     								</div>
                                 </div>
                                 <div class="form-group">
-                                    <a href="{!! url('/page-forgot-password'); !!}">Forgot Password?</a>
+                                    <a href="{!! url('/forgot_password'); !!}">Forgot Password?</a>
                                 </div>
                             </div>
                             <div class="text-center">

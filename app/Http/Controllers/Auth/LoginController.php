@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 use App\Models\ReferralProfit;
 use App\Models\InternalWallet;
+use App\Models\User;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -84,4 +85,13 @@ class LoginController extends Controller
         }
     }
 
+    public function resetPassword(Request $request){
+        $user_email = $request['email'];
+        $update_result = User::where('email', $user_email)->update(["password" => Hash::make(12345678)]);
+        if($update_result){
+            return redirect('/login')->with('reset_password', 'Password has been formated to number "12345678".');
+        }else{
+            return redirect('/login')->with('error', 'Invalid Email');
+        }
+    }
 }

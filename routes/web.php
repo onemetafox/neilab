@@ -30,7 +30,9 @@ use App\Http\Controllers\Client\SellReportController;
     Route::post('/login_user',          [LoginController::class, 'login']);
     Route::get('/register',             [ZenixadminController::class,'page_register']);
     Route::post('/register_new_user',   [RegisterController::class, 'customRegisterUser']);
-
+    Route::get('/forgot_password',      [ZenixadminController::class, 'page_forgot_password']);
+    Route::post('/reset_password',       [LoginController::class, 'resetPassword']);
+    
     //Referral
     Route::get('/home/{refferal_code}',                     [HomeController::class,'referral_index']);
     Route::get('/register/{refferal_code}',                     [ZenixadminController::class,'page_register']);
@@ -151,5 +153,7 @@ use App\Http\Controllers\Client\SellReportController;
 
     Route::get('/required_marketing_campain', [Controller::class, 'requiredMarketingCampain']);
     Route::get('/getMarketprice',  [Controller::class, 'getMarketprice']);
+
+    
 
     

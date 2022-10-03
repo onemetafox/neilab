@@ -661,7 +661,7 @@ class ZenixadminController extends Controller
         $page_title = 'Page Forgot Password';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
-        return view('zenix.page.forgot_password', compact('page_title', 'page_description', 'action'));
+        return view('zenix.auth.forgot_password', compact('page_title', 'page_description', 'action'));
     }
     
     // Page Lock Screen
