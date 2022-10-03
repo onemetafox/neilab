@@ -30,9 +30,16 @@ use App\Http\Controllers\Client\SellReportController;
     Route::post('/login_user',          [LoginController::class, 'login']);
     Route::get('/register',             [ZenixadminController::class,'page_register']);
     Route::post('/register_new_user',   [RegisterController::class, 'customRegisterUser']);
+
     Route::get('/forgot_password',      [ZenixadminController::class, 'page_forgot_password']);
-    Route::post('/reset_password',       [LoginController::class, 'resetPassword']);
+
+    Route::post('/reset_password',      [LoginController::class, 'resetPassword']);
     
+    Route::post('/forget-password',      [LoginController::class, 'submitForgetPasswordForm']);
+
+    Route::get('/reset-password/{token}',[LoginController::class, 'showResetPasswordForm']);
+    Route::post('/reset-password',       [LoginController::class, 'submitResetPasswordForm']);
+
     //Referral
     Route::get('/home/{refferal_code}',                     [HomeController::class,'referral_index']);
     Route::get('/register/{refferal_code}',                     [ZenixadminController::class,'page_register']);

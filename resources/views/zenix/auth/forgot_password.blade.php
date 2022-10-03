@@ -12,7 +12,7 @@
 							<img src="images/logo-full.png" alt="">
 						</div>
                         <h4 class="text-center mb-4">Forgot Password</h4>
-                        <form method="post" action="{!! url('/reset_password'); !!}">
+                        <form method="post" action="{!! url('/forget-password'); !!}">
                             @csrf
                             <div class="form-group">
                                 <label><strong>Email</strong></label>
