@@ -86,7 +86,13 @@
                                     <p class="lead animated" data-animate="fadeInUp" data-delay="0.8">{{$banner_content}} </p>
                                 </div>
                             </div>
-                            @if(auth()->check() && auth()->user()->marketing_campain_id>0)
+                            @if(auth()->user()->user_type == 'admin')
+                            <div class="cpn-action">
+                                <ul class="btn-grp mx-auto">                                                
+                                    <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url('admin/dashboard'); !!}" class="btn btn-primary btn-round">Get Started</a></li>
+                                </ul>
+                            </div>
+                            @elseif(auth()->check() && auth()->user()->marketing_campain_id>0)
                             <div class="cpn-action">
                                 <ul class="btn-grp mx-auto">                                                
                                     <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url(auth()->user()->redirect); !!}" class="btn btn-primary btn-round">Get Started</a></li>

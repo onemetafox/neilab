@@ -1,7 +1,9 @@
 <?php
 
 namespace Database\Seeders;
+use Illuminate\Support\Facades\DB;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class TradingPairSeeder extends Seeder
@@ -14,7 +16,7 @@ class TradingPairSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('trading_pairs')->insert(
+        $categories = [
             [
                 'exchange_id' => 1,
                 'left' => 'BTC',
@@ -23,6 +25,9 @@ class TradingPairSeeder extends Seeder
                 'r_chain_stack' => 'Ethereum',
                 'select_all' => 1,
                 'select_exhcnage_they_can' => 1,
-            ]);
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]];
+        DB::table('trading_pairs')->insert($categories);
     }
 }
