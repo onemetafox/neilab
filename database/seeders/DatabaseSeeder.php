@@ -16,5 +16,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // User::factory(10)->create();
+        $this->call(ChainStackSeeder::class);
+        $this->call(ColdWalletSeeder::class);
+        $this->call(DigitalAssetsSeeder::class);
+        $this->call(InternalWalletSeeder::class);
+        $this->call(MarketingFeeWalletSeeder::class);
+        $this->call(TradingPairSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }
