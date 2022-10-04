@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ChainStackSeeder extends Seeder
 {
@@ -13,29 +15,42 @@ class ChainStackSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('chain_stacks')->insert(
-            [
-                'stackname' => 'BTC',
-                'status' => 1,
-            ],[
-                'stackname' => 'ERC20',
-                'status' => 1,
-            ],[
-                'stackname' => 'TRC20',
-                'status' => 1,
-            ],[
-                'stackname' => 'BEP20',
-                'status' => 1,
-            ],[
-                'stackname' => 'BEP2',
-                'status' => 1,
-            ],[
-                'stackname' => 'HECO',
-                'status' => 1,
-            ],[
-                'stackname' => 'OMNI',
-                'status' => 1,
-            ]
-            );
+        $catergories =[[
+            'stackname' => 'BTC',
+            'status' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ],[
+            'stackname' => 'ERC20',
+            'status' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ],[
+            'stackname' => 'TRC20',
+            'status' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ],[
+            'stackname' => 'BEP20',
+            'status' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ],[
+            'stackname' => 'BEP2',
+            'status' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ],[
+            'stackname' => 'HECO',
+            'status' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ],[
+            'stackname' => 'OMNI',
+            'status' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]];
+        DB::table('chain_stacks')->insert($catergories);
     }
 }
