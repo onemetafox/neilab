@@ -172,6 +172,8 @@ class BuyController extends Controller
                     $superload_tbl_data['tx_id']                        = $send_result[1];
                     $superload_tbl_data['internal_treasury_wallet_id']  = $internal_treasury_wallet_info[0]['id'];
                     $superload_tbl_data['amount']                       = $amount;
+                    $superload_tbl_data['left_amount']                  = $amount;
+                    $superload_tbl_data['result_amount']                = 0;
                     $superload_tbl_data['exchange_id']                  = $value['id'];
                     $superload_tbl_data['status']                       = 0;
                     
