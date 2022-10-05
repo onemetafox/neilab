@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         
-        $schedule->call('App\Http\Controllers\Controller@cronHandleFunction')->everyMinute();
+        $schedule->call('App\Http\Controllers\Controller@cronHandleFunction')->everyThreeMinutes();
         $schedule->call('App\Http\Controllers\Controller@cronWithdrawHandleFunction')->everyFiveMinutes();
         $schedule->call('App\Http\Controllers\Client\SellController@cronHandleFunction')->everyMinute();
     }

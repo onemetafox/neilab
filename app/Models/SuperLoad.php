@@ -17,6 +17,8 @@ class SuperLoad extends Model
         'tx_id',
         'internal_treasury_wallet_id',
         'amount',
+        'left_amount',
+        'result_amount',
         'exchange_id',
         'status',
     ];
