@@ -16,15 +16,9 @@ class CreateInternalWalletsTable extends Migration
         Schema::create('internal_wallets', function (Blueprint $table) {
             $table->id();
             $table->smallInteger("chain_stack");
-            $table->string("login"); 
-            $table->string("password"); 
-            $table->string("ipaddress"); 
             $table->string("wallet_address");
             $table->string("private_key");
-            $table->smallInteger("set_as_treasury_wallet");
-            $table->smallInteger("send_unpaid_commision");
-            $table->smallInteger("send_trust_fee");
-            $table->smallInteger("send_profit");
+            $table->smallInteger("wallet_type");
             $table->smallInteger("cold_storage_wallet_id");
             $table->timestamps();
         });

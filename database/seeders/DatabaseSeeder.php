@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ChainStackSeeder::class);
         $this->call(ColdWalletSeeder::class);
         $this->call(DigitalAssetsSeeder::class);
-        $this->call(InternalWalletSeeder::class);
         $this->call(MarketingFeeWalletSeeder::class);
         $this->call(TradingPairSeeder::class);
         $this->call(UserSeeder::class);

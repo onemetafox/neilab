@@ -50,18 +50,13 @@ return[
 
     // wallet list part
     "admin_create_new_internal_wallet_list"  =>  "Create New Internal Wallet",
-    "wallet_list_id"                         =>  "Wallet ID",
-    "wallet_exchange_name"                   =>  "Exchange Name",
-    "wallet_list_internal_treasury_account"  =>  "Internal Treasury Account",
-    "wallet_list_type"                       =>  "Wallet Type",
-    "wallet_list_chainstack"                 =>  "Chain Stack/Bank Network",
-    "wallet_list_internal_wallet_address"    =>  "Copy Internal Wallet Address",
-    "wallet_list_cold_storage_address"       =>  "Cold Storage Address",
-    "wallet_list_market_price"               =>  "Market Price USD",
-    "wallet_list_withdraw"                   =>  "Withdraw",
-    "wallet_list_in_house_balance"           =>  "In House Balance",
-    "wallet_list_cold_storage_balance"       =>  "Cold Storage Balance",
-    "wallet_list_history"                    =>  "History",
+    "wallet_list_id" => "Wallet ID",
+    "wallet_type" => "Wallet Type",
+    "wallet_chainstack" => "Chain NET",
+    "wallet_address" => "Wallet Address",
+    "cold_wallet_address" => "Cold Wallet Address",
+    "wallet_list_withdraw" => "Withdraw To Cold Wallet",
+    "wallet_edit" => "Edit",
 
  
     "internal_trade_buy_id"                       =>  "Exchange ID",

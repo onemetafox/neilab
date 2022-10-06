@@ -79,13 +79,20 @@ use App\Http\Controllers\Client\SellReportController;
 
         
         
-        Route::get('/admin/walletlist',     [Controller::class,'coming_soon']);
+        // Route::get('/admin/walletlist',     [Controller::class,'coming_soon']);
+        Route::get('/admin/walletlist',     [AdminWalletController::class,'index']);
+
         Route::get('/admin/newWalletlist/{id?}',  [AdminWalletController::class,'viewNewWalletlist']);
         Route::post('/admin/getNewWalletAddress',  [AdminWalletController::class,'generateNewWalletAddress']);
         Route::post('/admin/update_wallet_list',  [AdminWalletController::class,'updateWalletList']);
         Route::post('/admin/editColdStorage',  [AdminWalletController::class,'editColdStorage']);
         Route::post('/admin/getWalletInfoByID',  [AdminWalletController::class,'getWalletInfoByID']);
         Route::post('/admin/withdrawToColdStorage',  [AdminWalletController::class,'withdrawToColdStorage']);
+        Route::post('/admin/changeInternalWalletType',  [AdminWalletController::class,'changeInternalWalletType']);
+        Route::get('/admin/deleteInternalWallet/{id?}', [AdminWalletController::class, "deleteInternalWallet"]);
+
+        
+        
 
         
         Route::get('/admin/globaluserlist', [Controller::class,'coming_soon']);

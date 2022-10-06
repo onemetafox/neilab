@@ -30,40 +30,35 @@
                             <thead>
                                 <tr>
                                     <th>{{__('locale.wallet_list_id')}}</th>
-                                    <th>{{__('locale.wallet_list_internal_treasury_account')}}</th>
-                                    <th>{{__('locale.wallet_list_type')}}</th>
-                                    <th>{{__('locale.wallet_list_chainstack')}}</th>
-                                    <th>{{__('locale.wallet_list_internal_wallet_address')}}</th>
-                                    <th>{{__('locale.wallet_list_cold_storage_address')}}</th>
-                                    <th>{{__('locale.wallet_list_market_price')}}</th>
+                                    <th>{{__('locale.wallet_type')}}</th>
+                                    <th>{{__('locale.wallet_chainstack')}}</th>
+                                    <th>{{__('locale.wallet_address')}}</th>
+                                    <th>{{__('locale.cold_wallet_address')}}</th>
                                     <th>{{__('locale.wallet_list_withdraw')}}</th>
-                                    <th>{{__('locale.wallet_list_in_house_balance')}}</th>
-                                    <th>{{__('locale.wallet_list_cold_storage_balance')}}</th>
-                                    <th>{{__('locale.wallet_list_history')}}</th>
+                                    <!-- <th>{{__('locale.wallet_edit')}}</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($internal_wallet as $key => $value)
                                 <tr>
                                     <td>{{$value['id']}}</td>
-									<td></td>
-                                    @if($value['chain_stack'] == 1)
-									<td>Bitcoin core</td>
-                                    @elseif($value['chain_stack'] == 2)
-									<td>Metamask</td>
-                                    @endif
+                                    <td>
+                                        <select class="wallet_type_select" data-id="{{$value['id']}}" onchange="changeWalletType(this);">
+                                            <option value="0" {{$value['wallet_type'] == 0?'selected':''}}>Undifined</option>
+                                            <option value="1" {{$value['wallet_type'] == 1?'selected':''}}>Treasury Wallet</option>
+                                            <option value="2" {{$value['wallet_type'] == 2?'selected':''}}>Trust Wallet</option>
+                                            <option value="3" {{$value['wallet_type'] == 3?'selected':''}}>Commission Wallet</option>
+									    </select>
+                                    </td>
                                     @if($value['chain_stack'] == 1)
 									<td>Bitcoin</td>
                                     @elseif($value['chain_stack'] == 2)
 									<td>Ethereum</td>
                                     @endif
-									<td id="address_{{$key}}" class="copy_address" data-clipboard-target="#address_{{$key}}">{{$value['wallet_address']}}</td>
-									<td><a href="javascript:fireColdWalletChangeModal({{$value['id']}})">{{$value['cold_storage_address']}}</a></td>
-									<td>25775</td>
-									<td><a href="javascript:fireWithdrawModal({{$value['id']}})">Withdraw</a></td>
-									<td>25</td>
-									<td>{{$value['cold_storage_balance']}}</td>
-									<td><a href="{!! url('/admin/internal_wallet/history/'.$value['id']); !!}">History</a></td>
+                                    <td>{{$value['wallet_address']}}</td>
+                                    <td>{{$value['cold_storage_address']}}</td>
+                                    <td><a href="javascript:commingSoon()">Withdraw</a></td>
+                                    <!-- <td><a href="{!! url('/admin/deleteInternalWallet/'.$value['id']); !!}">Delete</a></td> -->
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -217,6 +212,70 @@
 					},
 				});
 				$('#withdrawModal').modal('show');
+		}
+        function commingSoon(){
+            sweetAlert("Oops...", "This function will be comming soon!!!", "info")
+        }
+		function changeWalletType(e){
+			var walletId = $(e).data('id');
+			var walletType = e.value;
+
+			$.ajax({
+				type: "post",
+				url : '{!! url('/admin/changeInternalWalletType'); !!}',
+				data: {
+					"_token": "{{ csrf_token() }}",
+					"wallet_id": walletId,
+					"wallet_type": walletType,
+				},
+				success: function(data){
+					if(data=='success')
+						alertSuccess();
+					else
+						alertError();
+				},
+			});
+		}
+        
+		function alertSuccess(){
+			toastr.info("Updated Successfully", "Success", {
+                    positionClass: "toast-top-right",
+                    timeOut: 5e3,
+                    closeButton: !0,
+                    debug: !1,
+                    newestOnTop: !0,
+                    progressBar: !0,
+                    preventDuplicates: !0,
+                    onclick: null,
+                    showDuration: "300",
+                    hideDuration: "1000",
+                    extendedTimeOut: "1000",
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    tapToDismiss: !1
+                })
+		}
+		function alertError(){
+			toastr.error("Database error", "Error", {
+                    positionClass: "toast-top-right",
+                    timeOut: 5e3,
+                    closeButton: !0,
+                    debug: !1,
+                    newestOnTop: !0,
+                    progressBar: !0,
+                    preventDuplicates: !0,
+                    onclick: null,
+                    showDuration: "300",
+                    hideDuration: "1000",
+                    extendedTimeOut: "1000",
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    tapToDismiss: !1
+                })
 		}
 	</script>
 @endsection	

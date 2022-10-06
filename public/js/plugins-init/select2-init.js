@@ -19,7 +19,11 @@
   $("#kyc_required").select2();
   $("#digital_asset").select2();
   $("#ex_name").select2();
+  $("#wallet_type").select2();
+  $(".wallet_type_select").select2();
 
+  
+  
 
   // multi select box
   $('.multi-select').select2();
