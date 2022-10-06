@@ -15,8 +15,13 @@ use Illuminate\Support\Arr;
 
 class AdminWalletController extends Controller
 {
-    private $RPCusername = 'lam';
-    private $RPCpassword = 'Masterskills113';
+    public function __construct()
+    {
+        $this->RPCusername = config('app.RPCusername');
+        $this->RPCpassword = config('app.RPCpassword');
+
+    }
+
 
     public function index(){
         $page_title = __('locale.adminwalletlist');

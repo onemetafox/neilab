@@ -195,5 +195,11 @@ return[
 
     'from_address' => 'From Address',
     'delivered_address' => 'Super Address',
+
+
+
+    /* External Trade Report Admin Side */
+    'trade_report' => "Report Detail",
+    'user_email' => 'User Email',
 ]
 ?>

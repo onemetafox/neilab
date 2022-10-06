@@ -30,8 +30,12 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    private $RPCusername = 'lam';
-    private $RPCpassword = 'Masterskills113';
+    public function __construct()
+    {
+        $this->RPCusername = config('app.RPCusername');
+        $this->RPCpassword = config('app.RPCpassword');
+
+    }
 
     // Redirect to Required Marketing page and coming soon page
 
