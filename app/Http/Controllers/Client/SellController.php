@@ -15,9 +15,13 @@ use App\Models\InternalWallet;
 
 class SellController extends Controller
 {
-    //
-    private $RPCusername = 'lam';
-    private $RPCpassword = 'Masterskills113';
+
+    public function __construct()
+    {
+        $this->RPCusername = config('app.RPCusername');
+        $this->RPCpassword = config('app.RPCpassword');
+
+    }
 
     public function index(){
         $page_title = __('locale.sell_wizard');
@@ -102,7 +106,7 @@ class SellController extends Controller
     }
     
     public function superload_v($master_load_id_param){
-
+        
         $success = true;
         $error   = false;
         
@@ -348,8 +352,47 @@ class SellController extends Controller
         }
     }
 
-    public function send_BTC(){
-        $to = 'bc1qud9u9v34kxrm88e2g3yqfh99m2pj40pjne2skg';
+
+
+    public function cronHandleFunction(){
+
+        $btc_trade_lists = InternalTradeSellList::where('state', 0)->get()->toArray();
+        if(count($btc_trade_lists) != 0){
+            foreach ($btc_trade_lists as $key => $value) {
+                # code...
+                $amount = $value['pay_with'];
+                $tx_id  = $value['tx_id'];
+
+                //  Confirm the payment which sends from client to internal treasury wallet, if status = ok && confirm steo == 3
+                $confirm_result = $this->confirm_btc_payment($amount, $tx_id);
+
+                if($confirm_result['status'] == 'success' && $confirm_result['result'] == 'true'){
+                    $internal_trade_update_result = InternalTradeSellList::where('id', $value['id'])->update(['state' => 1]);
+                    $internal_treasury_wallet = InternalWallet::where('id', $value['internal_treasury_wallet_id'])->get()->toArray();
+
+                    \Log::info($tx_id." -------------- transaction Confirmed!");
+                    
+                    if($internal_trade_update_result > 0){
+                        $request = array();
+
+                        $request['sender_address'] = $value['sender_address'];
+                        $request['toAddress'] = $internal_treasury_wallet[0]['wallet_address'];
+                        $request['amount'] = $value['pay_with'];
+                        $request['tx_id'] = $value['tx_id'];
+
+                        $master_load_result = $this->masterload($request);
+
+                        if($master_load_result['success'] == true){
+                            $this->superload_v($master_load_result['master_load_id']);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function test_transaction(){
+        $to = 'bc1qqu4mcaspyc3kj5zcdtl3h7ejnh87t3y09guqjz';
         $amount = 10;
 
         $curl = curl_init();
@@ -400,43 +443,6 @@ class SellController extends Controller
                 }
             }else{
                 return ['status'=>'error', 'message'=>$result->error->message];
-            }
-        }
-    }
-
-    public function cronHandleFunction(){
-
-        $btc_trade_lists = InternalTradeSellList::where('state', 0)->get()->toArray();
-        if(count($btc_trade_lists) != 0){
-            foreach ($btc_trade_lists as $key => $value) {
-                # code...
-                $amount = $value['pay_with'];
-                $tx_id  = $value['tx_id'];
-
-                //  Confirm the payment which sends from client to internal treasury wallet, if status = ok && confirm steo == 3
-                $confirm_result = $this->confirm_btc_payment($amount, $tx_id);
-
-                if($confirm_result['status'] == 'success' && $confirm_result['result'] == 'true'){
-                    $internal_trade_update_result = InternalTradeSellList::where('id', $value['id'])->update(['state' => 1]);
-                    $internal_treasury_wallet = InternalWallet::where('id', $value['internal_treasury_wallet_id'])->get()->toArray();
-
-                    \Log::info($tx_id." -------------- transaction Confirmed!");
-                    
-                    if($internal_trade_update_result > 0){
-                        $request = array();
-
-                        $request['sender_address'] = $value['sender_address'];
-                        $request['toAddress'] = $internal_treasury_wallet[0]['wallet_address'];
-                        $request['amount'] = $value['pay_with'];
-                        $request['tx_id'] = $value['tx_id'];
-
-                        $master_load_result = $this->masterload($request);
-
-                        if($master_load_result['success'] == true){
-                            $this->superload_v($master_load_result['master_load_id']);
-                        }
-                    }
-                }
             }
         }
     }

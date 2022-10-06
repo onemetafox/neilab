@@ -47,15 +47,15 @@
 					<i class="flaticon-081-up-arrow-2"></i>{{__('locale.marketing_campain')}}
 				</a>
 			</li>
-            <!-- <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
 				<i class="flaticon-077-menu-1"></i>
-					<span class="nav-text">Internal Trade</span>
+					<span class="nav-text">{{__('locale.trade_report')}}</span>
 				</a>
                 <ul aria-expanded="false">
-                    <li><a href="{!! url('/admin/internalTradeBuy'); !!}">{{__('locale.internal_trade_buy')}}</a></li>
-					<li><a href="{!! url('/admin/internalTradeSell'); !!}">{{__('locale.internal_trade_sell')}}</a></li>
+                    <li><a href="{!! url('/admin/buy_report'); !!}">{{__('locale.buy_report')}}</a></li>
+					<li><a href="{!! url('/admin/sell_report'); !!}">{{__('locale.sell_report')}}</a></li>
 				</ul>
-			</li> -->
+			</li>
 			<li>
 				<a href="{!! url('/commisions'); !!}" aria-expanded="false">
 					<i class="flaticon-039-shuffle"></i>{{__('locale.commisions')}}

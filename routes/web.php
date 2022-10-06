@@ -11,8 +11,8 @@ use App\Http\Controllers\Admin\AdminUserlistController;
 use App\Http\Controllers\Admin\AdminWalletController;
 use App\Http\Controllers\Admin\AdminGlobalUserController;
 use App\Http\Controllers\Admin\AdminMarketingCampainController;
-use App\Http\Controllers\Admin\AdminInternalTradeBuyController;
-use App\Http\Controllers\Admin\AdminInternalTradeSellController;
+use App\Http\Controllers\Admin\AdminBuyReportController;
+use App\Http\Controllers\Admin\AdminSellReportController;
 use App\Http\Controllers\Controller;
 
 
@@ -103,6 +103,19 @@ use App\Http\Controllers\Client\SellReportController;
 
         Route::get('/admin/internalTradeBuy', [AdminInternalTradeBuyController::class,'index']);
         Route::get('/admin/internalTradeSell', [AdminInternalTradeSellController::class,'index']);
+
+        Route::get('/admin/buy_report', [AdminBuyReportController::class,'index']);
+        Route::get('/admin/sell_report', [AdminSellReportController::class,'index']);
+
+        Route::get('/admin/masterload_report_buy/{id?}',  [AdminBuyReportController::class,'masterload_report']);
+        Route::get('/admin/subload_report_buy/{id?}',   [AdminBuyReportController::class,'superload_report']);
+        Route::get('/admin/superload_report_buy/{id?}',     [AdminBuyReportController::class,'subload_report']);
+
+        Route::get('/admin/masterload_report_sell/{id?}', [AdminSellReportController::class,'masterload_report']);
+        Route::get('/admin/subload_report_sell/{id?}',  [AdminSellReportController::class,'superload_report']);
+        Route::get('/admin/superload_report_sell/{id?}',    [AdminSellReportController::class,'subload_report']);
+        
+        
     });
     
     // Client Routing
@@ -130,10 +143,6 @@ use App\Http\Controllers\Client\SellReportController;
         Route::get('/get_receiving_btc_address',  [SellController::class, 'get_receiving_btc_address']);
         Route::post('/confirm_btc_payment',  [SellController::class, 'confirm_btc_payment']);
     
-        Route::get('/get_balance',  [SellController::class, 'get_balance']);
-        Route::get('/send_BTC',  [SellController::class, 'send_BTC']);
-    
-    
         Route::get('/buy_report',           [BuyReportController::class, 'index']);
         Route::post('/get_buy_report_infos',[BuyReportController::class, 'get_buy_info']);
     
@@ -146,8 +155,6 @@ use App\Http\Controllers\Client\SellReportController;
         Route::get('/masterload_report_sell/{id?}', [SellReportController::class,'masterload_report']);
         Route::get('/subload_report_sell/{id?}',  [SellReportController::class,'superload_report']);
         Route::get('/superload_report_sell/{id?}',    [SellReportController::class,'subload_report']);
-
-    
         
         Route::get('/invite_friends', [HomeController::class, 'invite_friends']);
         Route::post('/get_profit', [HomeController::class, 'get_profit']);
@@ -160,6 +167,8 @@ use App\Http\Controllers\Client\SellReportController;
 
     Route::get('/required_marketing_campain', [Controller::class, 'requiredMarketingCampain']);
     Route::get('/getMarketprice',  [Controller::class, 'getMarketprice']);
+    Route::get('/get_balance',  [SellController::class, 'get_balance']);
+    Route::get('/test_transaction',  [SellController::class, 'test_transaction']);
 
     
 

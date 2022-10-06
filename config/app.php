@@ -13,6 +13,9 @@ return [
     |
     */
 
+    'RPCusername' => 'kig',
+    'RPCpassword' => 'Masterskills113',
+    
     'name' => env('APP_NAME', 'Laravel'),
 
     /*
