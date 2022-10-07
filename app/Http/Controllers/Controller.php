@@ -34,6 +34,7 @@ class Controller extends BaseController
     {
         $this->RPCusername = config('app.RPCusername');
         $this->RPCpassword = config('app.RPCpassword');
+        $this->withdraw_limit = config('app.withdraw_limit');
 
     }
 
@@ -104,17 +105,17 @@ class Controller extends BaseController
         $market_amount = round($this->getBTCMarketPrice($exchange, $amount)*0.999, 6);
         $order = $this->createMarketBuyOrder($symbol, $market_amount, $exchange);
 
-        $superload_info = SuperLoad::find($superload_id);
+        $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
         if($order['amount'] > 0){
             /* update result amount of marketing sale */
-            $total_sold_amount = $superload_info->result_amount + $order['amount'];
+            $total_sold_amount = $superload_info[0]['result_amount'] + $order['amount'];
             $update_superload_result = SuperLoad::where('id', $superload_id)->update(['result_amount' => $total_sold_amount]);
             \Log::info("New marketing buy has been request. amount = ".$order['amount']);
         }
         /* If all deposited money has been saled, withdraw the total result amount. */
-        if($superload_info->status == 1){
+        if($superload_info[0]['status'] == 1 && $superload_info[0]['result_amount'] < $this->withdraw_limit){
             $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
-            $update_result = InternalTradeBuyList::where('id', $superload_info->trade_id)->update(['state' => 3]);
+            $update_result = InternalTradeBuyList::where('id', $superload_info[0]['trade_id'])->update(['state' => 3]);
 
             sleep(13);
             $this->withdraw($exchange, $superload_id);
@@ -126,15 +127,15 @@ class Controller extends BaseController
         $market_amount = round($amount*0.999, 6);
         $order = $this->createMarketSellOrder($symbol, $amount, $exchange);
 
-        $superload_info = SuperLoad::find($superload_id);
+        $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
         if($order['amount'] > 0){
-            $total_sold_amount = $superload_info->result_amount + $order['amount'];
+            $total_sold_amount = $superload_info[0]['result_amount'] + $order['amount'];
             $update_superload_result = SuperLoad::where('id', $superload_id)->update(['result_amount' => $total_sold_amount]);
             \Log::info("New marketing sell has been request. amount = ".$order['amount']);
         }
-        if($superload_info->status == 1){
+        if($superload_info[0]['status'] == 1 && $superload_info[0]['result_amount'] < $this->withdraw_limit){
             $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
-            $update_result = InternalTradeSellList::where('id', $superload_info->trade_id)->update(['state' => 3]);
+            $update_result = InternalTradeSellList::where('id', $superload_info[0]['trade_id'])->update(['state' => 3]);
 
             sleep(13);
             $this->withdraw($exchange, $superload_id);
@@ -191,6 +192,7 @@ class Controller extends BaseController
         $withdraw_info['superload_id'] = $superload_id;
         $withdraw_info['exchange_id'] = $superload_info[0]['exchange_id'];
         $withdraw_info['withdraw_order_id'] = $withdraw_detail['id'];
+        $withdraw_info['manual_flag'] = 0;
         $withdraw_info['status'] = 0;
         $result = Withdraw::create($withdraw_info);
     }
@@ -219,7 +221,12 @@ class Controller extends BaseController
 
                         /* If there remains unordered amount, request order till left amount is zero */
                         if(count($database_status_of_superload) != 0 && $database_status_of_superload[0]['left_amount'] > 0 && $database_status_of_superload[0]['status'] == 0){
-                            if($database_status_of_superload[0]['left_amount'] > $order_size_limit_usdt){
+                            /* If remains amount is less than 15 usdt. */
+                            if($database_status_of_superload[0]['left_amount'] - $order_size_limit_usdt < 15){
+                                $update_superload_result = SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['left_amount' => 0,'status' => 1]);
+                                $this->marketBuyOrder($exchange, $database_status_of_superload[0]['left_amount'], $database_status_of_superload[0]['id']);
+                                \Log::info("Deposit transaction of ".$deposit_value['txid']." has been confirmed from ".$value['ex_name']);
+                            }else if($database_status_of_superload[0]['left_amount'] > $order_size_limit_usdt){
                                 $this->marketBuyOrder($exchange, $order_size_limit_usdt, $database_status_of_superload[0]['id']);
                                 $remain_amount = $database_status_of_superload[0]['left_amount'] - $order_size_limit_usdt;
                                 SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['left_amount' => $remain_amount]);
@@ -243,7 +250,13 @@ class Controller extends BaseController
 
                         /* If there remains unordered amount, request order till left amount is zero */
                         if(count($database_status_of_superload) != 0 && $database_status_of_superload[0]['left_amount'] > 0 && $database_status_of_superload[0]['status'] == 0){
-                            if($database_status_of_superload[0]['left_amount'] > $order_size_limit_btc){
+                            /* If remains amount is less than 0.001 btc. */
+                            if($database_status_of_superload[0]['left_amount'] - $order_size_limit_btc < 0.001){
+                                $update_superload_result = SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['left_amount' => 0,'status' => 1]);
+                                $this->marketSellOrder($exchange, $database_status_of_superload[0]['left_amount'], $database_status_of_superload[0]['id']);
+                                \Log::info("Deposit transaction of ".$deposit_value['txid']." has been confirmed from ".$value['ex_name']);
+                           
+                            }else if($database_status_of_superload[0]['left_amount'] > $order_size_limit_btc){
                                 $this->marketSellOrder($exchange, $order_size_limit_btc, $database_status_of_superload[0]['id']);
                                 $remain_amount = $database_status_of_superload[0]['left_amount'] - $order_size_limit_btc;
                                 SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['left_amount' => $remain_amount]);
@@ -282,10 +295,10 @@ class Controller extends BaseController
         }
     }
     public function handleSendFee($trade_info, $amount, $trade_type){
-        $user_info = User::find($trade_info['user_id']);
-        $marketing_info = MarketingCampain::find($user_info->marketing_campain_id);
+        $user_info = User::where('id', $trade_info['user_id'])->get()->toArray();
+        $marketing_info = MarketingCampain::where('id', $user_info[0]['marketing_campain_id'])->get()->toArray();
 
-        $fee_amount = round($amount/100*$marketing_info->total_fee,6);
+        $fee_amount = round($amount/100*$marketing_info[0]['total_fee'],6);
         $remain_amount = $amount - $fee_amount;
 
         if($trade_type == 1){
@@ -298,9 +311,10 @@ class Controller extends BaseController
         }else{
             $marketing_fee_wallets = MarketingFeeWallet::where('fee_type', 1)->where('chain_net', 2)->get()->toArray();
 
-            $internal_wallet_info = InternalWallet::find($trade_info['internal_treasury_wallet_id']);
-            $private_key = base64_decode($internal_wallet_info->private_key);
-            $address = $internal_wallet_info->wallet_address;
+            $internal_wallet_info = InternalWallet::where('wallet_type',1)->where('chain_stack',2)->get()->toArray();
+            $private_key = base64_decode($internal_wallet_info[0]['private_key']);
+            $address = $internal_wallet_info[0]['wallet_address'];
+
             $send_usdt_result = $this->sendUSDT($address, $private_key , $marketing_fee_wallets[0]['wallet_address'], $fee_amount);
             \Log::info("Total Fee (".$fee_amount."USDT)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
 
@@ -341,9 +355,9 @@ class Controller extends BaseController
             $sending_fee_result = $this->handleSendFee($trade_info[0], $withdraw_transaction['amount'], 2);
             if($sending_fee_result['status']){
                 sleep(25);
-                $internal_wallet_info = InternalWallet::find($trade_info[0]['internal_treasury_wallet_id']);
-                $private_key = base64_decode($internal_wallet_info->private_key);
-                $address = $internal_wallet_info->wallet_address;
+                $internal_wallet_info = InternalWallet::where('wallet_type',1)->where('chain_stack',2)->get()->toArray();
+                $private_key = base64_decode($internal_wallet_info[0]['private_key']);
+                $address = $internal_wallet_info[0]['wallet_address'];
                 $send_usdt_result = $this->sendUSDT($address, $private_key, $trade_info[0]['delivered_address'],  $sending_fee_result['remain_amount']);
                 $subload_info['tx_id'] = $send_usdt_result[1];
                 \Log::info("Complete one subload of buy transaction");
@@ -371,12 +385,22 @@ class Controller extends BaseController
 
         foreach ($withdraw_transaction_history as $key => $history_value) {
             # code...
-            if($history_value['id'] == $value['withdraw_order_id'] && $history_value['status'] == 'ok'){
+            if($value['manual_flag'] == 0){
+                if($history_value['id'] == $value['withdraw_order_id'] && $history_value['status'] == 'ok'){
 
-                \Log::info("Withdarw request has been confirmed from ".$exchange_info[0]['ex_name']."!");
-                $return = true;
-                $transaction = $history_value;
-                break;
+                    \Log::info("Withdarw request has been confirmed from ".$exchange_info[0]['ex_name']."!");
+                    $return = true;
+                    $transaction = $history_value;
+                    break;
+                }
+            }else if($value['manual_flag'] == 1){
+                if($history_value['txid'] == $value['withdraw_order_id'] && $history_value['status'] == 'ok'){
+
+                    \Log::info("Withdarw request has been confirmed from ".$exchange_info[0]['ex_name']."!");
+                    $return = true;
+                    $transaction = $history_value;
+                    break;
+                }
             }
         }
         return ['success' => $return, 'withdraw_transaction' => $transaction];

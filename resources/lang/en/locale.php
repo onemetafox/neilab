@@ -196,5 +196,9 @@ return[
     /* External Trade Report Admin Side */
     'trade_report' => "Report Detail",
     'user_email' => 'User Email',
+
+
+    /* manual withdraw part */
+    'manual_withdraw' => 'Manual Withdraw',
 ]
 ?>
