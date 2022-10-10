@@ -28,7 +28,7 @@ class BuyController extends Controller
         $chainstack_info = ChainStack::orderBy('id', 'asc')->get()->toArray();
         $chainstacks = Arr::except($chainstack_info,['0']);
         
-        $internal_ethereum_wallet_list = InternalWallet::where('chain_stack', 2)->get()->toArray();
+        $internal_ethereum_wallet_list = InternalWallet::where('chain_stack', 2)->where('wallet_type', 1)->get()->toArray();
 
         $ethereum_wallet = $internal_ethereum_wallet_list[0]['wallet_address'];
         return view('zenix.client.buywizard', compact('page_title', 'page_description', 'action', 'chainstacks', 'ethereum_wallet'));
@@ -138,9 +138,10 @@ class BuyController extends Controller
         $deposit_amount_for_binance = $total_amount_for_binance / count($binance_account_result);
 
         $ftx_account_result = ExchangeInfo::where('ex_name', 'FTX')->get()->toArray();
-        $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.2;
-        $deposit_amount_for_ftx = $total_amount_for_ftx / count($ftx_account_result);
-
+        if(count($ftx_account_result) > 0){
+            $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.2;
+            $deposit_amount_for_ftx = $total_amount_for_ftx / count($ftx_account_result);
+        }
         $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
 
         foreach ($result as $key => $value) {
@@ -156,8 +157,8 @@ class BuyController extends Controller
                 }else{
                     $amount = round($deposit_amount_for_ftx, 6);
                 }
-
-                $send_result = $this->sendUSDT($internal_treasury_wallet_info[0]['wallet_address'],$internal_treasury_wallet_info[0]['private_key'], $deposit_wallet_address, $amount);
+                $private_key = base64_decode($internal_treasury_wallet_info[0]['private_key']);
+                $send_result = $this->sendUSDT($internal_treasury_wallet_info[0]['wallet_address'],$private_key, $deposit_wallet_address, $amount);
 
                 \Log::info("send ".$amount."usdt from ".$internal_treasury_wallet_info[0]['wallet_address']."to ".$deposit_wallet_address);
 

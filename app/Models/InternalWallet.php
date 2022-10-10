@@ -10,15 +10,9 @@ class InternalWallet extends Model
     use HasFactory;
     protected $fillable = [
         "chain_stack",
-        "login", 
-        "password", 
-        "ipaddress", 
         "wallet_address",
         "private_key",
-        "set_as_treasury_wallet",
-        "send_unpaid_commision",
-        "send_trust_fee",
-        "send_profit",
+        "wallet_type",
         "cold_storage_wallet_id"
     ];
 }

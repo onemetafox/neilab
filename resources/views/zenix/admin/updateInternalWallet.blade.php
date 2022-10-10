@@ -38,29 +38,18 @@
 										</select>
 									</div>
 								</div>
-							</div>
-							<div class="row">
 								<div class="col-xl-6">
 									<div class="form-group">
-										<label class="mb-1"><strong>Login</strong></label>
-										<input type="text" class="form-control" id="login" name="login"  value="{{isset($result)?$result[0]['login']:''}}">
-									</div>
-								</div>
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>Password</strong></label>
-										<input type="text" class="form-control" id="password" name="password"  value="{{isset($result)?$result[0]['password']:''}}">
+										<label class="mb-1"><strong>Wallet Type</strong></label>
+										<select id="wallet_type" name="wallet_type">
+											<option value="0">Undefind</option>
+											<option value="1">Treasury Wallet</option>
+											<option value="2">Trust Wallet</option>
+											<option value="3">Commission Wallet</option>
+										</select>
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>IP Address</strong></label>
-										<input type="text" class="form-control" id="ipaddress" name="ipaddress"  value="{{isset($result)?$result[0]['ipaddress']:''}}">
-									</div>
-								</div>
-							</div>	
 							<div class="row">
 								<div class="col-xl-6">
 									<div class="form-group">
@@ -86,46 +75,6 @@
 											@foreach($cold_wallet as $key => $value)
 											<option value="{{$value['id']}}">{{$value['cold_address']}}</option>
 											@endforeach
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>Set as new treasury wallet address</strong></label>
-										<select id="set_as_treasury_wallet" name="set_as_treasury_wallet">
-											<option value="1">yes</option>
-											<option value="2">no</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>Send unpaid commions to cold storge	</strong></label>
-										<select id="send_unpaid_commision" name="send_unpaid_commision">
-											<option value="1">yes</option>
-											<option value="2">no</option>
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>Send Trust Fee to cold storage</strong></label>
-										<select id="send_trust_fee" name="send_trust_fee">
-											<option value="1">yes</option>
-											<option value="2">no</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>Send profit to cold storge	</strong></label>
-										<select id="send_profit" name="send_profit">
-											<option value="1">yes</option>
-											<option value="2">no</option>
 										</select>
 									</div>
 								</div>

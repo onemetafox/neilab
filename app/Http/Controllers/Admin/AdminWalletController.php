@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use ccxt;
 use Denpa\Bitcoin\Client as BitcoinClient;
 use Illuminate\Support\Arr;
-
+use Illuminate\Support\Facades\Crypt;
 class AdminWalletController extends Controller
 {
     public function __construct()
@@ -35,12 +35,8 @@ class AdminWalletController extends Controller
             if($internal_wallet[$key]['cold_storage_wallet_id'] != null){
                 $cold_storage_address = ColdWallet::select("cold_address")->where("id", $internal_wallet[$key]['cold_storage_wallet_id'])->get()->toArray();
                 $internal_wallet[$key]['cold_storage_address'] = $cold_storage_address[0]['cold_address'];
-                $cold_storage_balance = $this->getBalance($cold_storage_address[0]['cold_address']);
-                $internal_wallet[$key]['cold_storage_balance'] = $cold_storage_balance;
             }else{
                 $internal_wallet[$key]['cold_storage_address'] = "Edit";
-                $internal_wallet[$key]['cold_storage_balance'] = 0;
-
             }
         }
         $cold_wallet = ColdWallet::orderBy('id', 'asc')->get();
@@ -93,15 +89,10 @@ class AdminWalletController extends Controller
 
     public function generateNewWalletAddress(Request $request){
         $chain_stack = $request['chain_stack'];
-        $ipaddress = $request['ipaddress'];
-        $login = $request['login'];
-        $password = $request['password'];
         $success = true;
         $error = false;
         if($chain_stack == 1){
             try {
-                // $bitcoind = new BitcoinClient('http://'.$login.':'.$password.'@'.$ipaddress.':8332');
-                // $address = $bitcoind->wallet('internal_wallet')->getnewaddress()->result();
                 $address = $this->get_new_btc_wallet_address();
                 return response()->json(["success" => $success, "address" => $address]);
             } catch (\Throwable $th) {
@@ -111,28 +102,24 @@ class AdminWalletController extends Controller
             $metamaskAddressInfo = $this->createMetamaskWalletAddress();
             $metamaskAddress = $metamaskAddressInfo->get();
             $metamaskPrivateKey = $metamaskAddressInfo->getPrivateKey();
-            return response()->json(["success" => $success, "address" => $metamaskAddress, "private_key" => $metamaskPrivateKey]);
+            return response()->json(["success" => $success, "address" => "0x".$metamaskAddress, "private_key" => $metamaskPrivateKey]);
+        }
+    }
+    function createMetamaskWalletAddress (){
+        $address = new Address();
+        return $address;
+    }
+    public function updateWalletList(Request $request){
+        $payLoad = Arr::except($request->all(),['_token']);
+        $payLoad['private_key'] = base64_encode($payLoad['private_key']);
+        $result = InternalWallet::create($payLoad);
+        if(isset($result) && $result->id > 0){
+            return redirect('/admin/walletlist'.$request->old_id)->with('success', 'Successfully created');
+        }else{
+            return redirect('/admin/walletlist'.$request->old_id)->with('error', 'Try again. There is error in database');
         }
     }
 
-    public function updateWalletList(Request $request){
-        $payLoad = Arr::except($request->all(),['_token']);
-        // if($request->old_id){
-        //     $result = ExchangeInfo::where("id", $request->old_id)->update($payLoad);
-        //     if($result > 0){
-        //         return redirect('/admin/new_exchange_list/'.$request->old_id)->with('success', 'Successfully updated');
-        //     }else{
-        //         return redirect('/admin/new_exchange_list/'.$request->old_id)->with('error', 'Try again. There is error in database');
-        //     }
-        // }else{
-            $result = InternalWallet::create($payLoad);
-            if(isset($result) && $result->id > 0){
-                return redirect('/admin/walletlist'.$request->old_id)->with('success', 'Successfully created');
-            }else{
-                return redirect('/admin/walletlist'.$request->old_id)->with('error', 'Try again. There is error in database');
-            }
-        // }
-    }
     public function editColdStorage(Request $request){
         $id = $request['user_id'];
         $wallet_id = $request['cold_storage_wallet_id'];
@@ -153,49 +140,23 @@ class AdminWalletController extends Controller
         $success = true;
         return response()->json(["success" => $success, "wallet_balance" => $wallet_balance, "cold_storage" => $cold_address]);
     }
-    public function withdrawToColdStorage(Request $request){
-        $success = true;
-        $error = false;
-        $id = $request['wallet_id'];
-        $req['amount'] = $request['amount'];
-        $description = $request['decription'];
-        $wallet_info = InternalWallet::where('id', $id)->get()->toArray();
 
-        $req['login'] = $wallet_info[0]['login'];
-        $req['ipaddress'] = $wallet_info[0]['ipaddress'];
-        $req['password'] = $wallet_info[0]['password'];
+    public function changeInternalWalletType(Request $request){
+        
+        $wallet_id = $request->wallet_id;
+        $wallet_type = $request->wallet_type;
 
-        $req['fromAddress'] = $wallet_info[0]['wallet_address'];
-        $cold_storage = ColdWallet::where('id', $wallet_info[0]['cold_storage_wallet_id'])->get()->toArray();
-        $req['toAddress'] = $cold_storage[0]['cold_address'];
-
-        $result = $this->withDrawToColdWallet($req);
-        if($result['status']){
-            return response()->json(["success" => $success, "message" => $result['message']]);
+        $wallet = InternalWallet::find($wallet_id);
+        $wallet->wallet_type = $wallet_type;
+        if($wallet->save()) return 'success';
+        else return 'error';
+    }
+    public function deleteInternalWallet($id = null){
+        $res=InternalWallet::where('id',$id)->delete();
+        if($res > 0){
+            return redirect('/admin/walletlist')->with('success', 'Successfully deleted');
         }else{
-            return response()->json(["success" => $error, "message" => $result['message']]);
-        }
-    }
-    function getBalance($address) {
-        return file_get_contents('https://blockchain.info/q/addressbalance/'. $address);
-    }
-    function createMetamaskWalletAddress (){
-        $address = new Address();
-        return $address;
-    }
-    function withDrawToColdWallet($req){
-        try {
-            //code...
-            $bitcoind = new BitcoinClient('http://'.$req['login'].':'.$req['password'].'@'.$req['ipaddress'].':8332');
-            $result = $bitcoind->wallet('internal_wallet')->sendToAddress($req['toAddress'], $req['amount']);
-            $result['status'] = true;
-            $result['message'] = $result;
-            return $result;
-        } catch (\Throwable $th) {
-            // throw $th;
-            $result['status'] = false;
-            $result['message'] = "Insufficient funds";
-            return $result;
+            return redirect('/admin/walletlist')->with('error', 'Try again. There is error in database');
         }
     }
 }

@@ -169,7 +169,8 @@ class Controller extends BaseController
 
             $code = "BTC";
             $amount = $superload_info[0]['result_amount'];
-            $address = 'bc1q8qd968ch8uth08m2uwyzwgvcrchepjr2qqdacw';
+            $internal_wallets = InternalWallet::where('chain_stack', 1)->where('wallet_type', 1)->get()->toArray();
+            $address = $internal_wallets[0]['wallet_address'];
             $withdraw_detail = $exchange->withdraw($code, $amount, $address);
             \Log::info("Withdraw request has been ordered. amount = ".$amount." to ".$address);
             $withdraw_info['trade_type'] = 1;
@@ -179,7 +180,9 @@ class Controller extends BaseController
             $code = "USDT";
             $amount = $superload_info[0]['result_amount'];
             $usdt_amount = $this->getUSDTPrice($exchange, $amount);
-            $address = '0xb72be9c6d9F9Ac2F6742f281d6Cb03aF013e09a7';
+            $internal_wallets = InternalWallet::where('chain_stack', 2)->where('wallet_type', 1)->get()->toArray();
+
+            $address = $internal_wallets[0]['wallet_address'];
             $withdraw_detail = $exchange->withdraw($code, $usdt_amount, $address);
             \Log::info("Withdraw request has been ordered. amount = ".$usdt_amount." to ".$address);
             $withdraw_info['trade_type'] = 2;
@@ -294,8 +297,11 @@ class Controller extends BaseController
             $chain_net = 1;
         }else{
             $marketing_fee_wallets = MarketingFeeWallet::where('fee_type', 1)->where('chain_net', 2)->get()->toArray();
-            $internal_wallet_info = InternalWallet::where('wallet_address', '0xb72be9c6d9F9Ac2F6742f281d6Cb03aF013e09a7')->get()->toArray();
-            $send_usdt_result = $this->sendUSDT($internal_wallet_info[0]['wallet_address'], $internal_wallet_info[0]['private_key'], $marketing_fee_wallets[0]['wallet_address'], $fee_amount);
+
+            $internal_wallet_info = InternalWallet::find($trade_info['internal_treasury_wallet_id']);
+            $private_key = base64_decode($internal_wallet_info->private_key);
+            $address = $internal_wallet_info->wallet_address;
+            $send_usdt_result = $this->sendUSDT($address, $private_key , $marketing_fee_wallets[0]['wallet_address'], $fee_amount);
             \Log::info("Total Fee (".$fee_amount."USDT)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
 
             $tx_id = $send_usdt_result[1];
@@ -335,8 +341,10 @@ class Controller extends BaseController
             $sending_fee_result = $this->handleSendFee($trade_info[0], $withdraw_transaction['amount'], 2);
             if($sending_fee_result['status']){
                 sleep(25);
-                $internal_wallet_info = InternalWallet::where('wallet_address', '0xb72be9c6d9F9Ac2F6742f281d6Cb03aF013e09a7')->get()->toArray();
-                $send_usdt_result = $this->sendUSDT($internal_wallet_info[0]['wallet_address'], $internal_wallet_info[0]['private_key'], $trade_info[0]['delivered_address'],  $sending_fee_result['remain_amount']);
+                $internal_wallet_info = InternalWallet::find($trade_info[0]['internal_treasury_wallet_id']);
+                $private_key = base64_decode($internal_wallet_info->private_key);
+                $address = $internal_wallet_info->wallet_address;
+                $send_usdt_result = $this->sendUSDT($address, $private_key, $trade_info[0]['delivered_address'],  $sending_fee_result['remain_amount']);
                 $subload_info['tx_id'] = $send_usdt_result[1];
                 \Log::info("Complete one subload of buy transaction");
             }

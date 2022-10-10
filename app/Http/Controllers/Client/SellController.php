@@ -30,7 +30,7 @@ class SellController extends Controller
 
         $chainstacks = ChainStack::orderBy('id', 'asc')->get()->toArray();
                 
-        $internal_bitcoin_wallet_list = InternalWallet::where('chain_stack', 1)->get()->toArray();
+        $internal_bitcoin_wallet_list = InternalWallet::where('chain_stack', 1)->where('wallet_type', 1)->get()->toArray();
 
         $bitcoin_wallet = $internal_bitcoin_wallet_list[0]['wallet_address'];
 
@@ -119,9 +119,10 @@ class SellController extends Controller
         $deposit_amount_for_binance = $total_amount_for_binance / count($binance_account_result);
 
         $ftx_account_result = ExchangeInfo::where('ex_name', 'FTX')->get()->toArray();
-        $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.2;
-        $deposit_amount_for_ftx = $total_amount_for_ftx / count($ftx_account_result);
-
+        if(count($ftx_account_result) > 0){
+            $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.2;
+            $deposit_amount_for_ftx = $total_amount_for_ftx / count($ftx_account_result);
+        }
         $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
         
         foreach ($result as $key => $value) {
