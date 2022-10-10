@@ -366,7 +366,6 @@ class SellController extends Controller
 
                 //  Confirm the payment which sends from client to internal treasury wallet, if status = ok && confirm steo == 3
                 $confirm_result = $this->confirm_btc_payment($amount, $tx_id);
-
                 if($confirm_result['status'] == 'success' && $confirm_result['result'] == 'true'){
                     $internal_trade_update_result = InternalTradeSellList::where('id', $value['id'])->update(['state' => 1]);
                     $internal_treasury_wallet = InternalWallet::where('id', $value['internal_treasury_wallet_id'])->get()->toArray();

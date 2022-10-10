@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AdminGlobalUserController;
 use App\Http\Controllers\Admin\AdminMarketingCampainController;
 use App\Http\Controllers\Admin\AdminBuyReportController;
 use App\Http\Controllers\Admin\AdminSellReportController;
+use App\Http\Controllers\Admin\AdminManualWithdrawController;
 use App\Http\Controllers\Controller;
 
 
@@ -121,6 +122,12 @@ use App\Http\Controllers\Client\SellReportController;
         Route::get('/admin/masterload_report_sell/{id?}', [AdminSellReportController::class,'masterload_report']);
         Route::get('/admin/subload_report_sell/{id?}',  [AdminSellReportController::class,'superload_report']);
         Route::get('/admin/superload_report_sell/{id?}',    [AdminSellReportController::class,'subload_report']);
+        
+        Route::get('/admin/manual_withdraw',    [AdminManualWithdrawController::class,'index']);
+        Route::post('/admin/registerWithdraw',    [AdminManualWithdrawController::class,'registerWithdraw']);
+
+        
+
         
         
     });

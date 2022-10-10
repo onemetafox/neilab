@@ -14,6 +14,7 @@ class Withdraw extends Model
         'superload_id',
         'exchange_id',
         'withdraw_order_id',
+        'manual_flag',
         'status',
     ];
 }

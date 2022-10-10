@@ -57,6 +57,11 @@
 				</ul>
 			</li>
 			<li>
+				<a href="{!! url('/admin/manual_withdraw'); !!}" aria-expanded="false">
+					<i class="flaticon-040-compass"></i>{{__('locale.manual_withdraw')}}
+				</a>
+			</li>
+			<li>
 				<a href="{!! url('/commisions'); !!}" aria-expanded="false">
 					<i class="flaticon-039-shuffle"></i>{{__('locale.commisions')}}
 				</a>

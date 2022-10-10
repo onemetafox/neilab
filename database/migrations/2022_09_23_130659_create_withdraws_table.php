@@ -19,7 +19,8 @@ class CreateWithdrawsTable extends Migration
             $table->smallInteger('trade_id');
             $table->smallInteger('superload_id');
             $table->smallInteger('exchange_id');
-            $table->string     ('withdraw_order_id');
+            $table->string      ('withdraw_order_id');
+            $table->smallInteger('manual_flag');
             $table->smallInteger('status');
             $table->timestamps();
         });
