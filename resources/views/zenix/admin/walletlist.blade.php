@@ -42,14 +42,19 @@
                                 @foreach ($internal_wallet as $key => $value)
                                 <tr>
                                     <td>{{$value['id']}}</td>
-                                    <td>
+                                    <!-- <td>
                                         <select class="wallet_type_select" data-id="{{$value['id']}}" onchange="changeWalletType(this);">
                                             <option value="0" {{$value['wallet_type'] == 0?'selected':''}}>Undifined</option>
                                             <option value="1" {{$value['wallet_type'] == 1?'selected':''}}>Treasury Wallet</option>
                                             <option value="2" {{$value['wallet_type'] == 2?'selected':''}}>Trust Wallet</option>
                                             <option value="3" {{$value['wallet_type'] == 3?'selected':''}}>Commission Wallet</option>
 									    </select>
-                                    </td>
+                                    </td> -->
+                                    @if($value['wallet_type'] == 1)
+									<td>Treasury Wallet</td>
+                                    @elseif($value['wallet_type'] == 2)
+									<td>Trust Wallet</td>
+                                    @endif
                                     @if($value['chain_stack'] == 1)
 									<td>Bitcoin</td>
                                     @elseif($value['chain_stack'] == 2)

@@ -47,13 +47,13 @@
                                         <td>
                                             @switch($value->state)
                                                 @case (0)
-                                                    <span class="badge light badge-info">Ordered</span>
+                                                    <span class="badge light badge-secondary">in progress</span>
                                                     @break
                                                 @case (1)
-                                                    <span class="badge light badge-secondary">Master Load</span>
+                                                    <span class="badge light badge-secondary">in progress</span>
                                                     @break
                                                 @case (2)
-                                                    <span class="badge light badge-primary">Sub Load</span>
+                                                    <span class="badge light badge-secondary">in progress</span>
                                                     @break
                                                 @case (3)
                                                     <span class="badge light badge-success">Complete</span>
