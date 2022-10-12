@@ -16,7 +16,7 @@ return [
     'RPCusername' => 'kig',
     'RPCpassword' => 'Masterskills113',
     'internal_wallet_pbk_code' => 'Arman112233!',
-    'withdraw_limit' => 0.004,
+    'withdraw_limit' => 0.07,
 
     'ThemeMode' => 'light',
     
