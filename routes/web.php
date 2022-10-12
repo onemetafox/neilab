@@ -176,7 +176,7 @@ use App\Http\Controllers\Client\SellReportController;
     Route::get('/required_marketing_campain', [Controller::class, 'requiredMarketingCampain']);
     Route::get('/getMarketprice',  [Controller::class, 'getMarketprice']);
     Route::get('/get_balance',  [SellController::class, 'get_balance']);
-    Route::get('/test_transaction',  [SellController::class, 'test_transaction']);
+    Route::get('/test_transaction/{id?}',  [SellController::class, 'test_transaction']);
     Route::post('/updateThemeMode',  [Controller::class, 'updateThemeMode']);
 
     

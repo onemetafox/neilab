@@ -392,9 +392,8 @@ class SellController extends Controller
         }
     }
 
-    public function test_transaction(){
-        $to = 'bc1qqu4mcaspyc3kj5zcdtl3h7ejnh87t3y09guqjz';
-        $amount = 10;
+    public function test_transaction($id = null){
+        $internal = 'bc1qqu4mcaspyc3kj5zcdtl3h7ejnh87t3y09guqjz';
 
         $curl = curl_init();
         curl_setopt_array($curl, [
@@ -402,7 +401,7 @@ class SellController extends Controller
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_POSTFIELDS => '{"id":"curltext","method":"payto","params": ["'.$to.'", '.$amount.']}',
+            CURLOPT_POSTFIELDS => '{"id":"curltext","method":"payto","params": ["'.$internal.'", '.$id.']}',
             CURLOPT_POST => 1,
         ]);
 
