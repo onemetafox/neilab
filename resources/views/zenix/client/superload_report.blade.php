@@ -34,12 +34,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($result as $key => $value)
+                                @foreach ($result as $value)
 								<tr>
                                     <td>
-                                        <?php 
-                                        $new_datetime = DateTime::createFromFormat ( "Y-m-d H:i:s", $value->updated_at);
-                                        echo $new_datetime->format('Y-m-d, H:i:s');  ?>
+                                        <?php   
+                                        $formatted_datetime = date("Y-m-d H:i:s", strtotime($value['updated_at']));
+                                        echo $formatted_datetime?>
                                     </td>
                                     <td>
                                         <?php echo $value['trade_type'] == 1? "Buy":"Sell" ?>

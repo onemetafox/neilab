@@ -10,7 +10,7 @@
             <div class="row no-gutters">
                 <div class="col-xl-12">
                     <div class="auth-form">
-    					<div class="text-center mb-3">
+    					<div class="text-center mb-3 row">
                             <a href="/">
                                 <img src="{{ asset('images/logo-full-black.png') }}" alt="">
                             </a>
