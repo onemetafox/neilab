@@ -37,7 +37,7 @@ class AdminManualWithdrawController extends Controller
         $page_description = 'Some description for the page';
         $action = 'manual_withdraw';
 
-        $superloads_info = SuperLoad::where('status', 1)->where('result_amount', '>', $this->withdraw_limit)->get()->toArray();
+        $superloads_info = SuperLoad::where('status', 1)->where('left_amount', 0)->where('result_amount', '>', $this->withdraw_limit)->get()->toArray();
         foreach ($superloads_info as $key => $value) {
             # code...
             if($value['trade_type'] == 1){
@@ -57,7 +57,9 @@ class AdminManualWithdrawController extends Controller
                 $superloads_info[$key]['result_amount'] = $this->getUSDTPrice($exchange, $superloads_info[$key]['result_amount']);
             }
             $exchange_info = ExchangeInfo::where('id', $value['exchange_id'])->get()->toArray();
+
             $superloads_info[$key]['exchange_name'] = $exchange_info[0]['ex_name'];
+            $superloads_info[$key]['exchange_email'] = $exchange_info[0]['ex_login'];
         }
         $theme_mode = $this->getThemeMode();
 

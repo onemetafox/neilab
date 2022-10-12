@@ -29,6 +29,7 @@
                                     <th>User Email</th>
                                     <th>Trade Type</th>
                                     <th>Exchange Name</th>
+                                    <th>Exchange Email</th>
                                     <th>Amount</th>
                                     <th>Transaction Input</th>
                                     <th>Assets</th>
@@ -46,6 +47,7 @@
 									<td>Sell</td>
                                     @endif
 									<td>{{$value['exchange_name']}}</td>
+									<td>{{$value['exchange_email']}}</td>
 									<td>{{$value['result_amount']}}</td>
 									<td>
 										<input type="text" class="form-control" name="withdraw_txid" id="withdraw_txid_{{$value['id']}}">
