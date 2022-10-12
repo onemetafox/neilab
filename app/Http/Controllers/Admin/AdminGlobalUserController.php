@@ -48,19 +48,22 @@ class AdminGlobalUserController extends Controller
                 $result[$key]['echange_name'] = $exchange_info[0]['ex_name'];
             }
         }
-        return view('zenix.admin.global_user_list', compact('page_title', 'page_description', 'action','result'));
+        $theme_mode = $this->getThemeMode();
+        return view('zenix.admin.global_user_list', compact('page_title', 'page_description', 'action','result', 'theme_mode'));
     }
     public function editGlobalUser($id = null){
         $page_description = 'Some description for the page';
         $action = 'global_user_list';
+        $theme_mode = $this->getThemeMode();
+
         if($id){
             $page_title = __('locale.edit_global_user_list');
             $result = GlobalUserList::where("id", $id)->get()->toArray();
-            return view('zenix.admin.editGlobalUser', compact('page_title', 'page_description', 'action', 'result'));
+            return view('zenix.admin.editGlobalUser', compact('page_title', 'page_description', 'action', 'result', 'theme_mode'));
         }else{
 
             $page_title = __('locale.add_global_user_list');
-            return view('zenix.admin.editGlobalUser', compact('page_title', 'page_description', 'action'));
+            return view('zenix.admin.editGlobalUser', compact('page_title', 'page_description', 'action', 'theme_mode'));
         }
     }
 

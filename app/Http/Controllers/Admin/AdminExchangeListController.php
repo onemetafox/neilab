@@ -34,7 +34,9 @@ class AdminExchangeListController extends Controller
                 $result[$key]['connect_status'] = false;
             }
         }
-        return view('zenix.admin.exchangelist', compact('page_title', 'page_description', 'action', 'result'));
+        $theme_mode = $this->getThemeMode();
+
+        return view('zenix.admin.exchangelist', compact('page_title', 'page_description', 'action', 'result', 'theme_mode'));
 
     }
 
@@ -42,11 +44,12 @@ class AdminExchangeListController extends Controller
         $page_title = __('locale.admin_create_new_exchange_list');
         $page_description = 'Some description for the page';
         $action = 'exchangelist';
+        $theme_mode = $this->getThemeMode();
         if($id){
             $result = ExchangeInfo::where("id", $id)->get()->toArray();
-            return view('zenix.admin.newExchangeList', compact('page_title', 'page_description', 'action', 'result'));
+            return view('zenix.admin.newExchangeList', compact('page_title', 'page_description', 'action', 'result', 'theme_mode'));
         }else{
-            return view('zenix.admin.newExchangeList', compact('page_title', 'page_description', 'action'));
+            return view('zenix.admin.newExchangeList', compact('page_title', 'page_description', 'action', 'theme_mode'));
         }
     }
 

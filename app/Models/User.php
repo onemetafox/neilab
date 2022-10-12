@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'marketing_campain_id', 'first_name','last_name', 'email', 'password', 'redirect', 'referral_code', 'user_type', 'state', 'whatsapp', 'boomboomchat', 'telegram'
+        'marketing_campain_id', 'first_name','last_name', 'email', 'password', 'redirect', 'referral_code', 'user_type', 'state', 'whatsapp', 'boomboomchat', 'telegram', 'theme_mode',
     ];
 
     /**

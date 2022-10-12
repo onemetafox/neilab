@@ -38,6 +38,8 @@ class InternalTradesController extends Controller
             $result[$key]['master_load'] = "";
             $result[$key]['address_link'] = "link";
         }
-        return view('zenix.trade.internal_trade', compact('page_title', 'page_description', 'action','result'));
+        $theme_mode = $this->getThemeMode();
+
+        return view('zenix.trade.internal_trade', compact('page_title', 'page_description', 'action','result', 'theme_mode'));
     }
 }

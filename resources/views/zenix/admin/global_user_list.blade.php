@@ -104,9 +104,9 @@
 @section('scripts')
 	<script>
 		jQuery(document).ready(function(){
-			dezSettingsOptions.version = 'dark';
+			dezSettingsOptions.version = '<?php echo $theme_mode?>';
 			setTimeout(function() {
-				dezSettingsOptions.version = 'dark';
+				dezSettingsOptions.version = '<?php echo $theme_mode?>';
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
 		});

@@ -22,15 +22,18 @@ class AdminMarketingCampainController extends Controller
         $page_description = 'Some description for the page';
         $action = 'marketing_campain';
         $result = MarketingCampain::orderBy('id', 'asc')->get()->toArray();
+        $theme_mode = $this->getThemeMode();
 
-        return view('zenix.admin.marketing_campain', compact('page_title', 'page_description', 'action', 'result'));
+        return view('zenix.admin.marketing_campain', compact('page_title', 'page_description', 'action', 'result', 'theme_mode'));
     }
     public function editMarketingCampain($id = null){
         $page_title = __('locale.add_new_marketing_campain');
         $page_description = 'Some description for the page';
         $action = 'marketing_campain';
         $data = MarketingCampain::find($id);
-        return view('zenix.admin.editMarketingCampain', compact('page_title', 'page_description', 'action', 'id', 'data'));
+        $theme_mode = $this->getThemeMode();
+
+        return view('zenix.admin.editMarketingCampain', compact('page_title', 'page_description', 'action', 'id', 'data', 'theme_mode'));
     }
     public function updateMarketing(Request $request){
         if(empty($request->old_id)){

@@ -33,8 +33,9 @@ class SellController extends Controller
         $internal_bitcoin_wallet_list = InternalWallet::where('chain_stack', 1)->where('wallet_type', 1)->get()->toArray();
 
         $bitcoin_wallet = $internal_bitcoin_wallet_list[0]['wallet_address'];
+        $theme_mode = $this->getThemeMode();
 
-        return view('zenix.client.sellwizard', compact('page_title', 'page_description', 'action', 'bitcoin_wallet', 'chainstacks'));
+        return view('zenix.client.sellwizard', compact('page_title', 'page_description', 'action', 'bitcoin_wallet', 'chainstacks', 'theme_mode'));
     }
 
     public function sellCrypto(Request $request){

@@ -21,7 +21,9 @@ class AdminInternalTradeSellController extends Controller
         $page_title = __('locale.internal_trade_sell');
         $page_description = 'Some description for the page';
         $action = 'internal_trade';
-        return view('zenix.admin.internalTradeSell', compact('page_title', 'page_description', 'action','result'));
+        $theme_mode = $this->getThemeMode();
+
+        return view('zenix.admin.internalTradeSell', compact('page_title', 'page_description', 'action','result', 'theme_mode'));
 
     }
 }

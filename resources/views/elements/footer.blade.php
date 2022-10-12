@@ -9,3 +9,21 @@
 <!--**********************************
   Footer end
 ***********************************-->
+
+<script>
+
+  	
+  function updateThemeModeConfig(mode){
+		$.ajax({
+			type: "post",
+			url : '{!! url('/updateThemeMode'); !!}',
+			data: {
+				"_token": "{{ csrf_token() }}",
+				"mode": mode,
+			},
+			success: function(data){
+			},
+		});
+	}
+
+</script>

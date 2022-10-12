@@ -104,6 +104,7 @@ class RegisterController extends Controller
                     'referral_code' => '',
                     'user_type' => $marketing_campaign>0?'client':'none',
                     'state' => 1,
+                    'theme_mode' => 'dark',
                 ]);
                 $new_user = User::find($user_create->id);
                 $referral_code = substr(md5($user_create->id), 0, 8);

@@ -31,7 +31,9 @@ class BuyController extends Controller
         $internal_ethereum_wallet_list = InternalWallet::where('chain_stack', 2)->where('wallet_type', 1)->get()->toArray();
 
         $ethereum_wallet = $internal_ethereum_wallet_list[0]['wallet_address'];
-        return view('zenix.client.buywizard', compact('page_title', 'page_description', 'action', 'chainstacks', 'ethereum_wallet'));
+        $theme_mode = $this->getThemeMode();
+
+        return view('zenix.client.buywizard', compact('page_title', 'page_description', 'action', 'chainstacks', 'ethereum_wallet', 'theme_mode'));
     }
 
     public function buyCrypto(Request $request){

@@ -42,7 +42,7 @@
 									<div class="form-group">
 										<label class="mb-1"><strong>Wallet Type</strong></label>
 										<select id="wallet_type" name="wallet_type">
-											<option value="0">Undefind</option>
+											<option value="0">Undefined</option>
 											<option value="1">Treasury Wallet</option>
 											<option value="2">Trust Wallet</option>
 											<option value="3">Commission Wallet</option>
@@ -53,7 +53,7 @@
 							<div class="row">
 								<div class="col-xl-6">
 									<div class="form-group">
-										<label class="mb-1"><strong>Generate Adddress</strong></label>
+										<label class="mb-1"><strong>Generate Address</strong></label>
 										<div class="input-group mb-3">
 											<input type="text" class="form-control" id="wallet_address" name="wallet_address">
 											<button class="btn btn-primary" type="button" onclick="generateWalletAddress()">Generate</button>
@@ -70,7 +70,7 @@
 							<div class="row">
 								<div class="col-xl-6">
 									<div class="form-group">
-										<label class="mb-1"><strong>Cold Storage Wallets</strong></label>
+										<label class="mb-1"><strong>Cold Storage Wallet Address</strong></label>
 										<select id="cold_wallet" name="cold_storage_wallet_id">
 											@foreach($cold_wallet as $key => $value)
 											<option value="{{$value['id']}}">{{$value['cold_address']}}</option>
@@ -94,9 +94,9 @@
 @section('scripts')
 	<script>
 		jQuery(document).ready(function(){
-			dezSettingsOptions.version = 'dark';
+			dezSettingsOptions.version = '<?php echo $theme_mode?>';
 			setTimeout(function() {
-				dezSettingsOptions.version = 'dark';
+				dezSettingsOptions.version = '<?php echo $theme_mode?>';
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
 		});

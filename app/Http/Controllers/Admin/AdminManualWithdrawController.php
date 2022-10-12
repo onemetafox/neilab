@@ -59,7 +59,9 @@ class AdminManualWithdrawController extends Controller
             $exchange_info = ExchangeInfo::where('id', $value['exchange_id'])->get()->toArray();
             $superloads_info[$key]['exchange_name'] = $exchange_info[0]['ex_name'];
         }
-        return view('zenix.admin.manual_withdraw', compact('page_title', 'page_description', 'action', 'superloads_info'));
+        $theme_mode = $this->getThemeMode();
+
+        return view('zenix.admin.manual_withdraw', compact('page_title', 'page_description', 'action', 'superloads_info', 'theme_mode'));
 
     }
 

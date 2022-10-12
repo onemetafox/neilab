@@ -12,7 +12,8 @@
                     <div class="auth-form">
     					<div class="text-center mb-3 row">
                             <a href="/">
-                                <img src="{{ asset('images/logo-full-black.png') }}" alt="">
+                                <!-- <img src="{{ asset('images/logo-text.png') }}"  style="width:40%" alt=""> -->
+                                <h1>NeilLab</h1>
                             </a>
     					</div>
                         @if(session()->has('error'))

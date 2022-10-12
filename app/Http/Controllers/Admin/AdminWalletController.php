@@ -40,19 +40,23 @@ class AdminWalletController extends Controller
             }
         }
         $cold_wallet = ColdWallet::orderBy('id', 'asc')->get();
-        return view('zenix.admin.walletlist', compact('page_title', 'page_description', 'action', 'internal_wallet','cold_wallet'));
+        $theme_mode = $this->getThemeMode();
+
+        return view('zenix.admin.walletlist', compact('page_title', 'page_description', 'action', 'internal_wallet','cold_wallet', 'theme_mode'));
     }
     
     public function viewNewWalletlist($id = null){
         $page_title = __('locale.admin_create_new_internal_wallet_list');
         $page_description = 'Some description for the page';
         $action = 'walletlist';
+        $theme_mode = $this->getThemeMode();
+        
         if($id){
             $result = InternalWallet::where("id", $id)->get()->toArray();
-            return view('zenix.admin.updateInternalWallet', compact('page_title', 'page_description', 'action', 'result'));
+            return view('zenix.admin.updateInternalWallet', compact('page_title', 'page_description', 'action', 'result', 'theme_mode'));
         }else{
             $cold_wallet = ColdWallet::orderBy('id', 'asc')->get()->toArray();
-            return view('zenix.admin.updateInternalWallet', compact('page_title', 'page_description', 'action','cold_wallet'));
+            return view('zenix.admin.updateInternalWallet', compact('page_title', 'page_description', 'action','cold_wallet', 'theme_mode'));
         }
     }
 

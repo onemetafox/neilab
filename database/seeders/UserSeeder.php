@@ -30,6 +30,7 @@ class UserSeeder extends Seeder
                 'referral_code' => 'c4ca4238',
                 'user_type' => 'admin',
                 'state' => 1,
+                'theme_mode' => 'dark',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]];

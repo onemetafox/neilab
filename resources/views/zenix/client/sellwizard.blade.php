@@ -35,7 +35,7 @@
 												<label class="mb-1"><strong>Select Degital Asset</strong></label>
 												<select id="digital_asset" name="digital_asset" onchange="handleChange(this)">
 													<option value="1">BTC</option>
-													<option value="2">USDT</option>
+													<!-- <option value="2">USDT</option> -->
 												</select>
 											</div>
 										</div>
@@ -123,9 +123,9 @@
 @section('scripts')
 <script>
 	jQuery(document).ready(function(){
-		dezSettingsOptions.version = 'dark';
+		dezSettingsOptions.version = '<?php echo $theme_mode?>';
 		setTimeout(function() {
-			dezSettingsOptions.version = 'dark';
+			dezSettingsOptions.version = '<?php echo $theme_mode?>';
 			new dezSettings(dezSettingsOptions);
 		}, 1500)
 	});

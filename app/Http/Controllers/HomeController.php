@@ -70,7 +70,9 @@ class HomeController extends Controller
         $friends = auth()->user()->referers;
 
         $profits = ReferralProfit::where('user_id', auth()->user()->id)->where('status', 1)->get();
-        return view('zenix.client.invite_friends', compact('page_title', 'page_description', 'friends', 'referal_url', 'profits'));
+        $theme_mode = $this->getThemeMode();
+        
+        return view('zenix.client.invite_friends', compact('page_title', 'page_description', 'friends', 'referal_url', 'profits', 'theme_mode'));
     }
 
     // This function is needed to verify... We may consider the double spending the money.... 

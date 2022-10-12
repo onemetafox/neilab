@@ -37,7 +37,7 @@ return [
 				],
 				'bottom'=>[
 					'js/custom.js',
-					'js/deznav-init.js',
+					// 'js/deznav-init.js',
 				],
 			],
 		],

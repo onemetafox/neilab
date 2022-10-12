@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 class AdminBuyReportController extends Controller
 {
     //
+
     public function index(){
 
         $page_title = __('locale.buy_report');
@@ -34,7 +35,9 @@ class AdminBuyReportController extends Controller
                 ->select('internal_trade_buy_lists.*', 'users.email','users.id as user_id', 'a.id as masterload_id', 'b.wallet_address')
                 ->where('a.trade_type', 1)
                 ->get()->toArray();
-        return view('zenix.admin.report.buyReport', compact('page_title', 'page_description', 'action', 'result'));
+
+        $theme_mode = $this->getThemeMode();
+        return view('zenix.admin.report.buyReport', compact('page_title', 'page_description', 'action', 'result', 'theme_mode'));
     }
 
     public function masterload_report($masterload_id = null){
@@ -46,7 +49,8 @@ class AdminBuyReportController extends Controller
         ->select('master_loads.*', 'b.wallet_address')
         ->where('master_loads.id', $masterload_id)
         ->get()->toArray();
-        return view('zenix.admin.report.masterload_report', compact('page_title', 'page_description', 'action', 'result'));
+        $theme_mode = $this->getThemeMode();
+        return view('zenix.admin.report.masterload_report', compact('page_title', 'page_description', 'action', 'result', 'theme_mode'));
     }
     public function superload_report($masterload_id = null){
         $page_title = __('locale.super_load_report');
@@ -54,7 +58,8 @@ class AdminBuyReportController extends Controller
         $action = 'report';
         $result = SuperLoad::where('masterload_id', $masterload_id)->where('trade_type', 1)->get()->toArray();
         $trade_type = 1;
-        return view('zenix.admin.report.superload_report', compact('page_title', 'page_description', 'action', 'result', 'masterload_id', 'trade_type'));
+        $theme_mode = $this->getThemeMode();
+        return view('zenix.admin.report.superload_report', compact('page_title', 'page_description', 'action', 'result', 'masterload_id', 'trade_type', 'theme_mode'));
     }
     
     public function subload_report($masterload_id = null){
@@ -66,7 +71,8 @@ class AdminBuyReportController extends Controller
         $internal_trade_sell_info = InternalTradeBuyList::find($masterload_info->trade_id);
         $delivered_address = $internal_trade_sell_info->delivered_address;
         $trade_type = 1;
-        return view('zenix.admin.report.subload_report', compact('page_title', 'page_description', 'action', 'result', 'delivered_address', 'masterload_id', 'trade_type'));
+        $theme_mode = $this->getThemeMode();
+        return view('zenix.admin.report.subload_report', compact('page_title', 'page_description', 'action', 'result', 'delivered_address', 'masterload_id', 'trade_type', 'theme_mode'));
     }
 }
 

@@ -37,6 +37,7 @@ class AdminDashboardController extends Controller
                 $result[$key]['connect_status'] = false;
             }
         }
-        return view('zenix.admin.dashboard', compact('page_title', 'page_description', 'action', 'result'));
+        $theme_mode = $this->getThemeMode();
+        return view('zenix.admin.dashboard', compact('page_title', 'page_description', 'action', 'result', 'theme_mode'));
     }
 }

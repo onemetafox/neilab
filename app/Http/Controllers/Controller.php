@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -21,6 +22,8 @@ use App\Models\User;
 use App\Models\MarketingCampain;
 use App\Models\MarketingFeeWallet;
 use App\Models\SendFeeTransaction;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 
 
@@ -44,14 +47,18 @@ class Controller extends BaseController
         $page_title = 'required marketing campaign';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
-        return view('zenix.page.requiredMarketingCampain', compact('page_title', 'page_description', 'action'));
+        $theme_mode = $this->getThemeMode();
+        
+        return view('zenix.page.requiredMarketingCampain', compact('page_title', 'page_description', 'action', 'theme_mode'));
     }
 
     public function coming_soon(){
         $page_title = 'Coming Soon...';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
-        return view('zenix.page.coming_soon', compact('page_title', 'page_description', 'action'));
+        $theme_mode = $this->getThemeMode();
+
+        return view('zenix.page.coming_soon', compact('page_title', 'page_description', 'action', 'theme_mode'));
     }
 
     
@@ -502,4 +509,13 @@ class Controller extends BaseController
         return $output;
     }
 
+    public function updateThemeMode(Request $request){
+        $themeMode = $request['mode'];
+        $update_theme_mode_result = User::where('id', auth()->user()->id)->update(['theme_mode' => $themeMode]);
+        return response()->json(["success" => $update_theme_mode_result]);
+    }
+
+    public function getThemeMode(){
+        return auth()->user()->theme_mode;
+    }
 }

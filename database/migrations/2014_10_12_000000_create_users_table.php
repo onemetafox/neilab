@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('referral_code');
             $table->string('user_type')->nullable();
             $table->smallInteger('state');
+            $table->string('theme_mode');
             $table->rememberToken();
             $table->timestamps();
         });

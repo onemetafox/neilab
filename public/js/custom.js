@@ -389,21 +389,24 @@
 		});
 		$_SELECT_PICKER.selectpicker();
 	}
+
 	var handleThemeMode = function() {
 	
 		jQuery('.dz-theme-mode').on('click',function(){
 			jQuery(this).toggleClass('active');
 			
 			if(jQuery(this).hasClass('active')){
-				jQuery('body').attr('data-theme-version','dark');
-			}else{
 				jQuery('body').attr('data-theme-version','light');
+				updateThemeModeConfig('light');
+			}else{
+				jQuery('body').attr('data-theme-version','dark');
+				updateThemeModeConfig('dark');
 			}
 		}); 
 		
 		
 	}
-	
+
 	
 	/* Function ============ */
 	return {

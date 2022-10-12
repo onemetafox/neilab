@@ -35,7 +35,9 @@ class AdminSellReportController extends Controller
                 ->select('internal_trade_sell_lists.*', 'users.email','users.id as user_id', 'a.id as masterload_id', 'b.wallet_address')
                 ->where('a.trade_type', 2)
                 ->get()->toArray();
-        return view('zenix.admin.report.sellReport', compact('page_title', 'page_description', 'action', 'result'));
+        $theme_mode = $this->getThemeMode();
+
+        return view('zenix.admin.report.sellReport', compact('page_title', 'page_description', 'action', 'result', 'theme_mode'));
     }
 
     public function masterload_report($masterload_id = null){
@@ -47,7 +49,9 @@ class AdminSellReportController extends Controller
         ->select('master_loads.*', 'b.wallet_address')
         ->where('master_loads.id', $masterload_id)
         ->get()->toArray();
-        return view('zenix.admin.report.masterload_report', compact('page_title', 'page_description', 'action', 'result'));
+        $theme_mode = $this->getThemeMode();
+
+        return view('zenix.admin.report.masterload_report', compact('page_title', 'page_description', 'action', 'result', 'theme_mode'));
     }
     public function superload_report($masterload_id = null){
         $page_title = __('locale.super_load_report');
@@ -55,7 +59,9 @@ class AdminSellReportController extends Controller
         $action = 'report';
         $result = SuperLoad::where('masterload_id', $masterload_id)->where('trade_type', 2)->get()->toArray();
         $trade_type = 2;
-        return view('zenix.admin.report.superload_report', compact('page_title', 'page_description', 'action', 'result', 'masterload_id', 'trade_type'));
+        $theme_mode = $this->getThemeMode();
+
+        return view('zenix.admin.report.superload_report', compact('page_title', 'page_description', 'action', 'result', 'masterload_id', 'trade_type', 'theme_mode'));
     }
 
     
@@ -68,8 +74,9 @@ class AdminSellReportController extends Controller
         $internal_trade_sell_info = InternalTradeSellList::find($masterload_info->trade_id);
         $delivered_address = $internal_trade_sell_info->delivered_address;
         $trade_type = 2;
+        $theme_mode = $this->getThemeMode();
 
-        return view('zenix.admin.report.subload_report', compact('page_title', 'page_description', 'action', 'result', 'delivered_address', 'masterload_id', 'trade_type'));
+        return view('zenix.admin.report.subload_report', compact('page_title', 'page_description', 'action', 'result', 'delivered_address', 'masterload_id', 'trade_type', 'theme_mode'));
     }
 }
 

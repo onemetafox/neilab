@@ -19,7 +19,9 @@ class AdminUserlistController extends Controller
         $result = User::orderBy('id', 'asc')->get()->toArray();
         
         $campaigns = MarketingCampain::where('status', 1)->get();
-        return view('zenix.admin.userlist', compact('page_title', 'page_description', 'action', 'result', 'campaigns'));
+        $theme_mode = $this->getThemeMode();
+
+        return view('zenix.admin.userlist', compact('page_title', 'page_description', 'action', 'result', 'campaigns', 'theme_mode'));
     }
     public function getUserByID(Request $request){
         $id = $request['id'];
