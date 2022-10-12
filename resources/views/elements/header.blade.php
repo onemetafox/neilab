@@ -604,7 +604,7 @@ function getUrlParams(dParam)
 	
 	dezSettingsOptions = {
 		typography: "poppins",
-			version: '<?php echo $theme_mode?>',
+			version: '<?php echo isset($theme_mode)? $theme_mode : 'dark'?>',
 			layout: "vertical",
 			headerBg: "color_1",
 			navheaderBg: "color_1",
