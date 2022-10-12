@@ -301,13 +301,15 @@ class Controller extends BaseController
         $fee_amount = round($amount/100*$marketing_info[0]['total_fee'],6);
         $remain_amount = $amount - $fee_amount;
 
+
         if($trade_type == 1){
             $marketing_fee_wallets = MarketingFeeWallet::where('fee_type', 1)->where('chain_net', 1)->get()->toArray();
             $send_result = $this->sendBTC($marketing_fee_wallets[0]['wallet_address'], $fee_amount);
-            \Log::info("Total Fee (".$fee_amount."BTC)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
 
+            \Log::info("Total Fee (".$fee_amount."BTC)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
             $tx_id =  $send_result['txid'];
             $chain_net = 1;
+            $send_fee_result = true;
         }else{
             $marketing_fee_wallets = MarketingFeeWallet::where('fee_type', 1)->where('chain_net', 2)->get()->toArray();
 
@@ -316,8 +318,8 @@ class Controller extends BaseController
             $address = $internal_wallet_info[0]['wallet_address'];
 
             $send_usdt_result = $this->sendUSDT($address, $private_key , $marketing_fee_wallets[0]['wallet_address'], $fee_amount);
-            \Log::info("Total Fee (".$fee_amount."USDT)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
 
+            \Log::info("Total Fee (".$fee_amount."USDT)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
             $tx_id = $send_usdt_result[1];
             $chain_net = 2;
         }
@@ -329,6 +331,7 @@ class Controller extends BaseController
         $transaction_history['user_id'] = $trade_info['user_id'];
 
         $transaction_create_result = SendFeeTransaction::create($transaction_history);
+
         if($transaction_create_result->id > 0){
             $return_status = true;
         }else{

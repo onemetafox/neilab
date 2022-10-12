@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Zenix Laravel'),
+    'name' => env('APP_NAME', 'NeilLab'),
 
 
     'public' => [

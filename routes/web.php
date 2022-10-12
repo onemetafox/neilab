@@ -125,11 +125,8 @@ use App\Http\Controllers\Client\SellReportController;
         
         Route::get('/admin/manual_withdraw',    [AdminManualWithdrawController::class,'index']);
         Route::post('/admin/registerWithdraw',    [AdminManualWithdrawController::class,'registerWithdraw']);
+        Route::get('/admin/commisions',     [Controller::class,'coming_soon']);
 
-        
-
-        
-        
     });
     
     // Client Routing
@@ -140,7 +137,6 @@ use App\Http\Controllers\Client\SellReportController;
     
         Route::get('/client/dashboard',     [AdminDashboardController::class,'index']);
 
-        Route::get('/commisions',     [Controller::class,'coming_soon']);
 
         Route::get('/buy_wizard',           [BuyController::class, 'index']);
         Route::post('/buy_crypto',          [BuyController::class, 'buyCrypto']);
@@ -175,8 +171,6 @@ use App\Http\Controllers\Client\SellReportController;
     
         Route::get('/withdraw', [Controller::class, 'withdraw_old']);
         Route::get('/profile', [Controller::class, 'coming_soon']);
-
-        
     });
 
     Route::get('/required_marketing_campain', [Controller::class, 'requiredMarketingCampain']);

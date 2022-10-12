@@ -55,7 +55,7 @@
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Paste your USDT (ERC20) wallet address whree your coins delivered to</label>
+												<label class="text-label">Paste your USDT (ERC20) wallet address where your coins delivered to</label>
 												<input type="text" class="form-control" id="deliveredAddress" name="deliveredAddress" required>
 											</div>
 										</div>
@@ -82,7 +82,7 @@
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Past your wallet address</label>
+												<label class="text-label">Paste your btc wallet address</label>
 												<input type="text" class="form-control" id="senderAddress" name="senderAddress" required>
 											</div>
 										</div>
@@ -92,13 +92,13 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2">
 											<div class="form-group" id="pay_step" name="pay_step">
-												<label class='text-label'>Pay with Bit Coin</label>
+												<label class='text-label'>Confirm amount of BTC you want to sell</label>
 												<input type='number' name='pay_with' id='pay_with' class='form-control' min='0' step='any' required>
 											</div>
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Past the transaction ID which money sent to</label>
+												<label class="text-label">Paste the transaction ID which money sent to</label>
 												<input type="text" class="form-control" id="tx_id" name="tx_id" required>
 											</div>
 										</div>

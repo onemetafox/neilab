@@ -62,7 +62,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="{!! url('/commisions'); !!}" aria-expanded="false">
+				<a href="{!! url('/admin/commisions'); !!}" aria-expanded="false">
 					<i class="flaticon-039-shuffle"></i>{{__('locale.commisions')}}
 				</a>
 			</li>

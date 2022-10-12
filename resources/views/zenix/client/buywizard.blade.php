@@ -60,7 +60,7 @@
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Paste your wallet address whree you wnat the coins delivered to</label>
+												<label class="text-label">Paste your wallet address where the coins delivered to</label>
 												<input type="text" class="form-control" id="deliveredAddress" name="deliveredAddress" required>
 											</div>
 										</div>
@@ -87,7 +87,7 @@
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Past your wallet address</label>
+												<label class="text-label">Paste your wallet address</label>
 												<input type="text" class="form-control" id="senderAddress" name="senderAddress" required>
 											</div>
 										</div>
@@ -104,7 +104,7 @@
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Past your transaction ID</label>
+												<label class="text-label">Paste your transaction ID</label>
 												<input type="text" class="form-control" id="tx_id" name="tx_id" required>
 											</div>
 									</div>

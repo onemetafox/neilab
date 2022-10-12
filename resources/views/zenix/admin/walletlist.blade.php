@@ -219,7 +219,7 @@
 				$('#withdrawModal').modal('show');
 		}
         function commingSoon(){
-            sweetAlert("Oops...", "This function will be comming soon!!!", "info")
+            sweetAlert("Oops...", "This function will be coming soon!!!", "info")
         }
 		function changeWalletType(e){
 			var walletId = $(e).data('id');

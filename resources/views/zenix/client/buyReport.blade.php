@@ -31,7 +31,11 @@
                                 <tbody>
                                     @foreach ($result as $value)
                                     <tr>
-                                        <td>{{$value->updated_at}}</td>
+                                        <td>
+                                            <?php 
+                                            $new_datetime = DateTime::createFromFormat ( "Y-m-d H:i:s", $value->updated_at);
+                                            echo $new_datetime->format('Y-m-d, H:i:s');  ?>
+                                        </td>
                                         <td>
                                             <?php echo $value->asset_purchased == 1? "BTC":"USDT" ?>
                                         </td>
