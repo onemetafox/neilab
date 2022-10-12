@@ -166,7 +166,6 @@ class SellController extends Controller
                 }
             } catch (\Throwable $th) {
                 \Log::info("One superload has been failed. because ".$th->getMessage());
-                // return response()->json(["success" => $error, "message" => $th->getMessage()]);
             }
         }
     }
@@ -193,12 +192,6 @@ class SellController extends Controller
         } else {
             $result = json_decode($response);
             return $result->result;
-            // if(isset($result->result)){
-            //     $address = $result->result;
-            //     return ['status'=>'success', 'address'=>$address];
-            // }else{
-            //     return ['status'=>'error', 'message'=>'Could not get new address'];
-            // }
         }
     }
 

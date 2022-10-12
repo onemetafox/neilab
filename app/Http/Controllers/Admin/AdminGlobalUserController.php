@@ -51,6 +51,7 @@ class AdminGlobalUserController extends Controller
         $theme_mode = $this->getThemeMode();
         return view('zenix.admin.global_user_list', compact('page_title', 'page_description', 'action','result', 'theme_mode'));
     }
+    
     public function editGlobalUser($id = null){
         $page_description = 'Some description for the page';
         $action = 'global_user_list';

@@ -15,7 +15,6 @@ use App\Http\Controllers\Controller;
 
 class AdminMarketingCampainController extends Controller
 {
-    //
     
     public function index(){
         $page_title = __('locale.marketing_campain');

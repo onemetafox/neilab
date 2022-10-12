@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\DB;
 
 class AdminBuyReportController extends Controller
 {
-    //
 
     public function index(){
 

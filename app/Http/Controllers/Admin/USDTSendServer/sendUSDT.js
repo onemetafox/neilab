@@ -3,7 +3,7 @@ var args = process.argv.slice(2);
 
 if (args.length<3) {
     console.log(args);
-    console.log(0); //status
+    console.log(0);
     console.log('Sender Address, Receiver Address and amount are required.'); // message
     process.exit();
 }
@@ -28,15 +28,12 @@ const sendERC20Transaction = async (sender_address, sender_address_pk, receiver_
         if(!error){
             console.log(result);
             process.exit();
-            // handleSuccessTrue();
         } else{
             console.log(error);
             web3.eth.getBalance(fromAddress, (err,bal) => { console.log('Your account has ' + web3.utils.fromWei(bal, 'ether') + ', Insufficient funds for gas * price + value on your wallet')});
             process.exit();
-            // handleSuccessFalse();
         }
     });
-//Finally, you can check if usdt tranaction success through this code.
 tokenInst.methods.balanceOf(receiver_address).call().then(console.log)
 .catch(console.error);
 }

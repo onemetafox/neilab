@@ -82,12 +82,6 @@ class AdminWalletController extends Controller
         } else {
             $result = json_decode($response);
             return $result->result;
-            // if(isset($result->result)){
-            //     $address = $result->result;
-            //     return ['status'=>'success', 'address'=>$address];
-            // }else{
-            //     return ['status'=>'error', 'message'=>'Could not get new address'];
-            // }
         }
     }
 
