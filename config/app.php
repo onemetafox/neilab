@@ -18,7 +18,7 @@ return [
     'internal_wallet_pbk_code' => 'Arman112233!',
     'withdraw_limit' => 0.07,
 
-    'ThemeMode' => 'light',
+    'ThemeMode' => 'dark',
     
     'name' => env('APP_NAME', 'Laravel'),
 

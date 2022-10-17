@@ -81,9 +81,9 @@
 @section('scripts')
 	<script>
 		jQuery(document).ready(function(){
-			dezSettingsOptions.version = '<?php echo $theme_mode?>';
+			dezSettingsOptions.version = 'dark';
 			setTimeout(function() {
-				dezSettingsOptions.version = '<?php echo $theme_mode?>';
+				dezSettingsOptions.version = 'dark';
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
 		});
