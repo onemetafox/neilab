@@ -13,10 +13,10 @@ return [
     |
     */
 
-    'RPCusername' => 'kig',
-    'RPCpassword' => 'Masterskills113',
+    'RPCusername' => 'user',
+    'RPCpassword' => 'TIVCIsHcW1bhnzv8PenfNw==',
     'internal_wallet_pbk_code' => 'Arman112233!',
-    'withdraw_limit' => 0.07,
+    'withdraw_limit' => 0.004,
 
     'ThemeMode' => 'dark',
     

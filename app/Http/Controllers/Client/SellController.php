@@ -124,6 +124,7 @@ class SellController extends Controller
             $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.2;
             $deposit_amount_for_ftx = $total_amount_for_ftx / count($ftx_account_result);
         }
+
         $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
         
         foreach ($result as $key => $value) {
@@ -141,7 +142,7 @@ class SellController extends Controller
                 }
 
                 $send_result = $this->sendBTC($deposit_wallet_address, $amount);
-
+                \Log::info($send_result);
                 sleep(25);
 
                 if($send_result['status'] == 'success'){
@@ -305,7 +306,7 @@ class SellController extends Controller
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_POSTFIELDS => '{"id":"curltext","method":"payto","params": ["'.$to.'", '.$amount.']}',
+            CURLOPT_POSTFIELDS => '{"id":"curltext","method":"payto","params": {"destination" : "'.$to.'", "amount" : '.$amount.', "password" : "Arman11223344#"}}',
             CURLOPT_POST => 1,
         ]);
 

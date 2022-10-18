@@ -313,8 +313,9 @@ class Controller extends BaseController
             $marketing_fee_wallets = MarketingFeeWallet::where('fee_type', 1)->where('chain_net', 1)->get()->toArray();
             $send_result = $this->sendBTC($marketing_fee_wallets[0]['wallet_address'], $fee_amount);
 
-            \Log::info("Total Fee (".$fee_amount."BTC)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
             $tx_id =  $send_result['txid'];
+            \Log::info("Total Fee (".$fee_amount."BTC)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
+
             $chain_net = 1;
             $send_fee_result = true;
         }else{
@@ -325,9 +326,10 @@ class Controller extends BaseController
             $address = $internal_wallet_info[0]['wallet_address'];
 
             $send_usdt_result = $this->sendUSDT($address, $private_key , $marketing_fee_wallets[0]['wallet_address'], $fee_amount);
-
-            \Log::info("Total Fee (".$fee_amount."USDT)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
+            \Log::info($send_usdt_result);
             $tx_id = $send_usdt_result[1];
+            \Log::info("Total Fee (".$fee_amount."USDT)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
+
             $chain_net = 2;
         }
         $transaction_history = array();
@@ -353,7 +355,7 @@ class Controller extends BaseController
         
         if($asset == 'BTC'){
             $trade_info = InternalTradeBuyList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
-            $sending_fee_result = $this->handleSendFee($trade_info[0], $withdraw_transaction['amount'], 1);
+            $sending_fee_result = $this->handleSendFee($trade_info[0], $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'], 1);
             if($sending_fee_result['status']){
                 sleep(25);
                 $send_result = $this->sendBTC($trade_info[0]['delivered_address'], $sending_fee_result['remain_amount']);
@@ -362,7 +364,7 @@ class Controller extends BaseController
             }
         }else if($asset == 'USDT'){
             $trade_info = InternalTradeSellList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
-            $sending_fee_result = $this->handleSendFee($trade_info[0], $withdraw_transaction['amount'], 2);
+            $sending_fee_result = $this->handleSendFee($trade_info[0], $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'], 2);
             if($sending_fee_result['status']){
                 sleep(25);
                 $internal_wallet_info = InternalWallet::where('wallet_type',1)->where('chain_stack',2)->get()->toArray();
@@ -378,7 +380,7 @@ class Controller extends BaseController
         $subload_info['superload_id']       = $withdraw_tbl['superload_id'];
         $subload_info['exchange_id']        = $withdraw_tbl['exchange_id'];
         $subload_info['receive_address']    = $withdraw_transaction['addressTo'];
-        $subload_info['amount']             = $withdraw_transaction['amount'];
+        $subload_info['amount']             = $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'];
         $subload_info['withdraw_order_id']  = $withdraw_transaction['id'];
         $subload_info['status']             = 1;
         $subload_create_result = SubLoad::create($subload_info);
@@ -461,7 +463,7 @@ class Controller extends BaseController
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_POSTFIELDS => '{"id":"curltext","method":"payto","params": ["'.$to.'", '.$amount.']}',
+            CURLOPT_POSTFIELDS => '{"id":"curltext","method":"payto","params": {"destination" : "'.$to.'", "amount" : '.$amount.', "password" : "Arman11223344#"}}',
             CURLOPT_POST => 1,
         ]);
 
@@ -505,7 +507,7 @@ class Controller extends BaseController
 
     public function sendUSDT($from, $from_pk, $to, $amount){
         $amount_big = $amount*1000000;
-        exec('node C:\NeilLab\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount_big, $output);
+        exec('node C:\server\NeilLab-main\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount_big, $output);
         return $output;
     }
 

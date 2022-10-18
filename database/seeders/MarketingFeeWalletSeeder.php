@@ -26,8 +26,8 @@ class MarketingFeeWalletSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],[
-                'fee_type' => 2,
-                'chain_net' => 1,
+                'fee_type' => 1,
+                'chain_net' => 2,
                 'wallet_address' => '0x1e39D6270EbE4C6c85fAc60E2c62e1ED09F69f69',
                 'private_key' => '',
                 'status' => 1,
