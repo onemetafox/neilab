@@ -38,7 +38,7 @@
                                         @if ($value['connect_status'] == false)
                                         <span class="badge light badge-danger">
                                             <i class="fa fa-circle text-danger me-1"></i>
-                                            Disconnect
+                                            Disconnected
                                         </span>
                                         @else
                                         <span class="badge light badge-success">

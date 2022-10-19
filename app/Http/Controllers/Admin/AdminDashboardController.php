@@ -33,7 +33,7 @@ class AdminDashboardController extends Controller
                 $result[$key]['connect_status'] = true;
             } catch (\Throwable $th) {
                 //throw $th;
-                $result[$key]['wallet_address'] = 'Undifined';
+                $result[$key]['wallet_address'] = 'Disconnected';
                 $result[$key]['connect_status'] = false;
             }
         }

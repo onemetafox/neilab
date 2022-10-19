@@ -50,10 +50,14 @@ class HomeController extends Controller
             $campaign = MarketingCampain::find($campaign_id);
             $profit = null;
             if($campaign) {
-                $banner_title = $campaign->banner_title;
-                $banner_content = $campaign->banner_content;
-                $logo_path = '/storage/logo_images/'.$campaign->logo_image;
-                return view('front.home', compact('banner_title', 'banner_content', 'logo_path', 'referral_code', 'profit'));
+                if(auth()->user()){
+                    return redirect('/invite_friends');
+                }else{
+                    $banner_title = $campaign->banner_title;
+                    $banner_content = $campaign->banner_content;
+                    $logo_path = '/storage/logo_images/'.$campaign->logo_image;
+                    return view('front.home', compact('banner_title', 'banner_content', 'logo_path', 'referral_code', 'profit'));
+                }
             }else{
                 return redirect('/');
             }
