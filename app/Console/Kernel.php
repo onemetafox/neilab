@@ -30,7 +30,9 @@ class Kernel extends ConsoleKernel
         
         $schedule->call('App\Http\Controllers\Controller@cronHandleFunction')->everyThreeMinutes();
         $schedule->call('App\Http\Controllers\Controller@cronWithdrawHandleFunction')->everyFiveMinutes();
+        $schedule->call('App\Http\Controllers\Controller@cronInit')->dailyAt('00:00');
         $schedule->call('App\Http\Controllers\Client\SellController@cronHandleFunction')->everyMinute();
+        
     }
 
     /**

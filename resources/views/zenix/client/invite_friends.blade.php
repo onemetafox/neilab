@@ -70,7 +70,7 @@
 									<th><strong>Email</strong></th>
 									<th><strong>Name</strong></th>
 									<th><strong>Date</strong></th>
-									<th><strong>Profits</strong></th>
+									<th><strong>Referral</strong></th>
 								</tr>
 							</thead>
 							<tbody>
