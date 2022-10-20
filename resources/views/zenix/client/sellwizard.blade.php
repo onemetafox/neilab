@@ -77,7 +77,7 @@
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
 												<label class="text-label">Copy this address and send coins to this address</label>
-												<input type="text" class="form-control" id="receive_address" name="receive_address" value="{{$bitcoin_wallet}}">
+												<input type="text" class="form-control" id="receive_address" name="receive_address" value="{{$bitcoin_wallet}}" disabled>
 											</div>
 										</div>
 										<div class="col-lg-6 mb-2">
