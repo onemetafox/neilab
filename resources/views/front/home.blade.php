@@ -184,8 +184,6 @@
             </div>
         </div>
     </div><!-- .modal @e -->
-    <!-- preloader -->
-    <div class="preloader preloader-alt no-split"><span class="spinner spinner-alt"><img class="spinner-brand" src="/front/images/logo-s2-white.png" alt=""></span></div>
 
     @if($profit)
     <div class="modal fade" id="modal-medium">

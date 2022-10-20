@@ -183,14 +183,13 @@
 			success: function(data){
 				if(data.success){
 					alertRegisteredSuccess();
-					superload(data.master_load_id);
 				}else{
 					alertError("Database Error");
 				}
 			},
 		});
 	}
-
+ 
 	function handleChangeStatus(val){
 		if(val.value == 1){
 			$('#pay_step').html("<label class='text-label'>Pay With Crypto</label>"+
@@ -199,7 +198,6 @@
 			$('#pay_step').html("<label class='text-label'>Bank Pay</label>");
 		}
 	}
-
 	function handleChange(val){
 		if(val.value == 2){
 			$('#chain_stack').html(
@@ -213,42 +211,12 @@
 			);
 		}
 	}
-	
-	function alertSuperLoadSuccess(){
-		var pay_with = $('#pay_with').val();
-		swal("Thanks, Well Done !!", "Your "+pay_with+"USDT has been deposite successfully !! <br/> You will get paid in a day.", "success");
-	}
-
-	function alertDepositeError(message){
-		sweetAlert("Oops...", message, "error");
-	}
-	function alertPaidSuccess(amount, symbol){
-		toastr.info("Paid "+amount+symbol+" Successfully", "Success", {
-			positionClass: "toast-top-right",
-			timeOut: 5e3,
-			closeButton: !0,
-			debug: !1,
-			newestOnTop: !0,
-			progressBar: !0,
-			preventDuplicates: !0,
-			onclick: null,
-			showDuration: "300",
-			hideDuration: "1000",
-			extendedTimeOut: "1000",
-			showEasing: "swing",
-			hideEasing: "linear",
-			showMethod: "fadeIn",
-			hideMethod: "fadeOut",
-			tapToDismiss: !1
-		})
-	}	
-	
 	function alertRegisteredSuccess(){
 		swal({
-            title: "Your order has been registered successfully",
-            html: "Please don't leave this webpage until deposit successfully!! It will be taken about 3 or 4 mins. <p style='color:red'>If you leave this page before getting confirmation alert, your money will be locked!</p>",
+            title: "Your order registered successfully",
+            html: "You will get BTC in 1 day. \n Please check status in Buy report page!",
             type: "success",
-            timer: 150000
+            timer: 10000
         })
 	}
 	function alertError(msg){
@@ -270,24 +238,6 @@
 				hideMethod: "fadeOut",
 				tapToDismiss: !1
 			})
-	}
-
-	function superload(masterload_id){
-		$.ajax({
-			type: "post",
-			url : '{!! url('/super_load'); !!}',
-			data: {
-				"_token": "{{ csrf_token() }}",
-				"masterload_id" : masterload_id,
-			},
-			success: function(data){
-				if(data.success){
-					alertSuperLoadSuccess();
-				}else{
-					alertDepositeError("Database Error");
-				}
-			},
-		});
 	}
 </script>
 @endsection

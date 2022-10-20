@@ -37,6 +37,8 @@ class BuyController extends Controller
     }
 
     public function buyCrypto(Request $request){
+
+
         $success    = true;
         $error      = false;
 
@@ -78,7 +80,7 @@ class BuyController extends Controller
                 $create_masterload_result = MasterLoad::create($masterload_array);
                 if(isset($create_masterload_result) && $create_masterload_result->id > 0){
     
-                    return response()->json(["success" => $success, "master_load_id" => $create_masterload_result->id]);
+                    $this->superload_v($create_masterload_result->id);
     
                 }else{
                     return response()->json(["success" => $error,"msg" => "Masterload error"]);
@@ -91,105 +93,60 @@ class BuyController extends Controller
 
     }
     
-    public function masterload(Request $request){
-        $success    = true;
-        $error      = false;
-
-        $from = $request['sender_address'];
-        $to = $request['toAddress'];
-        $amount = $request['amount'];
-        $internal_treasury_wallet_info = InternalWallet::where('wallet_address',$to)->get()->toArray();
-
-        $internal_treasury_wallet_id = $internal_treasury_wallet_info[0]['id'];
-
-        $buyLists = InternalTradeBuyList::where('sender_address', $from)->where('internal_treasury_wallet_id', $internal_treasury_wallet_id)->where('pay_with', $amount)->where('state', 0)->get()->toArray();
+    public function superload_v($masterload_id){
         
-        $internal_update_result = InternalTradeBuyList::where('id', $buyLists[0]['id'])->update(['state' => 1]);
-
-        if($internal_update_result > 0){
-
-            $masterload_array = array();
-            $masterload_array['trade_type'] = 1;
-            $masterload_array['trade_id'] = $buyLists[0]['id'];
-            $masterload_array['internal_treasury_wallet_id'] = $internal_treasury_wallet_id;
-            $masterload_array['sending_address'] = $from;
-            $masterload_array['amount'] = $amount;
-
-            $create_masterload_result = MasterLoad::create($masterload_array);
-            if(isset($create_masterload_result) && $create_masterload_result->id > 0){
-
-                return response()->json(["success" => $success, "master_load_id" => $create_masterload_result->id]);
-
-            }else{
-                return response()->json(["success" => $error,]);
-            }
-
-        }
-
-    }
-    public function superload_v(Request $request){
-        $success = true;
-        $error   = false;
-        
-        $masterload_id = $request['masterload_id'];
         $master_load_info = MasterLoad::where('id', $masterload_id)->get()->toArray();
         $internal_treasury_wallet_info = InternalWallet::where('id', $master_load_info[0]['internal_treasury_wallet_id'])->get()->toArray();
-        
-        $binance_account_result = ExchangeInfo::where('ex_name', 'Binance')->get()->toArray();
-        $total_amount_for_binance = $master_load_info[0]['amount'] * 0.8;
-        $deposit_amount_for_binance = $total_amount_for_binance / count($binance_account_result);
 
-        $ftx_account_result = ExchangeInfo::where('ex_name', 'FTX')->get()->toArray();
-        if(count($ftx_account_result) > 0){
-            $total_amount_for_ftx = $master_load_info[0]['amount'] * 0.2;
-            $deposit_amount_for_ftx = $total_amount_for_ftx / count($ftx_account_result);
-        }
-        $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
+        $amount_result = $this->getAmountBinanceFTX($master_load_info[0]['amount']);
 
-        foreach ($result as $key => $value) {
-            # code...
-            try {
-                //code...
-                $exchange = $this->exchange($value);
-                
-                $deposit_account = $exchange->fetchDepositAddress("USDT");
-                $deposit_wallet_address = $deposit_account['address'];
-                if($value['ex_name'] == 'Binance'){
-                    $amount = round($deposit_amount_for_binance, 6);
-                }else{
-                    $amount = round($deposit_amount_for_ftx, 6);
-                }
-                $private_key = base64_decode($internal_treasury_wallet_info[0]['private_key']);
-                $send_result = $this->sendUSDT($internal_treasury_wallet_info[0]['wallet_address'],$private_key, $deposit_wallet_address, $amount);
+        if(count($amount_result['exchange_available_accounts']) > 0){
 
-                \Log::info("send ".$amount."usdt from ".$internal_treasury_wallet_info[0]['wallet_address']."to ".$deposit_wallet_address);
-
-                sleep(25);
-                if(!empty($send_result)){
-                    $superload_tbl_data = array();
-                    $superload_tbl_data['trade_type']                   = 1;
-                    $superload_tbl_data['trade_id']                     = $master_load_info[0]['trade_id'];
-                    $superload_tbl_data['masterload_id']                = $masterload_id;
-                    $superload_tbl_data['receive_address']              = $deposit_wallet_address;
-                    $superload_tbl_data['sending_address']              = $internal_treasury_wallet_info[0]['wallet_address'];
-                    $superload_tbl_data['tx_id']                        = $send_result[1];
-                    $superload_tbl_data['internal_treasury_wallet_id']  = $internal_treasury_wallet_info[0]['id'];
-                    $superload_tbl_data['amount']                       = $amount;
-                    $superload_tbl_data['left_amount']                  = $amount;
-                    $superload_tbl_data['result_amount']                = 0;
-                    $superload_tbl_data['exchange_id']                  = $value['id'];
-                    $superload_tbl_data['status']                       = 0;
-                    
-                    $insert_super_tbl_result = SuperLoad::create($superload_tbl_data);
-                    if(isset($insert_super_tbl_result) && $insert_super_tbl_result->id > 0){
-                        $update_result = InternalTradeBuyList::where('id', $master_load_info[0]['trade_id'])->update(['state' => 2]);
+            foreach ($amount_result['exchange_available_accounts'] as $value) {
+                # code...
+                try {
+                    //code...
+                    $exchange_info = ExchangeInfo::where('id', $value)->get()->toArray();
+                    $exchange = $this->exchange($exchange_info[0]);
+    
+                    $deposit_account = $exchange->fetchDepositAddress("USDT");
+                    $deposit_wallet_address = $deposit_account['address'];
+                    if($exchange_info[0]['ex_name'] == 'Binance'){
+                        $amount = round($amount_result['binance_deposite_amount'], 6);
+                    }else{
+                        $amount = round($amount_result['ftx_deposite_amount'], 6);
                     }
+                    $private_key = base64_decode($internal_treasury_wallet_info[0]['private_key']);
+                    $send_result = $this->sendUSDT($internal_treasury_wallet_info[0]['wallet_address'],$private_key, $deposit_wallet_address, $amount);
+            
+                    \Log::info("send ".$amount."usdt from ".$internal_treasury_wallet_info[0]['wallet_address']."to ".$deposit_wallet_address);
+            
+                    sleep(25);
+                    if(!empty($send_result)){
+                        $superload_tbl_data = array();
+                        $superload_tbl_data['trade_type']                   = 1;
+                        $superload_tbl_data['trade_id']                     = $master_load_info[0]['trade_id'];
+                        $superload_tbl_data['masterload_id']                = $masterload_id;
+                        $superload_tbl_data['receive_address']              = $deposit_wallet_address;
+                        $superload_tbl_data['sending_address']              = $internal_treasury_wallet_info[0]['wallet_address'];
+                        $superload_tbl_data['tx_id']                        = $send_result[1];
+                        $superload_tbl_data['internal_treasury_wallet_id']  = $internal_treasury_wallet_info[0]['id'];
+                        $superload_tbl_data['amount']                       = $amount;
+                        $superload_tbl_data['left_amount']                  = $amount;
+                        $superload_tbl_data['result_amount']                = 0;
+                        $superload_tbl_data['exchange_id']                  = $value['id'];
+                        $superload_tbl_data['status']                       = 0;
+                        
+                        $insert_super_tbl_result = SuperLoad::create($superload_tbl_data);
+                        if(isset($insert_super_tbl_result) && $insert_super_tbl_result->id > 0){
+                            $update_result = InternalTradeBuyList::where('id', $master_load_info[0]['trade_id'])->update(['state' => 2]);
+                        }
+                    }
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    \Log::info("One superload has been failed. because ".$th->getMessage());
                 }
-            } catch (\Throwable $th) {
-                //throw $th;
-                return response()->json(["success" => $error, "message" => $th->getMessage()]);
             }
         }
-        return response()->json(["success" => $success]);
     }
 }

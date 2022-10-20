@@ -38,6 +38,8 @@ class Controller extends BaseController
         $this->RPCusername = config('app.RPCusername');
         $this->RPCpassword = config('app.RPCpassword');
         $this->withdraw_limit = config('app.withdraw_limit');
+        $this->binance_withdraw_daily_total_amount = 0;
+        $this->ftx_withdraw_daily_total_amount = 0;
 
     }
 
@@ -519,5 +521,53 @@ class Controller extends BaseController
 
     public function getThemeMode(){
         return auth()->user()->theme_mode;
+    }
+    public function getAmountBinanceFTX($amonut){
+
+        $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
+        $binance_account = array();
+        $ftx_account = array();
+        $exchange_available_accounts = array();
+        $binance_deposite_amount = 0;
+        $ftx_deposite_amount = 0;
+
+        foreach ($result as $key => $value) {
+         # code...
+            $exchange = $this->exchange($value);
+            try {
+                //code...
+                $btc_wallet = $exchange->fetchDepositAddress("BTC");
+                if($value['ex_name'] == 'Binance'){
+                    array_push($binance_account, $value['id']);
+                }else{
+                    array_push($ftx_account, $value['id']);
+                }
+                array_push($exchange_available_accounts, $value['id']); 
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+        }
+
+        $binance_available_number = count($binance_account);
+        $ftx_available_number = count($ftx_account);
+        if($binance_available_number != 0 || $ftx_available_number != 0){
+            $binance_account_rate = 8 * $binance_available_number / (8 * $binance_available_number + 2 * $ftx_available_number);
+            $ftx_account_rate = 2 * $ftx_available_number / (8 * $binance_available_number + 2 * $ftx_available_number);
+
+            if($binance_available_number != 0){
+                $binance_deposite_amount = round($amonut * round($binance_account_rate, 7, PHP_ROUND_HALF_DOWN ) / $binance_available_number, 6, PHP_ROUND_HALF_DOWN );
+            }
+            if($ftx_available_number != 0){
+                $ftx_deposite_amount = round($amonut * round($ftx_account_rate, 7, PHP_ROUND_HALF_DOWN ) / $ftx_available_number, 6, PHP_ROUND_HALF_DOWN );
+            }
+        }
+
+        $return_value = array();
+        $return_value['binance_account'] = $binance_account;
+        $return_value['ftx_account'] = $ftx_account;
+        $return_value['binance_deposite_amount'] = $binance_deposite_amount;
+        $return_value['ftx_deposite_amount'] = $ftx_deposite_amount;
+        $return_value['exchange_available_accounts'] = $exchange_available_accounts;
+        return $return_value;
     }
 }
