@@ -67,11 +67,16 @@ use App\Http\Controllers\Client\SellReportController;
 
         // Admin User list routing
         Route::get('/admin/userlist',                       [AdminUserlistController::class,'index']);
+        Route::get('/admin/filterUserList/{filterID}',      [AdminUserlistController::class,'filterUser']);
+        
         Route::post('/admin/getUserByID',                   [AdminUserlistController::class,'getUserByID']);
         Route::post('/admin/assignCampaignId',              [AdminUserlistController::class,'assignCampaignId']);
         Route::post('/admin/changeUserEmail',               [AdminUserlistController::class,'changeUserEmail']);
         Route::post('/admin/changeUserPassword',            [AdminUserlistController::class,'changeUserPassword']);
         Route::get('/admin/change_userstate/{id}/{state}',  [AdminUserlistController::class,'changeUserState']);
+        Route::post('/admin/filterUser',                    [AdminUserlistController::class,'filterUser']);
+
+        
         Route::get('/admin/kyc_edit/{id}',                  [Controller::class,'coming_soon']);
         Route::get('/admin/view_upline/{id}',               [Controller::class,'coming_soon']);
         Route::get('/admin/view_downline/{id}',             [Controller::class,'coming_soon']);

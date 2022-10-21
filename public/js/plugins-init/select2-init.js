@@ -21,7 +21,8 @@
   $("#ex_name").select2();
   $("#wallet_type").select2();
   $(".wallet_type_select").select2();
-
+  $("#user_filter_by_campaign").select2();
+  
   
   
 

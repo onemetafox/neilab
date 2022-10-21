@@ -22,11 +22,9 @@
                                     <th>{{__('locale.asset_class_purchase')}}</th>
                                     <th>{{__('locale.sell_amount_in_coins')}}</th>
                                     <th>{{__('locale.sell_address_to_send_coin_to')}}</th>
-                                    <th>{{__('locale.pay_with')}}</th>
                                     <th>{{__('locale.address_to_pay_to')}}</th>
                                     <th>{{__('locale.chain_stack')}}</th>
                                     <th>{{__('locale.transaction_description')}}</th>
-                                    <th>{{__('locale.view_master_loads')}}</th>
                                     <th>{{__('locale.status')}}</th>
                                 </tr>
                             </thead>
@@ -43,13 +41,12 @@
                                     </td>
                                     <td>{{$value->sell_amount}}</td>
                                     <td>{{$value->delivered_address}}</td>
-                                    <td>{{$value->pay_with}}</td>
                                     <td>{{$value->wallet_address}}</td>
                                     <td>BTC</td>
                                     <td>{{$value->transaction_description}}</td>
-                                    <td>
+                                    <!-- <td>
 										<a href="{!! url('/masterload_report_sell/'.$value->masterload_id); !!}">View Masterload</a> 
-                                    </td>
+                                    </td> -->
                                     <td>
 										@switch($value->state)
                                             @case (0)

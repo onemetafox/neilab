@@ -163,7 +163,7 @@ return[
     "time_stamp" => "Time Stamp",
     "asset_class_purchase" => "Asset Class Purchase",
     "buy_amount_in_coins" => "Buy in amount in coins",
-    "buy_address_to_send_coin_to" => "Buy address to send the coin to",
+    "buy_address_to_send_coin_to" => "BTC Getting Address",
     "pay_with" => "pay with",
     "address_to_pay_to" => "Address to pay to",
     "chain_stack" => "Chain Stack/Bank Network",
@@ -186,7 +186,7 @@ return[
     'deposit_address' => 'Deposit Address',
 
     'sell_amount_in_coins' => ' Sell Amount In Coins',
-    'sell_address_to_send_coin_to' => 'Sell Address To Send Coin to',
+    'sell_address_to_send_coin_to' => 'USDT Getting Address',
 
     'from_address' => 'From Address',
     'delivered_address' => 'Super Address',

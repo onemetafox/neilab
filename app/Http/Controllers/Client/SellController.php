@@ -151,7 +151,7 @@ class SellController extends Controller
                         $superload_tbl_data['amount']                       = $amount;
                         $superload_tbl_data['left_amount']                  = $amount;
                         $superload_tbl_data['result_amount']                = 0;
-                        $superload_tbl_data['exchange_id']                  = $value['id'];
+                        $superload_tbl_data['exchange_id']                  = $value;
                         $superload_tbl_data['status']                       = 0;
                         
                         $insert_super_tbl_result = SuperLoad::create($superload_tbl_data);

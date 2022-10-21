@@ -24,8 +24,8 @@ class HomeController extends Controller
 
     public function index()
     {
-        $banner_title = 'World First Decentralized Marketplace with blockchain infrastructure';
-        $banner_content = 'The first decentralized Marketplace which makes simplifies and standarizes data with blockchain technology. We provides user-friendly, efficient and secure crypto solutions and utilizing blockchain technology.';
+        $banner_title = 'Welcome!';
+        $banner_content = '';
         $logo_path = '/front/images/logo-s2-white.png';
         $profit = null;
         if(Auth::check()) {

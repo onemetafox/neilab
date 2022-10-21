@@ -48,6 +48,19 @@ class AdminUserlistController extends Controller
         else return 'error';
     }
 
+    public function filterUser($filterID = null){
+
+        $page_title = __('locale.adminuserlist');
+        $page_description = 'Some description for the page';
+        $action = 'userlist';
+        $result = User::where('marketing_campain_id', $filterID)->get()->toArray();
+        
+        $campaigns = MarketingCampain::where('status', 1)->get();
+        $theme_mode = $this->getThemeMode();
+        $filter_id = $filterID;
+        return view('zenix.admin.userlist', compact('page_title', 'page_description', 'action', 'result', 'campaigns', 'theme_mode', 'filter_id'));
+
+    }
     public function changeUserEmail(Request $request){
         $id = $request['user_id'];
         $target_email = $request['target_email'];

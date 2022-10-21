@@ -59,6 +59,8 @@ return [
 					'vendor/owl-carousel/owl.carousel.css',
 					'vendor/datatables/css/jquery.dataTables.min.css',
 					'vendor/toastr/css/toastr.min.css',
+					'vendor/select2/css/select2.min.css',
+
 				],
 				'ZenixadminController_walletlist' => [
 					'vendor/chartist/css/chartist.min.css',
@@ -324,6 +326,8 @@ return [
 					'vendor/toastr/js/toastr.min.js',
 					'js/plugins-init/toastr-init.js',
 					'js/plugins-init/clipboard.min.js',
+					'vendor/select2/js/select2.full.min.js',
+					'js/plugins-init/select2-init.js',
 				],
 				'ZenixadminController_walletlist' => [
 					'vendor/chart.js/Chart.bundle.min.js',

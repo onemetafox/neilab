@@ -17,6 +17,19 @@
 			<div class="alert alert-success"><div class="alert-body">{{ session()->get('success') }}</div></div>
 			@endif
             <div class="card">
+				<div class="card-header d-flex col-6">
+					<h4 class="card-title" style="width:150px">Filter By</h4>
+					<select id="user_filter_by_campaign" data-id="filter_by" onchange="filterByCampaign(this);">
+						<option value="0">All</option>
+						@foreach ($campaigns as $campaign)
+							@if(isset($filter_id))
+								<option value="{{$campaign->id}}" {{$campaign->id == $filter_id ?'selected':''}}>{{$campaign->campain_name}}</option>
+							@else
+								<option value="{{$campaign->id}}">{{$campaign->campain_name}}</option>
+							@endif
+						@endforeach
+					</select>
+				</div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="example7" class="display" style="min-width: 845px">
@@ -38,7 +51,7 @@
                                     <th>{{__('locale.user_edit_status')}}</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="user_tbl">
                                 @foreach ($result as $key => $value)
                                 <tr>
                                     <td>{{$value['id']}}</td>
@@ -169,7 +182,13 @@
 			}, 1500)
 
 		});
-
+		function filterByCampaign(e){
+			var campaignid = e.value;
+			if (campaignid == 0)
+				window.location.replace("{!! url('/admin/userlist'); !!}");
+			else
+				window.location.replace("{!! url('/admin/filterUserList/"+campaignid+"'); !!}");
+		}
 		function changeCampaign(e){
 			var userId = $(e).data('id');
 			var campaignid = e.value;

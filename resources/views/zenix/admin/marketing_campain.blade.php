@@ -13,7 +13,7 @@
 					<div class="card-header d-flex">
 						<h4 class="card-title">{{__('locale.marketing_campain')}}</h4>
 						<a href="{!! url('/admin/editMarketingCampain'); !!}" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.add_new_marketing_campain')}}</a>
-                </div>
+                	</div>
                 <div class="card-body">
 					@if(session()->has('error'))
 					<div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>
