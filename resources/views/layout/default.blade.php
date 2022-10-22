@@ -68,7 +68,7 @@
                 <h2 class="mt-2">NeilLab</h2>
             </a>
             @else
-            <a href="{!! url('/client/dashboard'); !!}" class="brand-logo">
+            <a href="{!! url('/invite_friends'); !!}" class="brand-logo">
                 <h2 class="mt-2">NeilLab</h2>
             </a>
             @endif

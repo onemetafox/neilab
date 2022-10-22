@@ -13,11 +13,6 @@
             	<a href="{!! url('/admin/dashboard'); !!}" aria-expanded="false">
 					<i class="flaticon-096-dashboard"></i>{{__('locale.admindashboard')}}
 				</a>
-				@elseif(Auth::user()->user_type=="client")
-            	<a href="{!! url('/client/dashboard'); !!}" aria-expanded="false">
-					<i class="flaticon-096-dashboard"></i>
-					<span class="nav-text">{{__('locale.clientdashboard')}}</span>
-				</a>
 				@endif
             </li>
 			@if(Auth::user()->user_type=="admin")

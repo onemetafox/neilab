@@ -168,12 +168,12 @@ class RegisterController extends Controller
 
     public function understood_video (Request $request) {
         $me = User::find(auth()->user()->id);
-        $me->redirect = (auth()->user()->user_type=='admin'?'admin':'client').'/dashboard';
+        $me->redirect = (auth()->user()->user_type=='admin'?'admin/dashboard':'invite_friends');
         $me->save();
 
         // $request->session()->regenerate();
 
-        return redirect('/'.(auth()->user()->user_type=='admin'?'admin':'client').'/dashboard');
+        return redirect('/'.(auth()->user()->user_type=='admin'?'admin/dashboard':'invite_friends'));
     }
 
 }

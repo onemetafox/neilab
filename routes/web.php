@@ -140,7 +140,7 @@ use App\Http\Controllers\Client\SellReportController;
         //     return redirect('/client/dashboard');
         // });
     
-        Route::get('/client/dashboard',     [AdminDashboardController::class,'index']);
+        // Route::get('/client/dashboard',     [AdminDashboardController::class,'index']);
 
 
         Route::get('/buy_wizard',           [BuyController::class, 'index']);
