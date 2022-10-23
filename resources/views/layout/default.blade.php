@@ -63,7 +63,7 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            @if(Auth::user()->user_type == "admin")
+            <!-- @if(Auth::user()->user_type == "admin")
             <a href="{!! url('/admin/dashboard'); !!}" class="brand-logo">
                 <h2 class="mt-2">NeilLab</h2>
             </a>
@@ -71,7 +71,7 @@
             <a href="{!! url('/invite_friends'); !!}" class="brand-logo">
                 <h2 class="mt-2">NeilLab</h2>
             </a>
-            @endif
+            @endif -->
             <div class="nav-control">
                 <div class="hamburger">
                     <span class="line"></span><span class="line"></span><span class="line"></span>

@@ -55,7 +55,7 @@
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Paste your USDT (ERC20) wallet address where your coins delivered to</label>
+												<label class="text-label">Paste the USDT (ERC20) Wallet Address where your coins should be delivered to</label>
 												<input type="text" class="form-control" id="deliveredAddress" name="deliveredAddress" required>
 											</div>
 										</div>

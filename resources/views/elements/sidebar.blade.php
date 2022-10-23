@@ -91,10 +91,10 @@
 			</li>
 			@endif
         </ul>
-		<div class="copyright">
+		<!-- <div class="copyright">
 			<strong>NeilLab Dashboard</strong>
 			<p> © 2022 All Rights Reserved</p>
-		</div>
+		</div> -->
 	</div>
 </div>
 <!--**********************************

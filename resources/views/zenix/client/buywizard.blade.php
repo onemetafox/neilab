@@ -60,7 +60,7 @@
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Paste your wallet address where the coins delivered to</label>
+												<label class="text-label">Paste the Wallet Address to deliver your coins to.</label>
 												<input type="text" class="form-control" id="deliveredAddress" name="deliveredAddress" required>
 											</div>
 										</div>
