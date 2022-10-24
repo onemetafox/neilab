@@ -158,14 +158,14 @@ return[
     "internal_trade_sell" => "Internal Trade Sell",
 
     // Buy Report
-
+    "asset_class_purchase_sold" => "Digital Asset Sold",
     "num" => "No",
     "time_stamp" => "Time Stamp",
-    "asset_class_purchase" => "Asset Class Purchase",
-    "buy_amount_in_coins" => "Buy in amount in coins",
-    "buy_address_to_send_coin_to" => "BTC Getting Address",
+    "asset_class_purchase" => "Digital Asset Purchased",
+    "buy_amount_in_coins" => "Buy Amount in Coins",
+    "buy_address_to_send_coin_to" => "BTC Address",
     "pay_with" => "pay with",
-    "address_to_pay_to" => "Address to pay to",
+    "address_to_pay_to" => "Pay to Address",
     "chain_stack" => "Chain Stack/Bank Network",
     "transaction_description" => "Transaction Description",
     "view_master_loads" => "View Master Loads",
@@ -186,7 +186,7 @@ return[
     'deposit_address' => 'Deposit Address',
 
     'sell_amount_in_coins' => ' Sell Amount In Coins',
-    'sell_address_to_send_coin_to' => 'USDT Getting Address',
+    'sell_address_to_send_coin_to' => 'USDT Address',
 
     'from_address' => 'From Address',
     'delivered_address' => 'Super Address',

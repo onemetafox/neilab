@@ -37,7 +37,7 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="mb-1"><strong>Select Degital Asset</strong></label>
+												<label class="mb-1"><strong>Select the Digital Asset you wish to purchase.</strong></label>
 												<select id="digital_asset" name="digital_asset" onchange="handleChange(this)">
 													<option value="1">BTC</option>
 													<!-- <option value="2" disabled>USDT</option> -->
@@ -46,7 +46,7 @@
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="mb-1"><strong>Chain Stack</strong></label>
+												<label class="mb-1"><strong>Select Chain Stack</strong></label>
 												<select id="chain_stack" name="chain_stack">
 													<option value="1">BTC</option>
 												</select>
@@ -54,13 +54,13 @@
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">How Many Coins Do You Want To Buy?</label>
+												<label class="text-label">I wish to purchase the Selected Digital Asset in the equivalent of USDT (ERC20).</label>
 												<input type="number" name="buy_amount" id="buy_amount" class="form-control" min="0" step="any" required>
 											</div>
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Paste your BTC wallet address where your coins should be delivered to.</label>
+												<label class="text-label">Paste the Wallet Address to deliver your coins to here.</label>
 												<input type="text" class="form-control" id="deliveredAddress" name="deliveredAddress" required>
 											</div>
 										</div>
@@ -70,7 +70,7 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="mb-1"><strong>How To You Want to Pay?</strong></label>
+												<label class="mb-1"><strong>How do you wish to Pay?</strong></label>
 												<select id="pay_method" name="pay_method" onchange="handleChangeStatus(this)">
 													<option value="1" selected>USDT/Ethereum Chain Stack</option>
 													<option value="2">Bank Account</option>
@@ -81,13 +81,13 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Copy the address you should send to</label>
+												<label class="text-label">Please copy this Address this is where you should send your USDT (ERC20)</label>
 												<input type="text" class="form-control" id="receive_address" name="receive_address" value="{{$ethereum_wallet}}" disabled>
 											</div>
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Paste your wallet address</label>
+												<label class="text-label">Paste the Wallet Address USDT (ERC20) that you have sent the coins from. This will aid us in tracking the transaction.</label>
 												<input type="text" class="form-control" id="senderAddress" name="senderAddress" required>
 											</div>
 										</div>
@@ -98,13 +98,13 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2">
 											<div class="form-group" id="pay_step" name="pay_step">
-												<label class='text-label'>Pay With Crypto</label>
+												<label class='text-label'>Pay With USDT (ERC20)</label>
 												<input type='number' name='pay_with' id='pay_with' class='form-control' min='0' step='any' required>
 											</div>
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Paste your transaction ID</label>
+												<label class="text-label">Paste your Transaction HASH here.</label>
 												<input type="text" class="form-control" id="tx_id" name="tx_id" required>
 											</div>
 									</div>

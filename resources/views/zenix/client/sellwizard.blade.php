@@ -49,13 +49,13 @@
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">How Many Coins Do You Want To Sell?</label>
+												<label class="text-label">How many Bitcoins (BTC) do you want to Sell?</label>
 												<input type="number" name="sell_amount" id="sell_amount" class="form-control" min="0" step="any" required>
 											</div>
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Paste your ERC20 wallet address where your coins should be delivered to</label>
+												<label class="text-label">Paste the USDT (ERC20) Wallet Address where your coins should be delivered to.</label>
 												<input type="text" class="form-control" id="deliveredAddress" name="deliveredAddress" required>
 											</div>
 										</div>
@@ -65,9 +65,9 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="mb-1"><strong>HOW TO YOU WANT TO RECEIVE PAYMENT</strong></label>
+												<label class="mb-1"><strong>How do you want to recieve payment?</strong></label>
 												<select id="pay_method" name="pay_method" onchange="handleChangeStatus(this)">
-													<option value="1" selected>BTC</option>
+													<option value="1" selected>USDT/Ethereum Chain Stack</option>
 													<option value="2">Bank Account</option>
 												</select>
 											</div>
@@ -76,13 +76,13 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Copy this address and send coins to this address</label>
+												<label class="text-label">Copy this BTC address and send your coins here.</label>
 												<input type="text" class="form-control" id="receive_address" name="receive_address" value="{{$bitcoin_wallet}}" disabled>
 											</div>
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Paste your btc wallet address</label>
+												<label class="text-label">Paste the Address that you sent your BTC from (for verification purposes)</label>
 												<input type="text" class="form-control" id="senderAddress" name="senderAddress" required>
 											</div>
 										</div>
@@ -92,13 +92,13 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2">
 											<div class="form-group" id="pay_step" name="pay_step">
-												<label class='text-label'>Confirm amount of BTC you want to sell</label>
+												<label class='text-label'>Reconfirm the number of Bitcoin (BTC) you want to sell.</label>
 												<input type='number' name='pay_with' id='pay_with' class='form-control' min='0' step='any' required>
 											</div>
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Paste the transaction ID which money sent to</label>
+												<label class="text-label">Paste the Transaction ID / Transaction Hash.</label>
 												<input type="text" class="form-control" id="tx_id" name="tx_id" required>
 											</div>
 										</div>

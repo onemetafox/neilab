@@ -19,7 +19,7 @@
                             <thead>
                                 <tr>
                                     <th>{{__('locale.time_stamp')}}</th>
-                                    <th>{{__('locale.asset_class_purchase')}}</th>
+                                    <th>{{__('locale.asset_class_purchase_sold')}}</th>
                                     <th>{{__('locale.sell_amount_in_coins')}}</th>
                                     <th>{{__('locale.sell_address_to_send_coin_to')}}</th>
                                     <th>{{__('locale.address_to_pay_to')}}</th>
