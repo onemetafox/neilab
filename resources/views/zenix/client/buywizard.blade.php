@@ -141,7 +141,7 @@
 		var deliveredAddress 	= $('#deliveredAddress').val();
 		var pay_with		 	= $('#pay_with').val();
 		Swal.fire({
-		html: 'Please Confirm Your Request! \n You will get BTC of <strong style="color:blue">'+pay_with+'</strong> USDT to this address. \n <strong style="color:blue">'+deliveredAddress+'</strong>',
+		html: 'Please Confirm Your Request! \n You will get BTC of <strong style="color:#eb8153">'+pay_with+'</strong> USDT to this address. \n <strong style="color:#eb8153">'+deliveredAddress+'</strong>',
 		confirmButtonText: 'OK',
 		showCancelButton: true,
 		type:'info'

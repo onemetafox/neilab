@@ -13,7 +13,9 @@
     <meta property="og:description" content="Zenix - Crypto Admin Dashboard" />
     <meta property="og:image" content="https://zenix.dexignzone.com/xhtml/social-image.png" />
     <meta name="format-detection" content="telephone=no">
-    <title>{{ config('dz.name') }} | @yield('title', $page_title ?? '')</title>
+    <!-- <title>{{ config('dz.name') }} | @yield('title', $page_title ?? '')</title> -->
+    <title>@yield('title', $page_title ?? '')</title>
+
     <meta name="description" content="@yield('page_description', $page_description ?? '')"/>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}">

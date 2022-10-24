@@ -9,7 +9,7 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="/front/images/favicon.png">
     <!-- Site Title  -->
-    <title>NeilLab</title>
+    <title>Welcome</title>
     <!-- Bundle and Base CSS -->
     <link rel="stylesheet" href="/front/assets/css/vendor.bundle.css?ver=200">
     <link rel="stylesheet" href="/front/assets/css/style-azalea.css?ver=200">

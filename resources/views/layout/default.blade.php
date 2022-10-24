@@ -14,7 +14,9 @@
     <meta property="og:description" content="{{ config('dz.name') }} | @yield('title', $page_title ?? '')" />
     <meta property="og:image" content="https://zenix.dexignzone.com/laravel/social-image.png" />
     <meta name="format-detection" content="telephone=no">
-    <title>{{ config('dz.name') }} | @yield('title', $page_title ?? '')</title>
+    <!-- <title>{{ config('dz.name') }} | @yield('title', $page_title ?? '')</title> -->
+    <title>@yield('title', $page_title ?? '')</title>
+
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}"/>
     
