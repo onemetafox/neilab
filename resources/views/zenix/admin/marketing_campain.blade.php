@@ -23,7 +23,7 @@
 					<div class="alert alert-success"><div class="alert-body">{{ session()->get('success') }}</div></div>
 					@endif
                     <div class="table-responsive">
-                        <table id="example7" class="display" style="min-width: 845px">
+                        <table id="example7" class="display" style="min-width: 2000px">
                             <thead>
                                 <tr>
                                     <th>Campaign ID</th>
@@ -42,7 +42,7 @@
                             <tbody>
                                 @foreach ($result as $key => $value)
 								<tr>
-									<td>{{$value['id']}}</td>
+									<td>{{++$key}}</td>
 									<td>{{$value['campain_name']}}</td>
 									<td>{{$value['total_fee']}}</td>
 									<td>{{$value['internal_sales_fee']}}</td>
@@ -60,6 +60,7 @@
 									<td>
 										<a href="{!! url('/admin/editMarketingCampain/'.$value['id']); !!}" title="Edit"><i class="fa fa-edit"></i></a> 
 										<a href="{!! url('/admin/previewMarketingCampain/'.$value['id']); !!}" target="_blank" title="Preview"><i class="fa fa-eye"></i></a>
+										<a href="{!! url('/admin/deleteMarketingCampaign/'.$value['id']); !!}" title="Delete"><i class="fa fa-trash"></i></a>
 									</td>
 
 								@endforeach

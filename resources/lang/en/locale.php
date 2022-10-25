@@ -47,6 +47,7 @@ return[
     "user_product"              =>  "User Product",
     "user_MLM_tree"             =>  "MLM Tree",
     "user_edit_status"          =>  "Edit Status",
+    "user_action"               =>  "Action",
 
     // wallet list part
     "admin_create_new_internal_wallet_list"  =>  "Create New Internal Wallet",

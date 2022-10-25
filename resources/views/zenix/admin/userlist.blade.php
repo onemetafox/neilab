@@ -49,12 +49,14 @@
                                     <th>{{__('locale.user_product')}}</th>
                                     <th>{{__('locale.user_MLM_tree')}}</th>
                                     <th>{{__('locale.user_edit_status')}}</th>
+                                    <th>{{__('locale.user_action')}}</th>
+
                                 </tr>
                             </thead>
                             <tbody id="user_tbl">
                                 @foreach ($result as $key => $value)
                                 <tr>
-                                    <td>{{$value['id']}}</td>
+                                    <td>{{++$key}}</td>
                                     <td>
 										@if ($value['state'] == 0)
                                         <span class="badge badge-dark">
@@ -109,6 +111,7 @@
                                             </div>
                                         </div>
                                     </td>	
+                                    <td><a href="{!! url('/admin/user_del/'.$value['id']); !!}"><i class="fa fa-trash"></i></a></td>
                                 </tr>
                                 @endforeach
                             </tbody>

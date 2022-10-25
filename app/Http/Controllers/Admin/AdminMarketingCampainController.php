@@ -34,6 +34,24 @@ class AdminMarketingCampainController extends Controller
 
         return view('zenix.admin.editMarketingCampain', compact('page_title', 'page_description', 'action', 'id', 'data', 'theme_mode'));
     }
+    
+    public function deleteMarketingCampain($id = null){
+
+        $result = MarketingCampain::where("id", $id)->delete();
+        if($result > 0){
+            $userList = User::where('marketing_campain_id', $id)->get()->toArray();
+            if(count($userList) > 0){
+                foreach ($userList as $key => $value) {
+                    # code...
+                    User::where('id', $value['id'])->update(['marketing_campain_id' => 0]);
+                }
+            }
+            return redirect('/admin/marketingcampain')->with('success', 'Marketing Campaign has been updated successfully ');
+            
+        }else{
+            return redirect('/admin/marketingcampain')->with('error', 'Try again. There is error in database');
+        }
+    }
     public function updateMarketing(Request $request){
         if(empty($request->old_id)){
             $validated = $request->validate([

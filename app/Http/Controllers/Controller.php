@@ -361,54 +361,57 @@ class Controller extends BaseController
     public function handleSendFee($trade_info, $amount, $trade_type){
         $user_info = User::where('id', $trade_info['user_id'])->get()->toArray();
         $marketing_info = MarketingCampain::where('id', $user_info[0]['marketing_campain_id'])->get()->toArray();
+        if(count($marketing_info) > 0){
 
-        $fee_amount = round($amount/100*$marketing_info[0]['total_fee'],6);
-        $remain_amount = $amount - $fee_amount;
-
-
-        if($trade_type == 1){
-            $marketing_fee_wallets = MarketingFeeWallet::where('fee_type', 1)->where('chain_net', 1)->get()->toArray();
-            $send_result = $this->sendBTC($marketing_fee_wallets[0]['wallet_address'], $fee_amount);
-
-            $tx_id =  $send_result['txid'];
-            \Log::info("Total Fee (".$fee_amount."BTC)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
-
-            $chain_net = 1;
-            $send_fee_result = true;
+            $fee_amount = round($amount/100*$marketing_info[0]['total_fee'],6);
+            $remain_amount = $amount - $fee_amount;
+    
+    
+            if($trade_type == 1){
+                $marketing_fee_wallets = MarketingFeeWallet::where('fee_type', 1)->where('chain_net', 1)->get()->toArray();
+                $send_result = $this->sendBTC($marketing_fee_wallets[0]['wallet_address'], $fee_amount);
+    
+                $tx_id =  $send_result['txid'];
+                \Log::info("Total Fee (".$fee_amount."BTC)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
+    
+                $chain_net = 1;
+                $send_fee_result = true;
+            }else{
+                $marketing_fee_wallets = MarketingFeeWallet::where('fee_type', 1)->where('chain_net', 2)->get()->toArray();
+    
+                $internal_wallet_info = InternalWallet::where('wallet_type',1)->where('chain_stack',2)->get()->toArray();
+                $private_key = base64_decode($internal_wallet_info[0]['private_key']);
+                $address = $internal_wallet_info[0]['wallet_address'];
+    
+                $send_usdt_result = $this->sendUSDT($address, $private_key , $marketing_fee_wallets[0]['wallet_address'], $fee_amount);
+                \Log::info($send_usdt_result);
+                $tx_id = $send_usdt_result[1];
+                \Log::info("Total Fee (".$fee_amount."USDT)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
+    
+                $chain_net = 2;
+            }
+            $transaction_history = array();
+            $transaction_history['fee_type'] = 1;
+            $transaction_history['chain_net'] = $chain_net;
+            $transaction_history['amount'] = $fee_amount;
+            $transaction_history['tx_id'] = $tx_id;
+            $transaction_history['user_id'] = $trade_info['user_id'];
+    
+            $transaction_create_result = SendFeeTransaction::create($transaction_history);
+    
+            if($transaction_create_result->id > 0){
+                $return_status = true;
+            }else{
+                $return_status = false;
+            }
+    
+            return (['status' => $return_status, 'remain_amount' => $remain_amount]);
         }else{
-            $marketing_fee_wallets = MarketingFeeWallet::where('fee_type', 1)->where('chain_net', 2)->get()->toArray();
-
-            $internal_wallet_info = InternalWallet::where('wallet_type',1)->where('chain_stack',2)->get()->toArray();
-            $private_key = base64_decode($internal_wallet_info[0]['private_key']);
-            $address = $internal_wallet_info[0]['wallet_address'];
-
-            $send_usdt_result = $this->sendUSDT($address, $private_key , $marketing_fee_wallets[0]['wallet_address'], $fee_amount);
-            \Log::info($send_usdt_result);
-            $tx_id = $send_usdt_result[1];
-            \Log::info("Total Fee (".$fee_amount."USDT)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
-
-            $chain_net = 2;
-        }
-        $transaction_history = array();
-        $transaction_history['fee_type'] = 1;
-        $transaction_history['chain_net'] = $chain_net;
-        $transaction_history['amount'] = $fee_amount;
-        $transaction_history['tx_id'] = $tx_id;
-        $transaction_history['user_id'] = $trade_info['user_id'];
-
-        $transaction_create_result = SendFeeTransaction::create($transaction_history);
-
-        if($transaction_create_result->id > 0){
-            $return_status = true;
-        }else{
-            $return_status = false;
+            return (['status' => false]);
         }
 
-        return (['status' => $return_status, 'remain_amount' => $remain_amount]);
     }
     public function lastStep($asset, $withdraw_tbl, $withdraw_transaction){
-        $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
-        $subload_info = array();
         
         if($asset == 'BTC'){
             $trade_info = InternalTradeBuyList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
@@ -416,7 +419,24 @@ class Controller extends BaseController
             if($sending_fee_result['status']){
                 sleep(25);
                 $send_result = $this->sendBTC($trade_info[0]['delivered_address'], $sending_fee_result['remain_amount']);
+
+                $subload_info = array();
                 $subload_info['tx_id'] = $send_result['txid'];
+                $subload_info['trade_type']         = $withdraw_tbl['trade_type'];
+                $subload_info['trade_id']           = $withdraw_tbl['trade_id'];
+                $subload_info['superload_id']       = $withdraw_tbl['superload_id'];
+                $subload_info['exchange_id']        = $withdraw_tbl['exchange_id'];
+                $subload_info['receive_address']    = $withdraw_transaction['addressTo'];
+                $subload_info['amount']             = $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'];
+                $subload_info['withdraw_order_id']  = $withdraw_transaction['id'];
+                $subload_info['status']             = 1;
+
+                $subload_create_result = SubLoad::create($subload_info);
+
+                if($subload_create_result > 0){
+                    $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
+                }
+                sleep(20);
                 \Log::info("Complete one subload of buy transaction");
             }
         }else if($asset == 'USDT'){
@@ -428,20 +448,26 @@ class Controller extends BaseController
                 $private_key = base64_decode($internal_wallet_info[0]['private_key']);
                 $address = $internal_wallet_info[0]['wallet_address'];
                 $send_usdt_result = $this->sendUSDT($address, $private_key, $trade_info[0]['delivered_address'],  $sending_fee_result['remain_amount']);
+
+                $subload_info = array();
                 $subload_info['tx_id'] = $send_usdt_result[1];
+                $subload_info['trade_type']         = $withdraw_tbl['trade_type'];
+                $subload_info['trade_id']           = $withdraw_tbl['trade_id'];
+                $subload_info['superload_id']       = $withdraw_tbl['superload_id'];
+                $subload_info['exchange_id']        = $withdraw_tbl['exchange_id'];
+                $subload_info['receive_address']    = $withdraw_transaction['addressTo'];
+                $subload_info['amount']             = $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'];
+                $subload_info['withdraw_order_id']  = $withdraw_transaction['id'];
+                $subload_info['status']             = 1;
+                $subload_create_result = SubLoad::create($subload_info);
+                
+                if($subload_create_result > 0){
+                    $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
+                }
+                sleep(20);
                 \Log::info("Complete one subload of buy transaction");
             }
         }
-        $subload_info['trade_type']         = $withdraw_tbl['trade_type'];
-        $subload_info['trade_id']           = $withdraw_tbl['trade_id'];
-        $subload_info['superload_id']       = $withdraw_tbl['superload_id'];
-        $subload_info['exchange_id']        = $withdraw_tbl['exchange_id'];
-        $subload_info['receive_address']    = $withdraw_transaction['addressTo'];
-        $subload_info['amount']             = $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'];
-        $subload_info['withdraw_order_id']  = $withdraw_transaction['id'];
-        $subload_info['status']             = 1;
-        $subload_create_result = SubLoad::create($subload_info);
-        sleep(20);
     }
 
     public function confirmWithdrawTransaction($asset, $value){

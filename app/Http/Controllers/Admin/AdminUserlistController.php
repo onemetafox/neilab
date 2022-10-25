@@ -16,7 +16,7 @@ class AdminUserlistController extends Controller
         $page_title = __('locale.adminuserlist');
         $page_description = 'Some description for the page';
         $action = 'userlist';
-        $result = User::orderBy('id', 'asc')->get()->toArray();
+        $result = User::where('user_type','!=', 'admin')->get()->toArray();
         
         $campaigns = MarketingCampain::where('status', 1)->get();
         $theme_mode = $this->getThemeMode();
@@ -61,6 +61,17 @@ class AdminUserlistController extends Controller
         return view('zenix.admin.userlist', compact('page_title', 'page_description', 'action', 'result', 'campaigns', 'theme_mode', 'filter_id'));
 
     }
+    public function deleteUserByID($userID = null){
+
+        $result = User::where("id", $userID)->delete();
+
+        if($result > 0){
+            return redirect('/admin/userlist')->with('success', 'User has been updated successfully ');
+        }else{
+            return redirect('/admin/userlist')->with('error', 'Try again. There is error in database');
+        }
+    }
+
     public function changeUserEmail(Request $request){
         $id = $request['user_id'];
         $target_email = $request['target_email'];

@@ -83,7 +83,7 @@ use App\Http\Controllers\Client\SellReportController;
         Route::get('/admin/user_product/{id}',              [Controller::class,'coming_soon']);
         Route::get('/admin/mlm_tree/{id}',                  [Controller::class,'coming_soon']);
 
-        
+        Route::get('/admin/user_del/{id}',                  [AdminUserlistController::class,'deleteUserByID']);
         
         // Route::get('/admin/walletlist',     [Controller::class,'coming_soon']);
         Route::get('/admin/walletlist',     [AdminWalletController::class,'index']);
@@ -113,6 +113,9 @@ use App\Http\Controllers\Client\SellReportController;
         Route::post('/admin/changeMarketingCampainStatusByID', [AdminMarketingCampainController::class,'changeMarketingCampainStatusByID']);
         Route::get('/admin/previewMarketingCampain/{id}', [AdminMarketingCampainController::class,'previewMarketingCampain']);
         Route::post('/admin/updateMarketing', [AdminMarketingCampainController::class,'updateMarketing']);
+        Route::get('/admin/deleteMarketingCampaign/{id?}', [AdminMarketingCampainController::class,'deleteMarketingCampain']);
+
+        
 
         Route::get('/admin/internalTradeBuy', [AdminInternalTradeBuyController::class,'index']);
         Route::get('/admin/internalTradeSell', [AdminInternalTradeSellController::class,'index']);
