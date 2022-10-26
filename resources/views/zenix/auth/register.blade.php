@@ -12,7 +12,7 @@
                     <div class="auth-form">
 						<div class="text-center mb-3">
                             <!-- <img src="{{ asset('images/logo-text.png') }}" style="width:40%" alt=""> -->
-                            <h1>NeilLab</h1>
+                            <h1>Crypto Trust VIP</h1>
 						</div>
                         @if(session()->has('error'))
                         <div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>
