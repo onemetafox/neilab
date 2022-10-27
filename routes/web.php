@@ -55,9 +55,7 @@ use App\Http\Controllers\Client\SellReportController;
 
     // Admin Routing
     Route::group(['middleware' => ['isAdmin']], function(){
-        // Route::get('/', function(){
-        //     return redirect('/admin/dashboard');
-        // });
+        
         Route::get('/admin/exchangelist',               [AdminExchangeListController::class, "index"]);
         Route::get('/admin/new_exchange_list/{id?}',    [AdminExchangeListcontroller::class, "editExchange"]);
         Route::get('/admin/delete_exchange_list/{id?}', [AdminExchangeListcontroller::class, "deleteExchange"]);
@@ -139,11 +137,6 @@ use App\Http\Controllers\Client\SellReportController;
     
     // Client Routing
     Route::group(['middleware' => ['isClient', 'hasMarketingCampain']], function(){
-        // Route::get('/', function(){
-        //     return redirect('/client/dashboard');
-        // });
-    
-        // Route::get('/client/dashboard',     [AdminDashboardController::class,'index']);
 
 
         Route::get('/buy_wizard',           [BuyController::class, 'index']);
@@ -153,7 +146,6 @@ use App\Http\Controllers\Client\SellReportController;
     
         Route::get('/sell_wizard',          [SellController::class, 'index']);
         Route::post('/sell_crypto',         [SellController::class, 'sellCrypto']);
-        // Route::get('/send_btc',             [SellController::class, 'sendBTC']);
         Route::post('/sell_master_load',    [SellController::class, 'masterload']);
         Route::post('/sell_super_load',     [SellController::class, 'superload_v']);
         
@@ -177,14 +169,12 @@ use App\Http\Controllers\Client\SellReportController;
         Route::get('/invite_friends', [HomeController::class, 'invite_friends']);
         Route::post('/get_profit', [HomeController::class, 'get_profit']);
     
-        Route::get('/withdraw', [Controller::class, 'withdraw_old']);
         Route::get('/profile', [Controller::class, 'coming_soon']);
     });
 
     Route::get('/required_marketing_campain', [Controller::class, 'requiredMarketingCampain']);
     Route::get('/getMarketprice',  [Controller::class, 'getMarketprice']);
     Route::get('/get_balance',  [SellController::class, 'get_balance']);
-    // Route::get('/test_transaction/{id?}',  [SellController::class, 'test_transaction']);
     Route::post('/updateThemeMode',  [Controller::class, 'updateThemeMode']);
 
     

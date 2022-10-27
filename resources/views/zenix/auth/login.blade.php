@@ -13,7 +13,7 @@
     					<div class="text-center mb-3 row">
                             <a href="/">
                                 <!-- <img src="{{ asset('images/logo-text.png') }}"  style="width:40%" alt=""> -->
-                                <h1>Crypto Trust VIP</h1>
+                                <h1>CandyStore VIP</h1>
                             </a>
     					</div>
                         @if(session()->has('error'))

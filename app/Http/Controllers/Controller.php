@@ -156,19 +156,6 @@ class Controller extends BaseController
         return $output;
     }
 
-    public function withdraw_old(){
-        $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
-
-        $code = "BTC";
-        $superload_id = 1;
-        $amount = 0.0027;
-
-        $exchange = $this->exchange($result[0]);
-        $order = array();
-        $order['amount'] = 0.0027;
-
-        $this->withdraw($exchange, $superload_id, $order);
-    }
 
     public function withdraw($exchange, $superload_id, $ex_name){
 
@@ -465,7 +452,7 @@ class Controller extends BaseController
                     $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
                 }
                 sleep(20);
-                \Log::info("Complete one subload of buy transaction");
+                \Log::info("Complete one subload of sell transaction");
             }
         }
     }
