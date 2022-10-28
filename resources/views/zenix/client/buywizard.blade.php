@@ -98,13 +98,13 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2">
 											<div class="form-group" id="pay_step" name="pay_step">
-												<label class='text-label'>Pay With USDT (ERC20)</label>
+												<label class='text-label'>Reconfirm the number of USDT you want to purchase with.</label>
 												<input type='number' name='pay_with' id='pay_with' class='form-control' min='0' step='any' required>
 											</div>
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">Paste your Transaction HASH here.</label>
+												<label class="text-label">Paste the Transaction ID / Transaction Hash.</label>
 												<input type="text" class="form-control" id="tx_id" name="tx_id" required>
 											</div>
 									</div>

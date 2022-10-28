@@ -49,12 +49,12 @@
 				@endif
                 <div class="card">
                     <div class="card-body">
-						<div class="alert alert-info alert-dismissible fade show">
+						<!-- <div class="alert alert-info alert-dismissible fade show">
 							<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
 							If you invite a friend, you will get a percentage of his transaction amount.
 							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
                             </button>
-						</div>
+						</div> -->
 						<div class="form-group">
 							<label>Please share this url with your friends</label>
 							<div class="input-group mb-3">
