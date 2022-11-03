@@ -420,9 +420,7 @@ class Controller extends BaseController
 
                 $subload_create_result = SubLoad::create($subload_info);
 
-                if($subload_create_result > 0){
-                    $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
-                }
+                $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
                 sleep(20);
                 \Log::info("Complete one subload of buy transaction");
             }
@@ -448,9 +446,7 @@ class Controller extends BaseController
                 $subload_info['status']             = 1;
                 $subload_create_result = SubLoad::create($subload_info);
                 
-                if($subload_create_result > 0){
-                    $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
-                }
+                $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
                 sleep(20);
                 \Log::info("Complete one subload of sell transaction");
             }
