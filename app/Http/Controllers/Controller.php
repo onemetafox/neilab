@@ -50,7 +50,7 @@ class Controller extends BaseController
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
         $theme_mode = $this->getThemeMode();
-        
+
         return view('zenix.page.requiredMarketingCampain', compact('page_title', 'page_description', 'action', 'theme_mode'));
     }
 
@@ -63,7 +63,7 @@ class Controller extends BaseController
         return view('zenix.page.coming_soon', compact('page_title', 'page_description', 'action', 'theme_mode'));
     }
 
-    
+
     public function exchange($param=null){
         $n_id = $param['ex_name'];
         $exchange_id = '\\ccxt\\' . $n_id;
@@ -85,7 +85,7 @@ class Controller extends BaseController
         $btc_amount = round($amount/$bitcoin_ticker['bid'], 6);
         return $btc_amount;
     }
-    
+
     public function getUSDTPrice($exchange_info, $amount){
         # code...
         $bitcoin_ticker = $exchange_info->fetch_ticker('BTC/USDT');
@@ -134,7 +134,9 @@ class Controller extends BaseController
     public function marketSellOrder($exchange, $amount, $superload_id, $ex_name){
         $symbol = "BTC/USDT";
         $market_amount = round($amount*0.999, 6);
-        $order = $this->createMarketSellOrder($symbol, $amount, $exchange);
+        $order = $this->createMarketSellOrder($symbol, $market_amount, $exchange);
+
+        $order['amount'] = $this->getUSDTPrice($exchange, $order['amount']);
 
         $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
         if($order['amount'] > 0){
@@ -165,18 +167,18 @@ class Controller extends BaseController
         if(isset($superload_info[0]['trade_type']) && $superload_info[0]['trade_type'] == 1){
 
             $code = "BTC";
-            $amount = $superload_info[0]['result_amount'];
+            $amount = round($superload_info[0]['result_amount'] * 0.985, 6);
             $internal_wallets = InternalWallet::where('chain_stack', 1)->where('wallet_type', 1)->get()->toArray();
             $address = $internal_wallets[0]['wallet_address'];
             $withdraw_detail = $exchange->withdraw($code, $amount, $address);
 
             $withdraw_amount = $this->getUSDTPrice($exchange, $amount);
-            
+
             if($ex_name == 'Binance'){
                 $this->binance_withdraw_daily_total_amount += $withdraw_amount;
 
             }else{
-                
+
                 $this->ftx_withdraw_daily_total_amount += $withdraw_amount;
             }
 
@@ -187,19 +189,20 @@ class Controller extends BaseController
         }else if(isset($superload_info[0]['trade_type']) && $superload_info[0]['trade_type'] == 2){
             $code = "USDT";
             $amount = $superload_info[0]['result_amount'];
-            $usdt_amount = $this->getUSDTPrice($exchange, $amount);
+            $real_amount = round($amount * 0.985, 6);
+
             $internal_wallets = InternalWallet::where('chain_stack', 2)->where('wallet_type', 1)->get()->toArray();
 
             $address = $internal_wallets[0]['wallet_address'];
-            $withdraw_detail = $exchange->withdraw($code, $usdt_amount, $address);
-            
+            $withdraw_detail = $exchange->withdraw($code, $real_amount, $address);
+
             if($ex_name == 'Binance'){
-                $this->binance_withdraw_daily_total_amount += $usdt_amount;
+                $this->binance_withdraw_daily_total_amount += $real_amount;
             }else{
-                $this->ftx_withdraw_daily_total_amount += $usdt_amount;
+                $this->ftx_withdraw_daily_total_amount += $real_amount;
             }
 
-            \Log::info("Withdraw request has been ordered. amount = ".$usdt_amount." to ".$address);
+            \Log::info("Withdraw request has been ordered. amount = ".$real_amount." to ".$address);
             $withdraw_info['trade_type'] = 2;
         }
         $withdraw_info['trade_id'] = $superload_info[0]['trade_id'];
@@ -216,7 +219,7 @@ class Controller extends BaseController
     }
     /* This function works every 3 minutes */
     public function cronHandleFunction(){
-        /* 
+        /*
         order_size_limit_btc => This is the order size limit that system can order at once.
         order_size_limit_usdt => This is the order size limit that system can order at once.
         */
@@ -238,9 +241,9 @@ class Controller extends BaseController
                         if (count($database_status_of_superload) > 0) {
                             # code...
                             $withdraw_available = $this->checkWithdrawAvailable($exchange, $value['ex_name'], $database_status_of_superload[0]['amount']);
-                            
+
                             if($withdraw_available){
-                                
+
                                 /* If there remains unordered amount, request order till left amount is zero */
                                 if(count($database_status_of_superload) != 0 && $database_status_of_superload[0]['left_amount'] > 0 && $database_status_of_superload[0]['status'] == 0){
                                     /* If remains amount is less than 15 usdt. */
@@ -284,7 +287,7 @@ class Controller extends BaseController
                                         $update_superload_result = SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['left_amount' => 0,'status' => 1]);
                                         $this->marketSellOrder($exchange, $database_status_of_superload[0]['left_amount'], $database_status_of_superload[0]['id'], $value['ex_name']);
                                         \Log::info("Deposit transaction of ".$deposit_value['txid']." has been confirmed from ".$value['ex_name']);
-                                        
+
                                     }else if($database_status_of_superload[0]['left_amount'] > $order_size_limit_btc){
                                         $this->marketSellOrder($exchange, $order_size_limit_btc, $database_status_of_superload[0]['id'], $value['ex_name']);
                                         $remain_amount = $database_status_of_superload[0]['left_amount'] - $order_size_limit_btc;
@@ -323,7 +326,7 @@ class Controller extends BaseController
         }
         return false;
     }
-    
+
     public function cronWithdrawHandleFunction(){
         $withdraw_order_info = Withdraw::where('status', 0)->get()->toArray();
         foreach ($withdraw_order_info as $key => $value) {
@@ -352,29 +355,29 @@ class Controller extends BaseController
 
             $fee_amount = round($amount/100*$marketing_info[0]['total_fee'],6);
             $remain_amount = $amount - $fee_amount;
-    
-    
+
+
             if($trade_type == 1){
                 $marketing_fee_wallets = MarketingFeeWallet::where('fee_type', 1)->where('chain_net', 1)->get()->toArray();
                 $send_result = $this->sendBTC($marketing_fee_wallets[0]['wallet_address'], $fee_amount);
-    
+
                 $tx_id =  $send_result['txid'];
                 \Log::info("Total Fee (".$fee_amount."BTC)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
-    
+
                 $chain_net = 1;
                 $send_fee_result = true;
             }else{
                 $marketing_fee_wallets = MarketingFeeWallet::where('fee_type', 1)->where('chain_net', 2)->get()->toArray();
-    
+
                 $internal_wallet_info = InternalWallet::where('wallet_type',1)->where('chain_stack',2)->get()->toArray();
                 $private_key = base64_decode($internal_wallet_info[0]['private_key']);
                 $address = $internal_wallet_info[0]['wallet_address'];
-    
+
                 $send_usdt_result = $this->sendUSDT($address, $private_key , $marketing_fee_wallets[0]['wallet_address'], $fee_amount);
                 \Log::info($send_usdt_result);
                 $tx_id = $send_usdt_result[1];
                 \Log::info("Total Fee (".$fee_amount."USDT)has been sent to " . $marketing_fee_wallets[0]['wallet_address']);
-    
+
                 $chain_net = 2;
             }
             $transaction_history = array();
@@ -383,15 +386,15 @@ class Controller extends BaseController
             $transaction_history['amount'] = $fee_amount;
             $transaction_history['tx_id'] = $tx_id;
             $transaction_history['user_id'] = $trade_info['user_id'];
-    
+
             $transaction_create_result = SendFeeTransaction::create($transaction_history);
-    
+
             if($transaction_create_result->id > 0){
                 $return_status = true;
             }else{
                 $return_status = false;
             }
-    
+
             return (['status' => $return_status, 'remain_amount' => $remain_amount]);
         }else{
             return (['status' => false]);
@@ -399,7 +402,7 @@ class Controller extends BaseController
 
     }
     public function lastStep($asset, $withdraw_tbl, $withdraw_transaction){
-        
+
         if($asset == 'BTC'){
             $trade_info = InternalTradeBuyList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
             $sending_fee_result = $this->handleSendFee($trade_info[0], $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'], 1);
@@ -445,7 +448,7 @@ class Controller extends BaseController
                 $subload_info['withdraw_order_id']  = $withdraw_transaction['id'];
                 $subload_info['status']             = 1;
                 $subload_create_result = SubLoad::create($subload_info);
-                
+
                 $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
                 sleep(20);
                 \Log::info("Complete one subload of sell transaction");
@@ -535,7 +538,7 @@ class Controller extends BaseController
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
-        
+
         if ($err) {
             return ['status'=>'error', 'message'=>$err];
         } else {
@@ -550,7 +553,7 @@ class Controller extends BaseController
                     CURLOPT_POSTFIELDS => '{"id":"curltext","method":"broadcast","params": ["'.$result->result.'"]}',
                     CURLOPT_POST => 1,
                 ]);
-        
+
                 $response1 = curl_exec($curl);
                 $err1 = curl_error($curl);
                 curl_close($curl);
@@ -606,7 +609,7 @@ class Controller extends BaseController
                 }else{
                     array_push($ftx_account, $value['id']);
                 }
-                array_push($exchange_available_accounts, $value['id']); 
+                array_push($exchange_available_accounts, $value['id']);
             } catch (\Throwable $th) {
                 //throw $th;
             }
