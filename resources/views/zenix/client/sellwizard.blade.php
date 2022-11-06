@@ -17,8 +17,8 @@
 						<input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}"/>
 						<div id="smartwizard" class="form-wizard order-create">
 							<ul class="nav nav-wizard">
-								<li><a class="nav-link" href="#wizard_Service"> 
-									<span>1</span> 
+								<li><a class="nav-link" href="#wizard_Service">
+									<span>1</span>
 								</a></li>
 								<li><a class="nav-link" href="#wizard_Time">
 									<span>2</span>
@@ -103,15 +103,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-lg-6 mb-2 mt-4">
-											<div class="form-group">
-												<input type="button" class="btn btn-secondary mb-2" onclick="alertConfirmRegister()" value="Submit"></input>
-											</div>
-										</div>
-									</div>
 								</div>
-								</from>
 							</div>
 						</div>
                     </div>
@@ -160,7 +152,7 @@
 		var buy_amount 			= $('#buy_amount').val();
 		var pay_with		 	= $('#pay_with').val();
 		var tx_id 				= $('#tx_id').val();
-		
+
 		$.ajax({
 				type: "post",
 				url : '{!! url('/sell_crypto'); !!}',
@@ -210,7 +202,7 @@
 			);
 		}
 	}
-	
+
 	function alertRegisteredSuccess(){
 		swal({
             title: "Your order registered successfully",
@@ -219,7 +211,7 @@
             timer: 10000
         })
 	}
-	
+
 	function alertError(val){
 		swal({
             title: "error",

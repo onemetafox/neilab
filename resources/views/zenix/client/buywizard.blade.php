@@ -22,8 +22,8 @@
 						<input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}"/>
 						<div id="smartwizard" class="form-wizard order-create">
 							<ul class="nav nav-wizard">
-								<li><a class="nav-link" href="#wizard_Service"> 
-									<span>1</span> 
+								<li><a class="nav-link" href="#wizard_Service">
+									<span>1</span>
 								</a></li>
 								<li><a class="nav-link" href="#wizard_Time">
 									<span>2</span>
@@ -93,7 +93,7 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div id="wizard_Details" class="tab-pane" role="tabpanel">
 									<div class="row">
 										<div class="col-lg-6 mb-2">
@@ -107,13 +107,6 @@
 												<label class="text-label">Paste the Transaction ID / Transaction Hash.</label>
 												<input type="text" class="form-control" id="tx_id" name="tx_id" required>
 											</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-6 mb-2 mt-4">
-											<div class="form-group">
-												<input type="button" class="btn btn-secondary mb-2" onclick="alertConfirmRegister()" value="Submit"></input>
-											</div>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -189,7 +182,7 @@
 			},
 		});
 	}
- 
+
 	function handleChangeStatus(val){
 		if(val.value == 1){
 			$('#pay_step').html("<label class='text-label'>Pay With Crypto</label>"+

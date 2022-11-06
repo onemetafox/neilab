@@ -795,13 +795,21 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           switch (this._getStepPosition(idx)) {
             case 'first':
               this.main.find('.sw-btn-prev').addClass("disabled");
+              this.main.find('.sw-btn-next').text('Next');
+              this.main.find('.sw-btn-next').unbind( "click", alertConfirmRegister );
               break;
 
             case 'last':
-              this.main.find('.sw-btn-next').addClass("disabled");
+              // this.main.find('.sw-btn-next').addClass("disabled");
+              this.main.find('.sw-btn-next').text('Submit');
+              this.main.find('.sw-btn-next').click(alertConfirmRegister);
+
               break;
 
             default:
+
+              this.main.find('.sw-btn-next').text('Next');
+              this.main.find('.sw-btn-next').unbind( "click", alertConfirmRegister );
               if (this._getNextShowable(idx) === false) {
                 this.main.find('.sw-btn-next').addClass("disabled");
               }
