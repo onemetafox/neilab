@@ -122,12 +122,15 @@ class Controller extends BaseController
             \Log::info("New marketing buy has been request. amount = ".$order['amount']);
         }
         /* If all deposited money has been saled, withdraw the total result amount. */
-        if($superload_info[0]['status'] == 1 && $superload_info[0]['result_amount'] < $this->withdraw_limit){
-            $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
-            $update_result = InternalTradeBuyList::where('id', $superload_info[0]['trade_id'])->update(['state' => 3]);
+        if($superload_info[0]['status'] == 1 && $superload_info[0]['manual_withdraw_flag'] == 0){
+            $withdraw_result = $this->withdraw($exchange, $superload_id, $ex_name);
 
-            sleep(13);
-            $this->withdraw($exchange, $superload_id, $ex_name);
+            if($withdraw_result){
+                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
+            }else{
+                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
+                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['manual_withdraw_flag' => 1]);
+            }
         }
     }
 
@@ -144,12 +147,18 @@ class Controller extends BaseController
             $update_superload_result = SuperLoad::where('id', $superload_id)->update(['result_amount' => $total_sold_amount]);
             \Log::info("New marketing sell has been request. amount = ".$order['amount']);
         }
-        if($superload_info[0]['status'] == 1 && $superload_info[0]['result_amount'] < $this->withdraw_limit){
-            $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
-            $update_result = InternalTradeSellList::where('id', $superload_info[0]['trade_id'])->update(['state' => 3]);
+        if($superload_info[0]['status'] == 1 && $superload_info[0]['manual_withdraw_flag'] == 0){
 
             sleep(13);
             $this->withdraw($exchange, $superload_id, $ex_name);
+            $withdraw_result = $this->withdraw($exchange, $superload_id, $ex_name);
+            if($withdraw_result){
+                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
+            }else{
+                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
+                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['manual_withdraw_flag' => 1]);
+            }
+
         }
     }
 
@@ -165,53 +174,76 @@ class Controller extends BaseController
         $withdraw_info = array();
 
         if(isset($superload_info[0]['trade_type']) && $superload_info[0]['trade_type'] == 1){
+            try {
+                //code...
+                $code = "BTC";
+                $amount = round($superload_info[0]['result_amount'] * 0.985, 6);
+                $internal_wallets = InternalWallet::where('chain_stack', 1)->where('wallet_type', 1)->get()->toArray();
+                $address = $internal_wallets[0]['wallet_address'];
+                $withdraw_detail = $exchange->withdraw($code, $amount, $address);
 
-            $code = "BTC";
-            $amount = round($superload_info[0]['result_amount'] * 0.985, 6);
-            $internal_wallets = InternalWallet::where('chain_stack', 1)->where('wallet_type', 1)->get()->toArray();
-            $address = $internal_wallets[0]['wallet_address'];
-            $withdraw_detail = $exchange->withdraw($code, $amount, $address);
+                $withdraw_amount = $this->getUSDTPrice($exchange, $amount);
 
-            $withdraw_amount = $this->getUSDTPrice($exchange, $amount);
+                if($ex_name == 'Binance'){
+                    $this->binance_withdraw_daily_total_amount += $withdraw_amount;
 
-            if($ex_name == 'Binance'){
-                $this->binance_withdraw_daily_total_amount += $withdraw_amount;
+                }else{
 
-            }else{
+                    $this->ftx_withdraw_daily_total_amount += $withdraw_amount;
+                }
 
-                $this->ftx_withdraw_daily_total_amount += $withdraw_amount;
+                $withdraw_info['trade_type'] = 1;
+                $withdraw_info['trade_id'] = $superload_info[0]['trade_id'];
+                $withdraw_info['superload_id'] = $superload_id;
+                $withdraw_info['exchange_id'] = $superload_info[0]['exchange_id'];
+                $withdraw_info['withdraw_order_id'] = $withdraw_detail['id'];
+                $withdraw_info['manual_flag'] = 0;
+                $withdraw_info['status'] = 0;
+                $result = Withdraw::create($withdraw_info);
+                \Log::info("Withdraw request has been ordered. amount = ".$amount." to ".$address);
+                return true;
+            } catch (\Throwable $th) {
+                //throw $th;
+                \Log::info($th->getMessage());
+                return false;
             }
-
-            \Log::info("Withdraw request has been ordered. amount = ".$amount." to ".$address);
-            $withdraw_info['trade_type'] = 1;
 
 
         }else if(isset($superload_info[0]['trade_type']) && $superload_info[0]['trade_type'] == 2){
-            $code = "USDT";
-            $amount = $superload_info[0]['result_amount'];
-            $real_amount = round($amount * 0.985, 6);
+            try {
+                //code...
+                $code = "USDT";
+                $amount = $superload_info[0]['result_amount'];
+                $real_amount = round($amount * 0.985, 6);
 
-            $internal_wallets = InternalWallet::where('chain_stack', 2)->where('wallet_type', 1)->get()->toArray();
+                $internal_wallets = InternalWallet::where('chain_stack', 2)->where('wallet_type', 1)->get()->toArray();
 
-            $address = $internal_wallets[0]['wallet_address'];
-            $withdraw_detail = $exchange->withdraw($code, $real_amount, $address);
+                $address = $internal_wallets[0]['wallet_address'];
+                $withdraw_detail = $exchange->withdraw($code, $real_amount, $address);
 
-            if($ex_name == 'Binance'){
-                $this->binance_withdraw_daily_total_amount += $real_amount;
-            }else{
-                $this->ftx_withdraw_daily_total_amount += $real_amount;
+                if($ex_name == 'Binance'){
+                    $this->binance_withdraw_daily_total_amount += $real_amount;
+                }else{
+                    $this->ftx_withdraw_daily_total_amount += $real_amount;
+                }
+
+                $withdraw_info['trade_type'] = 2;
+                $withdraw_info['trade_id'] = $superload_info[0]['trade_id'];
+                $withdraw_info['superload_id'] = $superload_id;
+                $withdraw_info['exchange_id'] = $superload_info[0]['exchange_id'];
+                $withdraw_info['withdraw_order_id'] = $withdraw_detail['id'];
+                $withdraw_info['manual_flag'] = 0;
+                $withdraw_info['status'] = 0;
+                $result = Withdraw::create($withdraw_info);
+                \Log::info("Withdraw request has been ordered. amount = ".$real_amount." to ".$address);
+                return true;
+            } catch (\Throwable $th) {
+                //throw $th;
+                \Log::info($th->getMessage());
+                return false;
             }
 
-            \Log::info("Withdraw request has been ordered. amount = ".$real_amount." to ".$address);
-            $withdraw_info['trade_type'] = 2;
         }
-        $withdraw_info['trade_id'] = $superload_info[0]['trade_id'];
-        $withdraw_info['superload_id'] = $superload_id;
-        $withdraw_info['exchange_id'] = $superload_info[0]['exchange_id'];
-        $withdraw_info['withdraw_order_id'] = $withdraw_detail['id'];
-        $withdraw_info['manual_flag'] = 0;
-        $withdraw_info['status'] = 0;
-        $result = Withdraw::create($withdraw_info);
     }
     public function cronInit(){
         $this->binance_withdraw_daily_total_amount = 0;
@@ -424,6 +456,7 @@ class Controller extends BaseController
                 $subload_create_result = SubLoad::create($subload_info);
 
                 $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
+                $this->updateOrderStatus($withdraw_tbl['superload_id'], 0);
                 sleep(20);
                 \Log::info("Complete one subload of buy transaction");
             }
@@ -450,8 +483,30 @@ class Controller extends BaseController
                 $subload_create_result = SubLoad::create($subload_info);
 
                 $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
+                $this->updateOrderStatus($withdraw_tbl['superload_id'], 1);
                 sleep(20);
                 \Log::info("Complete one subload of sell transaction");
+            }
+        }
+    }
+
+    public function updateOrderStatus($superload_id, $type){
+        $superload_info = SuperLoad::where($superload_id)->get()->toArray();
+        $complete_status = false;
+        if(count($superload_info) > 0){
+            $order_info = SuperLoad::where('masterload_id', $superload_info[0]['masterload_id'])->get()->toArray();
+            if(count($order_info) > 0){
+                $withdraw_info = Withdraw::where('trade_type', $order_info[0]['trade_type'])->where('trade_id', $order_info[0]['trade_id'])->where('status', 1)->get()->toArray();
+                if(count($order_info) == count($withdraw_info)){
+                    $complete_status = true;
+                }
+            }
+        }
+        if($complete_status == true){
+            if($type == 0){
+                InternalTradeBuyList::where('id', $superload_info[0]['trade_id'])->update(['state' => 3]);
+            }else if($type ==1){
+                InternalTradeSellList::where('id', $superload_info[0]['trade_id'])->update(['state' => 3]);
             }
         }
     }

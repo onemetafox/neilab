@@ -21,5 +21,6 @@ class SuperLoad extends Model
         'result_amount',
         'exchange_id',
         'status',
+        'manual_withdraw_flag',
     ];
 }

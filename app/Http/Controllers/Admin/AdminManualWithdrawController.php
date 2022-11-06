@@ -37,7 +37,7 @@ class AdminManualWithdrawController extends Controller
         $page_description = 'Some description for the page';
         $action = 'manual_withdraw';
 
-        $superloads_info = SuperLoad::where('status', 1)->where('left_amount', 0)->where('result_amount', '>', $this->withdraw_limit)->get()->toArray();
+        $superloads_info = SuperLoad::where('status', 1)->where('left_amount', 0)->where('manual_withdraw_flag', 1)->get()->toArray();
         foreach ($superloads_info as $key => $value) {
             # code...
             if($value['trade_type'] == 1){
@@ -81,7 +81,7 @@ class AdminManualWithdrawController extends Controller
 
 
             $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
-            
+
             $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
             if($superload_info[0]['trade_type'] == 1){
                 $update_result = InternalTradeBuyList::where('id', $superload_info[0]['trade_id'])->update(['state' => 3]);

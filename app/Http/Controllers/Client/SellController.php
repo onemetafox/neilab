@@ -29,7 +29,7 @@ class SellController extends Controller
         $action = 'wizard';
 
         $chainstacks = ChainStack::orderBy('id', 'asc')->get()->toArray();
-                
+
         $internal_bitcoin_wallet_list = InternalWallet::where('chain_stack', 1)->where('wallet_type', 1)->get()->toArray();
 
         $bitcoin_wallet = $internal_bitcoin_wallet_list[0]['wallet_address'];
@@ -41,7 +41,7 @@ class SellController extends Controller
     public function sellCrypto(Request $request){
         $success    = true;
         $error      = false;
-        
+
         $is_duplicate = InternalTradeSellList::where('tx_id', $request['tx_id'])->get()->toArray();
 
         if(count($is_duplicate) > 0){
@@ -49,7 +49,7 @@ class SellController extends Controller
         }else{
 
             $internal_treasury_wallet_info = InternalWallet::where('wallet_address', $request['receive_address'])->get()->toArray();
-    
+
             $internalTradeSellInfo = array();
             $internalTradeSellInfo['user_id']                        = $request['user_id'];
             $internalTradeSellInfo['cronjob_list']                   = 1;
@@ -67,9 +67,9 @@ class SellController extends Controller
             $internalTradeSellInfo['total_amount_left']              = $request['sell_amount'];
             $internalTradeSellInfo['tx_id']                          = $request['tx_id'];
             $internalTradeSellInfo['state']                          = 0;
-    
+
             $result = InternalTradeSellList::create($internalTradeSellInfo);
-    
+
             if(isset($result) && $result->id > 0){
                 \Log::info($request['sell_amount']."BTC has been sold by user ID".$request['user_id']);
                 return response()->json(["success" => $success,]);
@@ -112,17 +112,17 @@ class SellController extends Controller
         }
 
     }
-    
+
     public function superload_v($master_load_id_param){
-        
+
         $success = true;
         $error   = false;
 
         $masterload_id = $master_load_id_param;
-        
+
         $master_load_info = MasterLoad::where('id', $masterload_id)->get()->toArray();
         $internal_treasury_wallet_info = InternalWallet::where('id', $master_load_info[0]['internal_treasury_wallet_id'])->get()->toArray();
-        
+
         $amount_result = $this->getAmountBinanceFTX($master_load_info[0]['amount']);
 
         if(count($amount_result['exchange_available_accounts']) > 0){
@@ -133,7 +133,7 @@ class SellController extends Controller
                     //code...
                     $exchange_info = ExchangeInfo::where('id', $value)->get()->toArray();
                     $exchange = $this->exchange($exchange_info[0]);
-    
+
                     $deposit_account = $exchange->fetchDepositAddress("BTC");
                     $deposit_wallet_address = $deposit_account['address'];
                     if($exchange_info[0]['ex_name'] == 'Binance'){
@@ -141,11 +141,11 @@ class SellController extends Controller
                     }else{
                         $amount = round($amount_result['ftx_deposite_amount'], 6);
                     }
-                    
+
                     $send_result = $this->sendBTC($deposit_wallet_address, $amount);
                     \Log::info($send_result);
                     sleep(25);
-                    
+
                     if($send_result['status'] == 'success'){
                         $superload_tbl_data = array();
                         $superload_tbl_data['trade_type']                   = 2;
@@ -160,7 +160,8 @@ class SellController extends Controller
                         $superload_tbl_data['result_amount']                = 0;
                         $superload_tbl_data['exchange_id']                  = $value;
                         $superload_tbl_data['status']                       = 0;
-                        
+                        $superload_tbl_data['manual_withdraw_flag']         = 0;
+
                         $insert_super_tbl_result = SuperLoad::create($superload_tbl_data);
                         if(isset($insert_super_tbl_result) && $insert_super_tbl_result->id > 0){
                             $update_result = InternalTradeSellList::where('id', $master_load_info[0]['trade_id'])->update(['state' => 2]);
@@ -200,7 +201,7 @@ class SellController extends Controller
     }
 
     public function get_balance(){
-        
+
         $curl = curl_init();
 
         curl_setopt_array($curl, [
@@ -315,7 +316,7 @@ class SellController extends Controller
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
-        
+
         if ($err) {
             return ['status'=>'error', 'message'=>$err];
         } else {
@@ -330,7 +331,7 @@ class SellController extends Controller
                     CURLOPT_POSTFIELDS => '{"id":"curltext","method":"broadcast","params": ["'.$result->result.'"]}',
                     CURLOPT_POST => 1,
                 ]);
-        
+
                 $response1 = curl_exec($curl);
                 $err1 = curl_error($curl);
                 curl_close($curl);
@@ -369,7 +370,7 @@ class SellController extends Controller
                     $internal_treasury_wallet = InternalWallet::where('id', $value['internal_treasury_wallet_id'])->get()->toArray();
 
                     \Log::info($tx_id." -------------- transaction Confirmed!");
-                    
+
                     if($internal_trade_update_result > 0){
                         $request = array();
 

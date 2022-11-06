@@ -17,8 +17,8 @@ use App\Models\InternalWallet;
 class BuyController extends Controller
 {
     //
-    
-    
+
+
 
     public function index()
     {
@@ -27,7 +27,7 @@ class BuyController extends Controller
         $action = 'wizard';
         $chainstack_info = ChainStack::orderBy('id', 'asc')->get()->toArray();
         $chainstacks = Arr::except($chainstack_info,['0']);
-        
+
         $internal_ethereum_wallet_list = InternalWallet::where('chain_stack', 2)->where('wallet_type', 1)->get()->toArray();
 
         $ethereum_wallet = $internal_ethereum_wallet_list[0]['wallet_address'];
@@ -44,7 +44,7 @@ class BuyController extends Controller
 
         $internal_treasury_wallet_info = InternalWallet::where('wallet_address', $request['receive_address'])->get()->toArray();
 
-        
+
         $is_duplicate = MasterLoad::where('tx_id', $request['tx_id'])->get()->toArray();
         if(count($is_duplicate) > 0){
             return response()->json(["success" => $error,"msg" => "This transaction has been used before."]);
@@ -68,11 +68,11 @@ class BuyController extends Controller
                 $internalTradeBuyInfo['left_over_profit']               = 1;
                 $internalTradeBuyInfo['total_amount_left']              = $request['buy_amount'];
                 $internalTradeBuyInfo['state']                          = 0;
-    
+
                 $result = InternalTradeBuyList::create($internalTradeBuyInfo);
-    
+
                 if(isset($result) && $result->id > 0){
-    
+
                     $masterload_array = array();
                     $masterload_array['trade_type'] = 1;
                     $masterload_array['trade_id'] = $result->id;
@@ -80,13 +80,13 @@ class BuyController extends Controller
                     $masterload_array['sending_address'] = $request['sender_address'];
                     $masterload_array['amount'] = $request['pay_with'];
                     $masterload_array['tx_id'] = $request['tx_id'];
-        
+
                     $create_masterload_result = MasterLoad::create($masterload_array);
                     if(isset($create_masterload_result) && $create_masterload_result->id > 0){
-        
+
                         $this->superload_v($create_masterload_result->id);
                         return response()->json(["success" => $success]);
-        
+
                     }else{
                         return response()->json(["success" => $error,"msg" => "Masterload error"]);
                     }
@@ -98,9 +98,9 @@ class BuyController extends Controller
 
 
     }
-    
+
     public function superload_v($masterload_id){
-        
+
         $master_load_info = MasterLoad::where('id', $masterload_id)->get()->toArray();
         $internal_treasury_wallet_info = InternalWallet::where('id', $master_load_info[0]['internal_treasury_wallet_id'])->get()->toArray();
 
@@ -114,7 +114,7 @@ class BuyController extends Controller
                     //code...
                     $exchange_info = ExchangeInfo::where('id', $value)->get()->toArray();
                     $exchange = $this->exchange($exchange_info[0]);
-    
+
                     $deposit_account = $exchange->fetchDepositAddress("USDT");
                     $deposit_wallet_address = $deposit_account['address'];
                     if($exchange_info[0]['ex_name'] == 'Binance'){
@@ -124,9 +124,9 @@ class BuyController extends Controller
                     }
                     $private_key = base64_decode($internal_treasury_wallet_info[0]['private_key']);
                     $send_result = $this->sendUSDT($internal_treasury_wallet_info[0]['wallet_address'],$private_key, $deposit_wallet_address, $amount);
-            
+
                     \Log::info("send ".$amount."usdt from ".$internal_treasury_wallet_info[0]['wallet_address']."to ".$deposit_wallet_address);
-            
+
                     sleep(25);
                     if(!empty($send_result)){
                         $superload_tbl_data = array();
@@ -142,7 +142,8 @@ class BuyController extends Controller
                         $superload_tbl_data['result_amount']                = 0;
                         $superload_tbl_data['exchange_id']                  = $value;
                         $superload_tbl_data['status']                       = 0;
-                        
+                        $superload_tbl_data['manual_withdraw_flag']         = 0;
+
                         $insert_super_tbl_result = SuperLoad::create($superload_tbl_data);
                         if(isset($insert_super_tbl_result) && $insert_super_tbl_result->id > 0){
                             $update_result = InternalTradeBuyList::where('id', $master_load_info[0]['trade_id'])->update(['state' => 2]);
