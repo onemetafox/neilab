@@ -440,7 +440,8 @@ class Controller extends BaseController
             $sending_fee_result = $this->handleSendFee($trade_info[0], $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'], 1);
             if($sending_fee_result['status']){
                 sleep(25);
-                $send_result = $this->sendBTC($trade_info[0]['delivered_address'], $sending_fee_result['remain_amount']);
+                $send_client_amount = round($sending_fee_result['remain_amount'] * 0.998, 6);
+                $send_result = $this->sendBTC($trade_info[0]['delivered_address'], $send_client_amount);
 
                 $subload_info = array();
                 $subload_info['tx_id'] = $send_result['txid'];
@@ -468,7 +469,10 @@ class Controller extends BaseController
                 $internal_wallet_info = InternalWallet::where('wallet_type',1)->where('chain_stack',2)->get()->toArray();
                 $private_key = base64_decode($internal_wallet_info[0]['private_key']);
                 $address = $internal_wallet_info[0]['wallet_address'];
-                $send_usdt_result = $this->sendUSDT($address, $private_key, $trade_info[0]['delivered_address'],  $sending_fee_result['remain_amount']);
+
+                $send_client_amount = round($sending_fee_result['remain_amount'] * 0.998, 6);
+
+                $send_usdt_result = $this->sendUSDT($address, $private_key, $trade_info[0]['delivered_address'],  $send_client_amount);
 
                 $subload_info = array();
                 $subload_info['tx_id'] = $send_usdt_result[1];
