@@ -24,6 +24,7 @@ class InternalTradeBuyList extends Model
         'bank_changes',
         'left_over_profit',
         'total_amount_left',
+        'tx_id',
         'state',
     ];
 }

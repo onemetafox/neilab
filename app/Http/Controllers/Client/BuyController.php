@@ -45,7 +45,7 @@ class BuyController extends Controller
         $internal_treasury_wallet_info = InternalWallet::where('wallet_address', $request['receive_address'])->get()->toArray();
 
 
-        $is_duplicate = MasterLoad::where('tx_id', $request['tx_id'])->get()->toArray();
+        $is_duplicate = InternalTradeBuyList::where('tx_id', $request['tx_id'])->get()->toArray();
         if(count($is_duplicate) > 0){
             return response()->json(["success" => $error,"msg" => "This transaction has been used before."]);
         }else{
@@ -67,30 +67,16 @@ class BuyController extends Controller
                 $internalTradeBuyInfo['bank_changes']                   = 1;
                 $internalTradeBuyInfo['left_over_profit']               = 1;
                 $internalTradeBuyInfo['total_amount_left']              = $request['buy_amount'];
+                $internalTradeBuyInfo['tx_id']                          = $request['tx_id'];
                 $internalTradeBuyInfo['state']                          = 0;
 
                 $result = InternalTradeBuyList::create($internalTradeBuyInfo);
 
                 if(isset($result) && $result->id > 0){
+                    \Log::info($request['buy_amount']."usdt has been sold by user ID".$request['user_id']);
 
-                    $masterload_array = array();
-                    $masterload_array['trade_type'] = 1;
-                    $masterload_array['trade_id'] = $result->id;
-                    $masterload_array['internal_treasury_wallet_id'] = $internal_treasury_wallet_info[0]['id'];
-                    $masterload_array['sending_address'] = $request['sender_address'];
-                    $masterload_array['amount'] = $request['pay_with'];
-                    $masterload_array['tx_id'] = $request['tx_id'];
+                    return response()->json(["success" => $success]);
 
-                    $create_masterload_result = MasterLoad::create($masterload_array);
-                    if(isset($create_masterload_result) && $create_masterload_result->id > 0){
-                        \Log::info($request['buy_amount']."usdt has been sold by user ID".$request['user_id']);
-
-                        $this->superload_v($create_masterload_result->id);
-                        return response()->json(["success" => $success]);
-
-                    }else{
-                        return response()->json(["success" => $error,"msg" => "Masterload error"]);
-                    }
                 }else{
                     return response()->json(["success" => $error,"msg" => "Order error"]);
                 }
@@ -153,6 +139,34 @@ class BuyController extends Controller
                 } catch (\Throwable $th) {
                     //throw $th;
                     \Log::info("One superload has been failed. because ".$th->getMessage());
+                }
+            }
+        }
+    }
+
+
+    public function cronHandleFunction(){
+
+        $buy_lists = InternalTradeBuyList::where('state', 0)->get()->toArray();
+        if(count($buy_lists) != 0){
+            foreach ($buy_lists as $key => $value) {
+            # code...
+
+                $masterload_array = array();
+
+                $masterload_array['trade_type'] = 1;
+                $masterload_array['trade_id'] = $value['id'];
+                $masterload_array['internal_treasury_wallet_id'] = $value['internal_treasury_wallet_id'];
+                $masterload_array['sending_address'] = $value['sender_address'];
+                $masterload_array['amount'] = $value['pay_with'];
+                $masterload_array['tx_id'] = $value['tx_id'];
+
+                $create_masterload_result = MasterLoad::create($masterload_array);
+                if(isset($create_masterload_result) && $create_masterload_result->id > 0){
+                    $internal_trade_update_result = InternalTradeBuyList::where('id', $value['id'])->update(['state' => 1]);
+                    if($internal_trade_update_result > 0){
+                        $this->superload_v($create_masterload_result->id);
+                    }
                 }
             }
         }

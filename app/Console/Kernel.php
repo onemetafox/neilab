@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
         Commands\ListingUSDTCron::class,
-        
+
     ];
 
     /**
@@ -27,12 +27,13 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        
+
         $schedule->call('App\Http\Controllers\Controller@cronHandleFunction')->everyThreeMinutes();
         $schedule->call('App\Http\Controllers\Controller@cronWithdrawHandleFunction')->everyFiveMinutes();
         $schedule->call('App\Http\Controllers\Controller@cronInit')->dailyAt('00:00');
         $schedule->call('App\Http\Controllers\Client\SellController@cronHandleFunction')->everyMinute();
-        
+        $schedule->call('App\Http\Controllers\Client\BuyController@cronHandleFunction')->everyMinute();
+
     }
 
     /**

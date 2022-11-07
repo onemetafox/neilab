@@ -30,6 +30,7 @@ class CreateInternalTradeBuyListsTable extends Migration
             $table->smallInteger('bank_changes');
             $table->smallInteger('left_over_profit');
             $table->smallInteger('total_amount_left');
+            $table->string      ('tx_id');
             $table->smallInteger('state');
             $table->timestamps();
         });
