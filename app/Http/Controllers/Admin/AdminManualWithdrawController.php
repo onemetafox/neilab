@@ -37,7 +37,7 @@ class AdminManualWithdrawController extends Controller
         $page_description = 'Some description for the page';
         $action = 'manual_withdraw';
 
-        $superloads_info = SuperLoad::where('status', 1)->where('left_amount', 0)->where('manual_withdraw_flag', 1)->get()->toArray();
+        $superloads_info = SuperLoad::where('status', 2)->where('left_amount', 0)->where('manual_withdraw_flag', 1)->get()->toArray();
         foreach ($superloads_info as $key => $value) {
             # code...
             if($value['trade_type'] == 1){
@@ -54,7 +54,6 @@ class AdminManualWithdrawController extends Controller
 
                 $exchange_info = ExchangeInfo::where('id', $value['exchange_id'])->get()->toArray();
                 $exchange = $this->exchange($exchange_info[0]);
-                $superloads_info[$key]['result_amount'] = $this->getUSDTPrice($exchange, $superloads_info[$key]['result_amount']);
             }
             $exchange_info = ExchangeInfo::where('id', $value['exchange_id'])->get()->toArray();
 
@@ -100,6 +99,7 @@ class AdminManualWithdrawController extends Controller
             $result = Withdraw::create($withdraw_info);
 
             if($result->id > 0){
+                \Log::info("new withdraw requested manually! amount is ");
                 return response()->json(["success" => $success]);
             }else{
                 return response()->json(["success" => $error, "msg" => "Database Error"]);

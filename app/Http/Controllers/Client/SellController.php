@@ -137,9 +137,9 @@ class SellController extends Controller
                     $deposit_account = $exchange->fetchDepositAddress("BTC");
                     $deposit_wallet_address = $deposit_account['address'];
                     if($exchange_info[0]['ex_name'] == 'Binance'){
-                        $amount = round($amount_result['binance_deposite_amount'], 6);
+                        $amount = round($amount_result['binance_deposite_amount'] * 0.985, 6);
                     }else{
-                        $amount = round($amount_result['ftx_deposite_amount'], 6);
+                        $amount = round($amount_result['ftx_deposite_amount'] * 0.985, 6);
                     }
 
                     $send_result = $this->sendBTC($deposit_wallet_address, $amount);

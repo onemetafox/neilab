@@ -272,7 +272,7 @@ class Controller extends BaseController
                         $database_status_of_superload = SuperLoad::where('tx_id', $deposit_value['txid'])->get()->toArray();
                         if (count($database_status_of_superload) > 0) {
                             # code...
-                            $withdraw_available = $this->checkWithdrawAvailable($exchange, $value['ex_name'], $database_status_of_superload[0]['amount']);
+                            $withdraw_available = $this->checkWithdrawAvailable($exchange, $value['ex_name'], $database_status_of_superload[0]['amount'], 0);
 
                             if($withdraw_available){
 
@@ -309,7 +309,7 @@ class Controller extends BaseController
                         $database_status_of_superload = SuperLoad::where('tx_id', $deposit_value['txid'])->get()->toArray();
                         if(count($database_status_of_superload) > 0){
 
-                            $withdraw_available = $this->checkWithdrawAvailable($exchange, $value['ex_name'], $database_status_of_superload[0]['amount']);
+                            $withdraw_available = $this->checkWithdrawAvailable($exchange, $value['ex_name'], $database_status_of_superload[0]['amount'], 1);
                             if($withdraw_available){
 
                                 /* If there remains unordered amount, request order till left amount is zero */
@@ -339,10 +339,12 @@ class Controller extends BaseController
         }
     }
 
-    public function checkWithdrawAvailable($exchange, $ex_name, $amount){
-
-        $withdraw_usdt_amount = $this->getUSDTPrice($exchange, $amount);
-
+    public function checkWithdrawAvailable($exchange, $ex_name, $amount, $type){
+        if($type == 1){
+            $withdraw_usdt_amount = $this->getUSDTPrice($exchange, $amount);
+        }else{
+            $withdraw_usdt_amount = $amount;
+        }
         if($ex_name == 'Binance'){
             if($this->binance_withdraw_daily_total_amount + $withdraw_usdt_amount < 8000000){
                 return true;
@@ -350,7 +352,7 @@ class Controller extends BaseController
                 return false;
             }
         }else if($ex_name == 'FTX'){
-            if($this->binance_withdraw_daily_total_amount + $withdraw_usdt_amount < 2000000){
+            if($this->ftx_withdraw_daily_total_amount + $withdraw_usdt_amount < 2000000){
                 return true;
             }else{
                 return false;
@@ -635,7 +637,7 @@ class Controller extends BaseController
 
     public function sendUSDT($from, $from_pk, $to, $amount){
         $amount_big = $amount*1000000;
-        exec('node C:\server\NeilLab-main\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount_big, $output);
+        exec('node C:\server\NeilLab\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount_big, $output);
         return $output;
     }
 

@@ -83,6 +83,7 @@ class BuyController extends Controller
 
                     $create_masterload_result = MasterLoad::create($masterload_array);
                     if(isset($create_masterload_result) && $create_masterload_result->id > 0){
+                        \Log::info($request['buy_amount']."usdt has been sold by user ID".$request['user_id']);
 
                         $this->superload_v($create_masterload_result->id);
                         return response()->json(["success" => $success]);
@@ -118,9 +119,9 @@ class BuyController extends Controller
                     $deposit_account = $exchange->fetchDepositAddress("USDT");
                     $deposit_wallet_address = $deposit_account['address'];
                     if($exchange_info[0]['ex_name'] == 'Binance'){
-                        $amount = round($amount_result['binance_deposite_amount'], 6);
+                        $amount = round($amount_result['binance_deposite_amount'] * 0.985, 6);
                     }else{
-                        $amount = round($amount_result['ftx_deposite_amount'], 6);
+                        $amount = round($amount_result['ftx_deposite_amount'] * 0.985, 6);
                     }
                     $private_key = base64_decode($internal_treasury_wallet_info[0]['private_key']);
                     $send_result = $this->sendUSDT($internal_treasury_wallet_info[0]['wallet_address'],$private_key, $deposit_wallet_address, $amount);
