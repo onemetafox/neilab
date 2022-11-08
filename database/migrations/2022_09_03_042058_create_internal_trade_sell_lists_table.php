@@ -18,11 +18,11 @@ class CreateInternalTradeSellListsTable extends Migration
             $table->smallInteger('user_id');
             $table->smallInteger('cronjob_list');
             $table->smallInteger('asset_purchased');
-            $table->float       ('sell_amount',10,6);
+            $table->float       ('sell_amount',15,6);
             $table->string      ('delivered_address');
             $table->string      ('sender_address');
             $table->string      ('internal_treasury_wallet_id');
-            $table->float       ('pay_with',10,6);
+            $table->float       ('pay_with',15,6);
             $table->smallInteger('chain_stack');
             $table->string      ('transaction_description');
             $table->smallInteger('commision_id');

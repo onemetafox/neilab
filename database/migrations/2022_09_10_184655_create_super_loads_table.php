@@ -23,9 +23,9 @@ class CreateSuperLoadsTable extends Migration
             $table->string      ('sending_address');
             $table->string      ('tx_id');
             $table->smallInteger('internal_treasury_wallet_id');
-            $table->float       ('amount',10,6);
-            $table->float       ('left_amount',10,6);
-            $table->float       ('result_amount',10,6);
+            $table->float       ('amount',15,6);
+            $table->float       ('left_amount',15,6);
+            $table->float       ('result_amount',15,6);
             $table->smallInteger('status');
             $table->smallInteger('manual_withdraw_flag');
             $table->timestamps();

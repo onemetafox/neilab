@@ -21,7 +21,7 @@ class CreateSubLoadsTable extends Migration
             $table->smallInteger('exchange_id');
             $table->string      ('receive_address');
             $table->string      ('tx_id');
-            $table->float       ('amount',10,6);
+            $table->float       ('amount',15,6);
             $table->string      ('withdraw_order_id');
             $table->smallInteger('status');
             $table->timestamps();
