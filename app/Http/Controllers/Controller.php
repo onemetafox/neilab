@@ -123,12 +123,13 @@ class Controller extends BaseController
         }
         /* If all deposited money has been saled, withdraw the total result amount. */
         if($superload_info[0]['status'] == 1 && $superload_info[0]['manual_withdraw_flag'] == 0){
+
+            sleep(13);
             $withdraw_result = $this->withdraw($exchange, $superload_id, $ex_name);
 
             if($withdraw_result){
                 $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
             }else{
-                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
                 $update_superload_result = SuperLoad::where('id', $superload_id)->update(['manual_withdraw_flag' => 1]);
             }
         }
@@ -150,12 +151,11 @@ class Controller extends BaseController
         if($superload_info[0]['status'] == 1 && $superload_info[0]['manual_withdraw_flag'] == 0){
 
             sleep(13);
-            $this->withdraw($exchange, $superload_id, $ex_name);
             $withdraw_result = $this->withdraw($exchange, $superload_id, $ex_name);
+
             if($withdraw_result){
                 $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
             }else{
-                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
                 $update_superload_result = SuperLoad::where('id', $superload_id)->update(['manual_withdraw_flag' => 1]);
             }
 
@@ -163,7 +163,7 @@ class Controller extends BaseController
     }
 
     public function checkTransaction($from, $to, $amount, $tx_id){
-        exec('node C:\NeilLab\app\Http\Controllers\Admin\USDTSendServer\checkTransaction.js ' .$from.' '.$to. ' '.$amount.' '.$tx_id, $output);
+        exec('node C:\Server\NeilLab\app\Http\Controllers\Admin\USDTSendServer\checkTransaction.js ' .$from.' '.$to. ' '.$amount.' '.$tx_id, $output);
         return $output;
     }
 
@@ -255,8 +255,8 @@ class Controller extends BaseController
         order_size_limit_btc => This is the order size limit that system can order at once.
         order_size_limit_usdt => This is the order size limit that system can order at once.
         */
-        $order_size_limit_btc = 0.001;
-        $order_size_limit_usdt = 20;
+        $order_size_limit_btc = 0.002;
+        $order_size_limit_usdt = 40;
 
         $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
 
@@ -497,7 +497,7 @@ class Controller extends BaseController
     }
 
     public function updateOrderStatus($superload_id, $type){
-        $superload_info = SuperLoad::where($superload_id)->get()->toArray();
+        $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
         $complete_status = false;
         if(count($superload_info) > 0){
             $order_info = SuperLoad::where('masterload_id', $superload_info[0]['masterload_id'])->get()->toArray();

@@ -80,6 +80,8 @@ class BuyController extends Controller
                 }else{
                     return response()->json(["success" => $error,"msg" => "Order error"]);
                 }
+            }else{
+                return response()->json(["success" => $error,"msg" => "There is a problem in  Transaction ID!"]);
             }
         }
 
