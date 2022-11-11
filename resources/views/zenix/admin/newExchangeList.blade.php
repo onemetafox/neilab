@@ -32,6 +32,12 @@
 										<select id="ex_name" name="ex_name">
 											<?php echo (!empty($result[0]['ex_name']) && $result[0]['ex_name'] == "Binance")? "<option value='Binance' selected>Binance</option>":"<option value='Binance'>Binance</option>" ?>
 											<?php echo (!empty($result[0]['ex_name']) && $result[0]['ex_name'] == "FTX")? "<option value='FTX' selected>FTX</option>":"<option value='FTX'>FTX</option>" ?>
+											<?php echo (!empty($result[0]['ex_name']) && $result[0]['ex_name'] == "kucoin")? "<option value='kucoin' selected>KuCoin</option>":"<option value='kucoin'>KuCoin</option>" ?>
+											<?php echo (!empty($result[0]['ex_name']) && $result[0]['ex_name'] == "gateio")? "<option value='gateio' selected>Gate.io</option>":"<option value='gateio'>Gate.io</option>" ?>
+                                            <?php echo (!empty($result[0]['ex_name']) && $result[0]['ex_name'] == "huobi")? "<option value='huobi' selected>Huobi</option>":"<option value='huobi'>Huobi</option>" ?>
+                                            <?php echo (!empty($result[0]['ex_name']) && $result[0]['ex_name'] == "bitstamp")? "<option value='bitstamp' selected>Bitstamp</option>":"<option value='bitstamp'>Bitstamp</option>" ?>
+                                            <?php echo (!empty($result[0]['ex_name']) && $result[0]['ex_name'] == "bitfinex")? "<option value='bitfinex' selected>Bitfinex</option>":"<option value='bitfinex'>Bitfinex</option>" ?>
+                                            <?php echo (!empty($result[0]['ex_name']) && $result[0]['ex_name'] == "okx")? "<option value='okx' selected>OKX</option>":"<option value='okx'>OKX</option>" ?>
 										</select>
 									</div>
 								</div>
@@ -69,7 +75,7 @@
 										<input type="text" class="form-control" name="api_password"  value="{{isset($result)?$result[0]['api_password']:''}}">
 									</div>
 								</div>
-							</div>	
+							</div>
 							<div class="row">
 								<div class="col-xl-6">
 									<div class="form-group">
@@ -205,7 +211,7 @@
     </div>
 </div>
 
-@endsection	
+@endsection
 
 {{-- Scripts --}}
 @section('scripts')
@@ -218,4 +224,4 @@
 			}, 1500)
 		});
 	</script>
-@endsection	
+@endsection

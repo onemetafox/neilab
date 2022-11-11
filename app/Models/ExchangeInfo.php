@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ExchangeInfo extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'ex_name',
         'ex_login',
@@ -33,6 +33,7 @@ class ExchangeInfo extends Model
         'contact_telegram',
         'contact_whatsapp',
         'contact_skype',
-        'contact_boom_boom_chat'
+        'contact_boom_boom_chat',
+        'state'
     ];
 }

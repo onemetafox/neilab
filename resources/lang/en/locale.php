@@ -26,7 +26,7 @@ return[
     "exchange_list_action"          =>  "Action",
     "adminuserlist"                 =>  "Admin User List",
     "adminwalletlist"               =>  "Internal Wallet List",
-
+    "exchange_list_state"           =>  "State",
 
 
 
@@ -59,7 +59,7 @@ return[
     "wallet_list_withdraw" => "Withdraw To Cold Wallet",
     "wallet_edit" => "Edit",
 
- 
+
     "internal_trade_buy_id"                       =>  "Exchange ID",
     "internal_trade_buy_useremail"                =>  "User Email",
     "internal_trade_buy_user_id"                  =>  "User ID",
@@ -103,7 +103,7 @@ return[
     "internal_trade_sell_total_amount_left_to_sell" =>  "Total amount left to buy",
     "internal_trade_sell_master_load"              =>  "master load",
     "internal_trade_sell_address"                  =>  "address",
-    
+
     // Global User List part
     "global_user_list"      => "Global User List",
     "add_global_user_list"  => "Add Global User",

@@ -39,6 +39,7 @@ class CreateExchangeInfosTable extends Migration
             $table->string('contact_whatsapp');
             $table->string('contact_skype');
             $table->string('contact_boom_boom_chat');
+            $table->smallInteger('state');
             $table->timestamps();
         });
     }

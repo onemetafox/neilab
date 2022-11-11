@@ -32,7 +32,9 @@ class SellController extends Controller
 
         $internal_bitcoin_wallet_list = InternalWallet::where('chain_stack', 1)->where('wallet_type', 1)->get()->toArray();
 
-        $bitcoin_wallet = $internal_bitcoin_wallet_list[0]['wallet_address'];
+        // $bitcoin_wallet = $internal_bitcoin_wallet_list[0]['wallet_address'];
+        $bitcoin_info = $this->get_receiving_btc_address();
+        $bitcoin_wallet = $bitcoin_info['address'];
         $theme_mode = $this->getThemeMode();
 
         return view('zenix.client.sellwizard', compact('page_title', 'page_description', 'action', 'bitcoin_wallet', 'chainstacks', 'theme_mode'));
@@ -48,7 +50,7 @@ class SellController extends Controller
             return response()->json(["success" => $error, "msg" => "This transaction has been used before."]);
         }else{
 
-            $internal_treasury_wallet_info = InternalWallet::where('wallet_address', $request['receive_address'])->get()->toArray();
+            $internal_treasury_wallet_info = InternalWallet::where('chain_stack', 1)->where('wallet_type', 1)->get()->toArray();
 
             $internalTradeSellInfo = array();
             $internalTradeSellInfo['user_id']                        = $request['user_id'];
@@ -123,7 +125,7 @@ class SellController extends Controller
         $master_load_info = MasterLoad::where('id', $masterload_id)->get()->toArray();
         $internal_treasury_wallet_info = InternalWallet::where('id', $master_load_info[0]['internal_treasury_wallet_id'])->get()->toArray();
 
-        $amount_result = $this->getAmountBinanceFTX($master_load_info[0]['amount']);
+        $amount_result = $this->getAmountExchange($master_load_info[0]['amount']);
 
         if(count($amount_result['exchange_available_accounts']) > 0){
 
@@ -136,10 +138,23 @@ class SellController extends Controller
 
                     $deposit_account = $exchange->fetchDepositAddress("BTC");
                     $deposit_wallet_address = $deposit_account['address'];
+
                     if($exchange_info[0]['ex_name'] == 'Binance'){
                         $amount = round($amount_result['binance_deposite_amount'] * 0.985, 6);
-                    }else{
+                    }else if($exchange_info[0]['ex_name'] == 'FTX'){
                         $amount = round($amount_result['ftx_deposite_amount'] * 0.985, 6);
+                    }else if($exchange_info[0]['ex_name'] == 'kucoin'){
+                        $amount = round($amount_result['kucoin_deposite_amount'] * 0.985, 6);
+                    }else if($exchange_info[0]['ex_name'] == 'gateio'){
+                        $amount = round($amount_result['gate_deposite_amount'] * 0.985, 6);
+                    }else if($exchange_info[0]['ex_name'] == 'huobi'){
+                        $amount = round($amount_result['huobi_deposite_amount'] * 0.985, 6);
+                    }else if($exchange_info[0]['ex_name'] == 'bitstamp'){
+                        $amount = round($amount_result['bitstamp_deposite_amount'] * 0.985, 6);
+                    }else if($exchange_info[0]['ex_name'] == 'bitfinex'){
+                        $amount = round($amount_result['bitfinex_deposite_amount'] * 0.985, 6);
+                    }else if($exchange_info[0]['ex_name'] == 'okx'){
+                        $amount = round($amount_result['okx_deposite_amount'] * 0.985, 6);
                     }
 
                     $send_result = $this->sendBTC($deposit_wallet_address, $amount);
@@ -169,6 +184,22 @@ class SellController extends Controller
                     }
                 } catch (\Throwable $th) {
                     //throw $th;
+
+                    $superload_tbl_data = array();
+                    $superload_tbl_data['trade_type']                   = 2;
+                    $superload_tbl_data['trade_id']                     = $master_load_info[0]['trade_id'];
+                    $superload_tbl_data['masterload_id']                = $masterload_id;
+                    $superload_tbl_data['receive_address']              = $deposit_wallet_address;
+                    $superload_tbl_data['sending_address']              = $internal_treasury_wallet_info[0]['wallet_address'];
+                    $superload_tbl_data['tx_id']                        = 1;
+                    $superload_tbl_data['internal_treasury_wallet_id']  = $internal_treasury_wallet_info[0]['id'];
+                    $superload_tbl_data['amount']                       = $amount;
+                    $superload_tbl_data['left_amount']                  = $amount;
+                    $superload_tbl_data['result_amount']                = 0;
+                    $superload_tbl_data['exchange_id']                  = $value;
+                    $superload_tbl_data['status']                       = 0;
+                    $superload_tbl_data['manual_withdraw_flag']         = 0;
+
                     \Log::info("One superload has been failed. because ".$th->getMessage());
                 }
             }
@@ -310,7 +341,7 @@ class SellController extends Controller
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_POSTFIELDS => '{"id":"curltext","method":"payto","params": {"destination" : "'.$to.'", "amount" : '.$amount.', "password" : "Arman11223344#"}}',
+            CURLOPT_POSTFIELDS => '{"id":"curltext","method":"payto","params": {"destination" : "'.$to.'", "amount" : '.$amount.'}}',
             CURLOPT_POST => 1,
         ]);
 
@@ -351,8 +382,6 @@ class SellController extends Controller
             }
         }
     }
-
-
 
     public function cronHandleFunction(){
 

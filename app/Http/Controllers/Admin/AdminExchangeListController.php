@@ -55,6 +55,7 @@ class AdminExchangeListController extends Controller
 
     public function updateExchangeList(Request $request){
         $payLoad = Arr::except($request->all(),['_token','old_id']);
+        $payLoad['state'] = 0;
         if($request->old_id){
             $result = ExchangeInfo::where("id", $request->old_id)->update($payLoad);
             if($result > 0){
@@ -80,6 +81,20 @@ class AdminExchangeListController extends Controller
             return redirect('/admin/exchangelist/')->with('error', 'Try again. There is error in database');
         }
     }
-    
+
+    public function updateState(Request $request){
+        $success = true;
+        $error = false;
+
+        $exhcange_id    = $request['id'];
+        $state          = $request['state'];
+
+        $res=ExchangeInfo::where('id',$exhcange_id)->update(["state" => $state]);
+        if($res > 0){
+            return response()->json(["success" => $success,]);
+        }else{
+            return response()->json(["success" => $error,]);
+        }
+    }
 
 }

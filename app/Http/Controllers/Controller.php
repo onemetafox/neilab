@@ -28,7 +28,6 @@ use Illuminate\Support\Facades\Config;
 
 
 
-
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -38,8 +37,15 @@ class Controller extends BaseController
         $this->RPCusername = config('app.RPCusername');
         $this->RPCpassword = config('app.RPCpassword');
         $this->withdraw_limit = config('app.withdraw_limit');
+
         $this->binance_withdraw_daily_total_amount = 0;
         $this->ftx_withdraw_daily_total_amount = 0;
+        $this->kucoin_withdraw_daily_total_amount = 0;
+        $this->gate_withdraw_daily_total_amount = 0;
+        $this->huobi_withdraw_daily_total_amount = 0;
+        $this->bitstamp_withdraw_daily_total_amount = 0;
+        $this->bitfinex_withdraw_daily_total_amount = 0;
+        $this->okx_withdraw_daily_total_amount = 0;
 
     }
 
@@ -67,12 +73,23 @@ class Controller extends BaseController
     public function exchange($param=null){
         $n_id = $param['ex_name'];
         $exchange_id = '\\ccxt\\' . $n_id;
-        $exchange = new $exchange_id(array(
-            'enableRateLimit' => true,
-            'apiKey' => $param['api_key'],
-            'secret' => $param['api_secret'],
-        ));
-        return $exchange;
+        if( $param['ex_name'] == 'okcoin' || $param['ex_name'] == 'kucoin' || $param['ex_name'] == 'okx' ){
+            $exchange = new $exchange_id(array(
+                'enableRateLimit' => true,
+                'apiKey' => $param['api_key'],
+                'secret' => $param['api_secret'],
+                'password' => $param['api_passphase'],
+                'passphase' => $param['api_passphase'],
+            ));
+            return $exchange;
+        }else{
+            $exchange = new $exchange_id(array(
+                'enableRateLimit' => true,
+                'apiKey' => $param['api_key'],
+                'secret' => $param['api_secret'],
+            ));
+            return $exchange;
+        }
     }
 
     function getBalance($address) {
@@ -96,7 +113,12 @@ class Controller extends BaseController
     public function createMarketBuyOrder($symbol, $amount, $exchange){
         $type = 'market';
         $side = 'buy';
-        $order = $exchange->createOrder($symbol, $type, $side, $amount);
+        $btc_price = null;
+        if($exchange->id == 'huobi') {
+            $fetch_ticker = $exchange->fetch_ticker($symbol);
+            $btc_price = $fetch_ticker['bid'];
+        }
+        $order = $exchange->createOrder($symbol, $type, $side, $amount, $btc_price);
         \Log::info("Create Market Buy Order which amount is".$amount);
         return $order;
     }
@@ -104,8 +126,14 @@ class Controller extends BaseController
     public function createMarketSellOrder($symbol, $amount, $exchange){
         $type = 'market';
         $side = 'sell';
-        $order = $exchange->createOrder($symbol, $type, $side, $amount);
+        $btc_price = null;
+        if($exchange->id == 'huobi') {
+            $fetch_ticker = $exchange->fetch_ticker($symbol);
+            $btc_price = $fetch_ticker['bid'];
+        }
+        $order = $exchange->createOrder($symbol, $type, $side, $amount, $btc_price);
         \Log::info("Create Market Sell Order which amount is".$amount);
+
         return $order;
     }
 
@@ -114,56 +142,74 @@ class Controller extends BaseController
         $market_amount = round($this->getBTCMarketPrice($exchange, $amount)*0.999, 6);
         $order = $this->createMarketBuyOrder($symbol, $market_amount, $exchange);
 
-        $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
-        if($order['amount'] > 0){
-            /* update result amount of marketing sale */
-            $total_sold_amount = $superload_info[0]['result_amount'] + $order['amount'];
-            $update_superload_result = SuperLoad::where('id', $superload_id)->update(['result_amount' => $total_sold_amount]);
-            \Log::info("New marketing buy has been request. amount = ".$order['amount']);
-        }
-        /* If all deposited money has been saled, withdraw the total result amount. */
-        if($superload_info[0]['status'] == 1 && $superload_info[0]['manual_withdraw_flag'] == 0){
+        sleep(10);
+        try {
+            //code...
+            $order_info = $exchange->fetch_order($order['id']);
+            $order['amount'] = $order_info['amount'];
 
-            sleep(13);
-            $withdraw_result = $this->withdraw($exchange, $superload_id, $ex_name);
-
-            if($withdraw_result){
-                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
-            }else{
-                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['manual_withdraw_flag' => 1]);
+            $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
+            if($order['amount'] > 0){
+                /* update result amount of marketing sale */
+                $total_sold_amount = $superload_info[0]['result_amount'] + $order['amount'];
+                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['result_amount' => $total_sold_amount]);
+                \Log::info("New marketing buy has been request. amount = ".$order['amount']);
             }
+            /* If all deposited money has been saled, withdraw the total result amount. */
+            if($superload_info[0]['status'] == 1 && $superload_info[0]['manual_withdraw_flag'] == 0){
+
+                sleep(13);
+                $withdraw_result = $this->withdraw($exchange, $superload_id, $ex_name);
+
+                if($withdraw_result){
+                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
+                }else{
+                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['manual_withdraw_flag' => 1]);
+                }
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            \Log::info("One scaled buy hasn't been failed".$th->getMessage());
         }
     }
 
     public function marketSellOrder($exchange, $amount, $superload_id, $ex_name){
         $symbol = "BTC/USDT";
         $market_amount = round($amount*0.999, 6);
-        $order = $this->createMarketSellOrder($symbol, $market_amount, $exchange);
+        try {
+            //code...
+            $order = $this->createMarketSellOrder($symbol, $market_amount, $exchange);
 
-        $order['amount'] = $this->getUSDTPrice($exchange, $order['amount']);
+            sleep(10);
+            $order_info = $exchange->fetch_order($order['id']);
+            $order['amount'] = $order_info['cost'];
 
-        $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
-        if($order['amount'] > 0){
-            $total_sold_amount = $superload_info[0]['result_amount'] + $order['amount'];
-            $update_superload_result = SuperLoad::where('id', $superload_id)->update(['result_amount' => $total_sold_amount]);
-            \Log::info("New marketing sell has been request. amount = ".$order['amount']);
-        }
-        if($superload_info[0]['status'] == 1 && $superload_info[0]['manual_withdraw_flag'] == 0){
-
-            sleep(13);
-            $withdraw_result = $this->withdraw($exchange, $superload_id, $ex_name);
-
-            if($withdraw_result){
-                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
-            }else{
-                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['manual_withdraw_flag' => 1]);
+            $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
+            if($order['amount'] > 0){
+                $total_sold_amount = $superload_info[0]['result_amount'] + $order['amount'];
+                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['result_amount' => $total_sold_amount]);
+                \Log::info("New marketing sell has been request. amount = ".$order['amount']);
             }
+            if($superload_info[0]['status'] == 1 && $superload_info[0]['manual_withdraw_flag'] == 0){
 
+                sleep(13);
+                $withdraw_result = $this->withdraw($exchange, $superload_id, $ex_name);
+
+                if($withdraw_result){
+                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
+                }else{
+                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['manual_withdraw_flag' => 1]);
+                }
+
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            \Log::info("One scaled sell hasn't been failed".$th->getMessage());
         }
     }
 
     public function checkTransaction($from, $to, $amount, $tx_id){
-        exec('node C:\Server\NeilLab\app\Http\Controllers\Admin\USDTSendServer\checkTransaction.js ' .$from.' '.$to. ' '.$amount.' '.$tx_id, $output);
+        exec('node C:\Server\NeilLab-New-Exchange\NeilLab\app\Http\Controllers\Admin\USDTSendServer\checkTransaction.js ' .$from.' '.$to. ' '.$amount.' '.$tx_id, $output);
         return $output;
     }
 
@@ -187,9 +233,27 @@ class Controller extends BaseController
                 if($ex_name == 'Binance'){
                     $this->binance_withdraw_daily_total_amount += $withdraw_amount;
 
-                }else{
+                }if($ex_name == 'FTX'){
 
                     $this->ftx_withdraw_daily_total_amount += $withdraw_amount;
+                }if($ex_name == 'kucoin'){
+
+                    $this->kucoin_withdraw_daily_total_amount += $withdraw_amount;
+                }if($ex_name == 'gateio'){
+
+                    $this->gate_withdraw_daily_total_amount += $withdraw_amount;
+                }if($ex_name == 'huobi'){
+
+                    $this->huobi_withdraw_daily_total_amount += $withdraw_amount;
+                }if($ex_name == 'bitstamp'){
+
+                    $this->bitstamp_withdraw_daily_total_amount += $withdraw_amount;
+                }if($ex_name == 'bitfinex'){
+
+                    $this->bitfinex_withdraw_daily_total_amount += $withdraw_amount;
+                }if($ex_name == 'okx'){
+
+                    $this->okx_withdraw_daily_total_amount += $withdraw_amount;
                 }
 
                 $withdraw_info['trade_type'] = 1;
@@ -223,8 +287,28 @@ class Controller extends BaseController
 
                 if($ex_name == 'Binance'){
                     $this->binance_withdraw_daily_total_amount += $real_amount;
-                }else{
+
+                }if($ex_name == 'FTX'){
+
                     $this->ftx_withdraw_daily_total_amount += $real_amount;
+                }if($ex_name == 'kucoin'){
+
+                    $this->kucoin_withdraw_daily_total_amount += $real_amount;
+                }if($ex_name == 'gateio'){
+
+                    $this->gate_withdraw_daily_total_amount += $real_amount;
+                }if($ex_name == 'huobi'){
+
+                    $this->huobi_withdraw_daily_total_amount += $real_amount;
+                }if($ex_name == 'bitstamp'){
+
+                    $this->bitstamp_withdraw_daily_total_amount += $real_amount;
+                }if($ex_name == 'bitfinex'){
+
+                    $this->bitfinex_withdraw_daily_total_amount += $real_amount;
+                }if($ex_name == 'okx'){
+
+                    $this->okx_withdraw_daily_total_amount += $real_amount;
                 }
 
                 $withdraw_info['trade_type'] = 2;
@@ -248,20 +332,31 @@ class Controller extends BaseController
     public function cronInit(){
         $this->binance_withdraw_daily_total_amount = 0;
         $this->ftx_withdraw_daily_total_amount = 0;
+        $this->kucoin_withdraw_daily_total_amount = 0;
+        $this->gate_withdraw_daily_total_amount = 0;
+        $this->huobi_withdraw_daily_total_amount = 0;
+        $this->bitstamp_withdraw_daily_total_amount = 0;
+        $this->bitfinex_withdraw_daily_total_amount = 0;
+        $this->okx_withdraw_daily_total_amount = 0;
+
+
     }
+
+
+
     /* This function works every 3 minutes */
     public function cronHandleFunction(){
         /*
         order_size_limit_btc => This is the order size limit that system can order at once.
         order_size_limit_usdt => This is the order size limit that system can order at once.
         */
-        $order_size_limit_btc = 0.002;
-        $order_size_limit_usdt = 40;
+        $order_size_limit_btc = 0.01;
+        $order_size_limit_usdt = 200;
 
-        $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
+        $result = ExchangeInfo::where('state', 1)->orderBy('id', 'asc')->get()->toArray();
 
             /* retrieve exchanges whether deposit transaction has been completed or not */
-            foreach ($result as $key => $value) {
+        foreach ($result as $key => $value) {
             $exchange = $this->exchange($value);
             $usdt_deposit_history = $exchange->fetchDeposits("USDT");
             foreach ($usdt_deposit_history as $key => $deposit_value) {
@@ -357,6 +452,42 @@ class Controller extends BaseController
             }else{
                 return false;
             }
+        }else if($ex_name == 'kucoin'){
+            if($this->kucoin_withdraw_daily_total_amount + $withdraw_usdt_amount < 3000000){
+                return true;
+            }else{
+                return false;
+            }
+        }else if($ex_name == 'gateio'){
+            if($this->gate_withdraw_daily_total_amount + $withdraw_usdt_amount < 7000000){
+                return true;
+            }else{
+                return false;
+            }
+        }else if($ex_name == 'huobi'){
+            if($this->huobi_withdraw_daily_total_amount + $withdraw_usdt_amount < 7000000){
+                return true;
+            }else{
+                return false;
+            }
+        }else if($ex_name == 'bitstamp'){
+            if($this->bitstamp_withdraw_daily_total_amount + $withdraw_usdt_amount < 5000000){
+                return true;
+            }else{
+                return false;
+            }
+        }else if($ex_name == 'bitfinex'){
+            if($this->bitfinex_withdraw_daily_total_amount + $withdraw_usdt_amount < 8000000){
+                return true;
+            }else{
+                return false;
+            }
+        }else if($ex_name == 'okx'){
+            if($this->okx_withdraw_daily_total_amount + $withdraw_usdt_amount < 6000000){
+                return true;
+            }else{
+                return false;
+            }
         }
         return false;
     }
@@ -441,57 +572,71 @@ class Controller extends BaseController
             $trade_info = InternalTradeBuyList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
             $sending_fee_result = $this->handleSendFee($trade_info[0], $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'], 1);
             if($sending_fee_result['status']){
-                sleep(25);
-                $send_client_amount = round($sending_fee_result['remain_amount'] * 0.998, 6);
-                $send_result = $this->sendBTC($trade_info[0]['delivered_address'], $send_client_amount);
+                try {
+                    //code...
+                    sleep(25);
+                    $send_client_amount = round($sending_fee_result['remain_amount'] * 0.998, 6);
+                    $send_result = $this->sendBTC($trade_info[0]['delivered_address'], $send_client_amount);
 
-                $subload_info = array();
-                $subload_info['tx_id'] = $send_result['txid'];
-                $subload_info['trade_type']         = $withdraw_tbl['trade_type'];
-                $subload_info['trade_id']           = $withdraw_tbl['trade_id'];
-                $subload_info['superload_id']       = $withdraw_tbl['superload_id'];
-                $subload_info['exchange_id']        = $withdraw_tbl['exchange_id'];
-                $subload_info['receive_address']    = $withdraw_transaction['addressTo'];
-                $subload_info['amount']             = $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'];
-                $subload_info['withdraw_order_id']  = $withdraw_transaction['id'];
-                $subload_info['status']             = 1;
+                    $subload_info = array();
+                    $subload_info['tx_id'] = $send_result['txid'];
+                    $subload_info['trade_type']         = $withdraw_tbl['trade_type'];
+                    $subload_info['trade_id']           = $withdraw_tbl['trade_id'];
+                    $subload_info['superload_id']       = $withdraw_tbl['superload_id'];
+                    $subload_info['exchange_id']        = $withdraw_tbl['exchange_id'];
+                    $subload_info['receive_address']    = $withdraw_transaction['addressTo'] != null ? $withdraw_transaction['addressTo'] : $withdraw_transaction['address'];
+                    $subload_info['amount']             = $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'];
+                    $subload_info['withdraw_order_id']  = $withdraw_transaction['id'];
+                    $subload_info['status']             = 1;
 
-                $subload_create_result = SubLoad::create($subload_info);
+                    $subload_create_result = SubLoad::create($subload_info);
 
-                $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
-                $this->updateOrderStatus($withdraw_tbl['superload_id'], 0);
-                sleep(20);
-                \Log::info("Complete one subload of buy transaction");
+                    $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
+                    $this->updateOrderStatus($withdraw_tbl['superload_id'], 0);
+                    sleep(20);
+                    \Log::info("Complete one subload of buy transaction");
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    \Log::info("Failed one Subload".$th->getMessage());
+
+                }
             }
         }else if($asset == 'USDT'){
-            $trade_info = InternalTradeSellList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
-            $sending_fee_result = $this->handleSendFee($trade_info[0], $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'], 2);
-            if($sending_fee_result['status']){
-                sleep(25);
-                $internal_wallet_info = InternalWallet::where('wallet_type',1)->where('chain_stack',2)->get()->toArray();
-                $private_key = base64_decode($internal_wallet_info[0]['private_key']);
-                $address = $internal_wallet_info[0]['wallet_address'];
+            try {
+                //code...
+                $trade_info = InternalTradeSellList::where('id', $withdraw_tbl['trade_id'])->get()->toArray();
+                $sending_fee_result = $this->handleSendFee($trade_info[0], $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'], 2);
+                if($sending_fee_result['status']){
+                    sleep(25);
+                    $internal_wallet_info = InternalWallet::where('wallet_type',1)->where('chain_stack',2)->get()->toArray();
+                    $private_key = base64_decode($internal_wallet_info[0]['private_key']);
+                    $address = $internal_wallet_info[0]['wallet_address'];
 
-                $send_client_amount = round($sending_fee_result['remain_amount'] * 0.998, 6);
+                    $send_client_amount = round($sending_fee_result['remain_amount'] * 0.998, 6);
 
-                $send_usdt_result = $this->sendUSDT($address, $private_key, $trade_info[0]['delivered_address'],  $send_client_amount);
+                    $send_usdt_result = $this->sendUSDT($address, $private_key, $trade_info[0]['delivered_address'],  $send_client_amount);
 
-                $subload_info = array();
-                $subload_info['tx_id'] = $send_usdt_result[1];
-                $subload_info['trade_type']         = $withdraw_tbl['trade_type'];
-                $subload_info['trade_id']           = $withdraw_tbl['trade_id'];
-                $subload_info['superload_id']       = $withdraw_tbl['superload_id'];
-                $subload_info['exchange_id']        = $withdraw_tbl['exchange_id'];
-                $subload_info['receive_address']    = $withdraw_transaction['addressTo'];
-                $subload_info['amount']             = $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'];
-                $subload_info['withdraw_order_id']  = $withdraw_transaction['id'];
-                $subload_info['status']             = 1;
-                $subload_create_result = SubLoad::create($subload_info);
+                    $subload_info = array();
+                    $subload_info['tx_id'] = $send_usdt_result[1];
+                    $subload_info['trade_type']         = $withdraw_tbl['trade_type'];
+                    $subload_info['trade_id']           = $withdraw_tbl['trade_id'];
+                    $subload_info['superload_id']       = $withdraw_tbl['superload_id'];
+                    $subload_info['exchange_id']        = $withdraw_tbl['exchange_id'];
+                    $subload_info['receive_address']    = $withdraw_transaction['addressTo'] != null ? $withdraw_transaction['addressTo'] : $withdraw_transaction['address'];
+                    $subload_info['amount']             = $withdraw_transaction['amount'] - $withdraw_transaction['fee']['cost'];
+                    $subload_info['withdraw_order_id']  = $withdraw_transaction['id'];
+                    $subload_info['status']             = 1;
+                    $subload_create_result = SubLoad::create($subload_info);
 
-                $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
-                $this->updateOrderStatus($withdraw_tbl['superload_id'], 1);
-                sleep(20);
-                \Log::info("Complete one subload of sell transaction");
+                    $update_withdraw_tbl_result = Withdraw::where('id', $withdraw_tbl['id'])->update(['status' => 1]);
+                    $this->updateOrderStatus($withdraw_tbl['superload_id'], 1);
+                    sleep(20);
+                    \Log::info("Complete one subload of sell transaction");
+                }
+            } catch (\Throwable $th) {
+                \Log::info("Failed one Subload".$th->getMessage());
+
+                //throw $th;
             }
         }
     }
@@ -518,7 +663,7 @@ class Controller extends BaseController
     }
 
     public function confirmWithdrawTransaction($asset, $value){
-        $exchange_info = ExchangeInfo::where('id', $value['exchange_id'])->get()->toArray();
+        $exchange_info = ExchangeInfo::where('id', $value['exchange_id'])->where('state', 1)->get()->toArray();
         $exchange = $this->exchange($exchange_info[0]);
         $withdraw_transaction_history = $exchange->fetchWithdrawals($asset);
 
@@ -527,6 +672,7 @@ class Controller extends BaseController
 
         foreach ($withdraw_transaction_history as $key => $history_value) {
             # code...
+
             if($value['manual_flag'] == 0){
                 if($history_value['id'] == $value['withdraw_order_id'] && $history_value['status'] == 'ok'){
 
@@ -536,7 +682,7 @@ class Controller extends BaseController
                     break;
                 }
             }else if($value['manual_flag'] == 1){
-                if($history_value['txid'] == $value['withdraw_order_id'] && $history_value['status'] == 'ok'){
+                if(($history_value['txid'] == $value['withdraw_order_id'] || '0x'.$history_value['txid'] == $value['withdraw_order_id']) && $history_value['status'] == 'ok'){
 
                     \Log::info("Withdarw request has been confirmed from ".$exchange_info[0]['ex_name']."!");
                     $return = true;
@@ -593,7 +739,7 @@ class Controller extends BaseController
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_POSTFIELDS => '{"id":"curltext","method":"payto","params": {"destination" : "'.$to.'", "amount" : '.$amount.', "password" : "Arman11223344#"}}',
+            CURLOPT_POSTFIELDS => '{"id":"curltext","method":"payto","params": {"destination" : "'.$to.'", "amount" : '.$amount.'}}',
             CURLOPT_POST => 1,
         ]);
 
@@ -637,7 +783,7 @@ class Controller extends BaseController
 
     public function sendUSDT($from, $from_pk, $to, $amount){
         $amount_big = $amount*1000000;
-        exec('node C:\server\NeilLab\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount_big, $output);
+        exec('node C:\server\NeilLab-New-Exchange\NeilLab\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount_big, $output);
         return $output;
     }
 
@@ -650,14 +796,31 @@ class Controller extends BaseController
     public function getThemeMode(){
         return auth()->user()->theme_mode;
     }
-    public function getAmountBinanceFTX($amonut){
+    public function getAmountExchange($amonut){
 
-        $result = ExchangeInfo::orderBy('id', 'asc')->get()->toArray();
+        $result = ExchangeInfo::where('state', 1)->orderBy('id', 'asc')->get()->toArray();
+
         $binance_account = array();
         $ftx_account = array();
+        $kucoin_account = array();
+        $gate_account = array();
+        $huobi_account = array();
+        $bitstamp_account = array();
+        $bitfinex_account = array();
+        $okx_account = array();
+
+
         $exchange_available_accounts = array();
+
         $binance_deposite_amount = 0;
         $ftx_deposite_amount = 0;
+        $gate_deposite_amount = 0;
+        $huobi_deposite_amount = 0;
+        $kucoin_deposite_amount = 0;
+        $bitstamp_deposite_amount = 0;
+        $bitfinex_deposite_amount = 0;
+        $okx_deposite_amount = 0;
+
 
         foreach ($result as $key => $value) {
          # code...
@@ -667,20 +830,48 @@ class Controller extends BaseController
                 $btc_wallet = $exchange->fetchDepositAddress("BTC");
                 if($value['ex_name'] == 'Binance'){
                     array_push($binance_account, $value['id']);
-                }else{
+                }else if($value['ex_name'] == 'FTX'){
                     array_push($ftx_account, $value['id']);
+                }else if($value['ex_name'] == 'kucoin'){
+                    array_push($kucoin_account, $value['id']);
+                }else if($value['ex_name'] == 'gateio'){
+                    array_push($gate_account, $value['id']);
+                }else if($value['ex_name'] == 'huobi'){
+                    array_push($huobi_account, $value['id']);
+                }else if($value['ex_name'] == 'bitstamp'){
+                    array_push($bitstamp_account, $value['id']);
+                }else if($value['ex_name'] == 'bitfinex'){
+                    array_push($bitfinex_account, $value['id']);
+                }else if($value['ex_name'] == 'okx'){
+                    array_push($okx_account, $value['id']);
                 }
+
                 array_push($exchange_available_accounts, $value['id']);
             } catch (\Throwable $th) {
                 //throw $th;
             }
         }
 
-        $binance_available_number = count($binance_account);
-        $ftx_available_number = count($ftx_account);
-        if($binance_available_number != 0 || $ftx_available_number != 0){
-            $binance_account_rate = 8 * $binance_available_number / (8 * $binance_available_number + 2 * $ftx_available_number);
-            $ftx_account_rate = 2 * $ftx_available_number / (8 * $binance_available_number + 2 * $ftx_available_number);
+        $binance_available_number   = count($binance_account);
+        $ftx_available_number       = count($ftx_account);
+        $kucoin_available_number    = count($kucoin_account);
+        $gate_available_number      = count($gate_account);
+        $huobi_available_number     = count($huobi_account);
+        $bitstamp_available_number  = count($bitstamp_account);
+        $bitfinex_available_number  = count($bitfinex_account);
+        $okx_available_number       = count($okx_account);
+
+
+        if($binance_available_number != 0 || $ftx_available_number != 0 || $kucoin_available_number != 0 || $gate_available_number != 0 || $huobi_available_number != 0 || $bitstamp_available_number != 0 || $bitfinex_available_number != 0 || $okx_available_number != 0){
+            $binance_account_rate   = 8/46 * $binance_available_number      / (8/46 * $binance_available_number + 2/46 * $ftx_available_number + 3/46 * $kucoin_available_number + 7/46 * $gate_available_number + 7/46 * $huobi_available_number + 5/46 * $bitstamp_available_number + 8/46 * $bitfinex_available_number + 6/46 * $okx_available_number);
+            $ftx_account_rate       = 2/46 * $ftx_available_number          / (8/46 * $binance_available_number + 2/46 * $ftx_available_number + 3/46 * $kucoin_available_number + 7/46 * $gate_available_number + 7/46 * $huobi_available_number + 5/46 * $bitstamp_available_number + 8/46 * $bitfinex_available_number + 6/46 * $okx_available_number);
+            $kucoin_account_rate    = 3/46 * $kucoin_available_number       / (8/46 * $binance_available_number + 2/46 * $ftx_available_number + 3/46 * $kucoin_available_number + 7/46 * $gate_available_number + 7/46 * $huobi_available_number + 5/46 * $bitstamp_available_number + 8/46 * $bitfinex_available_number + 6/46 * $okx_available_number);
+            $gate_account_rate      = 7/46 * $gate_available_number         / (8/46 * $binance_available_number + 2/46 * $ftx_available_number + 3/46 * $kucoin_available_number + 7/46 * $gate_available_number + 7/46 * $huobi_available_number + 5/46 * $bitstamp_available_number + 8/46 * $bitfinex_available_number + 6/46 * $okx_available_number);
+            $huobi_account_rate     = 7/46 * $huobi_available_number        / (8/46 * $binance_available_number + 2/46 * $ftx_available_number + 3/46 * $kucoin_available_number + 7/46 * $gate_available_number + 7/46 * $huobi_available_number + 5/46 * $bitstamp_available_number + 8/46 * $bitfinex_available_number + 6/46 * $okx_available_number);
+            $bitstamp_account_rate  = 5/46 * $bitstamp_available_number     / (8/46 * $binance_available_number + 2/46 * $ftx_available_number + 3/46 * $kucoin_available_number + 7/46 * $gate_available_number + 7/46 * $huobi_available_number + 5/46 * $bitstamp_available_number + 8/46 * $bitfinex_available_number + 6/46 * $okx_available_number);
+            $bitfinex_account_rate  = 8/46 * $bitfinex_available_number     / (8/46 * $binance_available_number + 2/46 * $ftx_available_number + 3/46 * $kucoin_available_number + 7/46 * $gate_available_number + 7/46 * $huobi_available_number + 5/46 * $bitstamp_available_number + 8/46 * $bitfinex_available_number + 6/46 * $okx_available_number);
+            $okx_account_rate       = 6/46 * $okx_available_number          / (8/46 * $binance_available_number + 2/46 * $ftx_available_number + 3/46 * $kucoin_available_number + 7/46 * $gate_available_number + 7/46 * $huobi_available_number + 5/46 * $bitstamp_available_number + 8/46 * $bitfinex_available_number + 6/46 * $okx_available_number);
+
 
             if($binance_available_number != 0){
                 $binance_deposite_amount = round($amonut * round($binance_account_rate, 7, PHP_ROUND_HALF_DOWN ) / $binance_available_number, 6, PHP_ROUND_HALF_DOWN );
@@ -688,14 +879,91 @@ class Controller extends BaseController
             if($ftx_available_number != 0){
                 $ftx_deposite_amount = round($amonut * round($ftx_account_rate, 7, PHP_ROUND_HALF_DOWN ) / $ftx_available_number, 6, PHP_ROUND_HALF_DOWN );
             }
+            if($kucoin_available_number != 0){
+                $kucoin_deposite_amount = round($amonut * round($kucoin_account_rate, 7, PHP_ROUND_HALF_DOWN ) / $kucoin_available_number, 6, PHP_ROUND_HALF_DOWN );
+            }
+            if($gate_available_number != 0){
+                $gate_deposite_amount = round($amonut * round($gate_account_rate, 7, PHP_ROUND_HALF_DOWN ) / $gate_available_number, 6, PHP_ROUND_HALF_DOWN );
+            }
+            if($huobi_available_number != 0){
+                $huobi_deposite_amount = round($amonut * round($huobi_account_rate, 7, PHP_ROUND_HALF_DOWN ) / $huobi_available_number, 6, PHP_ROUND_HALF_DOWN );
+            }
+            if($bitstamp_available_number != 0){
+                $bitstamp_deposite_amount = round($amonut * round($bitstamp_account_rate, 7, PHP_ROUND_HALF_DOWN ) / $bitstamp_available_number, 6, PHP_ROUND_HALF_DOWN );
+            }
+            if($bitfinex_available_number != 0){
+                $bitfinex_deposite_amount = round($amonut * round($bitfinex_account_rate, 7, PHP_ROUND_HALF_DOWN ) / $bitfinex_available_number, 6, PHP_ROUND_HALF_DOWN );
+            }
+            if($okx_available_number != 0){
+                $okx_deposite_amount = round($amonut * round($okx_account_rate, 7, PHP_ROUND_HALF_DOWN ) / $okx_available_number, 6, PHP_ROUND_HALF_DOWN );
+            }
         }
 
         $return_value = array();
-        $return_value['binance_account'] = $binance_account;
-        $return_value['ftx_account'] = $ftx_account;
-        $return_value['binance_deposite_amount'] = $binance_deposite_amount;
-        $return_value['ftx_deposite_amount'] = $ftx_deposite_amount;
+
+        $return_value['binance_account']    = $binance_account;
+        $return_value['ftx_account']        = $ftx_account;
+        $return_value['kucoin_account']     = $kucoin_account;
+        $return_value['gate_account']       = $gate_account;
+        $return_value['huobi_account']      = $huobi_account;
+        $return_value['bitstamp_account']   = $bitstamp_account;
+        $return_value['bitfinex_account']   = $bitfinex_account;
+        $return_value['okx_account']        = $okx_account;
+
+
+        $return_value['binance_deposite_amount']    = $binance_deposite_amount;
+        $return_value['ftx_deposite_amount']        = $ftx_deposite_amount;
+        $return_value['kucoin_deposite_amount']     = $kucoin_deposite_amount;
+        $return_value['gate_deposite_amount']       = $gate_deposite_amount;
+        $return_value['huobi_deposite_amount']      = $huobi_deposite_amount;
+        $return_value['bitstamp_deposite_amount']   = $bitstamp_deposite_amount;
+        $return_value['bitfinex_deposite_amount']   = $bitfinex_deposite_amount;
+        $return_value['okx_deposite_amount']        = $okx_deposite_amount;
+
         $return_value['exchange_available_accounts'] = $exchange_available_accounts;
         return $return_value;
+    }
+
+    public function handleFailedSuperLoads(){
+        $failed_superloads = SuperLoad::where('tx_id', 1)->get()->toArray();
+
+        if(count($failed_superloads) > 0){
+            foreach ($failed_superloads as $key => $value) {
+                # code...
+                if($value['trade_type'] == 1){
+                    try {
+                        //code...
+                        $internal_treasury_wallet_info = InternalWallet::where('id', $value['internal_treasury_wallet_id'])->get()->toArray();
+                        $private_key = base64_decode($internal_treasury_wallet_info[0]['private_key']);
+                        $send_result = $this->sendUSDT($internal_treasury_wallet_info[0]['wallet_address'],$private_key, $value['receive_address'], $value['amount']);
+                        if(!empty($send_result)){
+                            $update_failed_superload_result = SuperLoad::where('id', $value['id'])->update(['tx_id' => $send_result[1]]);
+                            InternalTradeBuyList::where('id', $value['trade_id'])->update(['state' => 2]);
+                            \Log::info("send ".$amount."usdt from ".$internal_treasury_wallet_info[0]['wallet_address']."to ".$deposit_wallet_address);
+                        }
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                        \Log::info("One failed superload has been failed. because ".$th->getMessage());
+                    }
+
+                }else{
+                    try {
+                        //code...
+
+                        $send_result = $this->sendBTC($value['receive_address'], $value['amount']);
+
+                        if($send_result['status'] == 'success'){
+                            $update_failed_superload_result = SuperLoad::where('id', $value['id'])->update(['tx_id' => $send_result['txid']]);
+                            InternalTradeSellList::where('id', $value['trade_id'])->update(['state' => 2]);
+
+                            \Log::info("send ".$value['amount']."BTC from to ".$value['receive_address']);
+                        }
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                        \Log::info("One failed superload has been failed. because ".$th->getMessage());
+                    }
+                }
+            }
+        }
     }
 }

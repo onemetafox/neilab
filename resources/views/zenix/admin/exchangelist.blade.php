@@ -9,7 +9,7 @@
 <div class="container-fluid">
 	<div class="form-head mb-sm-5 mb-3 d-flex flex-wrap align-items-center">
 		<h2 class="font-w600 title mb-2 me-auto ">{{__('locale.adminexchangelist')}}</h2>
-        
+
 		<a href="{!! url('/admin/new_exchange_list'); !!}" class="btn btn-secondary mb-2"><i class="las la-plus scale5 me-3"></i>{{__('locale.admin_create_new_exchange_list')}}</a>
 	</div>
     <div class="row">
@@ -35,6 +35,7 @@
                                     <th>{{__('locale.exchange_list_wallet_address')}}</th>
                                     <th>{{__('locale.exchange_list_test_status')}}</th>
                                     <th>{{__('locale.exchange_list_certified')}}</th>
+                                    <th>{{__('locale.exchange_list_state')}}</th>
                                     <th>{{__('locale.exchange_list_action')}}</th>
                                 </tr>
                             </thead>
@@ -42,7 +43,35 @@
                                 @foreach ($result as $key => $value)
                                 <tr>
                                     <td>{{++$key}}</td>
-                                    <td>{{$value['ex_name']}}</td>
+                                    @switch($value['ex_name'])
+                                        @case('binance')
+                                            <td>Binance</td>
+                                            @break
+                                        @case('FTX')
+                                            <td>FTX</td>
+                                            @break
+                                        @case('kucoin')
+                                            <td>Kucoin</td>
+                                            @break
+                                        @case('gateio')
+                                            <td>Gate.io</td>
+                                            @break
+                                        @case('bitfinex')
+                                            <td>Bitfinex</td>
+                                            @break
+                                        @case('huobi')
+                                            <td>Huobi</td>
+                                            @break
+                                        @case('bitstamp')
+                                            <td>Bitstamp</td>
+                                            @break
+                                        @case('okx')
+                                            <td>OKX</td>
+                                            @break
+
+                                        @default
+
+                                    @endswitch
                                     <td>{{$value['wallet_address']}}</td>
                                     <td>
                                         @if ($value['connect_status'] == false)
@@ -59,17 +88,23 @@
                                     </td>
                                     <td>Certified</td>
                                     <td>
+										<select id="exchange_state_{{$value['id']}}" data-id="{{$value['id']}}" name="exchange_state_{{$value['id']}}" onchange="updateExchangeState(this);">
+                                            <option value="1" {{isset($value['state']) && $value['state']==1?'selected':''}}>Enabled</option>
+											<option value="0" {{isset($value['state']) && $value['state']==0?'selected':''}}>Disabled</option>
+										</select></div>
+                                    </td>
+                                    <td>
                                         <div class="dropdown ms-auto text-right">
                                             <div class="btn-link" data-bs-toggle="dropdown">
                                                 <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg>
                                             </div>
                                             <div class="dropdown-menu dropdown-menu-end">
-                                            
+
 												<a class="dropdown-item" href="{!! url('/admin/new_exchange_list/'.$value['id']); !!}">Edit</a>
 												<a class="dropdown-item" href="{!! url('/admin/delete_exchange_list/'.$value['id']); !!}">Delete</a>
                                             </div>
                                         </div>
-                                    </td>	
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -81,7 +116,7 @@
     </div>
 </div>
 
-@endsection	
+@endsection
 
 {{-- Scripts --}}
 @section('scripts')
@@ -93,5 +128,68 @@
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
 		});
+		function updateExchangeState(e){
+			var exchange_id = $(e).data('id');
+			var state = $("#exchange_state_"+exchange_id).val();
+            console.log(state);
+			$.ajax({
+				type: "post",
+				url : '{!! url('/admin/updatestate'); !!}',
+				data: {
+					"_token": "{{ csrf_token() }}",
+					"id": exchange_id,
+					"state": state,
+				},
+				success: function(data){
+					if(data.success){
+                        alertSuccess();
+                    }else{
+						alertError("Database Error!");
+					}
+				},
+			});
+		}
+
+		function alertSuccess(){
+			toastr.info("Updated Successfully", "Success", {
+                    positionClass: "toast-top-right",
+                    timeOut: 5e3,
+                    closeButton: !0,
+                    debug: !1,
+                    newestOnTop: !0,
+                    progressBar: !0,
+                    preventDuplicates: !0,
+                    onclick: null,
+                    showDuration: "300",
+                    hideDuration: "1000",
+                    extendedTimeOut: "1000",
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    tapToDismiss: !1
+                })
+		}
+
+		function alertError(msg){
+			toastr.error(msg, "Error", {
+                    positionClass: "toast-top-right",
+                    timeOut: 5e3,
+                    closeButton: !0,
+                    debug: !1,
+                    newestOnTop: !0,
+                    progressBar: !0,
+                    preventDuplicates: !0,
+                    onclick: null,
+                    showDuration: "300",
+                    hideDuration: "1000",
+                    extendedTimeOut: "1000",
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    tapToDismiss: !1
+                })
+		}
 	</script>
-@endsection	
+@endsection

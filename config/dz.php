@@ -33,7 +33,7 @@ return [
 			'js' => [
 				'top'=>[
 					'vendor/global/global.min.js',
-					'vendor/bootstrap-select/dist/js/bootstrap-select.min.js',	
+					'vendor/bootstrap-select/dist/js/bootstrap-select.min.js',
 				],
 				'bottom'=>[
 					'js/custom.js',
@@ -52,6 +52,9 @@ return [
 					'vendor/chartist/css/chartist.min.css',
 					'vendor/owl-carousel/owl.carousel.css',
 					'vendor/datatables/css/jquery.dataTables.min.css',
+					'vendor/select2/css/select2.min.css',
+
+					'vendor/toastr/css/toastr.min.css',
 					'vendor/select2/css/select2.min.css',
 				],
 				'ZenixadminController_userlist' => [
@@ -106,7 +109,7 @@ return [
 					'vendor/select2/css/select2.min.css',
 				],
 
-				
+
 				'ZenixadminController_wizard' => [
 					'vendor/select2/css/select2.min.css',
 					'vendor/jquery-smartwizard/dist/css/smart_wizard.min.css',
@@ -313,10 +316,13 @@ return [
 							'js/plugins-init/datatables.init.js',
 							'js/plugins-init/clipboard.js',
 							'js/plugins-init/clipboard.min.js',
-							
+
 							'vendor/select2/js/select2.full.min.js',
 							'js/plugins-init/select2-init.js',
-							
+
+                            'vendor/toastr/js/toastr.min.js',
+                            'js/plugins-init/toastr-init.js',
+
 				],
 				'ZenixadminController_userlist' => [
 					'vendor/peity/jquery.peity.min.js',
@@ -339,10 +345,10 @@ return [
 					'js/plugins-init/datatables.init.js',
 					'vendor/toastr/js/toastr.min.js',
 					'js/plugins-init/toastr-init.js',
-					
+
 					'vendor/select2/js/select2.full.min.js',
 					'js/plugins-init/select2-init.js',
-					
+
 					'vendor/sweetalert2/dist/sweetalert2.min.js',
 					'js/plugins-init/sweetalert.init.js',
 					'js/plugins-init/clipboard.js',
@@ -367,10 +373,10 @@ return [
 					'js/plugins-init/datatables.init.js',
 					'vendor/toastr/js/toastr.min.js',
 					'js/plugins-init/toastr-init.js',
-					
+
 					'vendor/select2/js/select2.full.min.js',
 					'js/plugins-init/select2-init.js',
-					
+
 					'vendor/sweetalert2/dist/sweetalert2.min.js',
 					'js/plugins-init/sweetalert.init.js',
 					'js/plugins-init/clipboard.js',
@@ -384,7 +390,7 @@ return [
 					'js/plugins-init/datatables.init.js',
 					'vendor/toastr/js/toastr.min.js',
 					'js/plugins-init/toastr-init.js',
-					
+
 					'vendor/select2/js/select2.full.min.js',
 					'js/plugins-init/select2-init.js',
 				],
@@ -396,11 +402,11 @@ return [
 					'js/plugins-init/datatables.init.js',
 					'vendor/toastr/js/toastr.min.js',
 					'js/plugins-init/toastr-init.js',
-					
+
 					'vendor/select2/js/select2.full.min.js',
 					'js/plugins-init/select2-init.js',
 				],
-				
+
 				'ZenixadminController_report' => [
 					'vendor/peity/jquery.peity.min.js',
 					'vendor/owl-carousel/owl.carousel.js',
@@ -409,7 +415,7 @@ return [
 					'js/plugins-init/datatables.init.js',
 					'vendor/toastr/js/toastr.min.js',
 					'js/plugins-init/toastr-init.js',
-					
+
 					'vendor/select2/js/select2.full.min.js',
 					'js/plugins-init/select2-init.js',
 				],
@@ -425,13 +431,13 @@ return [
 							'js/plugins-init/datatables.init.js',
 				],
 
-				
+
 				'ZenixadminController_wizard' => [
 					'vendor/jquery-steps/build/jquery.steps.min.js',
 					'vendor/jquery-validation/jquery.validate.min.js',
 					'js/plugins-init/jquery.validate-init.js',
 					'vendor/jquery-smartwizard/dist/js/jquery.smartWizard.js',
-					
+
 					'vendor/select2/js/select2.full.min.js',
 					'js/plugins-init/select2-init.js',
 
@@ -708,7 +714,7 @@ return [
 				],
 				'ZenixadminController_demo_modules_add' => [
 				],
-					
+
 			]
 		],
 	]

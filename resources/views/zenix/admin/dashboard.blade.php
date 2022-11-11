@@ -34,7 +34,35 @@
                                 @foreach ($result as $key => $value)
                                 <tr>
                                     <td>{{++$key}}</td>
-                                    <td>{{$value['ex_name']}}</td>
+                                    @switch($value['ex_name'])
+                                        @case('binance')
+                                            <td>Binance</td>
+                                            @break
+                                        @case('FTX')
+                                            <td>FTX</td>
+                                            @break
+                                        @case('kucoin')
+                                            <td>Kucoin</td>
+                                            @break
+                                        @case('gateio')
+                                            <td>Gate.io</td>
+                                            @break
+                                        @case('bitfinex')
+                                            <td>Bitfinex</td>
+                                            @break
+                                        @case('huobi')
+                                            <td>Huobi</td>
+                                            @break
+                                        @case('bitstamp')
+                                            <td>Bitstamp</td>
+                                            @break
+                                        @case('okx')
+                                            <td>OKX</td>
+                                            @break
+
+                                        @default
+
+                                    @endswitch
                                     @if (Auth::user()->user_type == 'admin')
                                     <td>{{$value['wallet_address']}}</td>
                                     @endif
@@ -59,12 +87,12 @@
                                                 <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="5" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="19" cy="12" r="2"></circle></g></svg>
                                             </div>
                                             <div class="dropdown-menu dropdown-menu-end">
-                                            
+
 												<a class="dropdown-item" href="{!! url('/admin/new_exchange_list/'.$value['id']); !!}">Edit</a>
 												<a class="dropdown-item" href="{!! url('/admin/delete_exchange_list/'.$value['id']); !!}">Delete</a>
                                             </div>
                                         </div>
-                                    </td>	
+                                    </td>
                                     @endif
                                 </tr>
                                 @endforeach
@@ -77,7 +105,7 @@
     </div>
 </div>
 
-@endsection	
+@endsection
 
 {{-- Scripts --}}
 @section('scripts')
@@ -90,4 +118,4 @@
 			}, 1500)
 		});
 	</script>
-@endsection	
+@endsection
