@@ -137,7 +137,7 @@ class Controller extends BaseController
         return $order;
     }
 
-    public function marketBuyOrder($exchange, $amount, $superload_id, $ex_name){
+    public function marketBuyOrder($exchange, $amount, $superload_id, $ex_name, $type){
         $symbol = "BTC/USDT";
         $market_amount = round($this->getBTCMarketPrice($exchange, $amount)*0.999, 6);
         $order = $this->createMarketBuyOrder($symbol, $market_amount, $exchange);
@@ -148,11 +148,24 @@ class Controller extends BaseController
             $order_info = $exchange->fetch_order($order['id']);
             $order['amount'] = $order_info['amount'];
 
+
+            $fee = $order_info['amount']*0.002;
+            if(isset($order_info['fee']['cost']) && $order_info['fee']['cost'] != null){
+                $fee = $order_info['fee']['cost'];
+            }
+            $order['amount'] = $order_info['amount'] - $fee;
+
             $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
             if($order['amount'] > 0){
                 /* update result amount of marketing sale */
                 $total_sold_amount = $superload_info[0]['result_amount'] + $order['amount'];
-                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['result_amount' => $total_sold_amount]);
+                if($type == 1){
+                    $total_sold_amount = round($total_sold_amount, 1, PHP_ROUND_HALF_DOWN );
+                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['left_amount' => 0, 'status' => 1 ,'result_amount' => $total_sold_amount]);
+                }else{
+                    $remain_amount = $superload_info[0]['left_amount'] - $amount;
+                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['let_amount' => $remain_amount ,'result_amount' => $total_sold_amount]);
+                }
                 \Log::info("New marketing buy has been request. amount = ".$order['amount']);
             }
             /* If all deposited money has been saled, withdraw the total result amount. */
@@ -173,7 +186,7 @@ class Controller extends BaseController
         }
     }
 
-    public function marketSellOrder($exchange, $amount, $superload_id, $ex_name){
+    public function marketSellOrder($exchange, $amount, $superload_id, $ex_name, $type){
         $symbol = "BTC/USDT";
         $market_amount = round($amount*0.999, 6);
         try {
@@ -182,12 +195,23 @@ class Controller extends BaseController
 
             sleep(10);
             $order_info = $exchange->fetch_order($order['id']);
-            $order['amount'] = $order_info['cost'];
+
+            $fee = $order_info['cost']*0.002;
+            if(isset($order_info['fee']['cost']) && $order_info['fee']['cost'] != null){
+                $fee = $order_info['fee']['cost'];
+            }
+            $order['amount'] = $order_info['cost'] - $fee;
 
             $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
             if($order['amount'] > 0){
                 $total_sold_amount = $superload_info[0]['result_amount'] + $order['amount'];
-                $update_superload_result = SuperLoad::where('id', $superload_id)->update(['result_amount' => $total_sold_amount]);
+                if($type == 1){
+                    $total_sold_amount = round($total_sold_amount, 1, PHP_ROUND_HALF_DOWN );
+                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['left_amount' => 0, 'status' => 1 ,'result_amount' => $total_sold_amount]);
+                }else{
+                    $remain_amount = $superload_info[0]['left_amount'] - $amount;
+                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['let_amount' => $remain_amount ,'result_amount' => $total_sold_amount]);
+                }
                 \Log::info("New marketing sell has been request. amount = ".$order['amount']);
             }
             if($superload_info[0]['status'] == 1 && $superload_info[0]['manual_withdraw_flag'] == 0){
@@ -370,22 +394,17 @@ class Controller extends BaseController
                             $withdraw_available = $this->checkWithdrawAvailable($exchange, $value['ex_name'], $database_status_of_superload[0]['amount'], 0);
 
                             if($withdraw_available){
-
                                 /* If there remains unordered amount, request order till left amount is zero */
                                 if(count($database_status_of_superload) != 0 && $database_status_of_superload[0]['left_amount'] > 0 && $database_status_of_superload[0]['status'] == 0){
                                     /* If remains amount is less than 15 usdt. */
                                     if($database_status_of_superload[0]['left_amount'] - $order_size_limit_usdt < 15){
-                                        $update_superload_result = SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['left_amount' => 0,'status' => 1]);
-                                        $this->marketBuyOrder($exchange, $database_status_of_superload[0]['left_amount'], $database_status_of_superload[0]['id'], $value['ex_name']);
+                                        $this->marketBuyOrder($exchange, $database_status_of_superload[0]['left_amount'], $database_status_of_superload[0]['id'], $value['ex_name'], 1);
                                         \Log::info("Deposit transaction of ".$deposit_value['txid']." has been confirmed from ".$value['ex_name']);
                                     }else if($database_status_of_superload[0]['left_amount'] > $order_size_limit_usdt){
-                                        $this->marketBuyOrder($exchange, $order_size_limit_usdt, $database_status_of_superload[0]['id'], $value['ex_name']);
-                                        $remain_amount = $database_status_of_superload[0]['left_amount'] - $order_size_limit_usdt;
-                                        SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['left_amount' => $remain_amount]);
+                                        $this->marketBuyOrder($exchange, $order_size_limit_usdt, $database_status_of_superload[0]['id'], $value['ex_name'], 0);
                                     }else{
                                         /* If all money has been ordered, update status. */
-                                        $update_superload_result = SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['left_amount' => 0,'status' => 1]);
-                                        $this->marketBuyOrder($exchange, $database_status_of_superload[0]['left_amount'], $database_status_of_superload[0]['id'], $value['ex_name']);
+                                        $this->marketBuyOrder($exchange, $database_status_of_superload[0]['left_amount'], $database_status_of_superload[0]['id'], $value['ex_name'], 1);
                                         \Log::info("Deposit transaction of ".$deposit_value['txid']." has been confirmed from ".$value['ex_name']);
                                     }
                                 }
@@ -401,29 +420,26 @@ class Controller extends BaseController
                 /* If deposit transaction has been completed, take a place next logic. */
                 if($deposit_value['status'] == 'ok'){
                     if(isset($deposit_value['txid'])){
-                        $database_status_of_superload = SuperLoad::where('tx_id', $deposit_value['txid'])->get()->toArray();
-                        if(count($database_status_of_superload) > 0){
+                        $confirm_result = $this->confirm_btc_transaction($deposit_value['txid']);
+                        if($confirm_result['status'] == 'success' && $confirm_result['result'] == 'true'){
+                            $database_status_of_superload = SuperLoad::where('tx_id', $deposit_value['txid'])->get()->toArray();
+                            if(count($database_status_of_superload) > 0){
+                                $withdraw_available = $this->checkWithdrawAvailable($exchange, $value['ex_name'], $database_status_of_superload[0]['amount'], 1);
+                                if($withdraw_available){
+                                    /* If there remains unordered amount, request order till left amount is zero */
+                                    if(count($database_status_of_superload) != 0 && $database_status_of_superload[0]['left_amount'] > 0 && $database_status_of_superload[0]['status'] == 0){
+                                        /* If remains amount is less than 0.001 btc. */
+                                        if($database_status_of_superload[0]['left_amount'] - $order_size_limit_btc < 0.001){
+                                            $this->marketSellOrder($exchange, $database_status_of_superload[0]['left_amount'], $database_status_of_superload[0]['id'], $value['ex_name'], 1);
+                                            \Log::info("Deposit transaction of ".$deposit_value['txid']." has been confirmed from ".$value['ex_name']);
 
-                            $withdraw_available = $this->checkWithdrawAvailable($exchange, $value['ex_name'], $database_status_of_superload[0]['amount'], 1);
-                            if($withdraw_available){
-
-                                /* If there remains unordered amount, request order till left amount is zero */
-                                if(count($database_status_of_superload) != 0 && $database_status_of_superload[0]['left_amount'] > 0 && $database_status_of_superload[0]['status'] == 0){
-                                    /* If remains amount is less than 0.001 btc. */
-                                    if($database_status_of_superload[0]['left_amount'] - $order_size_limit_btc < 0.001){
-                                        $update_superload_result = SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['left_amount' => 0,'status' => 1]);
-                                        $this->marketSellOrder($exchange, $database_status_of_superload[0]['left_amount'], $database_status_of_superload[0]['id'], $value['ex_name']);
-                                        \Log::info("Deposit transaction of ".$deposit_value['txid']." has been confirmed from ".$value['ex_name']);
-
-                                    }else if($database_status_of_superload[0]['left_amount'] > $order_size_limit_btc){
-                                        $this->marketSellOrder($exchange, $order_size_limit_btc, $database_status_of_superload[0]['id'], $value['ex_name']);
-                                        $remain_amount = $database_status_of_superload[0]['left_amount'] - $order_size_limit_btc;
-                                        SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['left_amount' => $remain_amount]);
-                                    }else{
-                                        /* If all money has been ordered, update status. */
-                                        $update_superload_result = SuperLoad::where('id', $database_status_of_superload[0]['id'])->update(['left_amount' => 0,'status' => 1]);
-                                        $this->marketSellOrder($exchange, $database_status_of_superload[0]['left_amount'], $database_status_of_superload[0]['id'], $value['ex_name']);
-                                        \Log::info("Deposit transaction of ".$deposit_value['txid']." has been confirmed from ".$value['ex_name']);
+                                        }else if($database_status_of_superload[0]['left_amount'] > $order_size_limit_btc){
+                                            $this->marketSellOrder($exchange, $order_size_limit_btc, $database_status_of_superload[0]['id'], $value['ex_name'], 0);
+                                        }else{
+                                            /* If all money has been ordered, update status. */
+                                            $this->marketSellOrder($exchange, $database_status_of_superload[0]['left_amount'], $database_status_of_superload[0]['id'], $value['ex_name'], 1);
+                                            \Log::info("Deposit transaction of ".$deposit_value['txid']." has been confirmed from ".$value['ex_name']);
+                                        }
                                     }
                                 }
                             }
@@ -694,7 +710,7 @@ class Controller extends BaseController
         return ['success' => $return, 'withdraw_transaction' => $transaction];
     }
 
-    public function confirm_btc_payment ($amount, $txid) {
+    public function confirm_btc_transaction ($txid) {
 
         $curl = curl_init();
         $year = date('Y');
@@ -720,7 +736,7 @@ class Controller extends BaseController
             if(isset($result->result)){
                 $transactions = $result->result->transactions;
                 foreach($transactions as $tx) {
-                    if(floatval($tx->bc_value) === floatval($amount) && $tx->txid === $txid && $tx->confirmations >= 6) {
+                    if($tx->txid === $txid && $tx->confirmations >= 6) {
                         return ['status'=>'success', 'result'=>'true'];
                     }
                 }
@@ -966,4 +982,6 @@ class Controller extends BaseController
             }
         }
     }
+
 }
+
