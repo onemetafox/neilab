@@ -107,22 +107,23 @@ class BuyController extends Controller
                     $deposit_account = $exchange->fetchDepositAddress("USDT");
                     $deposit_wallet_address = $deposit_account['address'];
                     if($exchange_info[0]['ex_name'] == 'Binance'){
-                        $amount = round($amount_result['binance_deposite_amount'] * 0.985, 6);
+                        $amount = $amount_result['binance_deposite_amount'];
                     }else if($exchange_info[0]['ex_name'] == 'FTX'){
-                        $amount = round($amount_result['ftx_deposite_amount'] * 0.985, 6);
+                        $amount = $amount_result['ftx_deposite_amount'];
                     }else if($exchange_info[0]['ex_name'] == 'kucoin'){
-                        $amount = round($amount_result['kucoin_deposite_amount'] * 0.985, 6);
+                        $amount = $amount_result['kucoin_deposite_amount'];
                     }else if($exchange_info[0]['ex_name'] == 'gateio'){
-                        $amount = round($amount_result['gate_deposite_amount'] * 0.985, 6);
+                        $amount = $amount_result['gate_deposite_amount'];
                     }else if($exchange_info[0]['ex_name'] == 'huobi'){
-                        $amount = round($amount_result['huobi_deposite_amount'] * 0.985, 6);
+                        $amount = $amount_result['huobi_deposite_amount'];
                     }else if($exchange_info[0]['ex_name'] == 'bitstamp'){
-                        $amount = round($amount_result['bitstamp_deposite_amount'] * 0.985, 6);
+                        $amount = $amount_result['bitstamp_deposite_amount'];
                     }else if($exchange_info[0]['ex_name'] == 'bitfinex'){
-                        $amount = round($amount_result['bitfinex_deposite_amount'] * 0.985, 6);
+                        $amount = $amount_result['bitfinex_deposite_amount'];
                     }else if($exchange_info[0]['ex_name'] == 'okx'){
-                        $amount = round($amount_result['okx_deposite_amount'] * 0.985, 6);
+                        $amount = $amount_result['okx_deposite_amount'];
                     }
+                    $amount = round($amount * 0.99, 6);
                     $private_key = base64_decode($internal_treasury_wallet_info[0]['private_key']);
                     $send_result = $this->sendUSDT($internal_treasury_wallet_info[0]['wallet_address'],$private_key, $deposit_wallet_address, $amount);
 
