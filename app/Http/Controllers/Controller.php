@@ -164,25 +164,32 @@ class Controller extends BaseController
                     $update_superload_result = SuperLoad::where('id', $superload_id)->update(['left_amount' => 0, 'status' => 1 ,'result_amount' => $total_sold_amount]);
                 }else{
                     $remain_amount = $superload_info[0]['left_amount'] - $amount;
-                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['let_amount' => $remain_amount ,'result_amount' => $total_sold_amount]);
+                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['left_amount' => $remain_amount ,'result_amount' => $total_sold_amount]);
                 }
                 \Log::info("New marketing buy has been request. amount = ".$order['amount']);
-            }
-            /* If all deposited money has been saled, withdraw the total result amount. */
-            if($superload_info[0]['status'] == 1 && $superload_info[0]['manual_withdraw_flag'] == 0){
-
-                sleep(13);
-                $withdraw_result = $this->withdraw($exchange, $superload_id, $ex_name);
-
-                if($withdraw_result){
-                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
-                }else{
-                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['manual_withdraw_flag' => 1]);
-                }
             }
         } catch (\Throwable $th) {
             //throw $th;
             \Log::info("One scaled buy hasn't been failed".$th->getMessage());
+        }
+    }
+
+    public function cronWithdraw(){
+        $superload_infos = SuperLoad::where('status', 1)->where('manual_withdraw_flag', 0)->get()->toArray();
+        foreach ($superload_infos as $key => $value) {
+            # code...
+            $exchange_info = ExchangeInfo::where('id', $value['exchange_id'])->get()->toArray();
+            $exchange = $this->exchange($exchange_info[0]);
+            /* If all deposited money has been saled, withdraw the total result amount. */
+
+            $withdraw_result = $this->withdraw($exchange, $value['id'], $exchange_info[0]['ex_name']);
+
+            if($withdraw_result){
+                $update_superload_result = SuperLoad::where('id', $value['id'])->update(['status' => 2]);
+            }else{
+                $update_superload_result = SuperLoad::where('id', $value['id'])->update(['manual_withdraw_flag' => 1]);
+            }
+
         }
     }
 
@@ -210,21 +217,9 @@ class Controller extends BaseController
                     $update_superload_result = SuperLoad::where('id', $superload_id)->update(['left_amount' => 0, 'status' => 1 ,'result_amount' => $total_sold_amount]);
                 }else{
                     $remain_amount = $superload_info[0]['left_amount'] - $amount;
-                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['let_amount' => $remain_amount ,'result_amount' => $total_sold_amount]);
+                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['left_amount' => $remain_amount ,'result_amount' => $total_sold_amount]);
                 }
                 \Log::info("New marketing sell has been request. amount = ".$order['amount']);
-            }
-            if($superload_info[0]['status'] == 1 && $superload_info[0]['manual_withdraw_flag'] == 0){
-
-                sleep(13);
-                $withdraw_result = $this->withdraw($exchange, $superload_id, $ex_name);
-
-                if($withdraw_result){
-                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['status' => 2]);
-                }else{
-                    $update_superload_result = SuperLoad::where('id', $superload_id)->update(['manual_withdraw_flag' => 1]);
-                }
-
             }
         } catch (\Throwable $th) {
             //throw $th;
