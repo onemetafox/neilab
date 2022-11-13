@@ -18,6 +18,17 @@ return [
     'internal_wallet_pbk_code' => 'Arman112233!',
     'withdraw_limit' => 1,
 
+
+    'binance_withdraw_fee' => 4,
+    'okx_withdraw_fee' => 5,
+    'huobi_withdraw_fee' => 4,
+    'kucoin_withdraw_fee' => 25,
+
+    'binance_btc_withdraw_fee' => 0.0002,
+    'okx_btc_withdraw_fee' => 0.0002,
+    'huobi_btc_withdraw_fee' => 0.0004,
+    'kucoin_btc_withdraw_fee' => 0.0005,
+
     'ThemeMode' => 'dark',
 
     'name' => env('APP_NAME', 'Laravel'),

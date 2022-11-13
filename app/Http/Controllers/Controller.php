@@ -37,6 +37,17 @@ class Controller extends BaseController
         $this->RPCusername = config('app.RPCusername');
         $this->RPCpassword = config('app.RPCpassword');
         $this->withdraw_limit = config('app.withdraw_limit');
+        $this->binance_withdraw_fee = config('app.binance_withdraw_fee');
+        $this->okx_withdraw_fee = config('app.okx_withdraw_fee');
+        $this->huobi_withdraw_fee = config('app.huobi_withdraw_fee');
+        $this->kucoin_withdraw_fee = config('app.kucoin_withdraw_fee');
+
+        $this->binance_btc_withdraw_fee = config('app.binance_btc_withdraw_fee');
+        $this->okx_btc_withdraw_fee = config('app.okx_btc_withdraw_fee');
+        $this->huobi_btc_withdraw_fee = config('app.huobi_btc_withdraw_fee');
+        $this->kucoin_btc_withdraw_fee = config('app.kucoin_btc_withdraw_fee');
+
+
 
         $this->binance_withdraw_daily_total_amount = 0;
         $this->ftx_withdraw_daily_total_amount = 0;
@@ -138,21 +149,41 @@ class Controller extends BaseController
     }
 
     public function marketBuyOrder($exchange, $amount, $superload_id, $ex_name, $type){
-        $symbol = "BTC/USDT";
-        $market_amount = round($this->getBTCMarketPrice($exchange, $amount)*0.999, 6);
-        $order = $this->createMarketBuyOrder($symbol, $market_amount, $exchange);
-
-        sleep(10);
         try {
+
+            if ($exchange->id == 'kucoin') {
+                $inner_transfer_result = $exchange->transfer('USDT', $amount, 'main', 'trade');
+                \Log::info("Kucoin After Inner transfer for market sell order : ".$amount);
+            } else if ($exchange->id == 'okx') {
+                 $inner_transfer_result = $exchange->transfer('USDT', $amount, '6', '18');
+                 \Log::info("OKX after Inner transfer USDT for market sell order : ".$amount);
+            }
+
+            $symbol = "BTC/USDT";
+            $market_amount = round($this->getBTCMarketPrice($exchange, $amount)*0.999, 6);
+            $order = $this->createMarketBuyOrder($symbol, $market_amount, $exchange);
+
+            sleep(10);
             //code...
-            $order_info = $exchange->fetch_order($order['id']);
+
+            $_symbol = null;
+            if($ex_name == 'okx'){
+                $_symbol = $symbol;
+            }
+            $order_info = $exchange->fetch_order($order['id'], $_symbol);
             $order['amount'] = $order_info['amount'];
 
 
             $fee = $order_info['amount']*0.002;
+
             if(isset($order_info['fee']['cost']) && $order_info['fee']['cost'] != null){
-                $fee = $order_info['fee']['cost'];
+                if(isset($order_info['fee']['currency']) && ($order_info['fee']['currency'] == "BTC" || $order_info['fee']['currency'] == "btc")){
+                    $fee = $order_info['fee']['cost'];
+                }else if(isset($order_info['fee']['currency']) && ($order_info['fee']['currency'] == "USDT" || $order_info['fee']['currency'] == "usdt")){
+                    $fee = $this->getBTCMarketPrice($exchange, $order_info['fee']['cost']);
+                }
             }
+
             $order['amount'] = $order_info['amount'] - $fee;
 
             $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
@@ -160,7 +191,33 @@ class Controller extends BaseController
                 /* update result amount of marketing sale */
                 $total_sold_amount = $superload_info[0]['result_amount'] + $order['amount'];
                 if($type == 1){
-                    $total_sold_amount = round($total_sold_amount, 1, PHP_ROUND_HALF_DOWN );
+                    $total_sold_amount = round($total_sold_amount, 2, PHP_ROUND_HALF_DOWN );
+
+                    if ($exchange->id == 'kucoin') {
+                        $inner_transfer_result = $exchange->transfer('BTC', $total_sold_amount, 'trade', 'main');
+                        \Log::info("kucoin after Inner transfer BTC for withdraw order : ".$total_sold_amount);
+                    } else if ($exchange->id == 'okx') {
+                         $inner_transfer_result = $exchange->transfer('BTC', $total_sold_amount, '18', '6');
+                        \Log::info("okx after Inner transfer BTC for withdraw order : ".$total_sold_amount);
+                    }
+                    switch ($ex_name) {
+                        case 'Binance':
+                            $total_sold_amount -= $this->binance_btc_withdraw_fee;
+                            break;
+                        case 'okx' :
+                            $total_sold_amount -= $this->okx_btc_withdraw_fee;
+                            break;
+                        case 'huobi' :
+                            $total_sold_amount -= $this->huobi_btc_withdraw_fee;
+                            break;
+                        case 'kucoin';
+                            $total_sold_amount -= $this->kucoin_btc_withdraw_fee;
+                            break;
+                        default:
+                            break;
+                    }
+
+
                     $update_superload_result = SuperLoad::where('id', $superload_id)->update(['left_amount' => 0, 'status' => 1 ,'result_amount' => $total_sold_amount]);
                 }else{
                     $remain_amount = $superload_info[0]['left_amount'] - $amount;
@@ -194,26 +251,72 @@ class Controller extends BaseController
     }
 
     public function marketSellOrder($exchange, $amount, $superload_id, $ex_name, $type){
-        $symbol = "BTC/USDT";
-        $market_amount = round($amount*0.999, 6);
         try {
+
+            if ($exchange->id == 'kucoin') {
+                $inner_transfer_result = $exchange->transfer('BTC', $amount, 'main', 'trade');
+                \Log::info("Kucoin After Inner transfer BTC for market sell order : ".$amount);
+            } else if ($exchange->id == 'okx') {
+                 $inner_transfer_result = $exchange->transfer('BTC', $amount, '6', '18');
+                 \Log::info("OKX after Inner transfer BTC for market sell order : ".$amount);
+            }
+
+            $symbol = "BTC/USDT";
+            $market_amount = round($amount*0.999, 6);
             //code...
             $order = $this->createMarketSellOrder($symbol, $market_amount, $exchange);
 
             sleep(10);
-            $order_info = $exchange->fetch_order($order['id']);
+            $_symbol = null;
+            if($ex_name == 'okx'){
+                $_symbol = $symbol;
+            }
+            $order_info = $exchange->fetch_order($order['id'], $_symbol);
 
             $fee = $order_info['cost']*0.002;
+
             if(isset($order_info['fee']['cost']) && $order_info['fee']['cost'] != null){
-                $fee = $order_info['fee']['cost'];
+                if(isset($order_info['fee']['currency']) && ($order_info['fee']['currency'] == "USDT" || $order_info['fee']['currency'] == "usdt")){
+                    $fee = $order_info['fee']['cost'];
+                }else if(isset($order_info['fee']['currency']) && ($order_info['fee']['currency'] == "BTC" || $order_info['fee']['currency'] == "btc")){
+                    $fee = $this->getUSDTprice($exchange, $order_info['fee']['cost']);
+                }
             }
+
             $order['amount'] = $order_info['cost'] - $fee;
 
             $superload_info = SuperLoad::where('id', $superload_id)->get()->toArray();
             if($order['amount'] > 0){
                 $total_sold_amount = $superload_info[0]['result_amount'] + $order['amount'];
                 if($type == 1){
-                    $total_sold_amount = round($total_sold_amount, 1, PHP_ROUND_HALF_DOWN );
+                    $total_sold_amount = round($total_sold_amount, 2, PHP_ROUND_HALF_DOWN );
+
+                    if ($exchange->id == 'kucoin') {
+                        $inner_transfer_result = $exchange->transfer('USDT', $total_sold_amount, 'trade', 'main');
+                        \Log::info("kucoin after Inner transfer USDT for withdraw order : ".$total_sold_amount);
+                    } else if ($exchange->id == 'okx') {
+                         $inner_transfer_result = $exchange->transfer('USDT', $total_sold_amount, '18', '6');
+                        \Log::info("okx after Inner transfer USDT for withdraw order : ".$total_sold_amount);
+                    }
+
+                    switch ($ex_name) {
+                        case 'Binance':
+                            $total_sold_amount -= $this->binance_withdraw_fee;
+                            break;
+                        case 'okx' :
+                            $total_sold_amount -= $this->okx_withdraw_fee;
+                            break;
+                        case 'huobi' :
+                            $total_sold_amount -= $this->huobi_withdraw_fee;
+                            break;
+                        case 'kucoin';
+                            $total_sold_amount -= $this->kucoin_withdraw_fee;
+                            break;
+                        default:
+                            break;
+                    }
+
+
                     $update_superload_result = SuperLoad::where('id', $superload_id)->update(['left_amount' => 0, 'status' => 1 ,'result_amount' => $total_sold_amount]);
                 }else{
                     $remain_amount = $superload_info[0]['left_amount'] - $amount;
@@ -228,7 +331,7 @@ class Controller extends BaseController
     }
 
     public function checkTransaction($from, $to, $amount, $tx_id){
-        exec('node C:\Server\NeilLab-New-Exchange\NeilLab\app\Http\Controllers\Admin\USDTSendServer\checkTransaction.js ' .$from.' '.$to. ' '.$amount.' '.$tx_id, $output);
+        exec('node C:\Server\NeilLab-Kucoin-Huobi\app\Http\Controllers\Admin\USDTSendServer\checkTransaction.js ' .$from.' '.$to. ' '.$amount.' '.$tx_id, $output);
         return $output;
     }
 
@@ -245,7 +348,29 @@ class Controller extends BaseController
                 $amount = round($superload_info[0]['result_amount'] * 0.985, 6);
                 $internal_wallets = InternalWallet::where('chain_stack', 1)->where('wallet_type', 1)->get()->toArray();
                 $address = $internal_wallets[0]['wallet_address'];
-                $withdraw_detail = $exchange->withdraw($code, $amount, $address);
+
+                $params = null;
+
+                if ($exchange->id == 'okx') {
+
+                    $chain = null;
+                    if ( strcasecmp($code, 'USDT') == 0) {
+                        $chain = 'USDT-ERC20';
+                    } else if (strcasecmp($code, 'BTC') == 0) {
+                        $chain = 'BTC-Bitcoin';
+                    } else {
+                        $chain = null;
+                    }
+
+                    $params = [
+                        'dest'=>'4', /** 3: internal 4: on chain */
+                        'chain'=>$chain,
+                        'pwd'=>$exchange->secret,
+                        'fee' => 0.0002, /** min withdraw fee is 2 */
+                    ];
+                }
+
+                $withdraw_detail = $exchange->withdraw($code, $amount, $address, null, $params);
 
                 $withdraw_amount = $this->getUSDTPrice($exchange, $amount);
 
@@ -302,7 +427,29 @@ class Controller extends BaseController
                 $internal_wallets = InternalWallet::where('chain_stack', 2)->where('wallet_type', 1)->get()->toArray();
 
                 $address = $internal_wallets[0]['wallet_address'];
-                $withdraw_detail = $exchange->withdraw($code, $real_amount, $address);
+
+                $params = [];
+
+                if ($exchange->id == 'okx') {
+
+                    $chain = null;
+                    if ( strcasecmp($code, 'USDT') == 0) {
+                        $chain = 'USDT-ERC20';
+                    } else if (strcasecmp($code, 'BTC') == 0) {
+                        $chain = 'BTC-Bitcoin';
+                    } else {
+                        $chain = null;
+                    }
+
+                    $params = [
+                        'dest'=>'4', /** 3: internal 4: on chain */
+                        'chain'=>$chain,
+                        'pwd'=>$exchange->secret,
+                        'fee' => 5, /** min withdraw fee is 2 */
+                    ];
+                }
+
+                $withdraw_detail = $exchange->withdraw($code, $real_amount, $address, null, $params);
 
                 if($ex_name == 'Binance'){
                     $this->binance_withdraw_daily_total_amount += $real_amount;
@@ -357,8 +504,6 @@ class Controller extends BaseController
         $this->bitstamp_withdraw_daily_total_amount = 0;
         $this->bitfinex_withdraw_daily_total_amount = 0;
         $this->okx_withdraw_daily_total_amount = 0;
-
-
     }
 
 
@@ -731,7 +876,7 @@ class Controller extends BaseController
             if(isset($result->result)){
                 $transactions = $result->result->transactions;
                 foreach($transactions as $tx) {
-                    if($tx->txid === $txid && $tx->confirmations >= 6) {
+                    if($tx->txid === $txid && $tx->confirmations >= 3) {
                         return ['status'=>'success', 'result'=>'true'];
                     }
                 }
@@ -794,7 +939,7 @@ class Controller extends BaseController
 
     public function sendUSDT($from, $from_pk, $to, $amount){
         $amount_big = $amount*1000000;
-        exec('node C:\server\NeilLab-New-Exchange\NeilLab\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount_big, $output);
+        exec('node C:\Server\NeilLab-Kucoin-Huobi\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount_big, $output);
         return $output;
     }
 
