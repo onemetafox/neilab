@@ -30,6 +30,7 @@ class AdminExchangeListController extends Controller
                 $result[$key]['connect_status'] = true;
             } catch (\Throwable $th) {
                 //throw $th;
+                \Log::info($value['ex_name']." is disconnected because of this reason. ".$th->getMessage());
                 $result[$key]['wallet_address'] = 'Disconnected';
                 $result[$key]['connect_status'] = false;
             }
@@ -55,7 +56,7 @@ class AdminExchangeListController extends Controller
 
     public function updateExchangeList(Request $request){
         $payLoad = Arr::except($request->all(),['_token','old_id']);
-        $payLoad['state'] = 0;
+        $payLoad['state'] = 1;
         if($request->old_id){
             $result = ExchangeInfo::where("id", $request->old_id)->update($payLoad);
             if($result > 0){

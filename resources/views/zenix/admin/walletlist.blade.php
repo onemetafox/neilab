@@ -33,27 +33,21 @@
                                     <th>{{__('locale.wallet_type')}}</th>
                                     <th>{{__('locale.wallet_chainstack')}}</th>
                                     <th>{{__('locale.wallet_address')}}</th>
-                                    <th>{{__('locale.cold_wallet_address')}}</th>
                                     <th>{{__('locale.wallet_list_withdraw')}}</th>
-                                    <!-- <th>{{__('locale.wallet_edit')}}</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($internal_wallet as $key => $value)
                                 <tr>
                                     <td>{{$value['id']}}</td>
-                                    <!-- <td>
-                                        <select class="wallet_type_select" data-id="{{$value['id']}}" onchange="changeWalletType(this);">
-                                            <option value="0" {{$value['wallet_type'] == 0?'selected':''}}>Undifined</option>
-                                            <option value="1" {{$value['wallet_type'] == 1?'selected':''}}>Treasury Wallet</option>
-                                            <option value="2" {{$value['wallet_type'] == 2?'selected':''}}>Trust Wallet</option>
-                                            <option value="3" {{$value['wallet_type'] == 3?'selected':''}}>Commission Wallet</option>
-									    </select>
-                                    </td> -->
-                                    @if($value['wallet_type'] == 1)
+                                    @if ($value['wallet_type'] == 0)
+                                    <td>Undefined Wallet</td>
+                                    @elseif($value['wallet_type'] == 1)
 									<td>Treasury Wallet</td>
                                     @elseif($value['wallet_type'] == 2)
 									<td>Trust Wallet</td>
+                                    @elseif($value['wallet_type'] == 3)
+									<td>Commission Wallet</td>
                                     @endif
                                     @if($value['chain_stack'] == 1)
 									<td>Bitcoin</td>
@@ -61,9 +55,7 @@
 									<td>Ethereum</td>
                                     @endif
                                     <td>{{$value['wallet_address']}}</td>
-                                    <td>{{$value['cold_storage_address']}}</td>
                                     <td><a href="javascript:commingSoon()">Withdraw</a></td>
-                                    <!-- <td><a href="{!! url('/admin/deleteInternalWallet/'.$value['id']); !!}">Delete</a></td> -->
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -77,7 +69,7 @@
 <div class="modal fade" id="coldStorageModal" aria-hidden="true" style="display: none;">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-        
+
 			<form method="post" action="{!! url('/admin/editColdStorage'); !!}">
 				@csrf
 				<div class="modal-header">
@@ -148,7 +140,7 @@
 		</div>
 	</div>
 </div>
-@endsection	
+@endsection
 
 {{-- Scripts --}}
 @section('scripts')
@@ -241,7 +233,7 @@
 				},
 			});
 		}
-        
+
 		function alertSuccess(){
 			toastr.info("Updated Successfully", "Success", {
                     positionClass: "toast-top-right",
@@ -283,4 +275,4 @@
                 })
 		}
 	</script>
-@endsection	
+@endsection

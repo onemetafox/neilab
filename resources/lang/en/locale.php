@@ -19,6 +19,7 @@ return[
     "exchange_list"                 =>  "Exchange List",
     "exchange_list_id"              =>  "Exchange ID",
     "exchange_list_name"            =>  "Exchange Name",
+    "exchange_list_email"           =>  "Exchange Email",
     "exchange_list_wallet_address"  =>  "Address",
     "exchange_list_wallet_balance"  =>  "Balance",
     "exchange_list_test_status"     =>  "Test Status",

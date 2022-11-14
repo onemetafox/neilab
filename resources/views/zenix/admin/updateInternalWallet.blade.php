@@ -65,8 +65,8 @@
 										<input type="text" class="form-control" id="private_key" name="private_key">
 									</div>
 								</div>
-							</div>	
-							<div class="row">
+							</div>
+							{{-- <div class="row">
 								<div class="col-xl-6">
 									<div class="form-group">
 										<label class="mb-1"><strong>Cold Storage Wallet Address</strong></label>
@@ -77,7 +77,7 @@
 										</select>
 									</div>
 								</div>
-							</div>
+							</div> --}}
 							<input type="submit" class="btn btn-secondary mb-2" value="Save"></input>
 						</form>
 					</div>
@@ -87,7 +87,7 @@
     </div>
 </div>
 
-@endsection	
+@endsection
 
 {{-- Scripts --}}
 @section('scripts')
@@ -134,4 +134,4 @@
 				$('#changePasswordModal').modal('show')
 			}
 	</script>
-@endsection	
+@endsection

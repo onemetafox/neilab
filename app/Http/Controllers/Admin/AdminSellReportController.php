@@ -25,7 +25,7 @@ class AdminSellReportController extends Controller
         $page_title = __('locale.sell_report');
         $page_description = 'Some description for the page';
         $action = 'report';
-        
+
         $user_id = Auth::user()->id;
 
         $result = DB::table('internal_trade_sell_lists')
@@ -45,8 +45,8 @@ class AdminSellReportController extends Controller
         $page_description = 'Some description for the page';
         $action = 'report';
         $result = DB::table('master_loads')
-        ->join('internal_wallets as b', 'b.id', '=', 'master_loads.internal_treasury_wallet_id')
-        ->select('master_loads.*', 'b.wallet_address')
+        ->join('internal_trade_sell_lists as b', 'b.id', '=', 'master_loads.trade_id')
+        ->select('master_loads.*', 'b.internal_treasury_wallet_address as wallet_address')
         ->where('master_loads.id', $masterload_id)
         ->get()->toArray();
         $theme_mode = $this->getThemeMode();
@@ -57,14 +57,18 @@ class AdminSellReportController extends Controller
         $page_title = __('locale.super_load_report');
         $page_description = 'Some description for the page';
         $action = 'report';
-        $result = SuperLoad::where('masterload_id', $masterload_id)->where('trade_type', 2)->get()->toArray();
+        $result = DB::table('super_loads')
+        ->join('internal_trade_sell_lists as b', 'b.id', '=', 'super_loads.trade_id')
+        ->select('super_loads.*', 'b.internal_treasury_wallet_address as sending_address')
+        ->where('super_loads.trade_type', 2)
+        ->get()->toArray();
         $trade_type = 2;
         $theme_mode = $this->getThemeMode();
 
         return view('zenix.admin.report.superload_report', compact('page_title', 'page_description', 'action', 'result', 'masterload_id', 'trade_type', 'theme_mode'));
     }
 
-    
+
     public function subload_report($masterload_id = null){
         $page_title = __('locale.sub_load_report');
         $page_description = 'Some description for the page';

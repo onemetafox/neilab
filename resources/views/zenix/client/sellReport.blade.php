@@ -32,7 +32,7 @@
                                 @foreach ($result as $value)
 								<tr>
                                     <td>
-                                        <?php 
+                                        <?php
                                         $new_datetime = DateTime::createFromFormat ( "Y-m-d H:i:s", $value->updated_at);
                                         echo $new_datetime->format('Y-m-d, H:i:s');  ?>
                                     </td>
@@ -41,11 +41,11 @@
                                     </td>
                                     <td>{{$value->sell_amount}}</td>
                                     <td>{{$value->delivered_address}}</td>
-                                    <td>{{$value->wallet_address}}</td>
+                                    <td>{{$value->internal_treasury_wallet_address}}</td>
                                     <td>BTC</td>
                                     <td>{{$value->transaction_description}}</td>
                                     <!-- <td>
-										<a href="{!! url('/masterload_report_sell/'.$value->masterload_id); !!}">View Masterload</a> 
+										<a href="{!! url('/masterload_report_sell/'.$value->masterload_id); !!}">View Masterload</a>
                                     </td> -->
                                     <td>
 										@switch($value->state)
@@ -73,7 +73,7 @@
         </div>
     </div>
 </div>
-@endsection	
+@endsection
 
 {{-- Scripts --}}
 @section('scripts')
@@ -86,4 +86,4 @@
 			}, 1500)
 		});
 	</script>
-@endsection	
+@endsection

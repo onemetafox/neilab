@@ -53,22 +53,23 @@ class SellController extends Controller
             $internal_treasury_wallet_info = InternalWallet::where('chain_stack', 1)->where('wallet_type', 1)->get()->toArray();
 
             $internalTradeSellInfo = array();
-            $internalTradeSellInfo['user_id']                        = $request['user_id'];
-            $internalTradeSellInfo['cronjob_list']                   = 1;
-            $internalTradeSellInfo['asset_purchased']                = $request['digital_asset'];
-            $internalTradeSellInfo['chain_stack']                    = $request['chain_stack'];
-            $internalTradeSellInfo['sell_amount']                    = $request['sell_amount'];
-            $internalTradeSellInfo['delivered_address']              = $request['delivered_address'];
-            $internalTradeSellInfo['sender_address']                 = $request['sender_address'];
-            $internalTradeSellInfo['internal_treasury_wallet_id']    = $internal_treasury_wallet_info[0]['id'];
-            $internalTradeSellInfo['pay_with']                       = $request['pay_with'];
-            $internalTradeSellInfo['transaction_description']        = "This is the sell transaction";
-            $internalTradeSellInfo['commision_id']                   = 1;
-            $internalTradeSellInfo['bank_changes']                   = 1;
-            $internalTradeSellInfo['left_over_profit']               = 1;
-            $internalTradeSellInfo['total_amount_left']              = $request['sell_amount'];
-            $internalTradeSellInfo['tx_id']                          = $request['tx_id'];
-            $internalTradeSellInfo['state']                          = 0;
+            $internalTradeSellInfo['user_id']                           = $request['user_id'];
+            $internalTradeSellInfo['cronjob_list']                      = 1;
+            $internalTradeSellInfo['asset_purchased']                   = $request['digital_asset'];
+            $internalTradeSellInfo['chain_stack']                       = $request['chain_stack'];
+            $internalTradeSellInfo['sell_amount']                       = $request['sell_amount'];
+            $internalTradeSellInfo['delivered_address']                 = $request['delivered_address'];
+            $internalTradeSellInfo['sender_address']                    = $request['sender_address'];
+            $internalTradeSellInfo['internal_treasury_wallet_id']       = $internal_treasury_wallet_info[0]['id'];
+            $internalTradeSellInfo['internal_treasury_wallet_address']  = $request['receive_address'];
+            $internalTradeSellInfo['pay_with']                          = $request['pay_with'];
+            $internalTradeSellInfo['transaction_description']           = "This is the sell transaction";
+            $internalTradeSellInfo['commision_id']                      = 1;
+            $internalTradeSellInfo['bank_changes']                      = 1;
+            $internalTradeSellInfo['left_over_profit']                  = 1;
+            $internalTradeSellInfo['total_amount_left']                 = $request['sell_amount'];
+            $internalTradeSellInfo['tx_id']                             = $request['tx_id'];
+            $internalTradeSellInfo['state']                             = 0;
 
             $result = InternalTradeSellList::create($internalTradeSellInfo);
 

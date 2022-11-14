@@ -32,6 +32,7 @@
                                 <tr>
                                     <th>{{__('locale.exchange_list_id')}}</th>
                                     <th>{{__('locale.exchange_list_name')}}</th>
+                                    <th>{{__('locale.exchange_list_email')}}</th>
                                     <th>{{__('locale.exchange_list_wallet_address')}}</th>
                                     <th>{{__('locale.exchange_list_test_status')}}</th>
                                     <th>{{__('locale.exchange_list_certified')}}</th>
@@ -44,7 +45,7 @@
                                 <tr>
                                     <td>{{++$key}}</td>
                                     @switch($value['ex_name'])
-                                        @case('binance')
+                                        @case('Binance')
                                             <td>Binance</td>
                                             @break
                                         @case('FTX')
@@ -72,6 +73,7 @@
                                         @default
 
                                     @endswitch
+                                    <td>{{$value['ex_login']}}</td>
                                     <td>{{$value['wallet_address']}}</td>
                                     <td>
                                         @if ($value['connect_status'] == false)

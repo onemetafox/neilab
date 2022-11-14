@@ -16,6 +16,7 @@ class InternalTradeSellList extends Model
         'delivered_address',
         'sender_address',
         'internal_treasury_wallet_id',
+        'internal_treasury_wallet_address',
         'pay_with',
         'chain_stack',
         'transaction_description',

@@ -26,7 +26,7 @@
 						</div>
 					</div>
 					@endif
-	
+
 					@if(session()->has('success'))
 					<div class="alert alert-success"><div class="alert-body">{{ session()->get('success') }}</div></div>
 					@endif
@@ -80,7 +80,7 @@
 										<input type="number" step="any" min="0" max="100" class="form-control" name="external_sales_fee" id="external_sales_fee"  value="{{isset($data->external_sales_fee)?$data->external_sales_fee:old('external_sales_fee')}}">
 									</div>
 								</div>
-							</div>	
+							</div>
 							<div class="row">
 								<div class="col-xl-6">
 									<div class="form-group">
@@ -94,7 +94,7 @@
 										<input type="number" step="any" min="0" max="100" class="form-control" name="profit_fee" id="profit_fee" value="{{isset($data->profit_fee)?$data->profit_fee:old('profit_fee')}}">
 									</div>
 								</div>
-							</div>	
+							</div>
 							<h4 class="my-3">Sign Up Page Settings</h4>
 							<div class="row">
 								<div class="col-xl-6">
@@ -104,7 +104,7 @@
 											<a href="javascript:" id="trainee-video-link" class="text-danger">{{$data->trainee_video}}</a>
 										@endif
 										<div class="form-file">
-											<input type="file" name="trainee_video" class="form-control" >
+											<input type="file" name="trainee_video" id="trainee_video" class="form-control" >
 										</div>
 									</div>
 								</div>
@@ -174,7 +174,7 @@
 	</div>
 </div>
 
-@endsection	
+@endsection
 
 {{-- Scripts --}}
 @section('scripts')
@@ -186,6 +186,34 @@
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
 
+            $('#trainee_video').change(function(event) {
+                var _size = this.files[0].size;
+                if(_size > 20480){
+                    alertError("You can upload video less than 20 M");
+                    $("#trainee_video").val(null);
+                }
+            });
+
+            function alertError(msg){
+                toastr.error(msg, "Error", {
+                        positionClass: "toast-top-right",
+                        timeOut: 5e3,
+                        closeButton: !0,
+                        debug: !1,
+                        newestOnTop: !0,
+                        progressBar: !0,
+                        preventDuplicates: !0,
+                        onclick: null,
+                        showDuration: "300",
+                        hideDuration: "2000",
+                        extendedTimeOut: "2000",
+                        showEasing: "swing",
+                        hideEasing: "linear",
+                        showMethod: "fadeIn",
+                        hideMethod: "fadeOut",
+                        tapToDismiss: !1
+                    })
+            }
 			$("#logo-img-link").click(function(e){
 				$(".modal-body").html('<img class="img-fluid" src="/storage/logo_images/'+e.target.innerText+'" >');
 				$(".bd-example-modal-lg").modal('show');
@@ -207,4 +235,4 @@
 		});
 
 	</script>
-@endsection	
+@endsection

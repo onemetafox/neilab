@@ -43,74 +43,74 @@
 								</div>
 								<div class="col-xl-6">
 									<div class="form-group">
-										<label class="mb-1"><strong>Login</strong></label>
-										<input type="text" class="form-control" name="ex_login" value="{{isset($result)?$result[0]['ex_login']:''}}">
+										<label class="mb-1"><strong>Login (Required)</strong></label>
+										<input type="text" class="form-control" name="ex_login" id="ex_login" value="{{isset($result)?$result[0]['ex_login']:''}}">
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-xl-6">
 									<div class="form-group">
-										<label class="mb-1"><strong>Password</strong></label>
-										<input type="text" class="form-control" name="ex_password"  value="{{isset($result)?$result[0]['ex_password']:''}}">
+										<label class="mb-1"><strong>Password (Required)</strong></label>
+										<input type="text" class="form-control" name="ex_password"  id="ex_password"  value="{{isset($result)?$result[0]['ex_password']:''}}">
 									</div>
 								</div>
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>sms phone number</strong></label>
-										<input type="text" class="form-control" name="ex_sms_phone_number"  value="{{isset($result)?$result[0]['ex_sms_phone_number']:''}}">
-									</div>
-								</div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="mb-1"><strong>API Key (Required)</strong></label>
+                                        <input type="text" class="form-control" name="api_key"   id="api_key" value="{{isset($result)?$result[0]['api_key']:''}}">
+                                    </div>
+                                </div>
 							</div>
 							<div class="row">
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>API login</strong></label>
-										<input type="text" class="form-control" name="api_login"  value="{{isset($result)?$result[0]['api_login']:''}}">
-									</div>
-								</div>
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>API password</strong></label>
-										<input type="text" class="form-control" name="api_password"  value="{{isset($result)?$result[0]['api_password']:''}}">
-									</div>
-								</div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="mb-1"><strong>API Secret (Required)</strong></label>
+                                        <input type="text" class="form-control" name="api_secret"  id="api_secret" value="{{isset($result)?$result[0]['api_secret']:''}}">
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="mb-1"><strong>Passphase</strong></label>
+                                        <input type="text" class="form-control" name="api_passphase"  value="{{isset($result)?$result[0]['api_passphase']:''}}">
+                                    </div>
+                                </div>
 							</div>
 							<div class="row">
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>account name</strong></label>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="mb-1"><strong>fund Password</strong></label>
+                                        <input type="text" class="form-control" name="api_fund_password"  value="{{isset($result)?$result[0]['api_fund_password']:''}}">
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="mb-1"><strong>account name</strong></label>
 										<input type="text" class="form-control" name="api_account_name"  value="{{isset($result)?$result[0]['api_account_name']:''}}">
 									</div>
 								</div>
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>API Key</strong></label>
-										<input type="text" class="form-control" name="api_key"  value="{{isset($result)?$result[0]['api_key']:''}}">
-									</div>
-								</div>
 							</div>
 							<div class="row">
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>API Secret</strong></label>
-										<input type="text" class="form-control" name="api_secret"  value="{{isset($result)?$result[0]['api_secret']:''}}">
-									</div>
-								</div>
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>Passphase</strong></label>
-										<input type="text" class="form-control" name="api_passphase"  value="{{isset($result)?$result[0]['api_passphase']:''}}">
-									</div>
-								</div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="mb-1"><strong>API login</strong></label>
+                                        <input type="text" class="form-control" name="api_login"  value="{{isset($result)?$result[0]['api_login']:''}}">
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="mb-1"><strong>API password</strong></label>
+                                        <input type="text" class="form-control" name="api_password"  value="{{isset($result)?$result[0]['api_password']:''}}">
+                                    </div>
+                                </div>
 							</div>
 							<div class="row">
-								<div class="col-xl-6">
-									<div class="form-group">
-										<label class="mb-1"><strong>fund Password</strong></label>
-										<input type="text" class="form-control" name="api_fund_password"  value="{{isset($result)?$result[0]['api_fund_password']:''}}">
-									</div>
-								</div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label class="mb-1"><strong>sms phone number</strong></label>
+                                        <input type="text" class="form-control" name="ex_sms_phone_number"  value="{{isset($result)?$result[0]['ex_sms_phone_number']:''}}">
+                                    </div>
+                                </div>
 								<div class="col-xl-6">
 									<div class="form-group">
 										<label class="mb-1"><strong>API doc</strong></label>
@@ -223,5 +223,40 @@
 				new dezSettings(dezSettingsOptions);
 			}, 1500)
 		});
+
+
+		$( "form" ).submit(function( event ) {
+            var ex_login = $("#ex_login").val();
+            var ex_password = $("#ex_password").val();
+            var api_key = $("#api_key").val();
+            var api_secret = $("#api_secret").val();
+
+            if (ex_login == "" || ex_password == "" || api_key == "" || api_secret == "") {
+                alertError("Please fill in all required field!")
+                event.preventDefault();
+            }
+            return
+        });
+
+		function alertError(msg){
+			toastr.error(msg, "Error", {
+                    positionClass: "toast-top-right",
+                    timeOut: 5e3,
+                    closeButton: !0,
+                    debug: !1,
+                    newestOnTop: !0,
+                    progressBar: !0,
+                    preventDuplicates: !0,
+                    onclick: null,
+                    showDuration: "300",
+                    hideDuration: "1000",
+                    extendedTimeOut: "1000",
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    tapToDismiss: !1
+                })
+		}
 	</script>
 @endsection

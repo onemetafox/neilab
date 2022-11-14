@@ -10,12 +10,12 @@ use App\Models\TradingPair;
 use App\Models\ColdWallet;
 use App\Models\MarketingCampain;
 use App\Models\DomainList;
-
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 
 class AdminMarketingCampainController extends Controller
 {
-    
+
     public function index(){
         $page_title = __('locale.marketing_campain');
         $page_description = 'Some description for the page';
@@ -34,7 +34,7 @@ class AdminMarketingCampainController extends Controller
 
         return view('zenix.admin.editMarketingCampain', compact('page_title', 'page_description', 'action', 'id', 'data', 'theme_mode'));
     }
-    
+
     public function deleteMarketingCampain($id = null){
 
         $result = MarketingCampain::where("id", $id)->delete();
@@ -47,7 +47,7 @@ class AdminMarketingCampainController extends Controller
                 }
             }
             return redirect('/admin/marketingcampain')->with('success', 'Marketing Campaign has been updated successfully ');
-            
+
         }else{
             return redirect('/admin/marketingcampain')->with('error', 'Try again. There is error in database');
         }
@@ -66,11 +66,14 @@ class AdminMarketingCampainController extends Controller
                 'website_name'=> 'required|string|max:255',
                 'banner_title'=> 'required|string|max:1024',
                 'banner_content'=> 'required|string',
-                'trainee_video' => 'required|file|mimes:mp4',
+                'trainee_video' => 'required|file|max:8192|mimes:mp4',
                 'logo_image' => 'required|image',
             ]);
+            // $validator = Validator::make($request->all(), [
+            //     'file' => 'max:10240',
+            // ]);
             $video = "";
-            $logo_images = "";    
+            $logo_images = "";
             if($request->file()) {
                 $video = time().'_'.$request->trainee_video->getClientOriginalName();
                 $video_path = $request->file('trainee_video')->storeAs('trainee_videos', $video, 'public');
@@ -93,13 +96,13 @@ class AdminMarketingCampainController extends Controller
             $marketing_array['trainee_video'] = $video;
             $marketing_array['logo_image'] = $logo_images;
             $marketing_array['status'] = 1;
-    
+
             $result = MarketingCampain::create($marketing_array);
             if(isset($result) && $result->id > 0){
                 return redirect('/admin/marketingcampain')->with('success', 'Successfully saved!');
             }else{
                 return redirect('/admin/marketingcampain')->with('error', __('error.error_on_database'));
-            }    
+            }
         }else{
             $validated = $request->validate([
                 'campain_name'=> 'required|string|max:255',
@@ -113,10 +116,13 @@ class AdminMarketingCampainController extends Controller
                 'website_name'=> 'required|string|max:255',
                 'banner_title'=> 'required|string|max:1024',
                 'banner_content'=> 'required|string',
-                'trainee_video' => 'file|mimes:mp4',
+                'trainee_video' => 'file|max:8192|mimes:mp4',
                 'logo_image' => 'image',
             ]);
 
+            $validator = Validator::make($request->all(), [
+                'file' => 'max:10240',
+            ]);
             $campaign = MarketingCampain::find($request->old_id);
             $campaign->campain_name = $validated['campain_name'];
             $campaign->kyc_required = $validated['kyc_required'];
@@ -145,11 +151,11 @@ class AdminMarketingCampainController extends Controller
                 return redirect('/admin/marketingcampain')->with('success', 'Successfully created');
             }else{
                 return redirect('/admin/marketingcampain')->with('error', __('error.error_on_database'));
-            }    
+            }
 
 
         }
-        
+
     }
 
     public function changeMarketingCampainStatusByID(Request $request){
@@ -171,8 +177,8 @@ class AdminMarketingCampainController extends Controller
         $kyc = $campaign->kyc_required;
         $redirect = $kyc==2?'agreement':'kyc';
         auth()->user()->update(['marketing_campain_id'=>$id, 'redirect'=>$redirect]);
-        
+
         return redirect('/');
     }
-    
+
 }

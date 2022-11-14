@@ -44,13 +44,13 @@ class AdminWalletController extends Controller
 
         return view('zenix.admin.walletlist', compact('page_title', 'page_description', 'action', 'internal_wallet','cold_wallet', 'theme_mode'));
     }
-    
+
     public function viewNewWalletlist($id = null){
         $page_title = __('locale.admin_create_new_internal_wallet_list');
         $page_description = 'Some description for the page';
         $action = 'walletlist';
         $theme_mode = $this->getThemeMode();
-        
+
         if($id){
             $result = InternalWallet::where("id", $id)->get()->toArray();
             return view('zenix.admin.updateInternalWallet', compact('page_title', 'page_description', 'action', 'result', 'theme_mode'));
@@ -110,6 +110,7 @@ class AdminWalletController extends Controller
     public function updateWalletList(Request $request){
         $payLoad = Arr::except($request->all(),['_token']);
         $payLoad['private_key'] = base64_encode($payLoad['private_key']);
+        $payLoad['cold_storage_wallet_id'] = 1;
         $result = InternalWallet::create($payLoad);
         if(isset($result) && $result->id > 0){
             return redirect('/admin/walletlist'.$request->old_id)->with('success', 'Successfully created');
@@ -140,7 +141,7 @@ class AdminWalletController extends Controller
     }
 
     public function changeInternalWalletType(Request $request){
-        
+
         $wallet_id = $request->wallet_id;
         $wallet_type = $request->wallet_type;
 

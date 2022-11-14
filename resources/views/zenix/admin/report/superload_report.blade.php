@@ -34,29 +34,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($result as $key => $value)
+                                @foreach ($result as $value)
 								<tr>
                                     <td>
-                                        <?php   
-                                        $formatted_datetime = date("Y-m-d H:i:s", strtotime($value['updated_at']));
+                                        <?php
+                                        $formatted_datetime = date("Y-m-d H:i:s", strtotime($value->updated_at));
                                         echo $formatted_datetime ?>
                                     </td>
                                     <td>
-                                        <?php echo $value['trade_type'] == 1? "Buy":"Sell" ?>
+                                        <?php echo $value->trade_type == 1? "Buy":"Sell" ?>
                                     </td>
-                                    <td>{{$value['sending_address']}}</td>
-                                    <td>{{$value['receive_address']}}</td>
-                                    <td>{{$value['amount']}}</td>
+                                    <td>{{$value->sending_address}}</td>
+                                    <td>{{$value->receive_address}}</td>
+                                    <td>{{$value->amount}}</td>
                                     <td>
                                         <?php
-                                            if($value['trade_type'] == 1){ ?>
-                                        <a href="https://etherscan.io/tx/{{$value['tx_id']}}" target="_blank">{{$value['tx_id']}}</a>
+                                            if($value->trade_type == 1){ ?>
+                                        <a href="https://etherscan.io/tx/{{$value->tx_id}}" target="_blank">{{$value->tx_id}}</a>
                                         <?php }else{ ?>
-                                        <a href="https://www.blockchain.com/btc/tx/{{$value['tx_id']}}" target="_blank">{{$value['tx_id']}}</a>
+                                        <a href="https://www.blockchain.com/btc/tx/{{$value->tx_id}}" target="_blank">{{$value->tx_id}}</a>
                                         <?php } ?>
                                     </td>
                                     <td>
-										@switch($value['status'])
+										@switch($value->status)
                                             @case (0)
                                                 <span class="badge light badge-info">Deposit Pending</span>
                                                 @break
@@ -64,7 +64,7 @@
                                                 <span class="badge light badge-secondary">Deposit Complete</span>
                                                 @break
                                             @case (2)
-                                                @if($value['trade_type'] == 1)
+                                                @if($value->trade_type == 1)
                                                 <span class="badge light badge-success">Marketing Buy Complete</span>
                                                 @else
                                                 <span class="badge light badge-success">Marketing Sell Complete</span>
@@ -83,7 +83,7 @@
     </div>
 </div>
 
-@endsection	
+@endsection
 
 {{-- Scripts --}}
 @section('scripts')
@@ -96,4 +96,4 @@
 			}, 1500)
 		});
 	</script>
-@endsection	
+@endsection

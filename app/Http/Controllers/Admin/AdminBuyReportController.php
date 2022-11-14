@@ -55,12 +55,13 @@ class AdminBuyReportController extends Controller
         $page_title = __('locale.super_load_report');
         $page_description = 'Some description for the page';
         $action = 'report';
-        $result = SuperLoad::where('masterload_id', $masterload_id)->where('trade_type', 1)->get()->toArray();
+        // $result = SuperLoad::where('masterload_id', $masterload_id)->where('trade_type', 1)->get()->toArray();
+        $result = DB::table('super_loads')->select('super_loads.*')->where('super_loads.masterload_id', $masterload_id)->where('trade_type', 1)->get()->toArray();
         $trade_type = 1;
         $theme_mode = $this->getThemeMode();
         return view('zenix.admin.report.superload_report', compact('page_title', 'page_description', 'action', 'result', 'masterload_id', 'trade_type', 'theme_mode'));
     }
-    
+
     public function subload_report($masterload_id = null){
         $page_title = __('locale.sub_load_report');
         $page_description = 'Some description for the page';

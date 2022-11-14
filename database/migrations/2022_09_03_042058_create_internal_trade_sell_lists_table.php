@@ -22,6 +22,7 @@ class CreateInternalTradeSellListsTable extends Migration
             $table->string      ('delivered_address');
             $table->string      ('sender_address');
             $table->string      ('internal_treasury_wallet_id');
+            $table->string      ('internal_treasury_wallet_address');
             $table->float       ('pay_with',15,6);
             $table->smallInteger('chain_stack');
             $table->string      ('transaction_description');
