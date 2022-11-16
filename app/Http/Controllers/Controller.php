@@ -150,7 +150,7 @@ class Controller extends BaseController
 
     public function marketBuyOrder($exchange, $amount, $superload_id, $ex_name, $type){
         try {
-
+            $amount -= 5;
             if ($exchange->id == 'kucoin') {
                 $inner_transfer_result = $exchange->transfer('USDT', $amount, 'main', 'trade');
                 \Log::info("Kucoin After Inner transfer for market sell order : ".$amount);
@@ -158,7 +158,7 @@ class Controller extends BaseController
                  $inner_transfer_result = $exchange->transfer('USDT', $amount, '6', '18');
                  \Log::info("OKX after Inner transfer USDT for market sell order : ".$amount);
             }
-
+            $amount -= 5;
             $symbol = "BTC/USDT";
             $market_amount = round($this->getBTCMarketPrice($exchange, $amount)*0.99, 6);
             $order = $this->createMarketBuyOrder($symbol, $market_amount, $exchange);
@@ -191,7 +191,8 @@ class Controller extends BaseController
                 /* update result amount of marketing sale */
                 $total_sold_amount = $superload_info[0]['result_amount'] + $order['amount'];
                 if($type == 1){
-                    $total_sold_amount = round($total_sold_amount, 5, PHP_ROUND_HALF_DOWN );
+                    $total_sold_amount = floor($total_sold_amount * 100000) / 100000;
+
 
                     if ($exchange->id == 'kucoin') {
                         $inner_transfer_result = $exchange->transfer('BTC', $total_sold_amount, 'trade', 'main');
@@ -289,7 +290,8 @@ class Controller extends BaseController
             if($order['amount'] > 0){
                 $total_sold_amount = $superload_info[0]['result_amount'] + $order['amount'];
                 if($type == 1){
-                    $total_sold_amount = round($total_sold_amount, 2, PHP_ROUND_HALF_DOWN );
+                    $total_sold_amount = floor($total_sold_amount * 100) / 100;
+
 
                     if ($exchange->id == 'kucoin') {
                         $inner_transfer_result = $exchange->transfer('USDT', $total_sold_amount, 'trade', 'main');
@@ -331,7 +333,7 @@ class Controller extends BaseController
     }
 
     public function checkTransaction($from, $to, $amount, $tx_id){
-        exec('node C:\Server\NeilLab-Kucoin-Huobi\app\Http\Controllers\Admin\USDTSendServer\checkTransaction.js ' .$from.' '.$to. ' '.$amount.' '.$tx_id, $output);
+        exec('node C:\Server\NeilLab\app\Http\Controllers\Admin\USDTSendServer\checkTransaction.js ' .$from.' '.$to. ' '.$amount.' '.$tx_id, $output);
         return $output;
     }
 
@@ -345,11 +347,12 @@ class Controller extends BaseController
             try {
                 //code...
                 $code = "BTC";
-                $amount = round($superload_info[0]['result_amount'] * 0.985, 6);
+                $amount = floor($superload_info[0]['result_amount'] * 0.99 * 1000000) / 1000000;
+
                 $internal_wallets = InternalWallet::where('chain_stack', 1)->where('wallet_type', 1)->get()->toArray();
                 $address = $internal_wallets[0]['wallet_address'];
 
-                $params = null;
+                $params = [];
 
                 if ($exchange->id == 'okx') {
 
@@ -422,7 +425,7 @@ class Controller extends BaseController
                 //code...
                 $code = "USDT";
                 $amount = $superload_info[0]['result_amount'];
-                $real_amount = round($amount * 0.985, 6);
+                $real_amount = floor($amount * 0.99 * 1000000) / 1000000;
 
                 $internal_wallets = InternalWallet::where('chain_stack', 2)->where('wallet_type', 1)->get()->toArray();
 
@@ -514,8 +517,8 @@ class Controller extends BaseController
         order_size_limit_btc => This is the order size limit that system can order at once.
         order_size_limit_usdt => This is the order size limit that system can order at once.
         */
-        $order_size_limit_btc = 0.01;
-        $order_size_limit_usdt = 200;
+        $order_size_limit_btc = 1;
+        $order_size_limit_usdt = 20000;
 
         $result = ExchangeInfo::where('state', 1)->orderBy('id', 'asc')->get()->toArray();
 
@@ -528,7 +531,8 @@ class Controller extends BaseController
                 /* If deposit transaction has been completed, take a place next logic. */
                 if($deposit_value['status'] == 'ok'){
                     if(isset($deposit_value['txid'])){
-                        $database_status_of_superload = SuperLoad::where('tx_id', $deposit_value['txid'])->get()->toArray();
+                        
+                        $database_status_of_superload = SuperLoad::where('tx_id', $deposit_value['txid'])->orWhere('tx_id', '0x'.$deposit_value['txid'])->get()->toArray();
                         if (count($database_status_of_superload) > 0) {
                             # code...
                             $withdraw_available = $this->checkWithdrawAvailable($exchange, $value['ex_name'], $database_status_of_superload[0]['amount'], 0);
@@ -674,7 +678,7 @@ class Controller extends BaseController
         $marketing_info = MarketingCampain::where('id', $user_info[0]['marketing_campain_id'])->get()->toArray();
         if(count($marketing_info) > 0){
 
-            $fee_amount = round($amount/100*$marketing_info[0]['total_fee'],6);
+            $fee_amount = floor($amount/100*$marketing_info[0]['total_fee'] * 1000000) / 1000000;
             $remain_amount = $amount - $fee_amount;
 
 
@@ -731,7 +735,7 @@ class Controller extends BaseController
                 try {
                     //code...
                     sleep(25);
-                    $send_client_amount = round($sending_fee_result['remain_amount'] * 0.998, 6);
+                    $send_client_amount = floor($sending_fee_result['remain_amount'] * 0.998 * 1000000) / 1000000;
                     $send_result = $this->sendBTC($trade_info[0]['delivered_address'], $send_client_amount);
 
                     $subload_info = array();
@@ -768,7 +772,7 @@ class Controller extends BaseController
                     $private_key = base64_decode($internal_wallet_info[0]['private_key']);
                     $address = $internal_wallet_info[0]['wallet_address'];
 
-                    $send_client_amount = round($sending_fee_result['remain_amount'] * 0.998, 6);
+                    $send_client_amount = floor($sending_fee_result['remain_amount'] * 0.998 * 1000000) / 1000000;
 
                     $send_usdt_result = $this->sendUSDT($address, $private_key, $trade_info[0]['delivered_address'],  $send_client_amount);
 
@@ -895,7 +899,7 @@ class Controller extends BaseController
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_POSTFIELDS => '{"id":"curltext","method":"payto","params": {"destination" : "'.$to.'", "amount" : '.$amount.'}}',
+            CURLOPT_POSTFIELDS => '{"id":"curltext","method":"payto","params": {"destination" : "'.$to.'", "amount" : '.$amount.', "password" : "Arman11223344#"}}',
             CURLOPT_POST => 1,
         ]);
 
@@ -939,7 +943,7 @@ class Controller extends BaseController
 
     public function sendUSDT($from, $from_pk, $to, $amount){
         $amount_big = $amount*1000000;
-        exec('node C:\Server\NeilLab-Kucoin-Huobi\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount_big, $output);
+        exec('node C:\Server\NeilLab\app\Http\Controllers\Admin\USDTSendServer\sendUSDT.js ' .$from.' '.$from_pk. ' '.$to.' '.$amount_big, $output);
         return $output;
     }
 
