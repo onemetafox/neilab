@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\MarketingCampain;
+use App\Models\Referral;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,7 +19,7 @@ class AdminUserlistController extends Controller
         $page_description = 'Some description for the page';
         $action = 'userlist';
         $result = User::where('user_type','!=', 'admin')->get()->toArray();
-        
+
         $campaigns = MarketingCampain::where('status', 1)->get();
         $theme_mode = $this->getThemeMode();
 
@@ -54,7 +56,7 @@ class AdminUserlistController extends Controller
         $page_description = 'Some description for the page';
         $action = 'userlist';
         $result = User::where('marketing_campain_id', $filterID)->get()->toArray();
-        
+
         $campaigns = MarketingCampain::where('status', 1)->get();
         $theme_mode = $this->getThemeMode();
         $filter_id = $filterID;
@@ -64,6 +66,7 @@ class AdminUserlistController extends Controller
     public function deleteUserByID($userID = null){
 
         $result = User::where("id", $userID)->delete();
+        Referral::where('reffered_id', $userID)->delete();
 
         if($result > 0){
             return redirect('/admin/userlist')->with('success', 'User has been updated successfully ');

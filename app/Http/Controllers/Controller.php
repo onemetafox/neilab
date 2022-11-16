@@ -160,7 +160,7 @@ class Controller extends BaseController
             }
 
             $symbol = "BTC/USDT";
-            $market_amount = round($this->getBTCMarketPrice($exchange, $amount)*0.999, 6);
+            $market_amount = round($this->getBTCMarketPrice($exchange, $amount)*0.99, 6);
             $order = $this->createMarketBuyOrder($symbol, $market_amount, $exchange);
 
             sleep(10);
@@ -171,7 +171,7 @@ class Controller extends BaseController
                 $_symbol = $symbol;
             }
             $order_info = $exchange->fetch_order($order['id'], $_symbol);
-            $order['amount'] = $order_info['amount'];
+            $order['amount'] = $order_info['amount'] * 0.999;
 
 
             $fee = $order_info['amount']*0.002;
@@ -191,7 +191,7 @@ class Controller extends BaseController
                 /* update result amount of marketing sale */
                 $total_sold_amount = $superload_info[0]['result_amount'] + $order['amount'];
                 if($type == 1){
-                    $total_sold_amount = round($total_sold_amount, 2, PHP_ROUND_HALF_DOWN );
+                    $total_sold_amount = round($total_sold_amount, 5, PHP_ROUND_HALF_DOWN );
 
                     if ($exchange->id == 'kucoin') {
                         $inner_transfer_result = $exchange->transfer('BTC', $total_sold_amount, 'trade', 'main');

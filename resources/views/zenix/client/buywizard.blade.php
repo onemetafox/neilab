@@ -176,6 +176,9 @@
 			success: function(data){
 				if(data.success){
 					alertRegisteredSuccess();
+                    setTimeout(function(){
+                        window.location.replace('{!! url('/buy_wizard'); !!}');
+                    }, 2000);
 				}else{
 					alertError(data.msg);
 				}

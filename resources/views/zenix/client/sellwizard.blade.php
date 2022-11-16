@@ -172,6 +172,9 @@
 				success: function(data){
 					if(data.success){
 						alertRegisteredSuccess();
+                        setTimeout(() => {
+                            window.location.replace('{!! url('/sell_wizard'); !!}');
+                        }, 2000);
 					}else{
 						alertError(data.msg);
 					}

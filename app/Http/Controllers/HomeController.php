@@ -75,11 +75,11 @@ class HomeController extends Controller
 
         $profits = ReferralProfit::where('user_id', auth()->user()->id)->where('status', 1)->get();
         $theme_mode = $this->getThemeMode();
-        
+
         return view('zenix.client.invite_friends', compact('page_title', 'page_description', 'friends', 'referal_url', 'profits', 'theme_mode'));
     }
 
-    // This function is needed to verify... We may consider the double spending the money.... 
+    // This function is needed to verify... We may consider the double spending the money....
     public function get_profit(Request $request) {
         $id = $request->input('id');
         $wallet_address = $request->input('wallet');
