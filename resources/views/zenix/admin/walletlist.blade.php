@@ -54,7 +54,9 @@
                                     @elseif($value['chain_stack'] == 2)
 									<td>Ethereum</td>
                                     @endif
-                                    <td>{{$value['wallet_address']}}</td>
+                                    <td>{{$value['wallet_address']}}
+                                        <input type="hidden" value="{{$value['private_key']}}">
+                                    </td>
                                     <td><a href="javascript:commingSoon()">Withdraw</a></td>
                                 </tr>
                                 @endforeach
