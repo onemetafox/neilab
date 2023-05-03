@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="M_Adnan">
+    <link rel="shortcut icon" href="/front/images/favicon1.png">
     <title>FlowTC DEX</title>
 
     <!-- Bootstrap Core CSS -->
