@@ -223,41 +223,48 @@
                     <thead>
                       <tr>
                         <th></th>
-                        <th>Traditional</th>
-                        <th>BlockBit</th>
-                        <th>ICOBlock</th>
+                        <th>FlowTC</th>
+                        <th>FalconX</th>
+                        <th>OtcTrade</th>
+                        <th>Kraken</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td>Commission</td>
-                        <td><div class="tm-blank"></div></td>
-                        <td><div class="tm-blank"></div></td>
-                        <td><div class="tm-blank"></div></td>
+                        <td>3 %</td>
+                        <td>5 %</td>
+                        <td>8 %</td>
+                        <td>10 %</td>
                       </tr>
                       <tr>
                         <td>Speed</td>
-                        <td><div class="tm-blank"></div></td>
-                        <td><div class="tm-blank"></div></td>
-                        <td><div class="tm-blank"></div></td>
+                        <td>< 12 hours</td>
+                        <td>< 12 hours</td>
+                        <td>< 12 hours</td>
+                        <td>< 12 hours</td>
                       </tr>
                       <tr>
                         <td>KYC</td>
-                        <td>UK</td>
-                        <td>USA</td>
-                        <td>Australia</td>
+                        <td>Not require</td>
+                        <td>Require</td>
+                        <td>Require</td>
+                        <td>Require</td>
                       </tr>
                       <tr>
-                        <td>Minimum daily volume</td>
-                        <td>Country Specific</td>
-                        <td>123 Million</td>
-                        <td>1.5 Billion</td>
+                        <td>Minimum purchase size</td>
+                        <td>10 K</td>
+                        <td>> 50 K</td>
+                        <td>> 50 K</td>
+                        <td>< 10 K</td>
                       </tr>
                       <tr>
                         <td>Decentralized exchanges' support</td>
-                        <td>High</td>
-                        <td>Medium</td>
-                        <td>Low</td>
+                        <td><i class="icon-2x text-dark-50 ion-checkmark"></i></td>
+                        <td></td>
+                        <td><i class="icon-2x text-dark-50 ion-checkmark"></i></td>
+                        <td></td>
+
                       </tr>
                     </tbody>
                   </table>

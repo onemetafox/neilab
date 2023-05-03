@@ -1780,6 +1780,7 @@ a:hover {
 }
 .comparison thead tr th, .comparison tbody tr td{
 	padding: 16px;
+	font-size: 16px;
 }
 .comparison tbody tr td:first-child, .comparison thead tr th{
 	color: #ffe115;
