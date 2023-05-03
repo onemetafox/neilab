@@ -214,7 +214,7 @@
           <!-- Token  -->
           <div class="col-lg-12">
             <h3 style="text-align:center;">Comparison with other solutions</h3>
-            <p>FlowTC platform will be released on the basis of Ethereum and Bitocin platform. It’s compatibility of the FlowTC with third-party services wallets, exchanges etc, and provides easy-to-use integration.</p>
+            <p style="text-align:center;padding:0px 50px 0px 50px">FlowTC sets itself apart from other anonymous crypto OTC markets by offering a unique combination of features and benefits designed to provide a superior trading experience for our clients.</p>
             
             <div class="col-lg-12">
               <div class="tm-purple-color tm-comparison-table text-center">
