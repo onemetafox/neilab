@@ -98,7 +98,6 @@
       <div class="container text-center">
         <h1>Effortless Crypto-to-Crypto OTC Trading Platform With Zero Market Impact</h1>
         <p>Discover the ultimate solution for anonymous crypto-to-crypto OTC trading. Our platform integrates both centralized and decentralized exchanges, ensuring a seamless trading experience without affecting market prices. Place your trade request and enjoy unmatched security and privacy. Join now and revolutionize your digital asset trading experience.</p>
-        <!-- <a href="#." class="btn">Join Us</a> <a href="#." class="btn btn-inverse">View White Paper</a> </div> -->
     </div>
   </section>
   
@@ -203,15 +202,6 @@
           <div class="about-us-con">
             <h3>Global Connections</h3>
             <p>Our Anonymous Crypto OTC Market boasts an extensive network of global connections, bridging traders from around the world. We are committed to providing unparalleled access to liquidity, competitive pricing, and a diverse range of digital assets. By joining our platform, you become part of a thriving, global community that shares a passion for secure, discreet, and efficient crypto trading.</p>
-            <!-- <ul class="count-info row">
-              <li class="col"> <span class="counter">5000</span><span>+</span>
-                <p>Customers</p>
-              </li>
-              <li class="col"> <span class="counter">750</span><span>+</span>
-                <p>Deploying</p>
-              </li>
-            </ul> -->
-            <!-- <a href="#." class="btn">White Paper</a> <a href="#." class="btn btn-inverse">Find an Exchange</a> </div> -->
         </div>
       </div>
     </section>
@@ -280,30 +270,6 @@
       </div>
     </section>
     
-    <!-- Development -->
-    <!-- <section class="dev-activ text-center padding-top-150 padding-bottom-150" id="activity">
-      <div class="container">
-        <div class="sm-intro">
-          <h2>Development Activity</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nibh dolor, efficitur eget pharetra ac, cursus sed sapien. Cras posuere ligula ut blandit varius. </p>
-        </div>
-        <ul class="row margin-top-50 margin-bottom-50">
-          <li class="col"> <i class="flaticon-rotate"></i> <span><span class="counter">4</span> hrs Ago</span>
-            <p>Last Update</p>
-          </li>
-          <li class="col"><i class="flaticon-building"></i> <span><span class="counter">10</span> Days Ago</span>
-            <p>Last Block Found</p>
-          </li>
-          <li class="col"><i class="flaticon-money-1"></i> <span><span class="counter">45057</span>+</span>
-            <p>Contributions</p>
-          </li>
-          <li class="col"><i class="flaticon-team"></i> <span  class="counter">80</span>
-            <p>Team Members</p>
-          </li>
-        </ul>
-    </section>
-     -->
-    
     <!-- Team Members -->
     <section class="team style-2 padding-top-150 padding-bottom-150" id="team">
       <div class="container" style="max-width:1440px">
@@ -333,16 +299,9 @@
             </div>
           </div>
         </div>
-        <!-- <ul class="team-small">
-          <li><img  src="/members/Arman-Stepanyan.png" alt=""><a class="hover" href="#.">Arman Stepanyan - CEO/Founder</a></li>
-          <li><img  src="/members/Samvel-Barseghyan.png" alt=""><a class="hover" href="#.">Samvel Barseghyan - CTO/CO-Founder </a></li>
-          <li><img  src="/members/Kevin-McNamara.png" alt=""><a class="hover" href="#.">Kevin McNamara - CMO/Co-Founder</a></li>
-          
-      </ul> -->
       </div>
     </section>
     
-    <!-- Team Members -->
     <section class="light-bg padding-top-150 padding-bottom-150" id="team">
       <div class="container">
         <div class="heading text-center">
