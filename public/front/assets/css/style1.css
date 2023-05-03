@@ -1767,9 +1767,39 @@ footer .rights a:hover {
 	-ms-transition: all 0.4s ease-in-out;
 	transition: all 0.4s ease-in-out;
 }
-.contact-form button:hover {
-}
+
 a:hover {
 	color: #0b0c22;
 	text-decoration: underline;
+}
+
+.comparison {
+	border-color: #0b0c22 !important;
+	background: #17182d;
+	border-radius: 7px;
+}
+.comparison thead tr th, .comparison tbody tr td{
+	padding: 16px;
+}
+.comparison tbody tr td:first-child, .comparison thead tr th{
+	color: #ffe115;
+	font-size: 18px;
+    font-weight: 600;
+}
+
+.comparison {
+	color: #fff;
+}
+.member-avatar{
+	width: 50%;
+    border-radius: 50%;
+    visibility: visible;
+    margin-top: -100px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.member-name{
+	padding-top: 20px;
+    font-size: 30px;
 }

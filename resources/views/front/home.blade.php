@@ -28,6 +28,7 @@
     <!-- Online Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700,900|Montserrat:300,400,500,600,700,800" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+    
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -60,10 +61,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="nav">
             <li class="scroll active"><a href="#hme">Home</a></li>
-            <li class="scroll"> <a href="#about">About </a> </li>
             <li class="scroll"> <a href="#token">OTC Market</a> </li>
-            <li class="scroll"> <a href="#activity">Activity</a> </li>
+            <!-- <li class="scroll"> <a href="#activity">Activity</a> </li> -->
             <li class="scroll"> <a href="#team">Team</a> </li>
+            <li class="scroll"> <a href="#about">About </a> </li>
+
             @if(auth()->check())
             <ul class="menu-btns">
                 <li><a href="{!! url('/logout'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:90px"><span>Logout</span></a></li>
@@ -114,7 +116,6 @@
             <!-- Tittle -->
             <div class="heading margin-bottom-20">
               <h6 class="margin-bottom-10">The world’s only enterprise blockchain solution for global payments</h6>
-              <h4>Introduction (30-40 words)</h4>
             </div>
             <p>Welcome to our high-volume Anonymous Crypto OTC Market, where we facilitate seamless crypto-to-crypto transactions daily.Experience unmatched efficiency and privacy in a secure trading environment.</p>
             <p>a. Seamless Integration: Our platform unifies centralized and decentralized exchanges, providing an effortless trading experience without impacting market prices.</p>
@@ -138,8 +139,8 @@
           <div class="col-md-4">
             <div class="ib-icon"> <i class="flaticon-smartphone"></i> </div>
             <div class="ib-info">
-              <h4 class="h6">Peer-to-Peer Transactions</h4>
-              <p>Contrary to popular belief , Lorem Ipsum is not simply random text. It has roots in a piece</p>
+              <h4 class="h6">Low Commissions</h4>
+              <p>Leveraging the latest advancements in automated trading technology, we proudly offer both buyers and sellers unbeatably low commissions for high-volume transactions, maximizing your profits and enhancing your trading experience.</p>
             </div>
           </div>
           
@@ -147,17 +148,8 @@
           <div class="col-md-4">
             <div class="ib-icon"> <i class="flaticon-flat-world-map"></i> </div>
             <div class="ib-info">
-              <h4 class="h6">Borderless Payments</h4>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem not simply random accusantium</p>
-            </div>
-          </div>
-          
-          <!-- Services -->
-          <div class="col-md-4">
-            <div class="ib-icon"> <i class="flaticon-secure-shield"></i> </div>
-            <div class="ib-info">
-              <h4 class="h6">Fully Protection</h4>
-              <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece</p>
+              <h4 class="h6">Market Anonymity</h4>
+              <p>Our Crypto-to-Crypto Anonymous Market prioritizes user anonymity, ensuring that your transactions and trading activities remain confidential and secure.</p>
             </div>
           </div>
           
@@ -165,17 +157,8 @@
           <div class="col-md-4">
             <div class="ib-icon"> <i class="flaticon-credit-card"></i> </div>
             <div class="ib-info">
-              <h4 class="h6">Smart Money</h4>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</p>
-            </div>
-          </div>
-          
-          <!-- Services -->
-          <div class="col-md-4">
-            <div class="ib-icon"> <i class="flaticon-wallet"></i> </div>
-            <div class="ib-info">
-              <h4 class="h6">Secure Wallet</h4>
-              <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece</p>
+              <h4 class="h6">Seamless Integration</h4>
+              <p>Discover seamless integration that effortlessly connects you to multiple exchanges, offering endless possibilities, unparalleled liquidity, and a user-friendly experience for ultimate trading success.</p>
             </div>
           </div>
           
@@ -183,10 +166,52 @@
           <div class="col-md-4">
             <div class="ib-icon"> <i class="flaticon-money"></i> </div>
             <div class="ib-info">
-              <h4 class="h6">Easy To buy & Sell</h4>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</p>
+              <h4 class="h6">Efficient Algo Trading</h4>
+              <p>Our sophisticated trading algorithms distribute and execute orders across multiple exchanges, optimizing your trades for maximum efficiency and minimal market impact.</p>
             </div>
           </div>
+          
+          <!-- Services -->
+          <div class="col-md-4">
+            <div class="ib-icon"> <i class="flaticon-wallet"></i> </div>
+            <div class="ib-info">
+              <h4 class="h6">Easy To Purchase</h4>
+              <p>Our platform is designed to handle parallel buys and sells, allowing you to divest your digital assets simultaneously across multiple exchanges, reducing price slippage and increasing liquidity.</p>
+            </div>
+          </div>
+          
+          <!-- Services -->
+          <div class="col-md-4">
+            <div class="ib-icon"><i class="flaticon-secure-shield"></i> </div>
+            <div class="ib-info">
+              <h4 class="h6">Robust Security</h4>
+              <p>We employ state-of-the-art security protocols and encryption technologies, safeguarding your assets and personal information from potential threats and unauthorized access.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about light-bg"> 
+      <!-- Right Background -->
+      <div class="main-page-section half_left_layout">
+        <div class="main-half-layout half_right_layout"> </div>
+        
+        <!-- Left Content -->
+        <div class="main-half-layout-container half_right_layout">
+          <div class="about-us-con">
+            <h3>Global Connections</h3>
+            <p>Our Anonymous Crypto OTC Market boasts an extensive network of global connections, bridging traders from around the world. We are committed to providing unparalleled access to liquidity, competitive pricing, and a diverse range of digital assets. By joining our platform, you become part of a thriving, global community that shares a passion for secure, discreet, and efficient crypto trading.</p>
+            <!-- <ul class="count-info row">
+              <li class="col"> <span class="counter">5000</span><span>+</span>
+                <p>Customers</p>
+              </li>
+              <li class="col"> <span class="counter">750</span><span>+</span>
+                <p>Deploying</p>
+              </li>
+            </ul> -->
+            <!-- <a href="#." class="btn">White Paper</a> <a href="#." class="btn btn-inverse">Find an Exchange</a> </div> -->
         </div>
       </div>
     </section>
@@ -197,104 +222,66 @@
         <div class="row"> 
           
           <!-- Token  -->
-          <div class="col-lg-7">
-            <h3>OTC Market Distribution</h3>
-            <p>FlowTC Crypto token will be released on the basis of Ethereum and Bitocin platform. It’s compatibility of the token with third-party services wallets, exchanges etc, and provides easy-to-use integration.</p>
+          <div class="col-lg-12">
+            <h3 style="text-align:center;">Comparison with other solutions</h3>
+            <p>FlowTC platform will be released on the basis of Ethereum and Bitocin platform. It’s compatibility of the FlowTC with third-party services wallets, exchanges etc, and provides easy-to-use integration.</p>
             
-            <!-- Progress -->
-            <div class="progress">
-              <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="150"><span>9,000,000 <small>50%</small></span> </div>
+            <div class="col-lg-12">
+              <div class="tm-purple-color tm-comparison-table text-center">
+                <div class="table-responsive">
+                  <table class="table table-bordered comparison">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Traditional</th>
+                        <th>BlockBit</th>
+                        <th>ICOBlock</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Commission</td>
+                        <td><div class="tm-blank"></div></td>
+                        <td><div class="tm-blank"></div></td>
+                        <td><div class="tm-blank"></div></td>
+                      </tr>
+                      <tr>
+                        <td>Speed</td>
+                        <td><div class="tm-blank"></div></td>
+                        <td><div class="tm-blank"></div></td>
+                        <td><div class="tm-blank"></div></td>
+                      </tr>
+                      <tr>
+                        <td>KYC</td>
+                        <td>UK</td>
+                        <td>USA</td>
+                        <td>Australia</td>
+                      </tr>
+                      <tr>
+                        <td>Minimum daily volume</td>
+                        <td>Country Specific</td>
+                        <td>123 Million</td>
+                        <td>1.5 Billion</td>
+                      </tr>
+                      <tr>
+                        <td>Decentralized exchanges' support</td>
+                        <td>High</td>
+                        <td>Medium</td>
+                        <td>Low</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-            <div class="row">
-              <div class="col">
-                <h6> Now Distribution</h6>
-                <span>2,000,000</span> </div>
-              <div class="col">
-                <h6> 99,910</h6>
-                <span>ETH Received</span> </div>
-              <div class="col">
-                <h6> 99,910</h6>
-                <span>BTC Received</span> </div>
-            </div>
-            
-            <!-- CountdownEnd -->
-            <div class="countdown">
-              <h6>Current Distribution Section End  150/350</h6>
-              <!-- Countdown-->
-              <ul class="row">
-                <!-- Days -->
-                <li class="col-md-3">
-                  <article> <span class="days">00</span>
-                    <p class="days_ref">Days</p>
-                  </article>
-                </li>
-                <!-- Hours -->
-                <li class="col-md-3">
-                  <article> <span class="hours">00</span>
-                    <p class="hours_ref">Hours</p>
-                  </article>
-                </li>
-                <!-- Mintes -->
-                <li class="col-md-3">
-                  <article><span class="minutes">00</span>
-                    <p class="minutes_ref">Minutes</p>
-                  </article>
-                </li>
-                <!-- Seconds -->
-                <li class="col-md-3">
-                  <article><span class="seconds">00</span>
-                    <p class="seconds_ref">Seconds</p>
-                  </article>
-                </li>
-              </ul>
-            </div>
-          </div>
           
           <!-- Total Distribution -->
-          <div class="col-lg-5">
-            <h3>Total Distribution Section End <b>350/350</b></h3>
-            <p>FlowTC Crypto token will be released on the basis of Ethereum and Bitocin platform.</p>
-            <div class="countdown-all"> 
-              
-              <!-- Countdown -->
-              <ul class="row">
-                <!-- Days -->
-                <li class="col-md-3">
-                  <article> <span class="days">00</span>
-                    <p class="days_ref">Days</p>
-                  </article>
-                </li>
-                <!-- Hours -->
-                <li class="col-md-3">
-                  <article> <span class="hours">00</span>
-                    <p class="hours_ref">Hours</p>
-                  </article>
-                </li>
-                <!-- Mintes -->
-                <li class="col-md-3">
-                  <article><span class="minutes">00</span>
-                    <p class="minutes_ref">Minutes</p>
-                  </article>
-                </li>
-                <!-- Seconds -->
-                <li class="col-md-3">
-                  <article><span class="seconds">00</span>
-                    <p class="seconds_ref">Seconds</p>
-                  </article>
-                </li>
-              </ul>
-              <a href="#." class="btn">Join Us</a> <a href="#." class="btn btn-inverse">Buy Now</a> 
-              
-              <!-- Buy Option -->
-              <div class="card-info"> <i class="fab  fa-bitcoin"></i> <i class="fab  fa-cc-discover"></i> <i class="fab  fa-cc-visa"></i> <i class="fab  fa-cc-mastercard"></i> </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
     
     <!-- Development -->
-    <section class="dev-activ text-center padding-top-150 padding-bottom-150" id="activity">
+    <!-- <section class="dev-activ text-center padding-top-150 padding-bottom-150" id="activity">
       <div class="container">
         <div class="sm-intro">
           <h2>Development Activity</h2>
@@ -314,46 +301,44 @@
             <p>Team Members</p>
           </li>
         </ul>
-        <!-- <a href="#." class="btn">Start on GitHub</a> <a href="#." class="btn btn-inverse">White Paper</a> </div> -->
     </section>
-    
-    <!-- ABOUT -->
-    <section class="about light-bg"> 
-      <!-- Right Background -->
-      <div class="main-page-section half_left_layout">
-        <div class="main-half-layout half_right_layout"> </div>
-        
-        <!-- Left Content -->
-        <div class="main-half-layout-container half_right_layout">
-          <div class="about-us-con">
-            <h3>Growing Global Network</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nibh dolor, efficitur eget pharetra ac, cursus sed sapien. Cras posuere ligula ut blandit varius. </p>
-            <ul class="count-info row">
-              <li class="col"> <span class="counter">5000</span><span>+</span>
-                <p>Customers</p>
-              </li>
-              <li class="col"> <span class="counter">750</span><span>+</span>
-                <p>Deploying</p>
-              </li>
-            </ul>
-            <!-- <a href="#." class="btn">White Paper</a> <a href="#." class="btn btn-inverse">Find an Exchange</a> </div> -->
-        </div>
-      </div>
-    </section>
+     -->
     
     <!-- Team Members -->
     <section class="team style-2 padding-top-150 padding-bottom-150" id="team">
-      <div class="container">
+      <div class="container" style="max-width:1440px">
         <div class="heading text-center">
           <h2>Meet our Core Team</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nibh dolor, efficitur eget pharetra ac, cursus sed sapien. Cras posuere ligula ut blandit varius. </p>
         </div>
-        <ul class="team-small">
-          <li><img  src="/members/Arman-Stepanyan.png" alt=""><a class="hover" href="#.">Arman Stepanyan</a></li>
-          <li><img  src="/members/Kevin-McNamara.png" alt=""><a class="hover" href="#.">Kevin McNamara</a></li>
-          <li><img  src="/members/Samvel-Barseghyan.png" alt=""><a class="hover" href="#.">Samvel Barseghyan </a></li>
+        <div class="row" style="text-align:center; padding-top:100px">
+          <div class="col-lg-4">
+            <div class="card">
+              <img src="/members/Arman-Stepanyan.png" alt="Arman Stepanyan" class="member-avatar">
+              <h1 class="member-name">Arman Stepanyan</h1>
+              <p class="title">CEO & Founder</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card">
+              <img src="/members/Samvel-Barseghyan.png" alt="Samvel Barseghyan" class="member-avatar">
+              <h1 class="member-name">Samvel Barseghyan</h1>
+              <p class="title">CTO & CO-Founder</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card">
+              <img src="/members/Kevin-McNamara.png" alt="Kevin McNamara" class="member-avatar">
+              <h1 class="member-name">Kevin McNamara</h1>
+              <p class="title">CMO & CO-Founder</p>
+            </div>
+          </div>
+        </div>
+        <!-- <ul class="team-small">
+          <li><img  src="/members/Arman-Stepanyan.png" alt=""><a class="hover" href="#.">Arman Stepanyan - CEO/Founder</a></li>
+          <li><img  src="/members/Samvel-Barseghyan.png" alt=""><a class="hover" href="#.">Samvel Barseghyan - CTO/CO-Founder </a></li>
+          <li><img  src="/members/Kevin-McNamara.png" alt=""><a class="hover" href="#.">Kevin McNamara - CMO/Co-Founder</a></li>
           
-      </ul>
+      </ul> -->
       </div>
     </section>
     
@@ -463,7 +448,7 @@
     </section>
     
     <!-- Join our community -->
-    <section class="community-sec padding-top-150 padding-bottom-150">
+    <!-- <section class="community-sec padding-top-150 padding-bottom-150">
       <div class="container">
         <div class="row">
           <div class="col">
@@ -492,7 +477,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
   </div>
 </div>
 
