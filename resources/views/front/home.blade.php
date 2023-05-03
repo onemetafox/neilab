@@ -1,283 +1,538 @@
 <!DOCTYPE html>
-<html lang="zxx" class="js">
-
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="author" content="Softnio">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="/front/images/favicon.png">
-    <!-- Site Title  -->
-    <title>Welcome</title>
-    <!-- Bundle and Base CSS -->
-    <link rel="stylesheet" href="/front/assets/css/vendor.bundle.css?ver=200">
-    <link rel="stylesheet" href="/front/assets/css/style-azalea.css?ver=200">
-    <!-- Extra CSS -->
-    <link rel="stylesheet" href="/front/assets/css/theme.css?ver=200">
-</head>
+    <meta name="author" content="M_Adnan">
+    <title>FlowTC DEX</title>
 
-<body class="nk-body body-wider bg-theme mode-onepage">
-    <div class="nk-wrap">
-        <header class="nk-header page-header is-transparent is-sticky is-dark" id="header">
-            <!-- Header @s -->
-            <div class="header-main">
-                <div class="header-container container container-xxl">
-                    <div class="header-wrap">
-                        <!-- Logo @s -->
-                        <div class="header-logo logo animated" data-animate="fadeInDown" data-delay=".6">
-                            <a href="/" class="logo-link">
-                                <img class="logo-light" src="{{$logo_path}}" alt="logo">
-                            </a>
-                        </div>
-                        <!-- Menu Toogle @s -->
-                        <div class="header-nav-toggle">
-                            <a href="#" class="navbar-toggle" data-menu-toggle="header-menu">
-                                <div class="toggle-line">
-                                    <span></span>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- Menu @s -->
-                        <div class="header-navbar animated" data-animate="fadeInDown" data-delay=".6">
-                            <nav class="header-menu" id="header-menu">
-                                @if(auth()->check())
-                                <ul class="menu-btns">
-                                    <li><a href="{!! url('/logout'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change"><span>Logout</span></a></li>
-                                </ul>
-                                @else
-                                <ul class="menu-btns">
-                                    @if(!isset($referral_code))
-                                        <li><a href="{!! url('/login'); !!}" class="btn btn-md btn-round btn-thin btn-primary btn-auto no-change"><span>Login</span></a></li>
-                                    @endif
-                                    @if(isset($referral_code))
-                                    <li><a href="{!! url('/register/'.$referral_code); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change"><span>SignUp</span></a></li>
-                                    @else
-                                    <li><a href="{!! url('/register'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change"><span>SignUp</span></a></li>
-                                    @endif
-                                </ul>
-                                @endif
-                            </nav>
-                        </div><!-- .header-navbar @e -->
-                    </div>
-                </div>
-            </div><!-- .header-main @e -->
-            <div class="banner banner-fs tc-light">
-                <div class="nk-block nk-block-header nk-block-sm my-auto">
-                    <div class="container pt-5">
-                        <div class="banner-caption text-center">
-                            <h1 class="title title-xl-2 ttu animated" data-animate="fadeInUp" data-delay="0.7">{{$banner_title}}</h1>
-                            <div class="row justify-content-center pb-3">
-                                <div class="col-sm-11 col-xl-11 col-xxl-8">
-                                    <p class="lead animated" data-animate="fadeInUp" data-delay="0.8">{{$banner_content}} </p>
-                                </div>
-                            </div>
-                            @if(auth()->check() && auth()->user()->user_type == 'admin')
-                            <div class="cpn-action">
-                                <ul class="btn-grp mx-auto">                                                
-                                    <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url('admin/dashboard'); !!}" class="btn btn-primary btn-round">Get Started</a></li>
-                                </ul>
-                            </div>
-                            @elseif(auth()->check() && auth()->user()->marketing_campain_id>0)
-                            <div class="cpn-action">
-                                <ul class="btn-grp mx-auto">                                                
-                                    <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url(auth()->user()->redirect); !!}" class="btn btn-primary btn-round">Get Started</a></li>
-                                </ul>
-                            </div>
-                            @elseif(auth()->check() && auth()->user()->marketing_campain_id == 0)
-                            <div class="cpn-action">
-                                <ul class="btn-grp mx-auto">                                                
-                                    <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url('/required_marketing_campain'); !!}" class="btn btn-primary btn-round">Get Started</a></li>
-                                </ul>
-                            </div>
-                            @endif
-                            @if(isset($referral_code))
-                            <div class="cpn-action">
-                                <ul class="btn-grp mx-auto">
-                                    <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url('register/'.$referral_code); !!}" class="btn btn-primary btn-round">Get Started</a></li>
-                                </ul>
-                            </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <!-- Footer -->
-        <footer class="nk-footer-bar section section-s tc-light">
-            <div class="container container-xxl">
-                <div class="row gutter-vr-10px">
-                    <div class="col-lg-6">
-                        <div class="copyright-text copyright-text-s2">Copyright &copy; NeilLabs.</div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <div class="nk-ovm nk-ovm-repeat nk-ovm-fixed shape-i">
-            <div class="ovm-line"></div>
-        </div>
-    </div>
-    <!-- Modals -->
-    <!-- This is used in azalea, azalea-woa, gentian, gentian-woa, gentian-pro, gentian-pro-woa.html pages  -->
-    <!-- Modal @s -->
-    <div class="modal fade" id="login-popup">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <a href="#" class="modal-close" data-bs-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
-                <div class="ath-container m-0">
-                    <div class="ath-body bg-theme tc-light">
-                        <h5 class="ath-heading title">Sign in <small class="tc-default">with your ICO Account</small></h5>
-                        <form action="#">
-                            <div class="field-item">
-                                <div class="field-wrap">
-                                    <input type="text" class="input-bordered" placeholder="Your Email">
-                                </div>
-                            </div>
-                            <div class="field-item">
-                                <div class="field-wrap">
-                                    <input type="password" class="input-bordered" placeholder="Password">
-                                </div>
-                            </div>
-                            <div class="field-item d-flex justify-content-between align-items-center">
-                                <div class="field-item pb-0">
-                                    <input class="input-checkbox" id="remember-me-100" type="checkbox">
-                                    <label for="remember-me-100">Remember Me</label>
-                                </div>
-                                <div class="forget-link fz-6">
-                                    <a href="#" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reset-popup">Forgot password?</a>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary btn-block btn-md">Sign In</button>
-                        </form>
-                        <div class="sap-text"><span>Or Sign In With</span></div>
-                        <ul class="row gutter-20px gutter-vr-20px">
-                            <li class="col"><a href="#" class="btn btn-md btn-facebook btn-block"><em class="icon fab fa-facebook-f"></em><span>Facebook</span></a></li>
-                            <li class="col"><a href="#" class="btn btn-md btn-google btn-block"><em class="icon fab fa-google"></em><span>Google</span></a></li>
-                        </ul>
-                        <div class="ath-note text-center"> Don’t have an account? <a href="#" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#register-popup"> <strong>Sign up here</strong></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!-- .modal @e -->
-    <!-- Modal @s -->
-    <div class="modal fade" id="reset-popup">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <a href="#" class="modal-close" data-bs-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
-                <div class="ath-container m-0">
-                    <div class="ath-body bg-theme tc-light">
-                        <h5 class="ath-heading title">Reset <small class="tc-default">with your Email</small></h5>
-                        <form action="#">
-                            <div class="field-item">
-                                <div class="field-wrap">
-                                    <input type="text" class="input-bordered" placeholder="Your Email">
-                                </div>
-                            </div>
-                            <button class="btn btn-primary btn-block btn-md">Reset Password</button>
-                            <div class="ath-note text-center"> Remembered? <a href="#" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#login-popup"> <strong>Sign in here</strong></a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!-- .modal @e -->
+    <!-- Bootstrap Core CSS -->
+    <link href="/front/assets/css/bootstrap.min.css" rel="stylesheet">
 
-    @if($profit)
-    <div class="modal fade" id="modal-medium">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <a href="#" class="modal-close" data-bs-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
-                <div class="modal-body p-md-4 p-lg-5">
-                    <h3 class="title title-md tc-danger text-center"> 👋 Congratulations! </h3>
-                    <p class="tt-n">You got <span class="tc-danger">🎁{{ $profit->amount.' '.$profit->token }} </span> as revenue from your friend <span class="tc-info">{{$profit->from->first_name.' '.$profit->from->last_name}}</span></p>
-                    <form id="get-profit-form">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="field-item">
-                                    <label class="field-label">Please Input Your {{$profit->network.' '.$profit->stack->stackname}} Wallet Address</label>
-                                    <div class="field-wrap">
-                                        <input name="wallet_addr" type="text" class="input-bordered" id="wallet_addr" required="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 mb-3">
-                                <div class="field-wrap">
-                                    <input class="input-checkbox" id="sure_cb" type="checkbox" required="">
-                                    <label for="sure_cb">I am sure this address is correct</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 mb-3" id="message-div">
-                                
-                            </div>
-                            <div class="col-lg-12 text-center">
-                                <button type="submit" class="btn btn-grad" id="submit-btn" disabled>Submit</button>
-                                <div id="loading_div" style="display:none">
-                                    <img src="/front/images/Spin-1s-200px.svg" style="width: 60px; height: auto;" />
-                                    <p class="text-center tc-danger">Just a moment...</p>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
-    <!-- JavaScript -->
-    <script src="/front/assets/js/jquery.bundle.js?ver=200"></script>
-    <script src="/front/assets/js/scripts.js?ver=200"></script>
-    <script src="/front/assets/js/charts.js?ver=200"></script>
-    <script src="/front/assets/js/charts.js?ver=200"></script>
+    <!-- Bootstrap 5 CSS -->
+    <link href="/front/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
-    <script>
-        $(document).ready(function(){
-            @if($profit)
-                $("#modal-medium").modal('show');
+    <!-- Custom CSS -->
+    <link href="/front/assets/css/main.css" rel="stylesheet">
+    <link href="/front/assets/css/style1.css" rel="stylesheet">
+    <link href="/front/assets/css/responsive.css" rel="stylesheet">
+    <link href="/front/assets/css/flaticon.css" rel="stylesheet">
+    <link href="/front/assets/css/ionicons.min.css" rel="stylesheet">
 
-                $("#sure_cb").on('click', function(e) {
-                    if ( $(e.target).prop('checked') ) $("#submit-btn").prop('disabled', false);
-                    else $("#submit-btn").prop('disabled', true);
-                })
+    <!-- JavaScripts -->
+    <script src="js/modernizr.js"></script>
 
-                $("#get-profit-form").on('submit', function(e) {
-                    e.preventDefault();
-                    $("#submit-btn").hide();
-                    $("#loading_div").show();
+    <!-- Online Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700,900|Montserrat:300,400,500,600,700,800" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
 
-                    $.ajax({
-                        type: "post",
-                        url : '{{ url('/get_profit'); }}',
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            "id": {{$profit->id}},
-                            "wallet" : $("#wallet_addr").val(),
-                        },
-                        success: function(data){
-                            $("#loading_div").hide();
-                            if(data.status=='success'){
-                                $("#message-div").append(`<div class="alert alert-success alert-dismissible fade show"> You have been received {{$profit->amount}} {{$profit->token}} successfully! Transaction id is <code>`+data.payload+`</code>
-                                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>`);
-                            }else{
-                                $("#message-div").append(`<div class="alert alert-danger alert-dismissible fade show"> `+data.payload+`
-                                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>`);
-                                $("#submit-btn").show();
-                            }
-                        },
-                    });
-                })
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
+    </head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="position-center-center">
+    <div class="ldr"></div>
+  </div>
+</div>
+
+<!-- Wrap -->
+<div id="wrap"> 
+  
+  <!-- header -->
+  <header class="sticky">
+    <div class="container"> 
+      
+      <!-- Logo -->
+      <div class="logo"> <a href="/"><img class="img-responsive" src="/front/images/logo1.png" alt="" ></a> </div>
+      <nav class="navbar ownmenu navbar-expand-lg ">
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="nav">
+            <li class="scroll active"><a href="#hme">Home</a></li>
+            <li class="scroll"> <a href="#about">About </a> </li>
+            <li class="scroll"> <a href="#token">Token</a> </li>
+            <li class="scroll"> <a href="#activity">Activity</a> </li>
+            <li class="scroll"> <a href="#team">Team</a> </li>
+            <li class="scroll"> <a href="#contact">Contact</a> </li>
+            @if(auth()->check())
+            <ul class="menu-btns">
+                <li><a href="{!! url('/logout'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:90px"><span>Logout</span></a></li>
+            </ul>
+            @else
+            <ul class="menu-btns">
+                @if(!isset($referral_code))
+                    <li><a href="{!! url('/login'); !!}" class="btn btn-md btn-round btn-thin btn-primary btn-auto no-change" style="width:90px"><span>Login</span></a></li>
+                @endif
+                @if(isset($referral_code))
+                <li><a href="{!! url('/register/'.$referral_code); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:90px"><span>SignUp</span></a></li>
+                @else
+                <li><a href="{!! url('/register'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:90px"><span>SignUp</span></a></li>
+                @endif
+            </ul>
             @endif
-        })
-    </script>
-</body>
+          </ul>
+        </div>
+      </nav>
+      
+    </div>
+    <div class="clearfix"></div>
+  </header>
+  
+  <!-- HOME MAIN  -->
+  <section class="simple-head" data-stellar-background-ratio="0.5" id="hme"> 
+    <!-- Particles -->
+    <div id="particles-js"></div>
+    <div class="position-center-center">
+      <div class="container text-center">
+        <h1>Build a new kind of Decentralized </h1>
+        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+        <!-- <a href="#." class="btn">Join Us</a> <a href="#." class="btn btn-inverse">View White Paper</a> </div> -->
+    </div>
+  </section>
+  
+  <!-- Content -->
+  <div id="content"> 
+    
+    <!-- Why Choose Us -->
+    <section class="why-choose padding-top-150 padding-bottom-150" id="about">
+      <div class="container"> 
+        
+        <!-- Why Choose Us  ROW-->
+        <div class="row">
+          <div class="col-md-7 margin-top-60"> 
+            
+            <!-- Tittle -->
+            <div class="heading margin-bottom-20">
+              <h6 class="margin-bottom-10">The world’s only enterprise blockchain solution for global payments</h6>
+              <h4>Best Blockchain &amp; Better Than Any Blockchain</h4>
+            </div>
+            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+            <p>Cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+            <div class="ultra-ser"> <span><span class="name"> Flowtc.vip &nbsp; - &nbsp;</span> <span>Ceo/Founder Chain</span></span> </div>
+            <a class="vid-btn margin-top-30 popup-youtube" href="https://www.youtube.com/watch?v=7e90gBu4pas"><i class="fas fa-play-circle"></i> Watch Video <br>
+            <span>How it work</span></a> </div>
+          
+          <!-- Image -->
+          <div class="col-md-5 text-right"> <img src="/images/chain-img.png" alt="Why Choose Us Image" > </div>
+        </div>
+        
+        <!-- Services ROW -->
+        <div class="row"> 
+          
+          <!-- Services -->
+          <div class="col-md-4">
+            <div class="ib-icon"> <i class="flaticon-smartphone"></i> </div>
+            <div class="ib-info">
+              <h4 class="h6">Peer-to-Peer Transactions</h4>
+              <p>Contrary to popular belief , Lorem Ipsum is not simply random text. It has roots in a piece</p>
+            </div>
+          </div>
+          
+          <!-- Services -->
+          <div class="col-md-4">
+            <div class="ib-icon"> <i class="flaticon-flat-world-map"></i> </div>
+            <div class="ib-info">
+              <h4 class="h6">Borderless Payments</h4>
+              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem not simply random accusantium</p>
+            </div>
+          </div>
+          
+          <!-- Services -->
+          <div class="col-md-4">
+            <div class="ib-icon"> <i class="flaticon-secure-shield"></i> </div>
+            <div class="ib-info">
+              <h4 class="h6">Fully Protection</h4>
+              <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece</p>
+            </div>
+          </div>
+          
+          <!-- Services -->
+          <div class="col-md-4">
+            <div class="ib-icon"> <i class="flaticon-credit-card"></i> </div>
+            <div class="ib-info">
+              <h4 class="h6">Smart Money</h4>
+              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</p>
+            </div>
+          </div>
+          
+          <!-- Services -->
+          <div class="col-md-4">
+            <div class="ib-icon"> <i class="flaticon-wallet"></i> </div>
+            <div class="ib-info">
+              <h4 class="h6">Secure Wallet</h4>
+              <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece</p>
+            </div>
+          </div>
+          
+          <!-- Services -->
+          <div class="col-md-4">
+            <div class="ib-icon"> <i class="flaticon-money"></i> </div>
+            <div class="ib-info">
+              <h4 class="h6">Easy To buy & Sell</h4>
+              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Token Distribution -->
+    <section class="distri drk padding-top-150 padding-bottom-150 " id="token">
+      <div class="container">
+        <div class="row"> 
+          
+          <!-- Token  -->
+          <div class="col-lg-7">
+            <h3>Token Distribution</h3>
+            <p>FlowTC Crypto token will be released on the basis of Ethereum and Bitocin platform. It’s compatibility of the token with third-party services wallets, exchanges etc, and provides easy-to-use integration.</p>
+            
+            <!-- Progress -->
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="150"><span>9,000,000 <small>50%</small></span> </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <h6> Now Distribution</h6>
+                <span>2,000,000</span> </div>
+              <div class="col">
+                <h6> 99,910</h6>
+                <span>ETH Received</span> </div>
+              <div class="col">
+                <h6> 99,910</h6>
+                <span>BTC Received</span> </div>
+            </div>
+            
+            <!-- CountdownEnd -->
+            <div class="countdown">
+              <h6>Current Distribution Section End  150/350</h6>
+              <!-- Countdown-->
+              <ul class="row">
+                <!-- Days -->
+                <li class="col-md-3">
+                  <article> <span class="days">00</span>
+                    <p class="days_ref">Days</p>
+                  </article>
+                </li>
+                <!-- Hours -->
+                <li class="col-md-3">
+                  <article> <span class="hours">00</span>
+                    <p class="hours_ref">Hours</p>
+                  </article>
+                </li>
+                <!-- Mintes -->
+                <li class="col-md-3">
+                  <article><span class="minutes">00</span>
+                    <p class="minutes_ref">Minutes</p>
+                  </article>
+                </li>
+                <!-- Seconds -->
+                <li class="col-md-3">
+                  <article><span class="seconds">00</span>
+                    <p class="seconds_ref">Seconds</p>
+                  </article>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- Total Distribution -->
+          <div class="col-lg-5">
+            <h3>Total Distribution Section End <b>350/350</b></h3>
+            <p>FlowTC Crypto token will be released on the basis of Ethereum and Bitocin platform.</p>
+            <div class="countdown-all"> 
+              
+              <!-- Countdown -->
+              <ul class="row">
+                <!-- Days -->
+                <li class="col-md-3">
+                  <article> <span class="days">00</span>
+                    <p class="days_ref">Days</p>
+                  </article>
+                </li>
+                <!-- Hours -->
+                <li class="col-md-3">
+                  <article> <span class="hours">00</span>
+                    <p class="hours_ref">Hours</p>
+                  </article>
+                </li>
+                <!-- Mintes -->
+                <li class="col-md-3">
+                  <article><span class="minutes">00</span>
+                    <p class="minutes_ref">Minutes</p>
+                  </article>
+                </li>
+                <!-- Seconds -->
+                <li class="col-md-3">
+                  <article><span class="seconds">00</span>
+                    <p class="seconds_ref">Seconds</p>
+                  </article>
+                </li>
+              </ul>
+              <a href="#." class="btn">Join Us</a> <a href="#." class="btn btn-inverse">Buy Now</a> 
+              
+              <!-- Buy Option -->
+              <div class="card-info"> <i class="fab  fa-bitcoin"></i> <i class="fab  fa-cc-discover"></i> <i class="fab  fa-cc-visa"></i> <i class="fab  fa-cc-mastercard"></i> </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Development -->
+    <section class="dev-activ text-center padding-top-150 padding-bottom-150" id="activity">
+      <div class="container">
+        <div class="sm-intro">
+          <h2>Development Activity</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nibh dolor, efficitur eget pharetra ac, cursus sed sapien. Cras posuere ligula ut blandit varius. </p>
+        </div>
+        <ul class="row margin-top-50 margin-bottom-50">
+          <li class="col"> <i class="flaticon-rotate"></i> <span><span class="counter">4</span> hrs Ago</span>
+            <p>Last Update</p>
+          </li>
+          <li class="col"><i class="flaticon-building"></i> <span><span class="counter">10</span> Days Ago</span>
+            <p>Last Block Found</p>
+          </li>
+          <li class="col"><i class="flaticon-money-1"></i> <span><span class="counter">45057</span>+</span>
+            <p>Contributions</p>
+          </li>
+          <li class="col"><i class="flaticon-team"></i> <span  class="counter">80</span>
+            <p>Team Members</p>
+          </li>
+        </ul>
+        <!-- <a href="#." class="btn">Start on GitHub</a> <a href="#." class="btn btn-inverse">White Paper</a> </div> -->
+    </section>
+    
+    <!-- ABOUT -->
+    <section class="about light-bg"> 
+      <!-- Right Background -->
+      <div class="main-page-section half_left_layout">
+        <div class="main-half-layout half_right_layout"> </div>
+        
+        <!-- Left Content -->
+        <div class="main-half-layout-container half_right_layout">
+          <div class="about-us-con">
+            <h3>Growing Global Network</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nibh dolor, efficitur eget pharetra ac, cursus sed sapien. Cras posuere ligula ut blandit varius. </p>
+            <ul class="count-info row">
+              <li class="col"> <span class="counter">5000</span><span>+</span>
+                <p>Customers</p>
+              </li>
+              <li class="col"> <span class="counter">750</span><span>+</span>
+                <p>Deploying</p>
+              </li>
+            </ul>
+            <!-- <a href="#." class="btn">White Paper</a> <a href="#." class="btn btn-inverse">Find an Exchange</a> </div> -->
+        </div>
+      </div>
+    </section>
+    
+    <!-- Team Members -->
+    <section class="team style-2 padding-top-150 padding-bottom-150" id="team">
+      <div class="container">
+        <div class="heading text-center">
+          <h2>Our Senior Team Leads </h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nibh dolor, efficitur eget pharetra ac, cursus sed sapien. Cras posuere ligula ut blandit varius. </p>
+        </div>
+        <ul class="team-small">
+          <li><img  src="/members/Arman-Stepanyan.png" alt=""><a class="hover" href="#.">Arman Stepanyan</a></li>
+          <li><img  src="/members/Kevin-McNamara.png" alt=""><a class="hover" href="#.">Kevin McNamara</a></li>
+          <li><img  src="/members/Samvel-Barseghyan.png" alt=""><a class="hover" href="#.">Samvel Barseghyan </a></li>
+          
+      </ul>
+      </div>
+    </section>
+    
+    <!-- Team Members -->
+    <section class="light-bg padding-top-150 padding-bottom-150" id="team">
+      <div class="container">
+        <div class="heading text-center">
+          <h2>Frequently asked questions</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nibh dolor, efficitur eget pharetra ac, cursus sed sapien. Cras posuere ligula ut blandit varius. </p>
+        </div>
+        <!-- FAQS -->
+        <div class="row">
+          <div class="col-md-6"> 
+            
+            <!-- According Style 1 -->
+            <div class="panel-group accordion" id="accordion"> 
+              
+              <!-- According 1 -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed"> What is FlowTC ?</a> </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nibh dolor, efficitur eget pharetra ac, cursus sed sapien. Cras posuere ligula ut blandit varius. </div>
+                </div>
+              </div>
+              
+              <!-- According 2 -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="collapsed"> Why The Best FlowTC BlockChain</a> </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
+                </div>
+              </div>
+              
+              <!-- According 3 -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="collapsed"> What is FlowTC Blockchain</a> </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse">
+                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
+                </div>
+              </div>
+              
+              <!-- According 4 -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapsefour" class="collapsed"> Best Crypto in this world</a> </h4>
+                </div>
+                <div id="collapsefour" class="panel-collapse collapse">
+                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6"> 
+            
+            <!-- According Style 1 -->
+            <div class="panel-group accordion" id="accordion"> 
+              
+              <!-- According 1 -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-1" class="collapsed"> Our Mission</a> </h4>
+                </div>
+                <div id="collapseOne-1" class="panel-collapse collapse">
+                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
+                </div>
+              </div>
+              
+              <!-- According 2 -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-1" class="collapsed"> Our Services</a> </h4>
+                </div>
+                <div id="collapseTwo-1" class="panel-collapse collapse">
+                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
+                </div>
+              </div>
+              
+              <!-- According 3 -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree-1" class="collapsed"> Block Chain Into</a> </h4>
+                </div>
+                <div id="collapseThree-1" class="panel-collapse collapse">
+                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
+                </div>
+              </div>
+              
+              <!-- According 4 -->
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapsefour-1" class="collapsed"> Crypto Currency FAQS</a> </h4>
+                </div>
+                <div id="collapsefour-1" class="panel-collapse collapse">
+                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Join our community -->
+    <section class="community-sec padding-top-150 padding-bottom-150">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="sm-intro">
+              <h2>Join our community</h2>
+              <ul class="socials">
+                <li><a href="#."><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#."><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#."><i class="fab fa-github"></i></a></li>
+                <li><a href="#."><i class="fab fa-telegram"></i></a></li>
+                <li><a href="#."><i class="fab fa-gitter"></i></a></li>
+                <li><a href="#."><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#."><i class="fab fa-linkedin"></i></a></li>
+                <li><a href="#."><i class="fab fa-youtube"></i></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col">
+            <div class="news-letter">
+              <h2>Subscribe to our newsletter</h2>
+              <form>
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit">SEND</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="container">
+      <div class="parthner">
+        <h6>Partnered with Innovative Globally</h6>
+        <ul>
+          <li><a href="#."><img src="images/c-mg-1.png" alt=""></a></li>
+          <li><a href="#."><img src="images/c-mg-2.png" alt=""></a></li>
+          <li><a href="#."><img src="images/c-mg-3.png" alt=""></a></li>
+          <li><a href="#."><img src="images/c-mg-1.png" alt=""></a></li>
+          <li><a href="#."><img src="images/c-mg-2.png" alt=""></a></li>
+          <li><a href="#."><img src="images/c-mg-3.png" alt=""></a></li>
+          <li><a href="#."><img src="images/c-mg-1.png" alt=""></a></li>
+          <li><a href="#."><img src="images/c-mg-2.png" alt=""></a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Rights -->
+    <div class="rights">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <p>© 2018 FlowTC Crypto BlockChain. All Rights Reserved. www.flowtc.vip</p>
+          </div>
+          <div class="col-md-6 text-right"> <a href="#.">Faqs </a> <a href="#.">Terms & Conditions </a> <a href="#.">Contact Us</a> </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
 
+<!-- GO TO TOP --> 
+	<a href="#" class="cd-top"><i class="ion-chevron-up"></i></a> 
+<!-- GO TO TOP End --> 
+
+<!-- Script --> 
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/bootstrap.bundle.js"></script> 
+<script src="js/particles.min.js"></script> 
+<script src="js/jquery.counterup.min.js"></script> 
+<script src="js/jquery.sticky.js"></script> 
+<script src="js/jquery.magnific-popup.min.js"></script> 
+<script src="js/main.js"></script>
+</body>
 </html>
