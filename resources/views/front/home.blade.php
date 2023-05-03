@@ -318,66 +318,69 @@
               <!-- According 1 -->
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed"> What is FlowTC ?</a> </h4>
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed"> What is an anonymous crypto OTC market?</a> </h4>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in">
-                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nibh dolor, efficitur eget pharetra ac, cursus sed sapien. Cras posuere ligula ut blandit varius. </div>
+                  <div class="panel-body"> An anonymous crypto OTC (over-the-counter) market is a platform that facilitates crypto-to-crypto transactions between buyers and sellers without revealing their identities. It allows for large-volume trades without affecting the market price by bypassing public exchanges and operating through a network of centralized and decentralized exchanges.</div>
                 </div>
               </div>
               
               <!-- According 2 -->
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="collapsed"> Why The Best FlowTC BlockChain</a> </h4>
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="collapsed">How does an anonymous crypto OTC market maintain privacy?</a> </h4>
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse">
-                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
+                  <div class="panel-body">Anonymous crypto OTC markets utilize a combination of encryption, secure communication channels, and private order books to protect the identity of the participants involved in transactions. This ensures that the transaction details and the parties involved remain confidential. </div>
                 </div>
               </div>
               
               <!-- According 3 -->
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="collapsed"> What is FlowTC Blockchain</a> </h4>
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="collapsed"> Can I trust FlowTC with my funds?</a> </h4>
                 </div>
                 <div id="collapseThree" class="panel-collapse collapse">
-                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
+                  <div class="panel-body"> The trustworthiness of an anonymous crypto OTC market depends on its reputation, security measures, and compliance with regulations. It is essential to conduct thorough research and choose a platform with a strong track record, robust security measures, and adherence to applicable laws and regulations. In FlowTC you don't need to provide us your funds. Using the most advanced cryptography techniques, we make sure that during the trades, noone has any access to your funds</div>
                 </div>
               </div>
               
               <!-- According 4 -->
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapsefour" class="collapsed"> Best Crypto in this world</a> </h4>
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapsefour" class="collapsed">How does FlowTC prevent price slippage?</a> </h4>
                 </div>
                 <div id="collapsefour" class="panel-collapse collapse">
-                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
+                  <div class="panel-body">By operating through a network of centralized and decentralized exchanges and not disclosing large-volume trades to the public, anonymous crypto OTC markets can prevent price slippage. This ensures that large trades do not cause sudden price fluctuations and affect the overall market. FlowTC does all the purchases in a distributed way across multiple exchanges with slow minimal pruchases. Each of these purchases is not surpassing 20000USD</div>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-md-6"> 
-            
             <!-- According Style 1 -->
             <div class="panel-group accordion" id="accordion"> 
-              
               <!-- According 1 -->
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-1" class="collapsed"> Our Mission</a> </h4>
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-1" class="collapsed"> What are the fees involved in using FlowTC?</a> </h4>
                 </div>
                 <div id="collapseOne-1" class="panel-collapse collapse">
-                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
+                  <div class="panel-body">FlowTC offers a competitive and flexible fee structure tailored to accommodate the needs of our clients. Our platform presents two distinct versions to cater to different trading preferences:
+                              <br>
+                              1. Flow Algo Trading System: With our cutting-edge algorithmic trading system, clients can enjoy reduced commissions ranging from 3% down to 1%, depending on the trade size. This enables users to optimize their trading strategies while minimizing costs.
+                              <br>
+                              2. FlowTC Escrow Service: For clients who prefer a more personalized approach, we provide a secure escrow service where buyers and sellers can engage in transactions with FlowTC acting as a trusted intermediary. In this scenario, we are open to discussing and customizing commission rates to reach a mutually beneficial agreement.
+                        </div>
                 </div>
               </div>
               
               <!-- According 2 -->
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-1" class="collapsed"> Our Services</a> </h4>
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-1" class="collapsed">What range of cryptocurrencies does FlowTC support?</a> </h4>
                 </div>
                 <div id="collapseTwo-1" class="panel-collapse collapse">
-                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
+                  <div class="panel-body"> FlowTC supports a wide range of cryptocurrencies, including popular coins like Bitcoin and Ethereum, as well as various altcoins and stablecoins. The platform continually adds new assets based on market demand and client requirements. </div>
                 </div>
               </div>
               
@@ -406,37 +409,6 @@
       </div>
     </section>
     
-    <!-- Join our community -->
-    <!-- <section class="community-sec padding-top-150 padding-bottom-150">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <div class="sm-intro">
-              <h2>Join our community</h2>
-              <ul class="socials">
-                <li><a href="#."><i class="fab fa-facebook-f"></i></a></li>
-                <li><a href="#."><i class="fab fa-twitter"></i></a></li>
-                <li><a href="#."><i class="fab fa-github"></i></a></li>
-                <li><a href="#."><i class="fab fa-telegram"></i></a></li>
-                <li><a href="#."><i class="fab fa-gitter"></i></a></li>
-                <li><a href="#."><i class="fab fa-instagram"></i></a></li>
-                <li><a href="#."><i class="fab fa-linkedin"></i></a></li>
-                <li><a href="#."><i class="fab fa-youtube"></i></a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col">
-            <div class="news-letter">
-              <h2>Subscribe to our newsletter</h2>
-              <form>
-                <input type="email" placeholder="Enter your email address" required>
-                <button type="submit">SEND</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
   </div>
 </div>
 
