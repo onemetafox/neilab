@@ -60,11 +60,11 @@
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="nav">
-            <li class="scroll active"><a href="#hme">Home</a></li>
+            <li class="scroll active"><a href="#home">Home</a></li>
+            <li class="scroll"> <a href="#about">Introduction </a> </li>
             <li class="scroll"> <a href="#token">OTC Market</a> </li>
-            <!-- <li class="scroll"> <a href="#activity">Activity</a> </li> -->
             <li class="scroll"> <a href="#team">Team</a> </li>
-            <li class="scroll"> <a href="#about">About </a> </li>
+            <li class="scroll"> <a href="#faq">FAQ</a> </li>
 
             @if(auth()->check())
             <ul class="menu-btns">
@@ -91,7 +91,7 @@
   </header>
   
   <!-- HOME MAIN  -->
-  <section class="simple-head" data-stellar-background-ratio="0.5" id="hme"> 
+  <section class="simple-head" data-stellar-background-ratio="0.5" id="home"> 
     <!-- Particles -->
     <div id="particles-js"></div>
     <div class="position-center-center">
@@ -207,7 +207,7 @@
     </section>
     
     <!-- Token Distribution -->
-    <section class="distri drk padding-top-150 padding-bottom-150 " id="token">
+    <section class="distri drk padding-top-150 padding-bottom-150 token" id="token">
       <div class="container">
         <div class="row"> 
           
@@ -246,10 +246,10 @@
                       </tr>
                       <tr>
                         <td>KYC</td>
-                        <td>Not require</td>
-                        <td>Require</td>
-                        <td>Require</td>
-                        <td>Require</td>
+                        <td>Not required</td>
+                        <td>Required</td>
+                        <td>Required</td>
+                        <td>Required</td>
                       </tr>
                       <tr>
                         <td>Minimum purchase size</td>
@@ -309,7 +309,7 @@
       </div>
     </section>
     
-    <section class="light-bg padding-top-150 padding-bottom-150" id="team">
+    <section class="light-bg padding-top-100 padding-bottom-150" id="faq">
       <div class="container">
         <div class="heading text-center">
           <h2>Frequently asked questions</h2>
