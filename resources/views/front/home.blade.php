@@ -61,10 +61,9 @@
           <ul class="nav">
             <li class="scroll active"><a href="#hme">Home</a></li>
             <li class="scroll"> <a href="#about">About </a> </li>
-            <li class="scroll"> <a href="#token">Token</a> </li>
+            <li class="scroll"> <a href="#token">OTC Market</a> </li>
             <li class="scroll"> <a href="#activity">Activity</a> </li>
             <li class="scroll"> <a href="#team">Team</a> </li>
-            <li class="scroll"> <a href="#contact">Contact</a> </li>
             @if(auth()->check())
             <ul class="menu-btns">
                 <li><a href="{!! url('/logout'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:90px"><span>Logout</span></a></li>
@@ -95,8 +94,8 @@
     <div id="particles-js"></div>
     <div class="position-center-center">
       <div class="container text-center">
-        <h1>Build a new kind of Decentralized </h1>
-        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+        <h1>Effortless Crypto-to-Crypto OTC Trading Platform With Zero Market Impact</h1>
+        <p>Discover the ultimate solution for anonymous crypto-to-crypto OTC trading. Our platform integrates both centralized and decentralized exchanges, ensuring a seamless trading experience without affecting market prices. Place your trade request and enjoy unmatched security and privacy. Join now and revolutionize your digital asset trading experience.</p>
         <!-- <a href="#." class="btn">Join Us</a> <a href="#." class="btn btn-inverse">View White Paper</a> </div> -->
     </div>
   </section>
@@ -115,10 +114,15 @@
             <!-- Tittle -->
             <div class="heading margin-bottom-20">
               <h6 class="margin-bottom-10">The world’s only enterprise blockchain solution for global payments</h6>
-              <h4>Best Blockchain &amp; Better Than Any Blockchain</h4>
+              <h4>Introduction (30-40 words)</h4>
             </div>
-            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
-            <p>Cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+            <p>Welcome to our high-volume Anonymous Crypto OTC Market, where we facilitate seamless crypto-to-crypto transactions daily.Experience unmatched efficiency and privacy in a secure trading environment.</p>
+            <p>a. Seamless Integration: Our platform unifies centralized and decentralized exchanges, providing an effortless trading experience without impacting market prices.</p>
+
+            <p>b. Anonymity and Security: We prioritize your privacy and security, offering a discreet and encrypted trading platform for all crypto-to-crypto transactions.</p>
+
+            <p>c. Huge Daily Trading Volume: Our platform connects to over 50 verified exchange accounts and has a capability of doing up to 20000BTC daily trading volume.</p>
+
             <div class="ultra-ser"> <span><span class="name"> Flowtc.vip &nbsp; - &nbsp;</span> <span>Ceo/Founder Chain</span></span> </div>
             <a class="vid-btn margin-top-30 popup-youtube" href="https://www.youtube.com/watch?v=7e90gBu4pas"><i class="fas fa-play-circle"></i> Watch Video <br>
             <span>How it work</span></a> </div>
@@ -194,7 +198,7 @@
           
           <!-- Token  -->
           <div class="col-lg-7">
-            <h3>Token Distribution</h3>
+            <h3>OTC Market Distribution</h3>
             <p>FlowTC Crypto token will be released on the basis of Ethereum and Bitocin platform. It’s compatibility of the token with third-party services wallets, exchanges etc, and provides easy-to-use integration.</p>
             
             <!-- Progress -->
@@ -341,7 +345,7 @@
     <section class="team style-2 padding-top-150 padding-bottom-150" id="team">
       <div class="container">
         <div class="heading text-center">
-          <h2>Our Senior Team Leads </h2>
+          <h2>Meet our Core Team</h2>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nibh dolor, efficitur eget pharetra ac, cursus sed sapien. Cras posuere ligula ut blandit varius. </p>
         </div>
         <ul class="team-small">
@@ -490,37 +494,6 @@
       </div>
     </section>
   </div>
-  
-  <!-- Footer -->
-  <footer id="contact">
-    <div class="container">
-      <div class="parthner">
-        <h6>Partnered with Innovative Globally</h6>
-        <ul>
-          <li><a href="#."><img src="images/c-mg-1.png" alt=""></a></li>
-          <li><a href="#."><img src="images/c-mg-2.png" alt=""></a></li>
-          <li><a href="#."><img src="images/c-mg-3.png" alt=""></a></li>
-          <li><a href="#."><img src="images/c-mg-1.png" alt=""></a></li>
-          <li><a href="#."><img src="images/c-mg-2.png" alt=""></a></li>
-          <li><a href="#."><img src="images/c-mg-3.png" alt=""></a></li>
-          <li><a href="#."><img src="images/c-mg-1.png" alt=""></a></li>
-          <li><a href="#."><img src="images/c-mg-2.png" alt=""></a></li>
-        </ul>
-      </div>
-    </div>
-    
-    <!-- Rights -->
-    <div class="rights">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <p>© 2018 FlowTC Crypto BlockChain. All Rights Reserved. www.flowtc.vip</p>
-          </div>
-          <div class="col-md-6 text-right"> <a href="#.">Faqs </a> <a href="#.">Terms & Conditions </a> <a href="#.">Contact Us</a> </div>
-        </div>
-      </div>
-    </div>
-  </footer>
 </div>
 
 <!-- GO TO TOP --> 
