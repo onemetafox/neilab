@@ -352,15 +352,7 @@
                 </div>
               </div>
               
-              <!-- According 4 -->
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapsefour" class="collapsed">How does FlowTC prevent price slippage?</a> </h4>
-                </div>
-                <div id="collapsefour" class="panel-collapse collapse">
-                  <div class="panel-body">By operating through a network of centralized and decentralized exchanges and not disclosing large-volume trades to the public, anonymous crypto OTC markets can prevent price slippage. This ensures that large trades do not cause sudden price fluctuations and affect the overall market. FlowTC does all the purchases in a distributed way across multiple exchanges with slow minimal pruchases. Each of these purchases is not surpassing 20000USD</div>
-                </div>
-              </div>
+              
             </div>
           </div>
           <div class="col-md-6"> 
@@ -390,24 +382,13 @@
                   <div class="panel-body"> FlowTC supports a wide range of cryptocurrencies, including popular coins like Bitcoin and Ethereum, as well as various altcoins and stablecoins. The platform continually adds new assets based on market demand and client requirements. </div>
                 </div>
               </div>
-              
-              <!-- According 3 -->
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree-1" class="collapsed"> Block Chain Into</a> </h4>
-                </div>
-                <div id="collapseThree-1" class="panel-collapse collapse">
-                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
-                </div>
-              </div>
-              
               <!-- According 4 -->
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapsefour-1" class="collapsed"> Crypto Currency FAQS</a> </h4>
+                  <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapsefour" class="collapsed">How does FlowTC prevent price slippage?</a> </h4>
                 </div>
-                <div id="collapsefour-1" class="panel-collapse collapse">
-                  <div class="panel-body"> There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some </div>
+                <div id="collapsefour" class="panel-collapse collapse">
+                  <div class="panel-body">By operating through a network of centralized and decentralized exchanges and not disclosing large-volume trades to the public, anonymous crypto OTC markets can prevent price slippage. This ensures that large trades do not cause sudden price fluctuations and affect the overall market. FlowTC does all the purchases in a distributed way across multiple exchanges with slow minimal pruchases. Each of these purchases is not surpassing 20000USD</div>
                 </div>
               </div>
             </div>
