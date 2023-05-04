@@ -68,7 +68,18 @@
 
             @if(auth()->check())
             <ul class="menu-btns">
-                <li><a href="{!! url('/logout'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:135px"><span>GET STARTED</span></a></li>
+              @if(auth()->check() && auth()->user()->user_type == 'admin')
+                  <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url('admin/dashboard'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:135px">Get Started</a></li>
+                @elseif(auth()->check() && auth()->user()->marketing_campain_id>0)
+                  <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url(auth()->user()->redirect); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:135px">Get Started</a></li>
+                @elseif(auth()->check() && auth()->user()->marketing_campain_id == 0)
+                  <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url('/required_marketing_campain'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:135px">Get Started</a></li>
+                @endif
+                @if(isset($referral_code))
+                  <li class="animated" data-animate="fadeInUp" data-delay="0.9"><a href="{!! url('register/'.$referral_code); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:135px">Get Started</a></li>
+                @endif
+
+                <!-- <li><a href="{!! url('/logout'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:135px"><span>GET STARTED</span></a></li> -->
                 <li><a href="{!! url('/logout'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:90px"><span>Logout</span></a></li>
             </ul>
             @else
@@ -396,7 +407,21 @@
         </div>
       </div>
     </section>
+    <!-- Footer -->
+    <footer id="contact" style="padding-top:0px">
     
+      <!-- Rights -->
+      <div class="rights">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <p>© 2022 FlowTC Market Platform. All Rights Reserved. www.flowtc.vip</p>
+            </div>
+            <div class="col-md-6 text-right"> <a href="#home">Home</a><a href="#faq">FAQ </a><a href="#about">Introduction </a></div>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 </div>
 
