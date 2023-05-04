@@ -24479,7 +24479,7 @@ table.dataTable.display tbody td {
   box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
   border-radius: 5px; }
   [data-theme-version="dark"] .authincation-content {
-    background: #3B3363;
+    background: #17182d;
     box-shadow: none; }
 
 .welcome-content {
@@ -27625,7 +27625,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   --font-family-title: Roboto, sans-serif; }
 
 [data-theme-version="dark"] {
-  background: #2C254A;
+  background: #0b0c22;
   color: #828690;
   --nav-headbg: #3B3363;
   --sidebar-bg: #3B3363;

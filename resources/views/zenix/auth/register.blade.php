@@ -11,8 +11,8 @@
                 <div class="col-xl-12">
                     <div class="auth-form">
 						<div class="text-center mb-3">
-                            <!-- <img src="{{ asset('images/logo-text.png') }}" style="width:40%" alt=""> -->
-                            <h1>CandyStore VIP</h1>
+                            <img src="{{ asset('front/images/logo1.png')}}" style="width:40%" alt="">
+                            <!-- <h1>CandyStore VIP</h1> -->
 						</div>
                         @if(session()->has('error'))
                         <div class="alert alert-danger"><div class="alert-body">{{ session()->get('error') }}</div></div>
@@ -53,10 +53,6 @@
                             <div class="form-group">
                                 <label class="mb-1"><strong>WhatsApp</strong></label>
                                 <input type="text" class="form-control" name="whatsapp" placeholder="{{__('locale.whatsapp_paceholder')}}">
-                            </div>
-                            <div class="form-group">
-                                <label class="mb-1"><strong>BoomBoomChat</strong></label>
-                                <input type="text" class="form-control" name="boomboomchat" placeholder="{{__('locale.boomboomchat_paceholder')}}">
                             </div>
                             <div class="form-group">
                                 <label class="mb-1"><strong>Telegram</strong></label>

@@ -6,21 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="M_Adnan">
-    <link rel="shortcut icon" href="/front/images/favicon1.png">
+    <link rel="shortcut icon" href="{{ asset('front/images/favicon1.png') }}">
     <title>FlowTC DEX</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="/front/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('front/assets/css/bootstrap.min.css')}}" rel="stylesheet">
 
     <!-- Bootstrap 5 CSS -->
-    <link href="/front/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ asset('front/assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
 
     <!-- Custom CSS -->
-    <link href="/front/assets/css/main.css" rel="stylesheet">
-    <link href="/front/assets/css/style1.css" rel="stylesheet">
-    <link href="/front/assets/css/responsive.css" rel="stylesheet">
-    <link href="/front/assets/css/flaticon.css" rel="stylesheet">
-    <link href="/front/assets/css/ionicons.min.css" rel="stylesheet">
+    <link href="{{ asset('front/assets/css/main.css')}}" rel="stylesheet">
+    <link href="{{ asset('front/assets/css/style1.css')}}" rel="stylesheet">
+    <link href="{{ asset('front/assets/css/responsive.css')}}" rel="stylesheet">
+    <link href="{{ asset('front/assets/css/flaticon.css')}}" rel="stylesheet">
+    <link href="{{ asset('front/assets/css/ionicons.min.css')}}" rel="stylesheet">
 
     <!-- JavaScripts -->
     <script src="js/modernizr.js"></script>
@@ -55,7 +55,7 @@
     <div class="container"> 
       
       <!-- Logo -->
-      <div class="logo"> <a href="/"><img class="img-responsive" src="/front/images/logo1.png" alt="" ></a> </div>
+      <div class="logo"> <a href="/"><img class="img-responsive" src="{{ asset('front/images/logo1.png')}}" alt="" ></a> </div>
       <nav class="navbar ownmenu navbar-expand-lg ">
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -405,12 +405,12 @@
 <!-- GO TO TOP End --> 
 
 <!-- Script --> 
-<script src="js/jquery-1.11.3.min.js"></script> 
-<script src="js/bootstrap.bundle.js"></script> 
-<script src="js/particles.min.js"></script> 
-<script src="js/jquery.counterup.min.js"></script> 
-<script src="js/jquery.sticky.js"></script> 
-<script src="js/jquery.magnific-popup.min.js"></script> 
-<script src="js/main.js"></script>
+<script src="{{ asset('js/jquery-1.11.3.min.js')}}"></script> 
+<script src="{{ asset('js/bootstrap.bundle.js')}}"></script> 
+<script src="{{ asset('js/particles.min.js')}}"></script> 
+<script src="{{ asset('js/jquery.counterup.min.js')}}"></script> 
+<script src="{{ asset('js/jquery.sticky.js')}}"></script> 
+<script src="{{ asset('js/jquery.magnific-popup.min.js')}}"></script> 
+<script src="{{ asset('js/main.js')}}"></script>
 </body>
 </html>

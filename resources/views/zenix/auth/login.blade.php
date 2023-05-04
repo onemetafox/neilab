@@ -1,8 +1,6 @@
 {{-- Extends layout --}}
 @extends('layout.fullwidth')
 
-
-
 {{-- Content --}}
 @section('content')
     <div class="col-md-6">
@@ -12,8 +10,8 @@
                     <div class="auth-form">
     					<div class="text-center mb-3 row">
                             <a href="/">
-                                <!-- <img src="{{ asset('images/logo-text.png') }}"  style="width:40%" alt=""> -->
-                                <h1>CandyStore VIP</h1>
+                                <img src="{{ asset('front/images/logo1.png')}}"  style="width:40%" alt="">
+                                <!-- <h1>CandyStore VIP</h1> -->
                             </a>
     					</div>
                         @if(session()->has('error'))
