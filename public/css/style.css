@@ -10999,7 +10999,7 @@ The smaller device rules always should write below the bigger device rules
 Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Component
 */
 [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li > a {
-  font-size: 14px;
+  font-size: 16px;
   padding: 12px 25px;
   -webkit-transition: all 0.5s;
   -ms-transition: all 0.5s;
@@ -24354,7 +24354,7 @@ table.dataTable.style-1 thead th {
   .dataTables_wrapper .dataTables_paginate span {
     display: inline-flex;
     padding: 4px 5px;
-    background: #efefef;
+    background: #efefef00;
     border-radius: 4px; }
     .dataTables_wrapper .dataTables_paginate span .paginate_button {
       height: 40px;

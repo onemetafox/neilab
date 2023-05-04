@@ -525,7 +525,7 @@
                 <ul class="navbar-nav header-right main-notification">
 					<li class="nav-item dropdown notification_dropdown">
                         <a class="nav-link bell dz-theme-mode" href="#" style="background:transparent; padding-top:3px">
-							<i id="icon-dark" class="fas fa-moon"></i>
+							<!-- <i id="icon-dark" class="fas fa-moon"></i> -->
 							<i id="icon-light" class="fas fa-sun"></i>
                         </a>
 					</li>
