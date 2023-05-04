@@ -139,7 +139,7 @@
             <span>How it work</span></a> </div>
           
           <!-- Image -->
-          <div class="col-md-5 text-right"> <img src="/images/chain-img.png" alt="Why Choose Us Image" > </div>
+          <div class="col-md-5 text-right"> <img src="{{ asset('images/chain-img.png')}}" alt="Why Choose Us Image" > </div>
         </div>
         
         <!-- Services ROW -->
@@ -297,21 +297,21 @@
         <div class="row" style="text-align:center; padding-top:100px">
           <div class="col-lg-4">
             <div class="card">
-              <img src="/members/Arman-Stepanyan.png" alt="Arman Stepanyan" class="member-avatar">
+              <img src="{{ asset('members/Arman-Stepanyan.png')}}" alt="Arman Stepanyan" class="member-avatar">
               <h1 class="member-name">Arman Stepanyan</h1>
               <p class="title">CEO & Founder</p>
             </div>
           </div>
           <div class="col-lg-4">
             <div class="card">
-              <img src="/members/Samvel-Barseghyan.png" alt="Samvel Barseghyan" class="member-avatar">
+              <img src="{{ asset('members/Samvel-Barseghyan.png')}}" alt="Samvel Barseghyan" class="member-avatar">
               <h1 class="member-name">Samvel Barseghyan</h1>
               <p class="title">CTO & CO-Founder</p>
             </div>
           </div>
           <div class="col-lg-4">
             <div class="card">
-              <img src="/members/Kevin-McNamara.png" alt="Kevin McNamara" class="member-avatar">
+              <img src="{{ asset('members/Kevin-McNamara.png')}}" alt="Kevin McNamara" class="member-avatar">
               <h1 class="member-name">Kevin McNamara</h1>
               <p class="title">CMO & CO-Founder</p>
             </div>

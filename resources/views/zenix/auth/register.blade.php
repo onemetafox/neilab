@@ -11,7 +11,9 @@
                 <div class="col-xl-12">
                     <div class="auth-form">
 						<div class="text-center mb-3">
-                            <img src="{{ asset('front/images/logo1.png')}}" style="width:40%" alt="">
+                            <a href="/">
+                                <img src="{{ asset('front/images/logo1.png')}}" style="width:40%" alt="">
+                            </a>
                             <!-- <h1>CandyStore VIP</h1> -->
 						</div>
                         @if(session()->has('error'))
