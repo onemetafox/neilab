@@ -313,7 +313,7 @@
       <div class="container">
         <div class="heading text-center">
           <h2>Frequently asked questions</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nibh dolor, efficitur eget pharetra ac, cursus sed sapien. Cras posuere ligula ut blandit varius. </p>
+          <p></p>
         </div>
         <!-- FAQS -->
         <div class="row">
