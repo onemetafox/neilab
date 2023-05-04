@@ -62,7 +62,7 @@
           <ul class="nav">
             <li class="scroll active"><a href="#home">Home</a></li>
             <li class="scroll"> <a href="#about">Introduction </a> </li>
-            <li class="scroll"> <a href="#token">OTC Market</a> </li>
+            <li class="scroll"> <a href="#token">Competitors</a> </li>
             <li class="scroll"> <a href="#team">Team</a> </li>
             <li class="scroll"> <a href="#faq">FAQ</a> </li>
 
