@@ -68,6 +68,7 @@
 
             @if(auth()->check())
             <ul class="menu-btns">
+                <li><a href="{!! url('/logout'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:135px"><span>GET STARTED</span></a></li>
                 <li><a href="{!! url('/logout'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:90px"><span>Logout</span></a></li>
             </ul>
             @else
@@ -103,7 +104,6 @@
   
   <!-- Content -->
   <div id="content"> 
-    
     <!-- Why Choose Us -->
     <section class="why-choose padding-top-150 padding-bottom-150" id="about">
       <div class="container"> 
