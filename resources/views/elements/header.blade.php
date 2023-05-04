@@ -524,13 +524,13 @@
                 </div>
                 <ul class="navbar-nav header-right main-notification">
 					<li class="nav-item dropdown notification_dropdown">
-                        <a class="nav-link bell dz-theme-mode" href="#">
+                        <a class="nav-link bell dz-theme-mode" href="#" style="background:transparent; padding-top:3px">
 							<i id="icon-dark" class="fas fa-moon"></i>
 							<i id="icon-light" class="fas fa-sun"></i>
                         </a>
 					</li>
-					<li class="nav-item dropdown notification_dropdown">
-                        <a class="nav-link bell dz-fullscreen" href="#">
+					<li class="nav-item dropdown notification_dropdown" >
+                        <a class="nav-link bell dz-fullscreen" href="#" style="background:transparent">
                             <svg id="icon-full" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" style="stroke-dasharray: 37, 57; stroke-dashoffset: 0;"></path></svg>
                             <svg id="icon-minimize" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minimize"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" style="stroke-dasharray: 37, 57; stroke-dashoffset: 0;"></path></svg>
                         </a>
@@ -542,7 +542,7 @@
 								<small>{{Auth::user()->user_type}}</small>
 							</div>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end">
+                        <div class="dropdown-menu dropdown-menu-end" style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.69) 76.65%)">
 							<!-- @if(Auth::user()->user_type == 'admin')
                             <a href="{!! url('/admin/exchangelist'); !!}" class="dropdown-item ai-icon">
                                 <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -563,13 +563,13 @@
                 </ul>
             </div>
         </nav>
-		<div class="sub-header">
+		<!-- <div class="sub-header">
 			<div class="d-flex align-items-center flex-wrap me-auto">
 				<h5 class="dashboard_bar">
 					 @yield('title', $page_title ?? '')
 				</h5>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </div>
 <!--**********************************

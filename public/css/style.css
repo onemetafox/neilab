@@ -8918,7 +8918,7 @@ a {
   position: absolute;
   left: 0;
   top: 0;
-  background-color: var(--nav-headbg);
+  /* background-color: var(--nav-headbg); */
   transition: all .2s ease;
   z-index: 10; }
   .nav-header .logo-abbr {
@@ -8943,8 +8943,9 @@ a {
     font-size: 1.125rem;
     color: #fff;
     text-decoration: none;
-    padding-left: 20px;
-    padding-right: 50px;
+    /* padding-left: 20px;
+    padding-right: 50px; */
+    padding-top: 10px;
     font-weight: 700; }
     [data-sidebar-style="compact"] .nav-header .brand-logo,
     [data-sidebar-style="mini"] .nav-header .brand-logo {
@@ -9244,7 +9245,7 @@ svg.pulse-svg {
   width: 100%; }
 
 [data-header-position="fixed"] .content-body {
-  padding-top: 7.5rem; }
+  padding-top: 3.5rem; }
 
 [data-header-position="fixed"] .deznav {
   margin-top: 0; }
@@ -10508,7 +10509,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     transform: rotate(0); } }
 
 .deznav {
-  width: 17.5rem;
+  width: 20rem;
   padding-bottom: 0;
   height: calc(100% - 72px);
   position: absolute;
@@ -10526,7 +10527,11 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
       width: 18rem; } }
   .deznav .deznav-scroll {
     position: relative;
-    height: 100%; }
+    min-height: 700px;
+    background: linear-gradient(55deg, rgb(39 52 45 / 40%) 59.3%, rgba(26, 31, 55, 0) 100%);
+    border-radius: 10px;
+    margin: 30px;
+  }
   @media only screen and (max-width: 1350px) {
     .deznav {
       width: 17rem; } }
@@ -12131,9 +12136,10 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 [data-sidebar-position="fixed"][data-layout="vertical"] .deznav {
   position: fixed; }
-  [data-sidebar-position="fixed"][data-layout="vertical"] .deznav .deznav-scroll {
+  /* [data-sidebar-position="fixed"][data-layout="vertical"] .deznav .deznav-scroll {
     border-top-left-radius: 0px;
-    border-top-right-radius: 0px; }
+    border-top-right-radius: 0px; 
+  } */
 
 [data-sidebar-position="fixed"][data-layout="vertical"] .menu-toggle .deznav {
   position: fixed; }
@@ -16785,7 +16791,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   color: #fff; }
 
 [data-theme-version="dark"] .card {
-  background-color: #3B3363;
+  /* background-color: #3B3363; */
+  background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;
   box-shadow: none; }
 
 [data-theme-version="dark"] .btn-outline-dark:hover {
@@ -17277,7 +17284,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   color: #fff; }
 
 [data-theme-version="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button.previous, [data-theme-version="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button.next {
-  background-color: #3B3363; }
+  background-color: #3B336300 !important; }
   [data-theme-version="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button.previous.current:hover, [data-theme-version="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button.previous.previous:hover, [data-theme-version="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button.previous.next:hover, [data-theme-version="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button.next.current:hover, [data-theme-version="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button.next.previous:hover, [data-theme-version="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button.next.next:hover {
     color: #000;
     background: #fff; }
@@ -17449,7 +17456,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 [data-theme-version="dark"] .header-right .dropdown .nav-link {
   color: #fff;
-  background: #2C254A; }
+  background: #2c254a00; }
   [data-theme-version="dark"] .header-right .dropdown .nav-link:hover {
     color: #fff; }
   [data-theme-version="dark"] .header-right .dropdown .nav-link svg  path {
@@ -27625,11 +27632,11 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   --font-family-title: Roboto, sans-serif; }
 
 [data-theme-version="dark"] {
-  background: #0b0c22;
-  color: #828690;
+  background-image: url('../images/background.png');
+  color: #ffffff;
   --nav-headbg: #3B3363;
-  --sidebar-bg: #3B3363;
-  --headerbg: #3B3363; }
+  --sidebar-bg: #3b336300;
+  --headerbg: #3b336300; }
   [data-theme-version="dark"] h1, [data-theme-version="dark"] .h1,
   [data-theme-version="dark"] h2,
   [data-theme-version="dark"] .h2,

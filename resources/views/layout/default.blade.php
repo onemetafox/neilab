@@ -18,7 +18,7 @@
     <title>@yield('title', $page_title ?? '')</title>
 
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('front/images/favicon1.png') }}"/>
     
     <link href="{{ asset('vendor/toastr/css/toastr.min.css')}}" rel="stylesheet" type="text/css"/>
     @php
@@ -38,7 +38,6 @@
     @endif  
     
 </head>
-
 <body>
 
     <!--*******************
@@ -74,11 +73,14 @@
                 <h2 class="mt-2">NeilLab</h2>
             </a>
             @endif -->
-            <div class="nav-control">
+            <!-- <div class="nav-control">
                 <div class="hamburger">
                     <span class="line"></span><span class="line"></span><span class="line"></span>
                 </div>
-            </div>
+            </div> -->
+            <a href="{!! url('/'); !!}" class="brand-logo" style="padding-top:10px">
+                <img class="img-responsive" src="{{ asset('front/images/logo2.png')}}" style="max-width:100%; max-height:100%;margin-left:auto; margin-right:auto"/>
+            </a>
         </div>
         <!--**********************************
             Nav header end
