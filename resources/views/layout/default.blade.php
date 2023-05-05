@@ -78,7 +78,7 @@
                     <span class="line"></span><span class="line"></span><span class="line"></span>
                 </div>
             </div> -->
-            <a href="{!! url('/'); !!}" class="brand-logo" style="padding-top:10px">
+            <a href="{!! url('/'); !!}" class="brand-logo" style="margin-top:15px">
                 <img class="img-responsive" src="{{ asset('front/images/logo2.png')}}" style="max-width:100%; max-height:100%;margin-left:auto; margin-right:auto"/>
             </a>
         </div>
