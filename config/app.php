@@ -13,8 +13,8 @@ return [
     |
     */
 
-    'RPCusername' => '',
-    'RPCpassword' => '',
+    'RPCusername' => 'user',
+    'RPCpassword' => '6xALG7kNZdg4ziYZ37mDmw==',
     'internal_wallet_pbk_code' => 'Arman112233!',
     'withdraw_limit' => 1,
 

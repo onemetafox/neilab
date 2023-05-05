@@ -24,7 +24,7 @@ use App\Http\Controllers\Client\SellController;
 use App\Http\Controllers\Client\SellReportController;
 
 
-
+    // Route::get('/', function(){ return redirect('/index.php'); });
     Route::get('/',                     [HomeController::class,'index']);
     Route::get('/login',                [ZenixadminController::class,'page_login']);
     Route::get('/logout',               [LoginController::class, 'logout']);

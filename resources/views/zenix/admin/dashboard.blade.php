@@ -33,7 +33,7 @@
                                 <tr>
                                     <td>{{++$key}}</td>
                                     @switch($value['ex_name'])
-                                        @case('binance')
+                                        @case('Binance')
                                             <td>Binance</td>
                                             @break
                                         @case('FTX')
@@ -59,7 +59,8 @@
                                             @break
 
                                         @default
-
+                                            <td>Binance</td>
+                                            @break
                                     @endswitch
                                     <td>{{$value['ex_login']}}</td>
                                     @if (Auth::user()->user_type == 'admin')

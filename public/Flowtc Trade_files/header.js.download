@@ -1,0 +1,35 @@
+$(".menu").click(function () {
+  $(".menu").toggleClass("active");
+  $(".navbar-menu").toggleClass("active");
+});
+
+$(window).scroll(function () {
+  if ($(this).scrollTop() > 50) {
+    $('.header-desktop').addClass("navbar-shrink");
+  }
+  else {
+    $('.header-desktop').removeClass("navbar-shrink");
+  }
+});
+
+$(document).ready(function () {
+  const pathname = $(location).attr('pathname');
+  if (pathname === '/') {
+    $("#home").css("fontWeight", "700");
+  } else if (pathname.includes('company')) {
+    $("#company").css("fontWeight", "700");
+  } else if (pathname.includes('blogs')) {
+    $("#news").css("fontWeight", "700");
+  }
+})
+
+const homePageLinkButtons = ['#linkbutton1', '#linkbutton2', '#linkbutton3'];
+
+homePageLinkButtons.map(item => {
+  $(item).click(function () {
+    $('html, body').animate({
+      scrollTop: $($(this).attr('href')).offset().top - 100
+    }, 700);
+    return false;
+  });
+})

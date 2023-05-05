@@ -32,24 +32,25 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="mb-1"><strong>Select Degital Asset</strong></label>
+												<label class="mb-1"><strong>Select Digital Asset</strong></label>
 												<select id="digital_asset" name="digital_asset" onchange="handleChange(this)">
-													<option value="1">BTC</option>
-													<!-- <option value="2">USDT</option> -->
+													<option value="1">USDT</option>
+													<option value="2">SHIB</option>
 												</select>
 											</div>
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="mb-1"><strong>Chain Stack</strong></label>
+												<label class="mb-1"><strong>Select Chain Stack</strong></label>
 												<select id="chain_stack" name="chain_stack">
-													<option value="1">BTC</option>
+													<option value="1">Ethereum</option>
+													<!-- <option value="2">Ethereum (ERC20)</option> -->
 												</select>
 											</div>
 										</div>
 										<div class="col-lg-6 mb-2">
 											<div class="form-group">
-												<label class="text-label">How many Bitcoins (BTC) do you want to Sell?</label>
+												<label class="text-label">Select the amount of BTC you want to sell</label>
 												<input type="number" name="sell_amount" id="sell_amount" class="form-control" min="0" step="any" required>
 											</div>
 										</div>
@@ -68,7 +69,7 @@
 												<label class="mb-1"><strong>How do you want to recieve payment?</strong></label>
 												<select id="pay_method" name="pay_method" onchange="handleChangeStatus(this)">
 													<option value="1" selected>USDT/Ethereum Chain Stack</option>
-													<option value="2">Bank Account</option>
+													<!-- <option value="2">Bank Account</option> -->
 												</select>
 											</div>
 										</div>
@@ -92,7 +93,7 @@
 									<div class="row">
 										<div class="col-lg-6 mb-2">
 											<div class="form-group" id="pay_step" name="pay_step">
-												<label class='text-label'>Reconfirm the number of Bitcoin (BTC) you want to sell.</label>
+												<label class='text-label'>Reconfirm the amount of BTC you want to sell.</label>
 												<input type='number' name='pay_with' id='pay_with' class='form-control' min='0' step='any' required>
 											</div>
 										</div>
@@ -126,10 +127,11 @@
 <script>
 
 	function alertConfirmRegister(){
+		var digital_asset = $('#digital_asset option:selected').text();
 		var deliveredAddress 	= $('#deliveredAddress').val();
 		var pay_with		 	= $('#pay_with').val();
 		Swal.fire({
-		html: 'Please Confirm Your Request! \n You will get USDT of <strong style="color:#eb8153">'+pay_with+'</strong> BTC to this address. \n <strong style="color:#eb8153">'+deliveredAddress+'</strong>',
+		html: 'Please Confirm Your Request! \n You will get ' + digital_asset + ' of <strong style="color:#eb8153">'+pay_with+'</strong> BTC to this address. \n <strong style="color:#eb8153">'+deliveredAddress+'</strong>',
 		confirmButtonText: 'OK',
 		type:'info',
 		showCancelButton: true,
@@ -195,21 +197,20 @@
 	function handleChange(val){
 		if(val.value == 2){
 			$('#chain_stack').html(
-				"@foreach ($chainstacks as $key => $value)"+
-					"<option value='{{$value['id']}}'>{{$value['stackname']}}</option>"+
-				"@endforeach"
+				"<option value='2'>Ethereum</option>"
 			);
 		}else{
 			$('#chain_stack').html(
-				"<option value='1'>BTC</option>"
+				"<option value='1'>Ethereum</option>"
 			);
 		}
 	}
 
 	function alertRegisteredSuccess(){
+		var digital_asset = $('#digital_asset option:selected').text();
 		swal({
             title: "Your order registered successfully",
-            text: "You will get USDT in 1 day. \n Please check status in sell report page!",
+            text: 'You will get ' + digital_asset + ' in 1 day. \n Please check status in sell report page!',
             type: "success",
             timer: 10000
         })

@@ -1,0 +1,267 @@
+/* OTC form section*/
+.otc-form {
+  margin: -280px 50px 126px;
+  padding: 80px 20px 40px;
+  position: relative;
+  background: #18374b;
+  /* background: linear-gradient(180deg, #203F59 0%, #1A2F41 100%); */
+  box-shadow: 0px 4px 100px rgba(0, 0, 0, 0.15);
+  border-radius: 30px;
+}
+
+.otc-form h3 {
+  font-weight: 400;
+  padding-bottom: 20px;
+}
+
+.otc-form h5 {
+  padding-bottom: 60px;
+}
+
+.otc-form h5 a {
+  color: #45fcca;
+  text-decoration: none;
+  border-bottom: 1px solid #45fcca;
+}
+
+.otc-form h5 a:hover {
+  cursor: pointer;
+  text-shadow: 1px 1px 1px #45fcaa7a;
+}
+
+form {
+  width: 80%;
+  padding: 20px 0;
+}
+
+form label,
+form input,
+form select,
+form button {
+  border: 0;
+  display: block;
+  width: 100%;
+}
+
+form input,
+form select {
+  padding-bottom: 11px;
+  font-size: 20px;
+  line-height: 24px;
+  color: #fff;
+  opacity: 0.9;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+form select:focus {
+  outline: none;
+}
+
+form input {
+  color: #fff;
+}
+
+form input:focus {
+  outline: none;
+}
+
+select option:first-child {
+  display: none;
+}
+
+.select_box {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.select_box:after {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #fff;
+  opacity: 0.3;
+  position: absolute;
+  top: 26%;
+  right: 5px;
+  content: "";
+  z-index: 98;
+}
+
+.select_box select {
+  width: calc(100% + 14px);
+  position: relative;
+  z-index: 99;
+  background: none;
+}
+
+::placeholder,
+:-ms-input-placeholder,
+::-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.3;
+  font-size: 12px;
+}
+
+.form-control-label {
+  padding-bottom: 20px;
+  font-size: 14px;
+  line-height: 17px;
+  color: #45fcca;
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+
+.form-control {
+  min-height: 98px;
+  padding: 0 21px;
+}
+
+.user-name-control {
+  width: 34%;
+}
+
+.company-and-business-wrapper {
+  width: 66%;
+}
+
+.company-and-business-wrapper .form-control {
+  width: 50%;
+}
+
+.form-control-wrapper-1,
+.form-control-wrapper-2,
+.form-control-wrapper-3 {
+  padding-bottom: 36px;
+}
+
+.form-control-wrapper-2 .form-control {
+  width: 50%;
+}
+
+.form-control-wrapper-3 .form-control {
+  width: 100%;
+}
+
+.form-button {
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.form-button img {
+  padding-right: 20px;
+}
+
+form input.error,
+form select.error {
+  color: #fff;
+  opacity: 0.9;
+}
+
+form .error {
+  color: #e43e43;
+}
+
+.jquery-modal #requestsent-modal.modal {
+  border: none;
+  border-radius: 30px;
+}
+
+.request-sent-modal {
+  padding: 65px 20px 240px;
+  border-radius: 30px;
+  background: linear-gradient(180deg, #203F59 0%, #1A2F41 100%);
+}
+
+.request-sent-modal h3,
+.request-sent-modal h5 {
+  text-align: center;
+}
+
+.request-sent-modal h3 {
+  font-weight: 400;
+}
+
+.request-sent-modal h5 {
+  max-width: 560px;
+  padding: 60px 0 140px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #18374b inset !important;
+  border-color: #3c5c6b;
+  caret-color: #fff;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: #fff !important;
+}
+
+option {
+  color: #333;
+}
+
+@media only screen and (max-width: 992px) {
+  .otc-form {
+    margin-bottom: 20px;
+  }
+
+  .otc-form h5 {
+    text-align: center;
+  }
+
+  form,
+  .form-control,
+  .company-and-business-wrapper,
+  .form-control-wrapper-2 .form-control {
+    width: 100%;
+    padding-bottom: 12px;
+  }
+
+  .form-control-wrapper-1,
+  .form-control-wrapper-3 {
+    flex-direction: column;
+  }
+
+  .form-control-wrapper-1,
+  .form-control-wrapper-2 {
+    padding-bottom: 0;
+  }
+
+  .form-control-wrapper-1>.form-control,
+  .form-control-wrapper-3>.form-control {
+    width: calc(100% - 40px);
+  }
+}
+
+@media only screen and (max-width: 645px) {
+  .otc-form {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+
+  .otc-form h5 {
+    padding-bottom: 20px;
+  }
+
+  .company-and-business-wrapper,
+  .form-control-wrapper-2 {
+    flex-direction: column;
+    padding-bottom: 0;
+  }
+
+  .form-control-wrapper-1>.form-control,
+  .form-control-wrapper-3>.form-control {
+    width: 100%;
+  }
+
+  .company-and-business-wrapper .form-control {
+    width: 100%;
+  }
+
+}

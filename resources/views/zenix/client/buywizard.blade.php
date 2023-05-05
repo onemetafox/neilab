@@ -40,7 +40,7 @@
 												<label class="mb-1"><strong>Select the Digital Asset you wish to purchase.</strong></label>
 												<select id="digital_asset" name="digital_asset" onchange="handleChange(this)">
 													<option value="1">BTC</option>
-													<!-- <option value="2" disabled>USDT</option> -->
+													<option value="2">SHIB</option>
 												</select>
 											</div>
 										</div>
@@ -49,6 +49,7 @@
 												<label class="mb-1"><strong>Select Chain Stack</strong></label>
 												<select id="chain_stack" name="chain_stack">
 													<option value="1">BTC</option>
+													<option value="2">Ethereum (ERC20)</option>
 												</select>
 											</div>
 										</div>
@@ -73,7 +74,7 @@
 												<label class="mb-1"><strong>How do you wish to Pay?</strong></label>
 												<select id="pay_method" name="pay_method" onchange="handleChangeStatus(this)">
 													<option value="1" selected>USDT/Ethereum Chain Stack</option>
-													<option value="2">Bank Account</option>
+													<!-- <option value="2">Bank Account</option> -->
 												</select>
 											</div>
 										</div>
@@ -131,10 +132,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js" integrity="sha512-bSQ2kf76XufUYS/4XinoHLp5S4lNOyRv0/x5UJACiOMy8ueqTNwRFfUZWmWpwnczjRp9SjiF1jrXbGEim7Y0Xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 	function alertConfirmRegister(){
+		var digital_asset = $('#digital_asset option:selected').text();
 		var deliveredAddress 	= $('#deliveredAddress').val();
 		var pay_with		 	= $('#pay_with').val();
 		Swal.fire({
-		html: 'Please Confirm Your Request! \n You will get BTC of <strong style="color:#eb8153">'+pay_with+'</strong> USDT to this address. \n <strong style="color:#eb8153">'+deliveredAddress+'</strong>',
+		html: 'Please Confirm Your Request! \n You will get ' + digital_asset + ' of <strong style="color:#eb8153">' + pay_with+'</strong> USDT to this address. \n <strong style="color:#eb8153">'+deliveredAddress+'</strong>',
 		confirmButtonText: 'OK',
 		showCancelButton: true,
 		type:'info'
@@ -197,9 +199,7 @@
 	function handleChange(val){
 		if(val.value == 2){
 			$('#chain_stack').html(
-				"@foreach ($chainstacks as $key => $value)"+
-					"<option value='{{$value['id']}}' disabled'>{{$value['stackname']}}</option>"+
-				"@endforeach"
+				"<option value='2'>Ethereum</option>"
 			);
 		}else{
 			$('#chain_stack').html(
@@ -208,9 +208,10 @@
 		}
 	}
 	function alertRegisteredSuccess(){
+		var digital_asset = $('#digital_asset option:selected').text();
 		swal({
             title: "Your order registered successfully",
-            html: "You will get BTC in 1 day. \n Please check status in Buy report page!",
+            html: 'You will get ' + digital_asset + ' in 1 day. \n Please check status in Buy report page!',
             type: "success",
             timer: 10000
         })

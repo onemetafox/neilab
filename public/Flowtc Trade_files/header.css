@@ -1,0 +1,215 @@
+header {
+  background-color: #162f40;
+  font-family: 'RedHatDisplay';
+  position: relative;
+  z-index: 999;
+}
+
+header button.button {
+  padding: 0;
+}
+
+header button a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding-bottom: 1px;
+  color: #143C3C;
+  font-weight: 700;
+}
+
+.header-desktop {
+  padding: 45px 50px 0;
+  justify-content: space-between;
+  background-color: transparent;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  -webkit-transition: padding .3s;
+  -moz-transition: padding .3s;
+  transition: padding .3s;
+}
+
+.header-desktop .header-logo .app-logo {
+  width: 278px;
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  transition: all .3s;
+}
+
+.header-desktop.navbar-shrink {
+  padding: 5px 50px;
+  background-color: #1a2f41;
+  box-shadow: 0px 0px 4px 2px #303d4873;
+}
+
+.header-desktop.navbar-shrink .header-logo .app-logo {
+  width: 240px;
+}
+
+.header-logo a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* mobile header*/
+.header-mobile {
+  display: none;
+}
+
+.navbar-menu {
+  background-color: #fafafa;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  transform: translateY(-200%);
+  transition: 0.5s;
+}
+
+.navbar-menu.active {
+  transform: translateY(0);
+  transition: 0.5s;
+  position: fixed;
+}
+
+.navbar-menu .menu-listing {
+  padding: 20px;
+  margin: 0;
+  background-color: #10222d;
+}
+
+.menu-listing li {
+  display: inline-block;
+}
+
+.menu-listing li a {
+  /* color: #fff; */
+  text-transform: uppercase;
+  /* display: block; */
+  font-size: 18px;
+  /* padding-right: 65px; */
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: 0.5s;
+}
+
+.menu-listing li a:hover {
+  color: #fff;
+  transition: 0.5s;
+}
+
+.menu {
+  position: fixed;
+  top: 39px;
+  right: 30px;
+  background-color: transparent;
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+  transition: 0.3s;
+  z-index: 9999;
+}
+
+.menu span {
+  position: absolute;
+  height: 3px;
+  width: 25px;
+  background-color: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.3s;
+}
+
+.menu span:before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 8px;
+  background-color: #fff;
+  height: 3px;
+  width: 25px;
+  transition: 0.3s;
+}
+
+.menu span:after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 8px;
+  background-color: #fff;
+  height: 3px;
+  width: 25px;
+  transition: 0.3s;
+}
+
+.menu.active span {
+  background-color: transparent;
+}
+
+.menu.active span:before {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+.menu.active span:after {
+  transform: rotate(-45deg);
+  top: 0;
+}
+
+@media only screen and (max-width: 992px) {
+  header {
+    background-color: transparent;
+  }
+
+  .header-desktop {
+    display: none;
+  }
+
+  .header-mobile {
+    display: block;
+  }
+
+  .app-logo {
+    display: block;
+    width: 240px;
+    padding: 30px 30px;
+  }
+
+  .navbar-menu .menu-listing {
+    padding: 50px;
+  }
+}
+
+@media only screen and (max-width: 645px) {
+  .app-logo {
+    width: 220px;
+    padding: 30px 10px;
+  }
+
+  .navbar-menu {
+    height: auto;
+    z-index: 1;
+  }
+
+  .menu {
+    top: 19px;
+    right: 12px;
+  }
+
+  .navbar-menu .menu-listing {
+    padding: 34px 30px 10px;
+  }
+
+  .menu-listing li {
+    display: block;
+  }
+
+  .menu-listing li a {
+    padding-bottom: 30px;
+  }
+}

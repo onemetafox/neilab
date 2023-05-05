@@ -66,7 +66,7 @@ class AdminMarketingCampainController extends Controller
                 'website_name'=> 'required|string|max:255',
                 'banner_title'=> 'required|string|max:1024',
                 'banner_content'=> 'required|string',
-                'trainee_video' => 'required|file|max:8192|mimes:mp4',
+                'trainee_video' => 'required|file|max:50000|mimes:mp4',
                 'logo_image' => 'required|image',
             ]);
             // $validator = Validator::make($request->all(), [

@@ -228,7 +228,7 @@
     @endif
     <!-- JavaScript -->
     <script src="/front/assets/js/jquery.bundle.js?ver=200"></script>
-    <script src="/front/assets/js/scripts.js?ver=200"></script>
+    <script src="/front/assets/js/scripts.js?ver=       200"></script>
     <script src="/front/assets/js/charts.js?ver=200"></script>
     <script src="/front/assets/js/charts.js?ver=200"></script>
 
