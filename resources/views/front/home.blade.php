@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="M_Adnan">
     <link rel="shortcut icon" href="{{ asset('front/images/favicon1.png') }}">
-    <title>FlowTC DEX</title>
+    <title>FlowTC</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('front/assets/css/bootstrap.min.css')}}" rel="stylesheet">
