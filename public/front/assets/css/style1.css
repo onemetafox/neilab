@@ -1788,6 +1788,10 @@ a:hover {
     font-weight: 600;
 }
 
+.comparison tbody tr td:nth-child(2), .comparison thead tr th:nth-child(2){
+	background: rebeccapurple;
+}
+
 .comparison {
 	color: #fff;
 }

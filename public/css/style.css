@@ -10527,7 +10527,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
       width: 18rem; } }
   .deznav .deznav-scroll {
     position: relative;
-    min-height: 700px;
+    min-height: 600px;
     background: linear-gradient(55deg, rgb(39 52 45 / 40%) 59.3%, rgba(26, 31, 55, 0) 100%);
     border-radius: 10px;
     margin: 30px;
@@ -11607,8 +11607,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
       padding-left: 0; }
   [data-header-position="fixed"][data-layout="horizontal"] .deznav {
     top: 4.5rem; }
-  [data-header-position="fixed"][data-sidebar-position="fixed"] .deznav {
-    position: fixed; }
+  /* [data-header-position="fixed"][data-sidebar-position="fixed"] .deznav {
+    position: fixed; } */
   [data-header-position="fixed"][data-layout="horizontal"][data-sidebar-position="fixed"] .content-body {
     padding-top: 8rem; }
   [data-header-position="fixed"][data-layout="horizontal"][data-sidebar-position="fixed"][data-sidebar-style="modern"] .content-body {
@@ -12134,8 +12134,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   border-top-left-radius: 0px;
   border-top-right-radius: 0px; }
 
-[data-sidebar-position="fixed"][data-layout="vertical"] .deznav {
-  position: fixed; }
+/* [data-sidebar-position="fixed"][data-layout="vertical"] .deznav {
+  position: fixed; } */
   /* [data-sidebar-position="fixed"][data-layout="vertical"] .deznav .deznav-scroll {
     border-top-left-radius: 0px;
     border-top-right-radius: 0px; 
