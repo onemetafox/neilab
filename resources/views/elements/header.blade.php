@@ -11,6 +11,11 @@
                 <ul class="navbar-nav header-right main-notification">
                     <li class="nav-item dropdown header-profile">
                         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
+							@if(auth()->user()->user_type == 'admin')
+								<img class="img-responsive" src="{{ asset('images/avatar/1.png')}}"/>
+							@else
+								<img class="img-responsive" src="{{ asset('front/images/logo2.png')}}"/>
+							@endif
 							<div class="header-info">
 								<span>{{Auth::user()->first_name}}</span>
 								<small>{{Auth::user()->user_type}}</small>

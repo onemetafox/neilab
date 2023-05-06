@@ -74,7 +74,7 @@
                 <h2 class="mt-2">NeilLab</h2>
             </a>
             @endif -->
-            <a href="{!! url('/'); !!}" class="brand-logo" style="margin-top:15px">
+            <a href="{!! url('/'); !!}" class="brand-logo">
                 <img class="img-responsive" src="{{ asset('front/images/logo2.png')}}" style="max-width:100%; max-height:100%;margin-left:auto; margin-right:auto"/>
             </a>
             <div class="nav-control">
