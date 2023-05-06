@@ -872,6 +872,9 @@ header .navbar .menu-btns li{
 }
 }
 @media(max-width:767px) {
+.nav-control{
+	display: block;
+}
 .member-card{
 	margin-top: 150px;
 }
@@ -1027,6 +1030,9 @@ header .navbar-collapse{
 }
 }
 @media (max-width:640px) {
+.nav-control{
+	display: block;
+}
 .distri .col{
 	margin-bottom: 20px;
 

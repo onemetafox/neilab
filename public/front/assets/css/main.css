@@ -4455,3 +4455,6 @@ img.mfp-img {
 .letter-space-10 {
 	letter-spacing: 10px !important;
 }
+.nav-control{
+	display: none;
+}

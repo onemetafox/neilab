@@ -135,8 +135,8 @@
             <p>c. Huge Daily Trading Volume: Our platform connects to over 50 verified exchange accounts and has a capability of doing up to 20000BTC daily trading volume.</p>
 
             <div class="ultra-ser"> <span><span class="name"> Flowtc.vip &nbsp; - &nbsp;</span> <span>Ceo/Founder Chain</span></span> </div>
-            <a class="vid-btn margin-top-30 popup-youtube" href="https://www.youtube.com/watch?v=7e90gBu4pas"><i class="fas fa-play-circle"></i> Watch Video <br>
-            <span>How it work</span></a> </div>
+            <!-- <a class="vid-btn margin-top-30 popup-youtube" href="https://www.youtube.com/watch?v=7e90gBu4pas"><i class="fas fa-play-circle"></i> Watch Video <br> -->
+            <!-- <span>How it work</span></a> --> </div>
           
           <!-- Image -->
           <div class="col-md-5 text-right"> <img src="{{ asset('images/chain-img.png')}}" alt="Why Choose Us Image" > </div>
