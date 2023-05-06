@@ -147,7 +147,7 @@
           
           <!-- Services -->
           <div class="col-md-4">
-            <div class="ib-icon"> <i class="flaticon-smartphone"></i> </div>
+            <div class="ib-icon"><i> <img src="{{ asset('images/commission.png')}}" style="max-width:40px;"></i></div>
             <div class="ib-info">
               <h4 class="h6">Low Commissions</h4>
               <p>Leveraging the latest advancements in automated trading technology, we proudly offer both buyers and sellers unbeatably low commissions for high-volume transactions, maximizing your profits and enhancing your trading experience.</p>
@@ -165,7 +165,7 @@
           
           <!-- Services -->
           <div class="col-md-4">
-            <div class="ib-icon"> <i class="flaticon-credit-card"></i> </div>
+            <div class="ib-icon"> <i><img src="{{ asset('images/integration.png')}}" style="max-width:40px;"></i> </div>
             <div class="ib-info">
               <h4 class="h6">Seamless Integration</h4>
               <p>Discover seamless integration that effortlessly connects you to multiple exchanges, offering endless possibilities, unparalleled liquidity, and a user-friendly experience for ultimate trading success.</p>
