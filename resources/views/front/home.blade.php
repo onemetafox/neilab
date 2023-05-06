@@ -55,7 +55,7 @@
     <div class="container"> 
       
       <!-- Logo -->
-      <div class="logo"> <a href="/"><img class="img-responsive" src="{{ asset('front/images/logo1.png')}}" alt="" ></a> </div>
+      <div class="logo"> <a href="{!! url('/'); !!}"><img class="img-responsive" src="{{ asset('front/images/logo1.png')}}" alt="" ></a> </div>
       <nav class="navbar ownmenu navbar-expand-lg ">
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -220,14 +220,12 @@
     <!-- Token Distribution -->
     <section class="distri drk padding-top-150 padding-bottom-150 token" id="token">
       <div class="container">
-        <div class="row"> 
-          
           <!-- Token  -->
-          <div class="col-lg-12">
+          <div class="about-us-con">
             <h3 style="text-align:center;">Comparison with other solutions</h3>
             <p style="text-align:center;padding:0px 50px 0px 50px">FlowTC sets itself apart from other anonymous crypto OTC markets by offering a unique combination of features and benefits designed to provide a superior trading experience for our clients.</p>
             
-            <div class="col-lg-12">
+            <div class="col-md-12">
               <div class="tm-purple-color tm-comparison-table text-center">
                 <div class="table-responsive">
                   <table class="table table-bordered comparison">
@@ -294,23 +292,23 @@
         <div class="heading text-center">
           <h2>Meet our Core Team</h2>
         </div>
-        <div class="row" style="text-align:center; padding-top:100px">
-          <div class="col-lg-4">
-            <div class="card">
+        <div class="member-row row" style="text-align:center;">
+          <div class="col-md-4">
+            <div class="member-card card">
               <img src="{{ asset('members/Arman-Stepanyan.png')}}" alt="Arman Stepanyan" class="member-avatar">
               <h1 class="member-name">Arman Stepanyan</h1>
               <p class="title">CEO & Founder</p>
             </div>
           </div>
-          <div class="col-lg-4">
-            <div class="card">
+          <div class="col-md-4">
+            <div class="member-card card">
               <img src="{{ asset('members/Samvel-Barseghyan.png')}}" alt="Samvel Barseghyan" class="member-avatar">
               <h1 class="member-name">Samvel Barseghyan</h1>
               <p class="title">CTO & CO-Founder</p>
             </div>
           </div>
-          <div class="col-lg-4">
-            <div class="card">
+          <div class="col-md-4">
+            <div class="member-card card">
               <img src="{{ asset('members/Kevin-McNamara.png')}}" alt="Kevin McNamara" class="member-avatar">
               <h1 class="member-name">Kevin McNamara</h1>
               <p class="title">CMO & CO-Founder</p>
