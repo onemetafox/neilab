@@ -85,7 +85,7 @@ $(window).scroll(function(event) {
 		Scroll();
 });	
 $('.scroll a').click(function() {  
-	$('html, body').animate({scrollTop: $(this.hash).offset().top -0}, 800);
+	$('html, body').animate({scrollTop: $(this.hash).offset().top -0}, 50);
 		return false;
 });
 // User define function
