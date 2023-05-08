@@ -12305,7 +12305,7 @@
  .deznav .deznav-scroll {
      position: relative;
      min-height: 600px;
-     background: linear-gradient(55deg, rgb(39 52 45 / 40%) 59.3%, rgba(26, 31, 55, 0) 100%);
+     background: linear-gradient(55deg, rgb(26 36 46) 59.3%, rgb(25 37 92) 100%);
      border-radius: 10px;
      margin: 30px;
 }
