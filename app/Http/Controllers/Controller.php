@@ -36,6 +36,8 @@ class Controller extends BaseController
     {
         $this->RPCusername = config('app.RPCusername');
         $this->RPCpassword = config('app.RPCpassword');
+        $this->RPCport = config('app.RPCport');
+
         $this->withdraw_limit = config('app.withdraw_limit');
         $this->binance_withdraw_fee = config('app.binance_withdraw_fee');
         $this->okx_withdraw_fee = config('app.okx_withdraw_fee');
@@ -860,7 +862,7 @@ class Controller extends BaseController
         $year = date('Y');
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => "http://localhost:7890",
+            CURLOPT_URL => "http://localhost:".$this->RPCport,
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
             CURLOPT_RETURNTRANSFER => 1,
@@ -895,7 +897,7 @@ class Controller extends BaseController
 
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL => "http://localhost:7890",
+            CURLOPT_URL => "http://localhost:".$this->RPCport,
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
             CURLOPT_RETURNTRANSFER => 1,
@@ -913,7 +915,7 @@ class Controller extends BaseController
             if(isset($result->result)){
 
                 curl_setopt_array($curl, [
-                    CURLOPT_URL => "http://localhost:7890",
+                    CURLOPT_URL => "http://localhost:".$this->RPCport,
                     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                     CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
                     CURLOPT_RETURNTRANSFER => 1,

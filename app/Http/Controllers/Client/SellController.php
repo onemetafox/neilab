@@ -20,6 +20,7 @@ class SellController extends Controller
     {
         $this->RPCusername = config('app.RPCusername');
         $this->RPCpassword = config('app.RPCpassword');
+        $this->RPCport = config('app.RPCport');
 
     }
 
@@ -211,7 +212,7 @@ class SellController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => "http://localhost:7890",
+            CURLOPT_URL => "http://localhost:".$this->RPCport,
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
             CURLOPT_RETURNTRANSFER => 1,
@@ -237,7 +238,7 @@ class SellController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => "http://localhost:7890",
+            CURLOPT_URL => "http://localhost:".$this->RPCport,
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
             CURLOPT_RETURNTRANSFER => 1,
@@ -268,9 +269,9 @@ class SellController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => "http://localhost:7890",
+            CURLOPT_URL => "http://localhost:".$this->RPCport,
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
+            CURLOPT_USERPWD => 'user:5NMVhdDKpRHon6HMHDHAGg==',
             CURLOPT_RETURNTRANSFER => 1,
             // CURLOPT_POSTFIELDS => '{"id":"curltext","method":"getbalance","params":[]}',
             CURLOPT_POSTFIELDS => '{"id":"curltext","method":"listaddresses","params":["receiving"]}',
@@ -279,7 +280,7 @@ class SellController extends Controller
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
-
+        print_r($response);
         curl_close($curl);
 
         if ($err) {
@@ -303,7 +304,7 @@ class SellController extends Controller
         $year = date('Y');
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => "http://localhost:7890",
+            CURLOPT_URL => "http://localhost:".$this->RPCport,
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
             CURLOPT_RETURNTRANSFER => 1,
@@ -338,7 +339,7 @@ class SellController extends Controller
 
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL => "http://localhost:7890",
+            CURLOPT_URL => "http://localhost:".$this->RPCport,
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
             CURLOPT_RETURNTRANSFER => 1,
@@ -356,7 +357,7 @@ class SellController extends Controller
             if(isset($result->result)){
 
                 curl_setopt_array($curl, [
-                    CURLOPT_URL => "http://localhost:7890",
+                    CURLOPT_URL => "http://localhost:".$this->RPCport,
                     CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
                     CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
                     CURLOPT_RETURNTRANSFER => 1,
