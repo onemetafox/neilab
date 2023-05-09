@@ -271,7 +271,7 @@ class SellController extends Controller
         curl_setopt_array($curl, [
             CURLOPT_URL => "http://localhost:".$this->RPCport,
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD => 'user:5NMVhdDKpRHon6HMHDHAGg==',
+            CURLOPT_USERPWD => $this->RPCuser.':'.$this->RPCpasswrd,
             CURLOPT_RETURNTRANSFER => 1,
             // CURLOPT_POSTFIELDS => '{"id":"curltext","method":"getbalance","params":[]}',
             CURLOPT_POSTFIELDS => '{"id":"curltext","method":"listaddresses","params":["receiving"]}',
@@ -280,7 +280,6 @@ class SellController extends Controller
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
-        print_r($response);
         curl_close($curl);
 
         if ($err) {
