@@ -12302,9 +12302,6 @@
          width: 18rem;
     }
 }
-.card-body{
-    overflow: scroll;
-}
  .deznav .deznav-scroll {
      position: relative;
      min-height: 600px;
