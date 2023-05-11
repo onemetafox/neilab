@@ -66,7 +66,7 @@
                         </form>
                         @if(is_null($referral_code))
                         <div class="new-account mt-3">
-                            <p>Already have an account? <a class="text-primary" href="{!! url('/login'); !!}">Sign in</a></p>
+                            <p>Already have an account? <a class="text-primary" href="{!! url('/signin'); !!}">Sign in</a></p>
                         </div>
                         @endif
                     </div>

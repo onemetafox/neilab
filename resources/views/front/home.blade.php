@@ -131,7 +131,7 @@
             @else
             <ul class="menu-btns">
                 @if(!isset($referral_code))
-                    <li><a href="{!! url('/login'); !!}" class="btn btn-md btn-round btn-thin btn-primary btn-auto no-change" style="width:90px"><span>Login</span></a></li>
+                    <li><a href="{!! url('/signin'); !!}" class="btn btn-md btn-round btn-thin btn-primary btn-auto no-change" style="width:90px"><span>Login</span></a></li>
                 @endif
                 @if(isset($referral_code))
                 <li><a href="{!! url('/register/'.$referral_code); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:90px"><span>SignUp</span></a></li>

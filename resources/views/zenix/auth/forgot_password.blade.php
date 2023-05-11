@@ -23,7 +23,7 @@
                             </div>
                             <div class="form-row d-flex justify-content-end mt-4 mb-2">
                                 <div class="form-group">
-                                    <a href="{!! url('/login'); !!}">Return Login</a>
+                                    <a href="{!! url('/signin'); !!}">Return Login</a>
                                 </div>
                             </div>
                         </form>

@@ -14,6 +14,13 @@ if (!strpos($url, '/index.php')) {
     header('Location: ' . $url);
     die();
 }
+
+// if (strpos($_SERVER['REQUEST_URI'],'index.php') !== FALSE )
+// {
+//     $new_uri = preg_replace('#index\.php\/?#', '', $_SERVER['REQUEST_URI']);
+//     header('Location: '.$new_uri, TRUE, 301);
+//     die();
+// }
 /*
 |--------------------------------------------------------------------------
 | Check If Application Is Under Maintenance
