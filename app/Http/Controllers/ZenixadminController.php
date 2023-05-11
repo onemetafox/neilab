@@ -679,7 +679,7 @@ class ZenixadminController extends Controller
         $page_title = 'Page Login';
         $page_description = 'Some description for the page';
         $action = __FUNCTION__;
-        return view('zenix.auth.login', compact('page_title', 'page_description', 'action'));
+        return view('zenix.auth.signin', compact('page_title', 'page_description', 'action'));
     }
     
     // Page Register
