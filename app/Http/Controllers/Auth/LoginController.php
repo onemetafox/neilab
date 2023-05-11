@@ -65,12 +65,12 @@ class LoginController extends Controller
                         return redirect()->route('reception.home');
                     else if (auth()->user()->state == 0 ){
                         Auth::logout();
-                        return redirect('/login')
+                        return redirect('/signin')
                         ->with('error','Account Still suspensed.');
                     }
                 }
             }else{
-                return redirect('/login')->with('error', __('locale.wrong_email_and_password'));
+                return redirect('/signin')->with('error', __('locale.wrong_email_and_password'));
             }
         // }else{
         //     return redirect()->route('login')->with('error','ReCaptcha Error');
@@ -79,7 +79,7 @@ class LoginController extends Controller
 
     public function logout(Request $request) {
         Auth::logout();
-        return redirect('/login');
+        return redirect('/signin');
     }
 
     public function verify_referral_code($referral_code) {
@@ -93,9 +93,9 @@ class LoginController extends Controller
         $user_email = $request['email'];
         $update_result = User::where('email', $user_email)->update(["password" => Hash::make(12345678)]);
         if($update_result){
-            return redirect('/login')->with('reset_password', 'Password has been formated to number "12345678".');
+            return redirect('/signin')->with('reset_password', 'Password has been formated to number "12345678".');
         }else{
-            return redirect('/login')->with('error', 'Invalid Email');
+            return redirect('/signin')->with('error', 'Invalid Email');
         }
     }
 
@@ -118,7 +118,7 @@ class LoginController extends Controller
             $message->subject('Reset Password');
         });
 
-        return redirect('/login')->with('reset_password', 'We have e-mailed your password reset link!');
+        return redirect('/signin')->with('reset_password', 'We have e-mailed your password reset link!');
     }
 
     public function showResetPasswordForm($token) { 
@@ -149,6 +149,6 @@ class LoginController extends Controller
 
          DB::table('password_resets')->where(['email'=> $request->email])->delete();
  
-         return redirect('/login')->with('reset_password', 'Your password has been changed!');
+         return redirect('/signin')->with('reset_password', 'Your password has been changed!');
      }
 }
