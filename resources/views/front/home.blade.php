@@ -126,7 +126,7 @@
                 @endif
 
                 <!-- <li><a href="{!! url('/logout'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:135px"><span>GET STARTED</span></a></li> -->
-                <li><a href="{!! url('/logout'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:90px"><span>Logout</span></a></li>
+                <li><a href="{!! url('/signout'); !!}" class="btn btn-md btn-round btn-thin btn-outline btn-primary btn-auto no-change" style="width:90px"><span>Logout</span></a></li>
             </ul>
             @else
             <ul class="menu-btns">
