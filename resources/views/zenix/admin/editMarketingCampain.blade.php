@@ -188,8 +188,8 @@
 
             $('#trainee_video').change(function(event) {
                 var _size = this.files[0].size;
-                if(_size > 2048*1024*1024){
-                    alertError("You can upload video less than 20 M");
+                if(_size > 50*1024*1024){
+                    alertError("You can upload video less than 50 M");
                     $("#trainee_video").val(null);
                 }
             });

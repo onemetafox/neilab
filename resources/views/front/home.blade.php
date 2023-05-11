@@ -14,6 +14,52 @@
 
     <!-- Bootstrap 5 CSS -->
     <link href="{{ asset('front/assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+    @if($profit)
+    <div class="modal fade" id="modal-medium">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <a href="#" class="modal-close" data-bs-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
+                <div class="modal-body p-md-4 p-lg-5">
+                    <h3 class="title title-md tc-danger text-center"> 👋 Congratulations! </h3>
+                    <p class="tt-n">You got <span class="tc-danger">🎁{{ $profit->amount.' '.$profit->token }} </span> as revenue from your friend <span class="tc-info">{{$profit->from->first_name.' '.$profit->from->last_name}}</span></p>
+                    <form id="get-profit-form">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="field-item">
+                                    <label class="field-label">Please Input Your {{$profit->network.' '.$profit->stack->stackname}} Wallet Address</label>
+                                    <div class="field-wrap">
+                                        <input name="wallet_addr" type="text" class="input-bordered" id="wallet_addr" required="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 mb-3">
+                                <div class="field-wrap">
+                                    <input class="input-checkbox" id="sure_cb" type="checkbox" required="">
+                                    <label for="sure_cb">I am sure this address is correct</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 mb-3" id="message-div">
+                                
+                            </div>
+                            <div class="col-lg-12 text-center">
+                                <button type="submit" class="btn btn-grad" id="submit-btn" disabled>Submit</button>
+                                <div id="loading_div" style="display:none">
+                                    <img src="/front/images/Spin-1s-200px.svg" style="width: 60px; height: auto;" />
+                                    <p class="text-center tc-danger">Just a moment...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+    <!-- JavaScript -->
+    <script src="/front/assets/js/jquery.bundle.js?ver=200"></script>
+    <script src="/front/assets/js/scripts.js?ver=       200"></script>
+    <script src="/front/assets/js/charts.js?ver=200"></script>
+    <script src="/front/assets/js/charts.js?ver=200"></script>
 
     <!-- Custom CSS -->
     <link href="{{ asset('front/assets/css/main.css')}}" rel="stylesheet">

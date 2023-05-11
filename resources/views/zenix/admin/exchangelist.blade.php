@@ -71,7 +71,8 @@
                                             @break
 
                                         @default
-
+                                            <td>Binance</td>
+                                            @break
                                     @endswitch
                                     <td>{{$value['ex_login']}}</td>
                                     <td>{{$value['wallet_address']}}</td>
