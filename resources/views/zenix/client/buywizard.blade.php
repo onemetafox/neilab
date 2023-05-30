@@ -41,6 +41,7 @@
 												<select id="digital_asset" name="digital_asset" onchange="handleChange(this)">
 													<option value="1">BTC</option>
 													<option value="2">SHIB</option>
+													<option value="3">Ethereum</option>
 												</select>
 											</div>
 										</div>
@@ -50,6 +51,7 @@
 												<select id="chain_stack" name="chain_stack">
 													<option value="1">BTC</option>
 													<option value="2">Ethereum (ERC20)</option>
+													<option value="3">USDT</option>
 												</select>
 											</div>
 										</div>
@@ -201,9 +203,13 @@
 			$('#chain_stack').html(
 				"<option value='2'>Ethereum</option>"
 			);
-		}else{
+		}else if(val.value == 1){
 			$('#chain_stack').html(
 				"<option value='1'>BTC</option>"
+			);
+		}else{
+			$('#chain_stack').html(
+				"<option value='3'>USDT</option>"
 			);
 		}
 	}
