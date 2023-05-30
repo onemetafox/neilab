@@ -40,7 +40,13 @@
                                         <td>{{$value->user_id}}</td>
                                         <td>{{$value->email}}</td>
                                         <td>
-                                            <?php echo $value->asset_purchased == 1? "BTC":"USDT" ?>
+                                            <?php if ($value->asset_purchased == 1) {
+                                                echo "BTC";
+                                            }else if($value->asset_purchased == 2){
+                                                echo "SHIB";
+                                            }else{
+                                                echo "ETH";
+                                            } ?>
                                         </td>
                                         <td>{{$value->buy_amount}}</td>
                                         <td>{{$value->delivered_address}}</td>
