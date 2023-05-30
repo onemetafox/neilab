@@ -48,6 +48,7 @@
 				</a>
                 <ul aria-expanded="false">
                     <li><a href="{!! url('/admin/buy_report'); !!}">{{__('locale.buy_report')}}</a></li>
+					<li><a href="{!! url('/admin/buy_request'); !!}">{{__('locale.buy_request')}}</a></li>
 					<li><a href="{!! url('/admin/sell_report'); !!}">{{__('locale.sell_report')}}</a></li>
 				</ul>
 			</li>

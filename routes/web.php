@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\AdminWalletController;
 use App\Http\Controllers\Admin\AdminGlobalUserController;
 use App\Http\Controllers\Admin\AdminMarketingCampainController;
 use App\Http\Controllers\Admin\AdminBuyReportController;
+use App\Http\Controllers\Admin\AdminBuyRequestController;
 use App\Http\Controllers\Admin\AdminSellReportController;
 use App\Http\Controllers\Admin\AdminManualWithdrawController;
 use App\Http\Controllers\Controller;
@@ -121,6 +122,7 @@ use App\Http\Controllers\Client\SellReportController;
 
         Route::get('/admin/buy_report', [AdminBuyReportController::class,'index']);
         Route::get('/admin/sell_report', [AdminSellReportController::class,'index']);
+        Route::get('/admin/buy_request', [AdminBuyRequestController::class,'index']);
 
         Route::get('/admin/masterload_report_buy/{id?}',  [AdminBuyReportController::class,'masterload_report']);
         Route::get('/admin/subload_report_buy/{id?}',   [AdminBuyReportController::class,'superload_report']);
