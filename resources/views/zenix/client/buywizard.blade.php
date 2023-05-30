@@ -41,7 +41,7 @@
 												<select id="digital_asset" name="digital_asset" onchange="handleChange(this)">
 													<option value="1">BTC</option>
 													<option value="2">SHIB</option>
-													<option value="3">Ethereum</option>
+													<option value="3">ETH</option>
 												</select>
 											</div>
 										</div>
@@ -51,7 +51,6 @@
 												<select id="chain_stack" name="chain_stack">
 													<option value="1">BTC</option>
 													<option value="2">Ethereum (ERC20)</option>
-													<option value="3">USDT</option>
 												</select>
 											</div>
 										</div>
@@ -138,15 +137,16 @@
 		var deliveredAddress 	= $('#deliveredAddress').val();
 		var pay_with		 	= $('#pay_with').val();
 		Swal.fire({
-		html: 'Please Confirm Your Request! \n You will get ' + digital_asset + ' of <strong style="color:#eb8153">' + pay_with+'</strong> USDT to this address. \n <strong style="color:#eb8153">'+deliveredAddress+'</strong>',
-		confirmButtonText: 'OK',
-		showCancelButton: true,
-		type:'info'
+			html: 'Please Confirm Your Request! \n You will get ' + digital_asset + ' of <strong style="color:#eb8153">' + pay_with+'</strong> USDT to this address. \n <strong style="color:#eb8153">'+deliveredAddress+'</strong>',
+			confirmButtonText: 'OK',
+			showCancelButton: true,
+			type:'info'
 		}).then((result) => {
-		if (result.value) {
-			handleSubmit();
-		} else if (result.dismiss) {
-		}
+			if (result.value) {
+				handleSubmit();
+			} else if (result.dismiss) {
+				
+			}
 		})
 	}
 	function handleSubmit(){
@@ -209,7 +209,7 @@
 			);
 		}else{
 			$('#chain_stack').html(
-				"<option value='3'>USDT</option>"
+				"<option value='2'>Ethereum</option>"
 			);
 		}
 	}
