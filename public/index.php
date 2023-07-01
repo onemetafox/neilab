@@ -6,6 +6,22 @@ use Illuminate\Http\Request;
 define('LARAVEL_START', microtime(true));
 
 /*
+ * redirecting addresses with /index.php/
+ * */
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+if (!strpos($url, '/index.php')) {
+    $url = str_replace('.vip','.vip/index.php', $url);
+    header('Location: ' . $url);
+    die();
+}
+
+// if (strpos($_SERVER['REQUEST_URI'],'index.php') !== FALSE )
+// {
+//     $new_uri = preg_replace('#index\.php\/?#', '', $_SERVER['REQUEST_URI']);
+//     header('Location: '.$new_uri, TRUE, 301);
+//     die();
+// }
+/*
 |--------------------------------------------------------------------------
 | Check If Application Is Under Maintenance
 |--------------------------------------------------------------------------

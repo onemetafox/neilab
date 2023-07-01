@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\AdminWalletController;
 use App\Http\Controllers\Admin\AdminGlobalUserController;
 use App\Http\Controllers\Admin\AdminMarketingCampainController;
 use App\Http\Controllers\Admin\AdminBuyReportController;
+use App\Http\Controllers\Admin\AdminBuyRequestController;
 use App\Http\Controllers\Admin\AdminSellReportController;
 use App\Http\Controllers\Admin\AdminManualWithdrawController;
 use App\Http\Controllers\Controller;
@@ -24,10 +25,10 @@ use App\Http\Controllers\Client\SellController;
 use App\Http\Controllers\Client\SellReportController;
 
 
-
+    // Route::get('/', function(){ return redirect('/index.php'); });
     Route::get('/',                     [HomeController::class,'index']);
-    Route::get('/login',                [ZenixadminController::class,'page_login']);
-    Route::get('/logout',               [LoginController::class, 'logout']);
+    Route::get('/signin',                [ZenixadminController::class,'page_login']);
+    Route::get('/signout',               [LoginController::class, 'logout']);
     Route::post('/login_user',          [LoginController::class, 'login']);
     Route::get('/register',             [ZenixadminController::class,'page_register']);
     Route::post('/register_new_user',   [RegisterController::class, 'customRegisterUser']);
@@ -121,6 +122,7 @@ use App\Http\Controllers\Client\SellReportController;
 
         Route::get('/admin/buy_report', [AdminBuyReportController::class,'index']);
         Route::get('/admin/sell_report', [AdminSellReportController::class,'index']);
+        Route::get('/admin/buy_request', [AdminBuyRequestController::class,'index']);
 
         Route::get('/admin/masterload_report_buy/{id?}',  [AdminBuyReportController::class,'masterload_report']);
         Route::get('/admin/subload_report_buy/{id?}',   [AdminBuyReportController::class,'superload_report']);

@@ -13,8 +13,7 @@ return [
     |
     */
 
-    'RPCusername' => '',
-    'RPCpassword' => '',
+    
     'internal_wallet_pbk_code' => 'Arman112233!',
     'withdraw_limit' => 1,
 
@@ -45,6 +44,10 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
+    'RPCusername' => env('RPCUser', ''),
+    'RPCport' => env('RPCPort', ''),
+    'RPCpassword' => env('RPCPassword', ''),
+    
 
     /*
     |--------------------------------------------------------------------------

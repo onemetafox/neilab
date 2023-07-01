@@ -19,6 +19,7 @@ class AdminWalletController extends Controller
     {
         $this->RPCusername = config('app.RPCusername');
         $this->RPCpassword = config('app.RPCpassword');
+        $this->RPCport = config('app.RPCport');
 
     }
 
@@ -62,9 +63,9 @@ class AdminWalletController extends Controller
 
     public function get_new_btc_wallet_address () {
         $curl = curl_init();
-
+        
         curl_setopt_array($curl, [
-            CURLOPT_URL => "http://localhost:7890",
+            CURLOPT_URL => "http://localhost:".$this->RPCport,
             CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
             CURLOPT_USERPWD => $this->RPCusername.':'.$this->RPCpassword,
             CURLOPT_RETURNTRANSFER => 1,

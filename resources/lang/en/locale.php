@@ -150,6 +150,7 @@ return[
     'buy_wizard'    => "Buy Wizard",
     'sell_wizard'   => "Sell Wizard",
     'buy_report'    => "Buy Report",
+    'buy_request'   => "Buy Requests",
     'sell_report'   => "Sell Report",
     'commisions'    => "Commissions",
 
