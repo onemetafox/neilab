@@ -702,7 +702,7 @@ span.select2-dropdown.select2-dropdown--above, .select2-container--open .select2
 /* header css end */ 
 /* banner css start */
 .as_banner_wrapper{
-    background-image: url(../images/bg1.jpg);
+    background-image: url(../imgs/bg1.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -763,7 +763,7 @@ span.select2-dropdown.select2-dropdown--above, .select2-container--open .select2
 /* banner css end */
 /* about css start */
 .as_about_wrapper{
-    background-image: url('../images/bg2.jpg');
+    background-image: url('../imgs/bg2.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position:center;
@@ -927,7 +927,7 @@ span.select2-dropdown.select2-dropdown--above, .select2-container--open .select2
 /* service css end */
 /* zodiec sign css start */
 .as_zodiac_sign_wrapper{
-    background-image: url('../images/bg3.jpg');
+    background-image: url('../imgs/bg3.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position:center;
@@ -1092,7 +1092,7 @@ li.as_form_box {
 /* zodiec sign form css end */
 /* customer css start */
 .as_customer_wrapper{
-    background-image: url('../images/bg4.jpg');
+    background-image: url('../imgs/bg4.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position:center;
@@ -1107,7 +1107,7 @@ li.as_form_box {
     margin: 50px 15px;
     z-index: 1;
 }
-.as_customer_box:before {content: '';position: absolute;top: 75px;transform: translateX(-50%);left: 50%;width: 86px;height: 74px;background-image: url(../images/svg/quote2.svg);z-index: -1;}
+.as_customer_box:before {content: '';position: absolute;top: 75px;transform: translateX(-50%);left: 50%;width: 86px;height: 74px;background-image: url(../imgs/svg/quote2.svg);z-index: -1;}
 .as_customer_box .as_customer_img>img {
     border-radius: 100%;
 }
@@ -1170,7 +1170,7 @@ section.as_whychoose_wrapper.as_padderTop80 {
 /* why choose css end */
 /* blog css start */
 .as_blog_wrapper{
-    background-image: url('../images/bg5.jpg');
+    background-image: url('../imgs/bg5.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position:center;
@@ -1306,7 +1306,7 @@ section.as_whychoose_wrapper.as_padderTop80 {
 /* overview css start */
 
 .as_overview_wrapper{
-    background-image: url('../images/bg6.jpg');
+    background-image: url('../imgs/bg6.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position:center;
@@ -1462,7 +1462,7 @@ section.as_whychoose_wrapper.as_padderTop80 {
 /* footer css end */
 /* breadcrum start */
 .as_breadcrum_wrapper{
-    background-image: url('../images/bg7.jpg');
+    background-image: url('../imgs/bg7.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -1488,7 +1488,7 @@ section.as_whychoose_wrapper.as_padderTop80 {
 /* breadcrum end */
 /* service detail start */
 .as_service_page .as_service_wrapper{
-    background-image: url(../images/bg6.jpg);
+    background-image: url(../imgs/bg6.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -1513,7 +1513,7 @@ section.as_whychoose_wrapper.as_padderTop80 {
     position: absolute;
     width: 10px;
     height: 10px;
-    background: url(../images/svg/arrow.svg) no-repeat center;
+    background: url(../imgs/svg/arrow.svg) no-repeat center;
     left: 0;
     top:8px;
 }
@@ -1565,12 +1565,12 @@ section.as_whychoose_wrapper.as_padderTop80 {
     position: absolute;
     width: 10px;
     height: 10px;
-    background: url(../images/svg/arrow.svg) no-repeat center;
+    background: url(../imgs/svg/arrow.svg) no-repeat center;
     left: 0;
     top:8px;
 }
 .as_service_widget ul li:hover:before{
-    background: url(../images/svg/arrowHover.svg) no-repeat center;
+    background: url(../imgs/svg/arrowHover.svg) no-repeat center;
 }
 .as_service_widget.as_download_box{
     background-color: var(--secondary-color);
@@ -2095,7 +2095,7 @@ section.as_whychoose_wrapper.as_padderTop80 {
 /* Login popup End */
 /* Appointment Page Start */
 .as_appointment_wrapper,.as_product_single_wrapper,.as_team_wrapper,.as_privacy_wrapper,.as_faq_wrapper,.as_contact_section {
-    background-image: url(../images/bg4.jpg);
+    background-image: url(../imgs/bg4.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -2261,7 +2261,7 @@ section.as_whychoose_wrapper.as_padderTop80 {
 /* Team Page End */
 /* shop single */
 .as_shopsingle_wrapper,.as_cartsingle_wrapper,.as_checkout_wrapper{
-    background-image: url('../images/bg4.jpg');
+    background-image: url('../imgs/bg4.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
