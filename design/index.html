@@ -1,225 +1,607 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="M_Adnan">
-        <link rel="shortcut icon" href="{{ asset('front/images/favicon1.png') }}">
-        <title>FlowTC</title>
-
-         <!-- Bootstrap Core CSS -->
-        <link href="{{ asset('front/assets/css/bootstrap.min.css')}}" rel="stylesheet">
-
-        <script type="text/javascript" src="dat.gui.min.js"></script>
-        <style>
-            @font-face {
-                font-family: 'iconfont';
-                src: url('iconfont.ttf') format('truetype');
-            }
-
-            * {
-                user-select: none;
-            }
-
-            html, body {
-                overflow: hidden;
-                background-color: #000;
-            }
-
-            body {
-                margin: 0;
-                position: fixed;
-                width: 100%;
-                height: 100%;
-            }
-
-            canvas {
-                width: 100%;
-                height: 100%;
-            }
-
-            .dg {
-                opacity: 0.9;
-            }
-
-            .dg .property-name {
-                overflow: visible;
-            }
-
-            .bigFont {
-                font-size: 150%;
-                color: #8C8C8C;
-            }
-
-            .cr.function.appBigFont {
-                font-size: 150%;
-                line-height: 27px;
-                color: #A5F8D3;
-                background-color: #023C40;
-            }
-
-            .cr.function.appBigFont .property-name {
-                float: none;
-            }
-
-            .cr.function.appBigFont .icon {
-                position: sticky;
-                bottom: 27px;
-            }
-
-            .icon {
-                font-family: 'iconfont';
-                font-size: 130%;
-                float: right;
-            }
-
-            .twitter:before {
-                content: 'a';
-            }
-
-            .github:before {
-                content: 'b';
-            }
-
-            .app:before {
-                content: 'c';
-            }
-
-            .discord:before {
-                content: 'd';
-            }
-
-            .promo {
-                display: none;
-                /* display: table; */
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 1;
-                overflow: auto;
-                color: lightblue;
-                background-color: rgba(0,0,0,0.4);
-                animation: promo-appear-animation 0.35s ease-out;
-            }
-
-            .promo-middle {
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            .promo-content {
-                width: 80vw;
-                height: 80vh;
-                max-width: 80vh;
-                max-height: 80vw;
-                margin: auto;
-                padding: 0;
-                font-size: 2.8vmax;
-                font-family: Futura, "Trebuchet MS", Arial, sans-serif;
-                text-align: center;
-                background-image: url("promo_back.png");
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-                border-radius: 15px;
-                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-            }
-
-            .promo-header {
-                height: 10%;
-                padding: 2px 16px;
-            }
-
-            .promo-close {
-                width: 10%;
-                height: 100%;
-                text-align: left;
-                float: left;
-                font-size: 1.3em;
-                /* transition: 0.2s; */
-            }
-
-            .promo-close:hover {
-                /* transform: scale(1.25); */
-                cursor: pointer;
-            }
-
-            .promo-body {
-                padding: 8px 16px 16px 16px;
-                margin: auto;
-            }
-
-            .promo-body p {
-                margin-top: 0;
-                mix-blend-mode: color-dodge;
-            }
-
-            .link {
-                width: 100%;
-                display: inline-block;
-            }
-
-            .link img {
-                width: 100%;
-            }
-
-            @keyframes promo-appear-animation {
-                0% {
-                    transform: scale(2.0);
-                    opacity: 0;
-                }
-                100% {
-                    transform: scale(1.0);
-                    opacity: 1;
-                }
-            }
-        </style>
-        <script>
-            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-            ga('create', 'UA-105392568-1', 'auto');
-            ga('send', 'pageview');
-        </script>
-        <script async src="https://www.google-analytics.com/analytics.js"></script>
-    </head>
-    <body>
-        <!-- HOME MAIN  -->
-        <section class="simple-head" data-stellar-background-ratio="0.5" id="home"> 
-            <!-- Particles -->
-            <canvas>This is the test of th text</canvas>
-            <div class="position-center-center">
-            <div class="container text-center">
-                <h1>Effortless Crypto-to-Crypto OTC Trading Platform With Zero Market Impact</h1>
-                <p>Discover the ultimate solution for anonymous crypto-to-crypto OTC trading. Our platform integrates both centralized and decentralized exchanges, ensuring a seamless trading experience without affecting market prices. Place your trade request and enjoy unmatched security and privacy. Join now and revolutionize your digital asset trading experience.</p>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="FlowTC">
+    <meta name="keywords" content="web, platform, blockchain, crypto currency, buy and sell">
+    <meta name="author" content="metafox">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- ========== Title ========== -->
+    <title>FlowTC</title>
+    <!-- ========== Favicon Ico ========== -->
+    <link rel="icon" href="fav.ico">
+    <!-- ========== STYLESHEETS ========== -->
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts Awesome CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+	<!-- Material icons css -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Stroke icon CSS -->
+    <link href="css/pe-icon-7-stroke.css" rel="stylesheet">
+    <!-- IcoFont CSS -->
+    <link href="css/icofont.min.css" rel="stylesheet">
+    <!-- Owl-carousel CSS -->
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <!-- Modal Video CSS -->
+    <link href="css/modal-video.min.css" rel="stylesheet" />
+    <!-- magnific CSS -->
+    <link href="css/magnific-popup.css" rel="stylesheet" />
+    <!-- Animate CSS -->
+    <link href="css/animate.min.css" rel="stylesheet" />
+    <!-- Margins CSS -->
+    <link rel="stylesheet" href="css/margins.css">
+    <!-- Paddings CSS -->
+    <link rel="stylesheet" href="css/paddings.css">
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/responsive.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/colors/blue.css">
+	<!-- teamplate colors -->
+	<!-- <link href="css/colors/blue.css" rel="stylesheet"> -->
+	<!-- <link href="css/colors/orange.css" rel="stylesheet"> -->
+	<!-- <link href="css/colors/purple.css" rel="stylesheet"> -->
+	<!-- <link href="css/colors/pink.css" rel="stylesheet"> -->
+	<!-- <link href="css/colors/brown.css" rel="stylesheet"> -->
+	<!-- <link href="css/colors/light-blue.css" rel="stylesheet"> -->
+	<!-- <link href="css/colors/light-green.css" rel="stylesheet"> -->
+	<!-- <link href="css/colors/green.css" rel="stylesheet"> -->
+	<!-- <link href="css/colors/dark.css" rel="stylesheet"> -->
+</head>
+<body data-spy="scroll" data-target="#navbarCodeply" data-offset="70">
+    <!-- ========== preloader Start ========== -->
+    <div class="preloader">
+        <div class="status">
+            <div class="loader">
+                <svg class="circular" viewbox="25 25 50 50">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+                </svg>
             </div>
-        </section>
-       
-
-        <!-- Mother of God, pls forgive me -->
-        <div class="promo">
-            <div class="promo-middle">
-                <div class="promo-content">
-                    <div class="promo-header">
-                        <span class="promo-close">&times;</span>
+        </div>
+    </div>
+    <!-- ========== preloader End ========== -->
+    <!-- ========== Header ========== -->
+    <nav class="navbar navbar-inverse navbar-expand-lg header-nav fixed-top header">
+        <div class="container">
+            <!-- Add your logo text or change logo image -->
+            <a class="navbar-brand logo" href="index.html">
+                <!-- FlowTC -->
+                <img class="logo-dark" src="img/logo.png" alt="FlowTC"/>
+                <img class="logo-light" src="img/logo.png" alt="FlowTC"/>
+            </a>
+            <!-- <img src="yourlogo.png" alt="Logo"> -->
+            <button class="navbar-toggler pull-right" type="button" data-toggle="collapse" data-target="#navbarCodeply">
+                <i class="icofont-navigation-menu"></i>
+            </button>
+        
+            <div class="collapse navbar-collapse" id="navbarCodeply">
+                <ul class="nav navbar-nav ml-auto">
+                    <li><a class="nav-link" href="#home">Home</a></li>
+                    <li><a class="nav-link" href="#features">Features</a></li>
+                    <li><a class="nav-link" href="#about">About</a></li>
+                    <li><a class="nav-link" href="#screenshots">Screenshots</a></li>
+                    <li><a class="nav-link" href="#contact">Contact</a></li>
+                    <li><a class="nav-link" href="#subscription">Subscribe</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- ========== Header End ========== -->
+    <!-- ========== hero section ========== -->
+    <section id="home" class="text-left hero-section bg-gredient">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="hero-content col-lg-6 p-175px-tb lg-p-175px-t lg-p-100px-b md-p-100px-t md-p-50px-b">
+                    <h2 class="wow fadeInLeft" data-wow-delay=".1s">Crypto-to-Crypto OTC<br><span id="typed" style="white-space:pre;"></span></h2>
+                    <br>
+                    <p class="wow fadeInLeft" data-wow-delay=".2s">
+                        Discover the ultimate solution for anonymous crypto-to-crypto OTC trading. Our platform integrates both centralized and decentralized exchanges, ensuring a seamless trading experience without affecting market prices. Place your trade request and enjoy unmatched security and privacy. Join now and revolutionize your digital asset trading experience.
+                    </p>
+                    <a href="#" class="primary-btn wow fadeInLeft" data-wow-delay=".3s">Download</a>
+                </div>
+                <div class="promo-image d-none d-lg-block">
+                    <img class="img-fluid" data-wow-delay=".3s" src="img/bitcoin.png" alt="" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ========== hero section  End ========== -->
+    <!-- ========== features section  ========== -->
+    <section id="features" class="pt100 pb100">
+        <div class="container">
+			<!-- Section title start -->
+            <div class="row">
+                <div class="col-lg-6 col-md-8 col-sm-10 offset-lg-3 offset-md-2 offset-sm-1">
+                    <div class="section-title text-center mb60">
+                        <h2 class="wow fadeIn" data-wow-delay=".2s">Amazing <span>Features</span></h2>
+                        <hr class="lines wow zoomIn" data-wow-delay=".3s">
+                        <p class="wow fadeIn" data-wow-delay=".1s">Create a sleek and intuitive interface that allows users to easily navigate through the site, access information, and execute trades without any complications.
+                        </p>
                     </div>
-                    <div class="promo-body">
-                        <p>Try Fluid Simulation app!</p>
-                        <div class="links-container">
-                            <a class="link" id="apple_link" target="_blank">
-                                <img class="link-img" alt="Download on the App Store" src="app_badge.png"/>
-                            </a>
-                            <a class="link" id="google_link" target="_blank">
-                                <img class="link-img" alt="Get it on Google Play" src="gp_badge.png"/>
+                </div>
+            </div>
+			<!-- Section title end -->
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-center text-lg-right">
+                    <div class="media flex-column wow fadeInLeft" data-wow-delay=".1s">
+                        <div class="media-icon ml-auto">
+                            <i class="pe-7s-refresh-2"></i>
+                        </div>
+                        <div class="media-body m-20px-t">
+                            <h5>Efficient Algo Trading</h5>
+                            <p>Our sophisticated trading algorithms distribute and execute orders across multiple exchanges, optimizing your trades for maximum efficiency and minimal market impact.</p>
+                        </div>
+                    </div>
+					<!-- Single left feature end -->
+                    <div class="media flex-column wow fadeInLeft" data-wow-delay=".2s">
+                        <div class="media-icon ml-auto">
+                            <i class="pe-7s-rocket"></i>
+                        </div>
+                        <div class="media-body m-20px-t">
+                            <h5>Easy To Purchase</h5>
+                            <p>Our platform is designed to handle parallel buys and sells, allowing you to divest your digital assets simultaneously across multiple exchanges, reducing price slippage and increasing liquidity.</p>
+                        </div>
+                    </div>
+					<!-- Single left feature end -->
+                    <div class="media flex-column wow fadeInLeft" data-wow-delay=".3s">
+                        <div class="media-icon ml-auto">
+                            <i class="pe-7s-settings"></i>
+                        </div>
+                        <div class="media-body m-20px-t">
+                            <h5>Robust Security</h5>
+                            <p>We employ state-of-the-art security protocols and encryption technologies, safeguarding your assets and personal information from potential threats and unauthorized access.</p>
+                        </div>
+                    </div>
+					<!-- Single left feature end -->
+                </div>
+                <div class="col-lg-4 text-center">
+                    <img class="img-fluid wow zoomIn" width="80%" data-wow-delay=".5s" src="img/ether1.png" alt="" />
+                </div>
+                <div class="col-lg-4 text-center text-lg-left">
+                    <div class="media flex-column wow fadeInRight" data-wow-delay=".1s">
+                        <div class="media-icon mr-auto">
+                            <i class="pe-7s-shield"></i>
+                        </div>
+                        <div class="media-body m-20px-t">
+                            <h5>Low Commissions</h5>
+                            <p>Leveraging the latest advancements in automated trading technology, we proudly offer both buyers and sellers unbeatably low commissions for high-volume transactions, maximizing your profits and enhancing your trading experience.</p>
+                        </div>
+                    </div>
+					<!-- Single right feature end -->
+                    <div class="media flex-column wow fadeInRight" data-wow-delay=".2s">
+                        <div class="media-icon mr-auto">
+                            <i class="pe-7s-smile"></i>
+                        </div>
+                        <div class="media-body m-20px-t">
+                            <h5>Market Anonymity</h5>
+                            <p>Our Crypto-to-Crypto Anonymous Market prioritizes user anonymity, ensuring that your transactions and trading activities remain confidential and secure.</p>
+                        </div>
+                    </div>
+					<!-- Single right feature end -->
+                    <div class="media flex-column wow fadeInRight" data-wow-delay=".3s">
+                        <div class="media-icon mr-auto">
+                            <i class="pe-7s-search"></i>
+                        </div>
+                        <div class="media-body m-20px-t">
+                            <h5>Seamless Integration</h5>
+                            <p>Discover seamless integration that effortlessly connects you to multiple exchanges, offering endless possibilities, unparalleled liquidity, and a user-friendly experience for ultimate trading success.</p>
+                        </div>
+                    </div>
+					<!-- Single right feature end -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ========== features section End ========== -->
+
+    <!-- ========== about section  ========== -->
+    <section id="about" class="pt100 pb100 bg-gray">
+        <div class="container">
+			<!-- Section title start -->
+            <div class="row">
+                <div class="col-lg-6 col-md-8 col-sm-10 offset-lg-3 offset-md-2 offset-sm-1">
+                    <div class="section-title text-center mb60">
+                        <h2 class="wow fadeIn" data-wow-delay=".2s">About <span>FlowTC</span></h2>
+                        <hr class="lines wow zoomIn" data-wow-delay=".3s">
+                        <p class="wow fadeIn" data-wow-delay=".1s">Welcome to our high-volume Anonymous Crypto OTC Market, where we facilitate seamless crypto-to-crypto transactions daily.Experience unmatched efficiency and privacy in a secure trading environment.</p>
+                    </div>
+                </div>
+            </div>
+			<!-- Section title end -->
+            <div class="row about-boxes">
+                <div class="col-lg-4 col-md-6">
+                    <div class="media flex-column wow fadeIn" data-wow-delay=".1s">
+                        <div class="media-icon m-auto">
+                            <i class="pe-7s-box1"></i>
+                        </div>
+                        <div class="media-body m-20px-t">
+                            <h5>Seamless Integration</h5>
+                            <p>Our platform unifies centralized and decentralized exchanges, providing an effortless trading experience without impacting market prices.</p>
+                        </div>
+                    </div>
+                </div>
+				<!-- Single about box end -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="media flex-column wow fadeIn" data-wow-delay=".3s">
+                        <div class="media-icon m-auto">
+                            <i class="pe-7s-check"></i>
+                        </div>
+                        <div class="media-body m-20px-t">
+                            <h5>Anonymity and Security</h5>
+                            <p>We prioritize your privacy and security, offering a discreet and encrypted trading platform for all crypto-to-crypto transactions.</p>
+                        </div>
+                    </div>
+                </div>
+				<!-- Single about box end -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="media flex-column wow fadeIn" data-wow-delay=".3s">
+                        <div class="media-icon m-auto">
+                            <i class="pe-7s-look"></i>
+                        </div>
+                        <div class="media-body m-20px-t">
+                            <h5>Huge Daily Trading Volume</h5>
+                            <p>Our platform connects to over 50 verified exchange accounts and has a capability of doing up to 20000BTC daily trading volume.</p>
+                        </div>
+                    </div>
+                </div>
+				<!-- Single about box end -->
+            </div>
+        </div>
+    </section>
+    <!-- ========== about section End ========== -->
+	
+    <!-- ========== about intro section  ========== -->
+    <section id="about-intro">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 pt50">
+                    <img class="img-fluid wow zoomIn" data-wow-delay=".5s" src="img/bit-ether.jpg" alt="" />
+                </div>
+                <div class="col-lg-6 pt50 pb50">
+                    <h2 class="wow fadeInLeft mb30" data-wow-delay=".1s">Global Connections</h2>
+                    <p class="wow fadeInLeft mb30" data-wow-delay=".2s">
+                        Our Anonymous Crypto OTC Market boasts an extensive network of global connections, bridging traders from around the world. We are committed to providing unparalleled access to liquidity, competitive pricing, and a diverse range of digital assets. By joining our platform, you become part of a thriving, global community that shares a passion for secure, discreet, and efficient crypto trading.
+                    </p>
+
+                    <a href="#" class="primary-btn wow zoomIn" data-wow-delay=".3s">Read more</a>
+                </div>
+                <!-- Special feature contenet end -->
+            </div> 
+        </div>
+    </section>
+    <!-- ========== about section End ========== -->
+	
+    <!-- ========== How works section Start ========== -->
+	<section id="how_works" class="pt100 pb100 bg-gray">
+		<div class="container">
+			<!-- Section title start -->
+            <div class="row">
+                <div class="col-lg-6 col-md-8 col-sm-10 offset-lg-3 offset-md-2 offset-sm-1">
+                    <div class="section-title text-center mb60">
+                        <h2 class="wow fadeIn" data-wow-delay=".2s">Comparison <span> solutions</span></h2>
+                        <hr class="lines wow zoomIn" data-wow-delay=".3s">
+                        <p class="wow fadeIn" data-wow-delay=".1s">FlowTC sets itself apart from other anonymous crypto OTC markets by offering a unique combination of features and benefits designed to provide a superior trading experience for our clients.</p>
+                    </div>
+                </div>
+            </div>
+			<!-- Section title end -->
+			
+			<div class="row">
+                <div class="how-works-item text-center col-md-12 wow fadeIn" data-wow-delay=".2s">
+                    <table class="table table-bordered comparison">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th>FlowTC</th>
+                            <th>FalconX</th>
+                            <th>OtcTrade</th>
+                            <th>Kraken</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Commission</td>
+                            <td>3 %</td>
+                            <td>5 %</td>
+                            <td>8 %</td>
+                            <td>10 %</td>
+                          </tr>
+                          <tr>
+                            <td>Speed</td>
+                            <td>< 12 hours</td>
+                            <td>< 12 hours</td>
+                            <td>< 12 hours</td>
+                            <td>< 12 hours</td>
+                          </tr>
+                          <tr>
+                            <td>KYC</td>
+                            <td>Not required</td>
+                            <td>Required</td>
+                            <td>Required</td>
+                            <td>Required</td>
+                          </tr>
+                          <tr>
+                            <td>Minimum purchase size</td>
+                            <td>10 K</td>
+                            <td>> 50 K</td>
+                            <td>> 50 K</td>
+                            <td>< 10 K</td>
+                          </tr>
+                          <tr>
+                            <td>Decentralized exchanges' support</td>
+                            <td><i class="icon-2x text-dark-50 ion-checkmark"></i></td>
+                            <td></td>
+                            <td><i class="icon-2x text-dark-50 ion-checkmark"></i></td>
+                            <td></td>
+    
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+                <!-- End single how it item-->
+            </div>
+		</div>
+	</section>
+	<!-- ========== How works section End ========== -->
+	
+    <!-- ========== screenshots section  ========== -->
+    <section id="screenshots" class="pt100 pb100">
+        <div class="container">
+			<!-- Section title start -->
+            <div class="row">
+                <div class="col-lg-6 col-md-8 col-sm-10 offset-lg-3 offset-md-2 offset-sm-1">
+                    <div class="section-title text-center mb60">
+                        <h2 class="wow fadeIn" data-wow-delay=".2s">Meet our  <span>Core Team</span></h2>
+                        <hr class="lines wow zoomIn" data-wow-delay=".3s">
+                        <p class="wow fadeIn" data-wow-delay=".1s">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut.</p>
+                    </div>
+                </div>
+            </div>
+			<!-- Section title end -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="screenshots owl-carousel owl-theme zoom-gallery">
+                        <div class="shot-item">
+                            <a class="overlay" href="img/screenshots/screenshot-1.jpg" title="Front page">
+                                <img class="img-fluid" src="img/screenshots/Kevin-McNamara.png" alt="Screenshot">
+                                <i class="pe-7s-camera item-icon"></i>
                             </a>
                         </div>
+                        <!-- End single shot -->
+                        <div class="shot-item">
+                            <a class="overlay" href="img/screenshots/screenshot-2.jpg" title="Front page">
+                                <img class="img-fluid" src="img/screenshots/Arman-Stepanyan.png" alt="Screenshot">
+                                <i class="pe-7s-camera item-icon"></i>
+                            </a>
+                        </div>
+                        <!-- End single shot -->
+                        <div class="shot-item">
+                            <a class="overlay" href="img/screenshots/screenshot-3.jpg" title="Front page">
+                                <img class="img-fluid" src="img/screenshots/Samvel-Barseghyan.png" alt="Screenshot">
+                                <i class="pe-7s-camera item-icon"></i>
+                            </a>
+                        </div>
+                        <!-- End single shot -->
+                        <div class="shot-item">
+                            <a class="overlay" href="img/screenshots/screenshot-3.jpg" title="Front page">
+                                <img class="img-fluid" src="img/screenshots/metafox.jpg" alt="Screenshot">
+                                <i class="pe-7s-camera item-icon"></i>
+                            </a>
+                        </div>
+                        <!-- End single shot -->
                     </div>
                 </div>
             </div>
         </div>
-
-        <script src="./script.js"></script>
-    </body>
+    </section>
+    <!-- ========== screenshots section End ========== -->
+    <!-- ========== screenshots section v2 ========== -->
+    <section id="screenshots" class="pt100 pb100 bg-gray">
+        <div class="container">
+			<!-- Section title start -->
+            <div class="row">
+                <div class="col-lg-6 col-md-8 col-sm-10 offset-lg-3 offset-md-2 offset-sm-1">
+                    <div class="section-title text-center mb60">
+                        <h2 class="wow fadeIn" data-wow-delay=".2s">Apps <span>Screenshots v2</span></h2>
+                        <hr class="lines wow zoomIn" data-wow-delay=".3s">
+                        <p class="wow fadeIn" data-wow-delay=".1s">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut.</p>
+                    </div>
+                </div>
+            </div>
+			<!-- Section title end -->
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-6 text-center">
+                    <div class="screenshots-mobile owl-carousel owl-theme zoom-gallery">
+                        <div class="shot-item">
+                            <a class="overlay" href="img/screenshots/screen1.png" title="Front page">
+                                <img class="img-fluid" src="img/screenshots/screen1.png" alt="Screenshot">
+                                <i class="pe-7s-camera item-icon"></i>
+                            </a>
+                        </div>
+                        <!-- End single shot -->
+                        <div class="shot-item">
+                            <a class="overlay" href="img/screenshots/screen2.png" title="Front page">
+                                <img class="img-fluid" src="img/screenshots/screen2.png" alt="Screenshot">
+                                <i class="pe-7s-camera item-icon"></i>
+                            </a>
+                        </div>
+                        <!-- End single shot -->
+                        <div class="shot-item">
+                            <a class="overlay" href="img/screenshots/screen3.png" title="Front page">
+                                <img class="img-fluid" src="img/screenshots/screen3.png" alt="Screenshot">
+                                <i class="pe-7s-camera item-icon"></i>
+                            </a>
+                        </div>
+                        <!-- End single shot -->
+                        <div class="shot-item">
+                            <a class="overlay" href="img/screenshots/screen4.png" title="Front page">
+                                <img class="img-fluid" src="img/screenshots/screen4.png" alt="Screenshot">
+                                <i class="pe-7s-camera item-icon"></i>
+                            </a>
+                        </div>
+                        <!-- End single shot -->
+                    </div>
+                </div>
+				<!-- Start FAQ -->
+				<div class="col-lg-8 col-md-6">
+                    <h3 class="mb30">Frequently ask questions</h3>
+                    <div id="accordion">
+                        <div class="card">
+                          <div class="card-header primary-bg" id="headingOne">
+                            <h5 class="mb-0">
+                              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                What are the fees involved in using FlowTC?
+                              </button>
+                            </h5>
+                          </div>
+                      
+                          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                                FlowTC offers a competitive and flexible fee structure tailored to accommodate the needs of our clients. Our platform presents two distinct versions to cater to different trading preferences:
+                                <br>
+                                1. Flow Algo Trading System: With our cutting-edge algorithmic trading system, clients can enjoy reduced commissions ranging from 3% down to 1%, depending on the trade size. This enables users to optimize their trading strategies while minimizing costs.
+                                <br>
+                                2. FlowTC Escrow Service: For clients who prefer a more personalized approach, we provide a secure escrow service where buyers and sellers can engage in transactions with FlowTC acting as a trusted intermediary. In this scenario, we are open to discussing and customizing commission rates to reach a mutually beneficial agreement.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card">
+                          <div class="card-header primary-bg" id="headingTwo">
+                            <h5 class="mb-0">
+                              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                What range of cryptocurrencies does FlowTC support?
+                              </button>
+                            </h5>
+                          </div>
+                          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div class="card-body">
+                                FlowTC supports a wide range of cryptocurrencies, including popular coins like Bitcoin and Ethereum, as well as various altcoins and stablecoins. The platform continually adds new assets based on market demand and client requirements. 
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card">
+                          <div class="card-header primary-bg" id="headingThree">
+                            <h5 class="mb-0">
+                              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                How does FlowTC prevent price slippage?
+                              </button>
+                            </h5>
+                          </div>
+                          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                            <div class="card-body">
+                                By operating through a network of centralized and decentralized exchanges and not disclosing large-volume trades to the public, anonymous crypto OTC markets can prevent price slippage. This ensures that large trades do not cause sudden price fluctuations and affect the overall market. FlowTC does all the purchases in a distributed way across multiple exchanges with slow minimal pruchases. Each of these purchases is not surpassing 20000USD
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header primary-bg" id="headingFour">
+                              <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    What is an anonymous crypto OTC market?
+                                </button>
+                              </h5>
+                            </div>
+                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                              <div class="card-body">
+                                An anonymous crypto OTC (over-the-counter) market is a platform that facilitates crypto-to-crypto transactions between buyers and sellers without revealing their identities. It allows for large-volume trades without affecting the market price by bypassing public exchanges and operating through a network of centralized and decentralized exchanges.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card">
+                            <div class="card-header primary-bg" id="headingFive">
+                              <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    How does an anonymous crypto OTC market maintain privacy?
+                                </button>
+                              </h5>
+                            </div>
+                            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                              <div class="card-body">
+                                Anonymous crypto OTC markets utilize a combination of encryption, secure communication channels, and private order books to protect the identity of the participants involved in transactions. This ensures that the transaction details and the parties involved remain confidential.
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+				   <!-- end of #accordion -->
+				</div>
+				<!-- end of FAQ -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- ========== contact features ========== -->
+    <footer id="footer-section" class="pt50 pb50 bg-black">
+        <div class="container">
+            <div class="row text-center">
+				<!-- Social icons start -->
+                <div class="col social-icons">
+                    <ul>
+                        <li class="facebook wow zoomIn" data-wow-duration="1s"><a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li class="twitter wow zoomIn" data-wow-duration="1.5s"><a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li class="google-plus wow zoomIn" data-wow-duration="2s"><a href="#"><i class="fa fa-google-plus"></i></a>
+                        </li>
+                        <li class="youtube wow zoomIn" data-wow-duration="2.5s"><a href="#"><i class="fa fa-youtube"></i></a>
+                        </li>
+                        <li class="linked-in wow zoomIn" data-wow-duration="3s"><a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                        <li class="instagram wow zoomIn" data-wow-duration="3.5s"><a href="#"><i class="fa fa-instagram"></i></a>
+                        </li>
+                        <li class="pinterest wow zoomIn" data-wow-duration="4s"><a href="#"><i class="fa fa-pinterest"></i></a>
+                        </li>
+                        <li class="dribbble wow zoomIn" data-wow-duration="4.5s"><a href="#"><i class="fa fa-dribbble"></i></a>
+                        </li>
+                        <li class="behance wow zoomIn" data-wow-duration="5s"><a href="#"><i class="fa fa-behance"></i></a>
+                        </li>
+                    </ul>
+                </div>
+				<!-- Social icons end -->
+                <div class="col-sm-12">
+                    &copy; <script>document.write(new Date().getFullYear());</script> <a href="#">FlowTC</a>. All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+	<!-- Scroll to up -->
+	<div class="scroll-to-up hidden-xs">
+		<div class="scrollup">
+			<i class="fa fa-angle-up"></i>
+		</div>
+	</div>
+	<!-- Scroll to up end -->
+    <!-- jquery -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- jquery.scrollTo.min.js -->
+    <script src="js/jquery.scrollTo.min.js"></script>
+    <!-- jquery.nav.js -->
+    <script src="js/jquery.nav.js"></script>
+	<!-- Stellar js -->
+	<script type="text/javascript" src="js/jquery.stellar.min.js"></script>
+    <!-- Typed js -->
+    <script src="js/typed.js"></script>
+    <!-- Owl carousel js -->
+    <script src="js/owl.carousel.min.js"></script>
+    <!-- Modal Video js -->
+    <script type="text/javascript" src="js/modal-video.min.js"></script>
+    <!-- magnific popuop js -->
+    <script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
+	<!-- waypoints js -->
+	<script type="text/javascript" src="js/waypoints.min.js"></script>
+    <!-- Counterup js -->
+	<script type="text/javascript" src="js/jquery.counterup.min.js"></script>
+    <!-- jquery.ajaxchimp.min.js -->
+    <script src="js/jquery.ajaxchimp.min.js"></script>
+    <!-- WOW JS -->
+    <script src="js/wow.min.js"></script>
+	<!-- Masonry js -->
+	<script type="text/javascript" src="js/masonry.pkgd.min.js"></script>
+	<!-- Countdown js -->
+	<script src="js/jquery.countdown.min.js"></script>
+    <!-- Custom js -->
+    <script src="js/app.js"></script>
+</body>
 </html>
