@@ -1107,7 +1107,7 @@ li.as_form_box {
     margin: 50px 15px;
     z-index: 1;
 }
-.as_customer_box:before {content: '';position: absolute;top: 75px;transform: translateX(-50%);left: 50%;width: 86px;height: 74px;background-image: url(../imgs/svg/quote2.svg);z-index: -1;}
+.as_customer_box:before {content: '';position: absolute;top: 75px;transform: translateX(-50%);left: 50%;width: 86px;height: 74px;background-image: url(../imgs/quote2.svg);z-index: -1;}
 .as_customer_box .as_customer_img>img {
     border-radius: 100%;
 }
