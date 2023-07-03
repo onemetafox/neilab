@@ -511,7 +511,9 @@ button.primary-btn {
   padding-top: 0px;
   padding-bottom: 0px;
 }
-
+.logo-dark , .logo-light{
+  width: 40%;
+}
 .logo-light {
   display: none;
 }
@@ -930,6 +932,7 @@ button.primary-btn {
   -moz-animation-direction: alternate;
   /* Firefox 5.0~16.0 */
   animation-direction: alternate;
+  width: 35%;
 }
 /*  ----------------------------------------------------
 5. FEATURES SECTION
@@ -940,6 +943,9 @@ button.primary-btn {
 }
 .media h5 {
   font-weight: 600;
+}
+.media-body p {
+  min-height: 155px;
 }
 .media-icon {
   width: 60px;

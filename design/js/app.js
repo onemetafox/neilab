@@ -102,7 +102,7 @@
 	/******************** 8. TYPED JS ********************/
 	PATH.typedJS = function () {
 	    $("#typed").typed({
-            strings: ["landing page.", "Marketing your apps.", "Sale your apps."], // Change typed text here...
+            strings: ["Effortless", "Trading Platform", "With Zero Market Impact."], // Change typed text here...
             typeSpeed: 100,
             backDelay: 1000,
             loop: true,
