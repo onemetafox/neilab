@@ -349,6 +349,7 @@ a,a:hover,a:focus,a:visited{
 }
 .as_logo {
     display: flex;
+    padding: 5px;
 }
 .as_menu ul {
     padding: 0;
@@ -699,7 +700,16 @@ a,a:hover,a:focus,a:visited{
    background-color: var(--secondary-color);
     color: #ffffff;
 }
-
+.as_infobox .as_infoicon {
+    width: 50px;
+    height: 50px;
+    background-color: var(--dark-color2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    margin-right: 15px;
+}
 .as_banner_wrapper:after{
     position: absolute;
     content: '';
@@ -732,6 +742,7 @@ a,a:hover,a:focus,a:visited{
     -webkit-animation: spin 12s infinite linear;
     -moz-animation: spin 12s infinite linear;
     display: inline-block;
+    opacity: 0.5;
 }
 .as_banner_img .as_hand{
     position: absolute;
@@ -741,7 +752,7 @@ a,a:hover,a:focus,a:visited{
     -webkit-transform: translate(-50%,-50%);
     -moz-transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
-    width: 60%;   
+    width: 55%;
 }
 @-webkit-keyframes spin {
     0%  {-webkit-transform: rotate(0deg);}
@@ -921,6 +932,7 @@ a,a:hover,a:focus,a:visited{
     top: 50%;
     transform: translate(-50%,-50%);
     border-radius: 150px;
+    width: 55%;
 }
 .as_service_img:after{
     position: absolute;
