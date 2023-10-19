@@ -339,27 +339,21 @@
           <h2>Meet our Core Team</h2>
         </div>
         <div class="member-row row" style="text-align:center;">
-          <div class="col-md-4">
+          <div class="col-md-6">
             <div class="member-card card">
               <img src="{{ asset('members/Arman-Stepanyan.png')}}" alt="Arman Stepanyan" class="member-avatar">
               <h1 class="member-name">Arman Stepanyan</h1>
               <p class="title">CEO & Founder</p>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-6">
             <div class="member-card card">
               <img src="{{ asset('members/Samvel-Barseghyan.png')}}" alt="Samvel Barseghyan" class="member-avatar">
               <h1 class="member-name">Samvel Barseghyan</h1>
               <p class="title">CTO & CO-Founder</p>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="member-card card">
-              <img src="{{ asset('members/Kevin-McNamara.png')}}" alt="Kevin McNamara" class="member-avatar">
-              <h1 class="member-name">Kevin McNamara</h1>
-              <p class="title">CMO & CO-Founder</p>
-            </div>
-          </div>
+          
         </div>
       </div>
     </section>
